@@ -19,9 +19,17 @@ repositories {
 }
 
 dependencies {
+	//WEB
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	//WEB Socket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+	//Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	//test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
