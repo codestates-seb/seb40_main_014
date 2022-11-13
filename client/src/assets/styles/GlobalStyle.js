@@ -32,6 +32,8 @@ const GlobalStyle = createGlobalStyle`
     --pink: #E55989;
     --light-orange: #FFBA74;
     --orange: #FD6F22;
+    --header-background-color: #080F34;
+    --background-color: #E3E5EB;
   }
 
   body {
