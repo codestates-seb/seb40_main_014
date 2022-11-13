@@ -3,13 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { down, init, up, selectValue } from '../slices/counterSlice';
 import styled from 'styled-components';
 
-const MainStyle = styled.div`
-	margin-top: 300px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
-
 const Main = () => {
 	const dispach = useDispatch();
 	const count = useSelector(selectValue);
@@ -33,3 +26,10 @@ const Main = () => {
 };
 
 export default Main;
+
+const MainStyle = styled.div`
+	margin-top: 300px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
