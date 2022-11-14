@@ -18,15 +18,14 @@ function Layout() {
 export default Layout;
 
 const MainWrapper = styled.div`
-	margin: 0 120px;
-	padding: 40px 0;
+	margin: 40px 300px;
 
 	// Tablet
 	@media screen and (max-width: 980px) {
-		margin: 0 60px;
+		margin: 40px 70px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		margin: 0 30px;
+		margin: 40px;
 	}
 `;

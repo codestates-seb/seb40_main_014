@@ -70,6 +70,16 @@ const GlobalStyle = createGlobalStyle`
     text-decoration: none;
     outline: none;
   }
+
+  input{
+    background-color: inherit;
+    border: none;
+    outline: none;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+  }
 `;
 
 export default GlobalStyle;

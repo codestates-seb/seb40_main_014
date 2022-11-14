@@ -81,10 +81,10 @@ const GoogleLogin = styled.button`
 	padding: 20px 85px;
 	width: 100%;
 	background-color: var(--white);
-	border: 1px solid var(--gray-400);
+	border: 1px solid var(--gray-500);
 	border-radius: var(--radius);
 	font-size: 18px;
-	transition: 0.1s;
+	transition: 0.2s;
 
 	&:hover {
 		background-color: var(--gray-50);

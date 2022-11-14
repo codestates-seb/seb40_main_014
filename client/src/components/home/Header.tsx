@@ -2,15 +2,22 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImg from '../../assets/images/header-logo.png';
 import { FaSearch } from 'react-icons/fa';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import LoginModal from './LoginModal';
 
 function Header() {
+	const inputRef = useRef<HTMLInputElement>(null);
+
 	const [isOpenModal, setOpenModal] = useState<boolean>(false);
+	const [isOpenSearch, setOpenSearch] = useState<boolean>(false);
 
 	const handleOpenModal = useCallback(() => {
 		setOpenModal(!isOpenModal);
 	}, [isOpenModal]);
+
+	const handleOpenSearch = useCallback(() => {
+		setOpenSearch(!isOpenSearch);
+	}, [isOpenSearch]);
 
 	return (
 		<>
@@ -31,8 +38,20 @@ function Header() {
 						<Link to="/">랭킹</Link>
 					</li>
 					<li>
-						<FaSearch className="search-icon" />
-						검색
+						{isOpenSearch ? (
+							<SearchInput
+								type="text"
+								placeholder="검색어를 입력하세요"
+								ref={inputRef}
+								onBlur={handleOpenSearch}
+								autoFocus
+							/>
+						) : (
+							<SearchButton onClick={handleOpenSearch}>
+								<FaSearch className="search-icon" />
+								검색
+							</SearchButton>
+						)}
 					</li>
 				</Ul>
 				<LoginButton onClick={handleOpenModal}>
@@ -51,18 +70,17 @@ const HeaderStyle = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	/* height: 70px; */
-	padding: 20px 120px;
+	padding: 17px 300px;
 	background-color: var(--header-background-color);
-	font-size: 18px; // ✨
+	font-size: 18px;
 
 	// Tablet
 	@media screen and (max-width: 980px) {
-		padding: 20px 60px;
+		padding: 20px 70px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		padding: 20px 30px;
+		padding: 20px 40px;
 		font-size: var(--medium);
 	}
 `;
@@ -75,21 +93,37 @@ const Logo = styled.div`
 
 const Ul = styled.ul`
 	display: flex;
+	align-items: center;
 	color: var(--gray-400);
 
 	li {
 		padding: 10px;
 		margin: 0 20px;
+		transition: 0.1s;
 
 		&:hover {
 			color: var(--white);
 		}
 	}
+`;
+
+const SearchButton = styled.button`
+	display: flex;
+	align-items: center;
 
 	.search-icon {
 		margin-right: 15px;
-		height: 16px;
 	}
+`;
+
+const SearchInput = styled.input`
+	background-color: inherit;
+	border: none;
+	outline: none;
+	border: none;
+	font-family: inherit;
+	font-size: 16.5px;
+	color: var(--white);
 `;
 
 const LoginButton = styled.button`
