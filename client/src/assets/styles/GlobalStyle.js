@@ -41,6 +41,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Noto Sans KR', sans-serif;
+    box-sizing: border-box;
     color: #141414;
   }
 
