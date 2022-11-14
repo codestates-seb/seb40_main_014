@@ -17,9 +17,9 @@ const FooterStyle = styled.div`
 	flex-direction: column;
 	align-items: center;
 	padding: 50px 0;
-	background-color: var(--header-background-color);
-	color: var(--gray-400);
-	font-size: var(--small);
+	background-color: ${(props) => props.theme.colors.headerBackground};
+	color: ${(props) => props.theme.colors.gray400};
+	font-size: ${(props) => props.theme.fontSize.small};
 
 	img {
 		width: 90px;
@@ -29,7 +29,7 @@ const FooterStyle = styled.div`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: var(--x-small);
+		font-size: ${(props) => props.theme.fontSize.xSmall};
 
 		img {
 			width: 70px;

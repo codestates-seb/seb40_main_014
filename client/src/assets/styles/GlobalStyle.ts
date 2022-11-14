@@ -9,9 +9,9 @@ const GlobalStyle = createGlobalStyle`
     position: relative;
     width: 100vw;
     height: 100vh;
-    background-color: var(--background-color);
+    background-color: ${(props) => props.theme.colors.background};
     font-family: 'Noto Sans KR', sans-serif;
-    color: var(--gray-900);
+    color: ${(props) => props.theme.colors.gray900};
   }
 
   button {

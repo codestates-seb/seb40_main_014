@@ -36,8 +36,8 @@ const fontSize = {
 };
 
 const radius = {
-	radius: '10px',
 	smallRadius: '5px',
+	largeRadius: '10px',
 };
 
 export type ColorsTypes = typeof colors;

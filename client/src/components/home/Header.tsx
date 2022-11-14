@@ -71,7 +71,7 @@ const HeaderStyle = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	padding: 17px 300px;
-	background-color: var(--header-background-color);
+	background-color: ${(props) => props.theme.colors.headerBackground};
 	font-size: 18px;
 
 	// Tablet
@@ -81,7 +81,7 @@ const HeaderStyle = styled.div`
 	// Mobile
 	@media screen and (max-width: 640px) {
 		padding: 20px 40px;
-		font-size: var(--medium);
+		font-size: ${(props) => props.theme.fontSize.medium};
 	}
 `;
 
@@ -94,7 +94,7 @@ const Logo = styled.div`
 const Ul = styled.ul`
 	display: flex;
 	align-items: center;
-	color: var(--gray-400);
+	color: ${(props) => props.theme.colors.gray400};
 
 	li {
 		padding: 10px;
@@ -102,7 +102,7 @@ const Ul = styled.ul`
 		transition: 0.1s;
 
 		&:hover {
-			color: var(--white);
+			color: ${(props) => props.theme.colors.white};
 		}
 	}
 `;
@@ -120,16 +120,15 @@ const SearchInput = styled.input`
 	background-color: inherit;
 	border: none;
 	outline: none;
-	border: none;
 	font-family: inherit;
 	font-size: 16.5px;
-	color: var(--white);
+	color: ${(props) => props.theme.colors.white};
 `;
 
 const LoginButton = styled.button`
-	color: var(--gray-400);
+	color: ${(props) => props.theme.colors.gray400};
 
 	&:hover {
-		color: var(--white);
+		color: ${(props) => props.theme.colors.white};
 	}
 `;
