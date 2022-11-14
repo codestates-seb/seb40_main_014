@@ -23,8 +23,8 @@ const colors = {
 	pink: '#e55989',
 	lightOrange: '#ffba74',
 	orange: '#fd6f22',
-	headerBackgroundColor: '#080f34',
-	backgroundColor: '#e3e5eb',
+	headerBackground: '#080f34',
+	background: '#e3e5eb',
 };
 
 const fontSize = {
@@ -37,6 +37,7 @@ const fontSize = {
 
 const radius = {
 	radius: '10px',
+	smallRadius: '5px',
 };
 
 export type ColorsTypes = typeof colors;
