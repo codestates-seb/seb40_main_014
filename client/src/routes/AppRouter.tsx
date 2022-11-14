@@ -2,8 +2,9 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import Loading from '../components/common/Loading';
 import Layout from '../components/common/Layout';
+import PlayListMain from '../pages/PlaylistMain';
 
-const Home = lazy(() => import('../pages/Home'));
+const RoomMain = lazy(() => import('../pages/RoomMain'));
 
 const AppRouter = () => {
 	return (
@@ -11,7 +12,8 @@ const AppRouter = () => {
 			<Suspense fallback={<Loading />}>
 				<Routes>
 					<Route element={<Layout />}>
-						<Route path="/" element={<Home />} />
+						<Route path="/" element={<RoomMain />} />
+						<Route path="/playlist" element={<PlayListMain />} />
 					</Route>
 					<Route path="*" element={<Navigate to="/" replace />} />
 				</Routes>

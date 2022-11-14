@@ -2,6 +2,49 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImg from '../../assets/images/header-logo.png';
 import { FaSearch } from 'react-icons/fa';
+import { useCallback, useState } from 'react';
+import LoginModal from './LoginModal';
+
+function Header() {
+	const [isOpenModal, setOpenModal] = useState<boolean>(false);
+
+	const handleOpenModal = useCallback(() => {
+		setOpenModal(!isOpenModal);
+	}, [isOpenModal]);
+
+	return (
+		<>
+			<HeaderStyle>
+				<Logo>
+					<Link to="/">
+						<img src={LogoImg} alt="logo" />
+					</Link>
+				</Logo>
+				<Ul>
+					<li>
+						<Link to="/">방</Link>
+					</li>
+					<li>
+						<Link to="/playlist">플레이리스트</Link>
+					</li>
+					<li>
+						<Link to="/">랭킹</Link>
+					</li>
+					<li>
+						<FaSearch className="search-icon" />
+						검색
+					</li>
+				</Ul>
+				<LoginButton onClick={handleOpenModal}>
+					<Link to="/">로그인</Link>
+				</LoginButton>
+			</HeaderStyle>
+			{isOpenModal && <LoginModal onClick={handleOpenModal} />}
+		</>
+	);
+}
+
+export default Header;
 
 const HeaderStyle = styled.div`
 	position: relative;
@@ -20,6 +63,7 @@ const HeaderStyle = styled.div`
 	// Mobile
 	@media screen and (max-width: 640px) {
 		padding: 20px 30px;
+		font-size: var(--medium);
 	}
 `;
 
@@ -55,35 +99,3 @@ const LoginButton = styled.button`
 		color: var(--white);
 	}
 `;
-
-function Header() {
-	return (
-		<HeaderStyle>
-			<Logo>
-				<Link to="/">
-					<img src={LogoImg} alt="logo" />
-				</Link>
-			</Logo>
-			<Ul>
-				<li>
-					<Link to="/">방</Link>
-				</li>
-				<li>
-					<Link to="/">플레이리스트</Link>
-				</li>
-				<li>
-					<Link to="/">랭킹</Link>
-				</li>
-				<li>
-					<FaSearch className="search-icon" />
-					검색
-				</li>
-			</Ul>
-			<LoginButton>
-				<Link to="/">로그인</Link>
-			</LoginButton>
-		</HeaderStyle>
-	);
-}
-
-export default Header;
