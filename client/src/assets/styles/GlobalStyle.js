@@ -37,6 +37,7 @@ const GlobalStyle = createGlobalStyle`
 
     /* 기타 */
     --radius: 10px;
+    --radius-small: 5px;
   }
 
   body {

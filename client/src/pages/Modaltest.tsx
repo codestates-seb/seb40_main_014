@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import CreateModal from '../components/common/createModal';
+import CreateModal from '../components/createModal';
 import styled from 'styled-components';
+import { DefaultButton } from '../components/common/Button';
 
 const Container = styled.div`
 	width: 100%;
+	height: 1000px;
 	display: flex;
-	justify-content: center;
 	align-items: center;
 	font-size: var(--x-large);
-	background-color: #d9d9d9;
+	background-color: var(--gray-600);
 `;
 
 const Modaltest = () => {
@@ -16,9 +17,13 @@ const Modaltest = () => {
 	const modalClose = () => {
 		setModalOpen(!modalOpen);
 	};
+
 	return (
 		<Container>
-			<button onClick={modalClose}>modaltest</button>
+			<DefaultButton width="100px" onClick={modalClose}>
+				모달 테스트
+			</DefaultButton>
+
 			{modalOpen && (
 				<CreateModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
 			)}
