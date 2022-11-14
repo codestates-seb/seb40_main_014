@@ -10,7 +10,7 @@ const FooterStyle = styled.div`
 	color: var(--gray-400);
 
 	img {
-		width: 100px;
+		width: 90px;
 		margin-bottom: 30px;
 	}
 `;
