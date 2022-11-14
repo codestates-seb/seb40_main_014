@@ -44,11 +44,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    position: relative;
     width: 100vw;
     height: 100vh;
+    background-color: var(--background-color);
     font-family: 'Noto Sans KR', sans-serif;
     color: #141414;
-    position: relative;
   }
 
   button {
