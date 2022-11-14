@@ -2,14 +2,16 @@ package com.mainproject.server.ChatRoom.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.NoSuchMessageException;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.*;
 
@@ -18,49 +20,50 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service
 public class ChatService {
+
     private final ObjectMapper objectMapper;
-    private Map<String, ChatRoom> chatRooms;
+    private final ChatRoomRepository chatRoomRepository;
 
-    @PostConstruct
-    private void init() {
-        chatRooms = new LinkedHashMap<>();
-    }
+//    @PostConstruct
+//    private void init() {
+//        chatRooms = new LinkedHashMap<>();
+//    }
 
-    public ChatRoom findRoomById(String roomId) {
-        return chatRooms.get(roomId);
-    }
+    public ChatRoom creatRoom(ChatRoom chatRoom) {
 
-    public ChatRoom creatRoom(String title, String content, String pwd) {
         String randomId = UUID.randomUUID().toString();
-        ChatRoom chatRoom = ChatRoom.builder()
-                .roomId(randomId)
-                .title(title)
-                .content(content)
-                .pwd(pwd)
-                .build();
-        chatRooms.put(randomId, chatRoom);
-        return chatRoom;
+        chatRoom.setRoomId(randomId);
+        if (chatRoom.getPwd() != null) chatRoom.setSecret(true);
+        ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
+
+        return savedChatRoom;
     }
 
     public ChatRoom updateRoom(ChatRoom chatRoom) {
-        ChatRoom updateroom = findRoomById(chatRoom.getRoomId());
+        ChatRoom verifiedRoom = findVerifiedRoomId(chatRoom.getRoomId());
 
         Optional.ofNullable(chatRoom.getTitle())
-                .ifPresent(updateroom::setTitle);
+                .ifPresent(title -> verifiedRoom.setTitle(title));
         Optional.ofNullable(chatRoom.getContent())
-                .ifPresent(updateroom::setContent);
+                .ifPresent(content -> verifiedRoom.setContent(content));
         Optional.ofNullable(chatRoom.getPwd())
-                .ifPresent(updateroom::setPwd);
+                .ifPresent(pwd -> verifiedRoom.setPwd(pwd));
 
-        return updateroom;
+        if (verifiedRoom.getPwd() != null) verifiedRoom.setSecret(true);
+
+        return chatRoomRepository.save(verifiedRoom);
     }
 
     public List<ChatRoom> findAllRoom() {
         //채팅방 최근 생성 순으로 반환
-        List<ChatRoom> result = new ArrayList<>(chatRooms.values());
-        Collections.reverse(result);
+//        List<ChatRoom> result = new ArrayList<>(chatRooms.values());
+//        Collections.reverse(result);
 
-        return result;
+        return chatRoomRepository.findAll();
+    }
+
+    public ChatRoom findChatRoom(String roomId) {
+        return findVerifiedRoomId(roomId);
     }
 
     public <T> void sendMessage(WebSocketSession session, T message) {
@@ -72,4 +75,20 @@ public class ChatService {
         }
     }
 
+    public ChatRoom findVerifiedRoomId(String roomId){
+        Optional<ChatRoom> optionalChatRoom= chatRoomRepository.findChatRoomByRoomId(roomId);
+        ChatRoom chatRoom = new ChatRoom();
+        if (optionalChatRoom.isEmpty()) return chatRoom;
+        ChatRoom findChatRoom =
+                optionalChatRoom.orElseThrow(() -> new NoSuchMessageException("채팅방을 찾을 수 없습니다."));
+        return findChatRoom;
+    }
+
+    public Page<ChatRoom> searchChatRooms(int page, int size, String tab, String q) {
+        if (tab.equals("popular")) tab = "chatroom.memberCount";
+        Page<ChatRoom> chatRooms = chatRoomRepository.findByTitleContaining(q)
+    }
+    public void deleteChatRoom(String roomId) {
+        chatRoomRepository.deleteById(roomId);
+    }
 }

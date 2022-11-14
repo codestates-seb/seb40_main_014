@@ -8,13 +8,14 @@ import lombok.Setter;
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChatMessage {
-    public enum MessageType{
-        ENTER, TALK
+    public class ChatMessage {
+        public enum MessageType{
+            ENTER, TALK
+        }
+
+        private MessageType type;
+        private String roomId;
+        private String member;
+        private String message;
     }
 
-    private MessageType type;
-    private String roomId;
-    private String member;
-    private String message;
-}

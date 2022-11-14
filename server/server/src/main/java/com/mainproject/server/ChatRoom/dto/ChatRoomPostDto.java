@@ -1,7 +1,10 @@
 package com.mainproject.server.ChatRoom.dto;
 
+import com.mainproject.server.member.dto.MemberDto;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter

@@ -1,9 +1,6 @@
 package com.mainproject.server.ChatRoom.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 public class ChatRoomDto {
 
@@ -20,8 +17,9 @@ public class ChatRoomDto {
     @Getter
     @Setter
     @AllArgsConstructor
-    public class Patch {
+    public static class Patch {
         //playlist는 MemberResDto에서 memberID, playlistId 뺴올 예정
+        private String roomId;
         private String title;
         private String content;
         private String pwd;

@@ -2,22 +2,39 @@ package com.mainproject.server.ChatRoom.entity;
 
 import com.mainproject.server.ChatRoom.dto.ChatRoomDto;
 import com.mainproject.server.ChatRoom.service.ChatService;
+import com.mainproject.server.auditable.Auditable;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.domain.Persistable;
 import org.springframework.web.socket.WebSocketSession;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter @Setter
 @AllArgsConstructor
+@Entity
 @NoArgsConstructor
-public class ChatRoom {
+public class ChatRoom extends Auditable {
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String roomId;
+    @Column
     private String title;
+    @Column
     private String content;
+
+    @Column
     private Onair onair = Onair.ON;
 
+    @Column
     private boolean secret;
+    @Column
     private String pwd;
 
     public enum Onair {
@@ -27,7 +44,6 @@ public class ChatRoom {
         private String onair;
     }
 
-    private Set<WebSocketSession> sessions = new HashSet<>();
 
     @Builder
     public ChatRoom(String roomId, String title, String content, String pwd) {
@@ -39,6 +55,8 @@ public class ChatRoom {
     }
 
     public void handlerActions(WebSocketSession session, ChatMessage chatMessage, ChatService chatService) {
+        Set<WebSocketSession> sessions = new HashSet<>();
+
         if (chatMessage.getType().equals(ChatMessage.MessageType.ENTER)) {
             sessions.add(session);
             chatMessage.setMessage(chatMessage.getMember() + "님이 입장했습니다.");
@@ -47,7 +65,9 @@ public class ChatRoom {
     }
 
     private <T> void sendMessage(T message, ChatService chatService) {
+        Set<WebSocketSession> sessions = new HashSet<>();
         sessions.parallelStream()
                 .forEach(session -> chatService.sendMessage(session, message));
     }
+
 }
