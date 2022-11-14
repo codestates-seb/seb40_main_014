@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://pre-project-database.cputwa49g991.ap-northeast-2.rds.amazonaws.com:13306/pretest?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${RDS_ID}
+    password: ${RDS_PASSWORD}
+  jpa:
+    database: mysql   # 추가 해준 부분
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect # 추가 해준 부분
+    hibernate:
+      ddl-auto: update
+    show-sql: true      # SQL 쿼리 출력
+    properties:
+      hibernate:
+        format_sql: true # SQL pretty print
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+
+env: server
+logTracer: true
