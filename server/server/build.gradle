@@ -21,8 +21,25 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+//	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	implementation 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+//	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
