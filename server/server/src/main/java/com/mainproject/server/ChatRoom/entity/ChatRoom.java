@@ -1,11 +1,17 @@
 package com.mainproject.server.ChatRoom.entity;
 
+<<<<<<< HEAD
 import com.mainproject.server.ChatRoom.dto.ChatRoomDto;
+=======
+>>>>>>> 32cd91d954cda2c0246932f7a3da3f6ab1145294
 import com.mainproject.server.ChatRoom.service.ChatService;
 import com.mainproject.server.auditable.Auditable;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+<<<<<<< HEAD
 import org.springframework.data.domain.Persistable;
+=======
+>>>>>>> 32cd91d954cda2c0246932f7a3da3f6ab1145294
 import org.springframework.web.socket.WebSocketSession;
 
 import javax.persistence.Column;

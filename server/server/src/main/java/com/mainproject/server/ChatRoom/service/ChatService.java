@@ -8,12 +8,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.data.domain.Page;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Getter
@@ -88,6 +92,7 @@ public class ChatService {
         if (tab.equals("popular")) tab = "chatroom.memberCount";
         Page<ChatRoom> chatRooms = chatRoomRepository.findByTitleContaining(q)
     }
+
     public void deleteChatRoom(String roomId) {
         chatRoomRepository.deleteById(roomId);
     }
