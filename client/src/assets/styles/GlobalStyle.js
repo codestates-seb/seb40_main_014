@@ -35,13 +35,20 @@ const GlobalStyle = createGlobalStyle`
     --header-background-color: #080F34;
     --background-color: #E3E5EB;
 
-    /* 기타 */
+    /* etc */
     --radius: 10px;
   }
 
+  * {
+    box-sizing: border-box;
+  }
+
   body {
+    width: 100vw;
+    height: 100vh;
     font-family: 'Noto Sans KR', sans-serif;
     color: #141414;
+    position: relative;
   }
 
   button {
@@ -54,13 +61,13 @@ const GlobalStyle = createGlobalStyle`
     border-radius: 0; 
     padding: 0;
     overflow: visible; 
-    cursor: pointer
+    cursor: pointer;
   }
 
   a {
     color: inherit;
     text-decoration: none;
-    outline: none
+    outline: none;
   }
 `;
 
