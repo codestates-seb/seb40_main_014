@@ -35,7 +35,7 @@ function Header() {
 						<Link to="/playlist">플레이리스트</Link>
 					</li>
 					<li>
-						<Link to="/">랭킹</Link>
+						<Link to="/ranking">랭킹</Link>
 					</li>
 					<li>
 						{isOpenSearch ? (

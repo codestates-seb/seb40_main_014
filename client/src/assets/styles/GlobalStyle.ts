@@ -49,7 +49,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100vh;
     background-color: var(--background-color);
     font-family: 'Noto Sans KR', sans-serif;
-    color: #141414;
+    color: var(--gray-900);
   }
 
   button {
@@ -71,11 +71,10 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
   }
 
-  input{
+  input {
     background-color: inherit;
     border: none;
     outline: none;
-    border: none;
     font-family: inherit;
     font-size: inherit;
     color: inherit;

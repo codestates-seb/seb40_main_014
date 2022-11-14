@@ -40,7 +40,7 @@ const LoginModalStyle = styled.div`
 const WhiteBox = styled.div`
 	width: 500px;
 	height: 300px;
-	padding: 47px 70px;
+	padding: 46px 70px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -52,7 +52,7 @@ const WhiteBox = styled.div`
 	// Tablet
 	@media screen and (max-width: 980px) {
 		width: 400px;
-		padding: 47px 50px;
+		padding: 46px 50px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
@@ -62,10 +62,10 @@ const WhiteBox = styled.div`
 	}
 `;
 
-const H2 = styled.div`
+const H2 = styled.h2`
 	font-size: var(--x-large);
 	font-weight: 700;
-	margin-bottom: 47px;
+	margin-bottom: 46px;
 
 	// Mobile
 	@media screen and (max-width: 640px) {
@@ -78,10 +78,10 @@ const GoogleLogin = styled.button`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 20px 85px;
+	padding: 15px 85px;
 	width: 100%;
 	background-color: var(--white);
-	border: 1px solid var(--gray-500);
+	border: 1px solid var(--gray-400);
 	border-radius: var(--radius);
 	font-size: 18px;
 	transition: 0.2s;
@@ -96,11 +96,11 @@ const GoogleLogin = styled.button`
 
 	// Tablet
 	@media screen and (max-width: 980px) {
-		padding: 20px 55px;
+		padding: 15px 55px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		padding: 15px 35px;
+		padding: 13px 35px;
 		font-size: var(--midium);
 	}
 `;

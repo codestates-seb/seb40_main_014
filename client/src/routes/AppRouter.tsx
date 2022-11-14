@@ -2,9 +2,10 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import Loading from '../components/common/Loading';
 import Layout from '../components/common/Layout';
-import PlayListMain from '../pages/PlaylistMain';
 
 const RoomMain = lazy(() => import('../pages/RoomMain'));
+const PlaylistMain = lazy(() => import('../pages/PlaylistMain'));
+const Ranking = lazy(() => import('../pages/Ranking'));
 
 const AppRouter = () => {
 	return (
@@ -13,7 +14,8 @@ const AppRouter = () => {
 				<Routes>
 					<Route element={<Layout />}>
 						<Route path="/" element={<RoomMain />} />
-						<Route path="/playlist" element={<PlayListMain />} />
+						<Route path="/playlist" element={<PlaylistMain />} />
+						<Route path="/ranking" element={<Ranking />} />
 					</Route>
 					<Route path="*" element={<Navigate to="/" replace />} />
 				</Routes>
