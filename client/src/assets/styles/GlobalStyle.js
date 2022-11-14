@@ -37,10 +37,12 @@ const GlobalStyle = createGlobalStyle`
 
     /* 기타 */
     --radius: 10px;
+    --radius-small: 5px;
   }
 
   body {
     font-family: 'Noto Sans KR', sans-serif;
+    box-sizing: border-box;
     color: #141414;
     box-sizing: border-box;
   }
