@@ -34,10 +34,33 @@ const GlobalStyle = createGlobalStyle`
     --orange: #FD6F22;
     --header-background-color: #080F34;
     --background-color: #E3E5EB;
+
+    /* 기타 */
+    --radius: 10px;
   }
 
   body {
     font-family: 'Noto Sans KR', sans-serif;
+    color: #141414;
+  }
+
+  button {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: inherit; 
+    border: none; 
+    box-shadow: none; 
+    border-radius: 0; 
+    padding: 0;
+    overflow: visible; 
+    cursor: pointer
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    outline: none
   }
 `;
 

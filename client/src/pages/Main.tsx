@@ -28,6 +28,7 @@ const Main = () => {
 			<button onClick={addNumber}>+</button>
 			<button onClick={minusNumber}>-</button>
 			<button onClick={initNumber}>초기화</button>
+			<a href="www.naver.com">링크</a>
 		</MainStyle>
 	);
 };
