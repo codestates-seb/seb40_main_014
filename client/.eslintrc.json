@@ -20,7 +20,8 @@
 		},
 		"ecmaVersion": "latest",
 		"sourceType": "module",
-		"project": "**/tsconfig.json"
+		"project": "**/tsconfig.json",
+		"createDefaultProgram": true
 	},
 	"plugins": ["@typescript-eslint", "prettier"],
 	"rules": {
