@@ -13,7 +13,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="server.server.main" target="11" />
       <module name="server.server.main~1" target="11" />
+      <module name="server.server.test" target="11" />
       <module name="server.server.test~1" target="11" />
     </bytecodeTargetLevel>
   </component>
