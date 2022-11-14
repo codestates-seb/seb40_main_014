@@ -42,6 +42,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Noto Sans KR', sans-serif;
     color: #141414;
+    box-sizing: border-box;
   }
 
   button {
