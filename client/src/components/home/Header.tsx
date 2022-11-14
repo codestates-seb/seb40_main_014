@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import LogoImg from '../../assets/images/logo.png';
+import LogoImg from '../../assets/images/header-logo.png';
 import { FaSearch } from 'react-icons/fa';
 
 const HeaderStyle = styled.div`
@@ -12,6 +12,15 @@ const HeaderStyle = styled.div`
 	padding: 20px 120px;
 	background-color: var(--header-background-color);
 	font-size: 18px; // ✨
+
+	// Tablet
+	@media screen and (max-width: 980px) {
+		padding: 20px 60px;
+	}
+	// Mobile
+	@media screen and (max-width: 640px) {
+		padding: 20px 30px;
+	}
 `;
 
 const Logo = styled.div`

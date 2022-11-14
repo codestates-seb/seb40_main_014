@@ -5,13 +5,13 @@ const FooterStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 60px 0;
+	padding: 50px 0;
 	background-color: var(--header-background-color);
 	color: var(--gray-400);
 
 	img {
 		width: 100px;
-		margin-bottom: 40px;
+		margin-bottom: 30px;
 	}
 `;
 
