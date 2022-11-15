@@ -9,12 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.data.domain.Page;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
-import java.util.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,12 +28,7 @@ public class ChatService {
     private final ObjectMapper objectMapper;
     private final ChatRoomRepository chatRoomRepository;
 
-//    @PostConstruct
-//    private void init() {
-//        chatRooms = new LinkedHashMap<>();
-//    }
-
-    public ChatRoom creatRoom(ChatRoom chatRoom) {
+    public ChatRoom createRoom(ChatRoom chatRoom) {
 
         String randomId = UUID.randomUUID().toString();
         chatRoom.setRoomId(randomId);
@@ -70,6 +65,25 @@ public class ChatService {
         return findVerifiedRoomId(roomId);
     }
 
+
+
+//    private Map<String, ChatRoomCountDto> chatRoomMap;
+//
+//    //MessageType : ENTER
+//    public void plusMemCount(String roomId) {
+//        ChatRoomCountDto countRoom = chatRoomMap.get(roomId);
+//        countRoom.setMemCount(countRoom.getMemCount()+1);
+//        chatRoomRepository.save();
+//    }
+//
+//    //MessageType : LEAVE
+//    public void minusMemCount(String roomId) {
+//        ChatRoomCountDto countRoom = chatRoomMap.get(roomId);
+//        countRoom.setMemCount(countRoom.getMemCount()-1);
+//    }
+//    public String addMem(String roomId, Member member) {
+//
+//    }
     public <T> void sendMessage(WebSocketSession session, T message) {
         try {
             session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
@@ -90,7 +104,8 @@ public class ChatService {
 
     public Page<ChatRoom> searchChatRooms(int page, int size, String tab, String q) {
         if (tab.equals("popular")) tab = "chatroom.memberCount";
-        Page<ChatRoom> chatRooms = chatRoomRepository.findByTitleContaining(q)
+        Page<ChatRoom> chatRooms = chatRoomRepository.findByTitleContaining(q, PageRequest.of(page, size));
+        return chatRooms;
     }
 
     public void deleteChatRoom(String roomId) {

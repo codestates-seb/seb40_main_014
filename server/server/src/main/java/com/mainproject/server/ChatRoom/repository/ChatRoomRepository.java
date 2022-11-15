@@ -1,23 +1,15 @@
 package com.mainproject.server.ChatRoom.repository;
 
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
-<<<<<<< HEAD
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-
 import java.util.Optional;
 
 @Repository
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, String> {
     Optional<ChatRoom> findChatRoomByRoomId(String roomId);
     Page<ChatRoom> findByTitleContaining(String keyword, Pageable pageable);
-
 
 }

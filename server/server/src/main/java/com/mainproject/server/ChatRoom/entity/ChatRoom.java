@@ -1,24 +1,17 @@
 package com.mainproject.server.ChatRoom.entity;
 
-<<<<<<< HEAD
-import com.mainproject.server.ChatRoom.dto.ChatRoomDto;
-=======
->>>>>>> 32cd91d954cda2c0246932f7a3da3f6ab1145294
 import com.mainproject.server.ChatRoom.service.ChatService;
 import com.mainproject.server.auditable.Auditable;
+import com.mainproject.server.member.entity.Member;
+import com.mainproject.server.playlist.entity.Playlist;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
-<<<<<<< HEAD
-import org.springframework.data.domain.Persistable;
-=======
->>>>>>> 32cd91d954cda2c0246932f7a3da3f6ab1145294
 import org.springframework.web.socket.WebSocketSession;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter @Setter
@@ -26,6 +19,13 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 public class ChatRoom extends Auditable {
+
+    @OneToMany(mappedBy = "chatRoom")
+    private List<Playlist> playlistList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "chatRoom")
+    private List<Member> memberList = new ArrayList<>();
+
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
@@ -42,6 +42,8 @@ public class ChatRoom extends Auditable {
     private boolean secret;
     @Column
     private String pwd;
+    private Long memberId;
+    private Long playlistId;
 
     public enum Onair {
         ON, OFF;

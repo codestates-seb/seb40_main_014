@@ -1,18 +1,29 @@
 package com.mainproject.server.member.entity;
 
+import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.auditable.Auditable;
+import com.mainproject.server.playlist.entity.Playlist;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 public class Member extends Auditable {
+
+    @OneToMany(mappedBy = "member")
+    private List<Playlist> playlistList = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private ChatRoom chatRoom;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

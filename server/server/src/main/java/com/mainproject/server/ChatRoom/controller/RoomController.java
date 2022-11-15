@@ -5,7 +5,6 @@ import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
 import com.mainproject.server.ChatRoom.service.ChatService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class RoomController {
     @PostMapping
     public ChatRoom createRoom(@RequestBody ChatRoomDto.Post requestBody) {
         ChatRoom chatRoom = chatRoomMapper.chatRoomPostDtoToChatRoom(requestBody);
-        ChatRoom room = chatService.creatRoom(chatRoom);
+        ChatRoom room = chatService.createRoom(chatRoom);
         if (requestBody.getPwd() != null) room.setSecret(true);
         return room;
     }

@@ -1,5 +1,6 @@
 package com.mainproject.server.ChatRoom.dto;
 
+import com.mainproject.server.member.entity.Member;
 import lombok.*;
 
 public class ChatRoomDto {
@@ -26,4 +27,15 @@ public class ChatRoomDto {
         private boolean secret;
     }
 
+    @Getter @Setter
+    @AllArgsConstructor
+    public static class Count {
+        private Long memberId;
+        private String roomId;
+        private String title;
+        private String content;
+        private String pwd;
+        private boolean secret;
+        private int memCount;
+    }
 }
