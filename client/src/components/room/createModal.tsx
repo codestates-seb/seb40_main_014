@@ -11,12 +11,12 @@ export type roomInfo = {
 };
 
 const ModalContaincer = styled.div`
-	font-size: var(--x-small);
-	background-color: var(--background-color);
+	font-size: ${(props) => props.theme.fontSize.xSmall};
+	background-color: ${(props) => props.theme.colors.background};
 	width: 550px;
 	height: 500px;
-	box-shadow: var(--gray-400) 0px 5px 12px;
-	border-radius: var(--radius);
+	box-shadow: ${(props) => props.theme.colors.gray400} 0px 5px 12px;
+	border-radius: ${(props) => props.theme.radius.largeRadius};
 	position: fixed;
 	top: 50%;
 	left: 50%;
@@ -27,16 +27,19 @@ const ModalContaincer = styled.div`
 const ModalHeader = styled.div`
 	display: flex;
 	justify-content: space-between;
-	background-color: var(--purple);
-	color: var(--white);
-	border-radius: var(--radius) var(--radius) 0px 0px;
+	background-color: ${(props) => props.theme.colors.purple};
+	color: ${(props) => props.theme.colors.white};
+	border-radius: ${(props) => props.theme.radius.largeRadius}
+		${(props) => props.theme.radius.largeRadius} 0px 0px;
 	margin-bottom: 10px;
 `;
 
 const HeaderContent = styled.div`
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	margin: 15px;
+	font-size: ${(props) => props.theme.fontSize.small};
 `;
 const ModalOverlay = styled.div`
 	top: 0;
@@ -48,8 +51,8 @@ const ModalOverlay = styled.div`
 	position: fixed;
 `;
 
-const ExitBtn = styled.button`
-	font-size: var(--x-medium);
+export const ExitBtn = styled.button`
+	font-size: ${(props) => props.theme.fontSize.medium};
 `;
 
 const CreateModal = ({ modalOpen, setModalOpen }) => {
