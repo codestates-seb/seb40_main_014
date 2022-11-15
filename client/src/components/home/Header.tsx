@@ -20,7 +20,7 @@ function Header() {
 	const handleChangeMenu = useCallback(
 		(e) => {
 			setCurrentMenu(e.target.id);
-			setOpenSide(!isOpenSide);
+			if (isOpenSide) setOpenSide(!isOpenSide);
 		},
 		[currentMenu, isOpenSide],
 	);
@@ -62,7 +62,7 @@ function Header() {
 					</div>
 				)}
 				<LoginButton onClick={handleOpenModal} className="on-pc">
-					<Link to="/">로그인</Link>
+					로그인
 				</LoginButton>
 				<Hambuger className="on-mobile" onClick={handleOpenSide}>
 					{isOpenSide ? <RiMenuUnfoldLine /> : <RiMenuFoldLine />}

@@ -7,10 +7,14 @@ function MobileUl({ handleChangeMenu, handleOpenModal }: PcUlType) {
 	return (
 		<Ul>
 			<li>
-				<LoginButton onClick={handleOpenModal} className="off-mobile">
-					<Link to="/" id="login" onClick={handleChangeMenu}>
-						로그인
-					</Link>
+				<LoginButton
+					id="login"
+					onClick={(e) => {
+						if (handleOpenModal) handleOpenModal();
+						handleChangeMenu(e);
+					}}
+					className="off-mobile">
+					로그인
 				</LoginButton>
 			</li>
 			<Hr />
