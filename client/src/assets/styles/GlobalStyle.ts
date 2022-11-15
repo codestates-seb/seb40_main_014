@@ -34,7 +34,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   input {
-    /* background-color: inherit; */
     border: none;
     outline: none;
     font-family: inherit;
