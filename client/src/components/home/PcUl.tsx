@@ -53,7 +53,7 @@ function PcUl({ handleChangeMenu }: PcUlType) {
 
 export default PcUl;
 
-export const Ul = styled.ul`
+const Ul = styled.ul`
 	display: flex;
 	align-items: center;
 	color: ${(props) => props.theme.colors.gray500};
@@ -84,29 +84,6 @@ export const Ul = styled.ul`
 			margin: 0 10px;
 		}
 	}
-	// Mobile
-	@media screen and (max-width: 640px) {
-		position: absolute;
-		top: 73px;
-		right: 0;
-		flex-direction: column;
-		align-items: flex-end;
-		padding: 20px;
-		height: calc(100vh - 73px);
-		background-color: ${(props) => props.theme.colors.background};
-		z-index: 9999;
-
-		animation: open-slide 0.5s ease-in-out;
-
-		li {
-			padding: 10px 0;
-			margin-bottom: 20px;
-			color: ${(props) => props.theme.colors.gray800};
-			&:hover {
-				color: ${(props) => props.theme.colors.purple};
-			}
-		}
-	}
 `;
 
 export const SearchButton = styled.button`
@@ -118,25 +95,8 @@ export const SearchButton = styled.button`
 	}
 `;
 
-export const SearchInput = styled.input`
-	background-color: inherit;
-	border: none;
-	outline: none;
-	font-family: inherit;
+const SearchInput = styled.input`
 	font-size: 16.5px;
+	background-color: inherit;
 	color: ${(props) => props.theme.colors.white};
-
-	// Mobile
-	@media screen and (max-width: 640px) {
-		padding: 10px;
-		background-color: ${(props) => props.theme.colors.gray10};
-		border: 1px solid ${(props) => props.theme.colors.gray400};
-		border-radius: ${(props) => props.theme.radius.smallRadius};
-		font-size: ${(props) => props.theme.fontSize.small};
-		color: ${(props) => props.theme.colors.gray900};
-
-		&:focus {
-			background-color: ${(props) => props.theme.colors.gray100};
-		}
-	}
 `;
