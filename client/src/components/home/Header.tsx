@@ -85,7 +85,10 @@ function Header() {
 export default Header;
 
 const HeaderStyle = styled.div`
-	position: relative;
+	/* position: relative; */
+	position: fixed;
+	top: 0;
+	width: 100vw;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;

@@ -2,11 +2,13 @@ import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 import Footer from '../home/Footer';
 import Header from '../home/Header';
+import HeaderBottom from '../home/HeaderBottom';
 
 function Layout() {
 	return (
 		<>
 			<Header />
+			<HeaderBottom />
 			<MainWrapper>
 				<Outlet />
 			</MainWrapper>
