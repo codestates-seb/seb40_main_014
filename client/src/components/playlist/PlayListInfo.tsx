@@ -1,9 +1,12 @@
 import styled from 'styled-components';
-import { PlayListInfoProps } from '../../types/types';
+import { PlayListInfoProps } from '../../pages/PlayListDetail';
+import Category from '../common/Category';
+import { FaHeart } from 'react-icons/fa';
+import BookMark from '../common/BookMark';
 
-const TitleDesc = ({ playListInfo }: PlayListInfoProps) => {
+const PlayListInfo = ({ playListInfo }: PlayListInfoProps) => {
 	return (
-		<TitleDescStyle>
+		<PlayListInfoStyle>
 			<div className="info">
 				<AlbumImage>
 					<img
@@ -14,26 +17,44 @@ const TitleDesc = ({ playListInfo }: PlayListInfoProps) => {
 				<Info>
 					<div className="title">
 						{playListInfo.title}
-						{playListInfo.category}
+						<Category category={playListInfo.category}>
+							{playListInfo.category}
+						</Category>
 					</div>
-					<div className="options">{playListInfo.like}</div>
+					<div className="options">
+						<div className="author">
+							<img
+								src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
+								alt="{playListInfo.author}"
+							/>
+							{playListInfo.author}
+						</div>
+						<div>
+							<FaHeart color="red" size="24" />
+							{playListInfo.like}
+						</div>
+						<div>
+							<BookMark />
+						</div>
+					</div>
 				</Info>
 			</div>
 			<div className="total">{playListInfo.total} 곡</div>
-		</TitleDescStyle>
+		</PlayListInfoStyle>
 	);
 };
 
-export default TitleDesc;
+export default PlayListInfo;
 
-const TitleDescStyle = styled.div`
+const PlayListInfoStyle = styled.div`
 	display: flex;
 	flex-direction: column;
-	border: 1px solid orange;
 	.info {
 		display: flex;
 	}
 	.total {
+		font-size: ${(props) => props.theme.fontSize.medium};
+		color: ${(props) => props.theme.colors.purple};
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
@@ -50,12 +71,29 @@ const AlbumImage = styled.div`
 	}
 `;
 const Info = styled.div`
+	padding-left: 30px;
 	flex: 6;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
+	div {
+		font-size: ${(props) => props.theme.fontSize.medium};
+	}
 	.title {
 	}
 	.options {
+		display: flex;
+		align-items: center;
+
+		div {
+			margin-right: 20px;
+		}
+		.author {
+			img {
+				margin: 0 5px;
+				max-width: 30px;
+				max-height: 30px;
+			}
+		}
 	}
 `;
