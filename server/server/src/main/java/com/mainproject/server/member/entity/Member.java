@@ -41,8 +41,8 @@ public class Member extends Auditable {
     @Column
     private String grade = "silver";
 
-    @Column
-    private Integer follow = 0;
+    @OneToOne
+    private Ranking ranking;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -57,12 +57,21 @@ public class Member extends Auditable {
         this.role = role;
     }
 
-    public Member update(String name, String picture) {
-        this.name = name;
-        this.picture  = picture;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Playlist> playlists = new ArrayList<>();
 
-        return this;
-    }
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<ChatRoom> chatRooms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Follow> follows  = new ArrayList<>();
+
+//    public Member update(String name, String picture) {
+//        this.name = name;
+//        this.picture  = picture;
+//
+//        return this;
+//    }
 
     public String getRoleKey() {
         return this.role.getKey();
