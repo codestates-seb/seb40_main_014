@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 import { ImExit } from 'react-icons/im';
-import Chat from '../components/room/Chat';
 import PlaylistPart from '../components/room/Playlist';
 import PeoplePart from '../components/room/PeopleList';
+import Message from '../components/room/Message';
+import Chatting from '../components/room/Chatting';
+import { Link } from 'react-router-dom';
 
 const Container = styled.div`
 	width: 900px;
@@ -55,7 +57,10 @@ const ChatSection = styled.div`
 	height: 550px;
 	background-color: #fff;
 	margin: 20px;
+	padding: 10px;
 	border-radius: ${(props) => props.theme.radius.largeRadius};
+	box-shadow: 0px 5px 5px 0px ${(props) => props.theme.colors.gray500};
+	overflow: scroll;
 `;
 
 const MessageSection = styled.div`
@@ -94,13 +99,17 @@ const Room = () => {
 						</ChatHeaderContent>
 						<ChatHeaderContent>
 							<ExitBtn>
-								<ImExit onClick={onClick} />
+								<Link to="/">
+									<ImExit onClick={onClick} />
+								</Link>
 							</ExitBtn>
 						</ChatHeaderContent>
 					</ChatHeader>
 					<ChatRoomContainer>
 						<ChatLeft>
-							<ChatSection></ChatSection>
+							<ChatSection>
+								<Chatting></Chatting>
+							</ChatSection>
 						</ChatLeft>
 						<ChatRight>
 							<PlaylistPart />
@@ -109,7 +118,7 @@ const Room = () => {
 					</ChatRoomContainer>
 					<ChatFooter>
 						<MessageSection>
-							<Chat />
+							<Message />
 						</MessageSection>
 					</ChatFooter>
 				</Container>

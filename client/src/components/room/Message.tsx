@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
-export type chatInfo = {
+export type MessageInfo = {
 	userId?: string;
 	message?: string;
 };
@@ -25,8 +25,8 @@ const MessageInput = styled.input`
 		border: none;
 	}
 `;
-const Chat = () => {
-	const { register, handleSubmit, reset } = useForm<chatInfo>();
+const Message = () => {
+	const { register, handleSubmit, reset } = useForm<MessageInfo>();
 
 	const onValid = (e) => {
 		console.log(e);
@@ -44,4 +44,4 @@ const Chat = () => {
 	);
 };
 
-export default Chat;
+export default Message;

@@ -12,6 +12,7 @@ const PlaylistSection = styled.div`
 	margin-bottom: 40px;
 	border-radius: ${(props) => props.theme.radius.largeRadius}
 		${(props) => props.theme.radius.largeRadius} 0px 0px;
+	box-shadow: 0px 5px 5px 0px ${(props) => props.theme.colors.gray500};
 `;
 
 const ThumbnailContainer = styled.div`
@@ -41,20 +42,27 @@ const MusicElement = styled.div`
 	padding-bottom: 5px;
 	white-space: nowrap;
 	font-size: ${(props) => props.theme.fontSize.xSmall};
-	border-bottom: solid 1px gray;
+	border-bottom: solid 1px ${(props) => props.theme.colors.gray400};
 `;
 
 const OptionContainer = styled.div`
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	background-color: #fff;
+	background-color: ${(props) => props.theme.colors.white};
 	height: 60px;
 	border-radius: 0px 0px 10px 10px;
+	box-shadow: 0px 5px 5px 0px ${(props) => props.theme.colors.gray500};
 `;
 
 const OptionBtn = styled.button`
 	font-size: ${(props) => props.theme.fontSize.large};
+
+	.option_btn {
+		:hover {
+			transform: scale(1.1);
+		}
+	}
 `;
 
 const PlaylistPart = () => {
@@ -113,16 +121,16 @@ const PlaylistPart = () => {
 			</MusicContainer>
 			<OptionContainer>
 				<OptionBtn>
-					<IoPlayBack></IoPlayBack>
+					<IoPlayBack className="option_btn"></IoPlayBack>
 				</OptionBtn>
 				<OptionBtn>
-					<BsPlayCircle></BsPlayCircle>
+					<BsPlayCircle className="option_btn"></BsPlayCircle>
 				</OptionBtn>
 				<OptionBtn>
-					<IoPlayForward></IoPlayForward>
+					<IoPlayForward className="option_btn"></IoPlayForward>
 				</OptionBtn>
 				<OptionBtn>
-					<BsVolumeDownFill></BsVolumeDownFill>
+					<BsVolumeDownFill className="option_btn"></BsVolumeDownFill>
 				</OptionBtn>
 			</OptionContainer>
 		</PlaylistSection>

@@ -7,6 +7,7 @@ const PeopleSetcion = styled.div`
 	height: 110px;
 	background-color: ${(props) => props.theme.colors.white};
 	border-radius: ${(props) => props.theme.radius.largeRadius};
+	box-shadow: 0px 5px 5px 0px ${(props) => props.theme.colors.gray500};
 `;
 
 const PeopleContainer = styled.div`
@@ -20,7 +21,7 @@ const PeopleContainer = styled.div`
 const Person = styled.div`
 	margin: 5px;
 	padding-bottom: 5px;
-	border-bottom: solid 1px gray;
+	border-bottom: solid 1px ${(props) => props.theme.colors.gray400};
 `;
 
 const PeoplePart = () => {

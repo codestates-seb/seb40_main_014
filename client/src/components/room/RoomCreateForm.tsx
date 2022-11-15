@@ -81,7 +81,17 @@ const CreateRoomBtn = styled.button`
 	height: 30px;
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	margin-top: 10px;
+	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.5),
+		3px 3px 3px 0px rgba(0, 0, 0, 0.1), 2px 2px 3px 0px rgba(0, 0, 0, 0.1);
 	cursor: pointer;
+	:hover {
+		cursor: pointer;
+		background: linear-gradient(
+			0deg,
+			rgba(96, 9, 240, 1) 0%,
+			rgba(129, 5, 240, 1) 100%
+		);
+	}
 `;
 
 // const AddPlaylistBtn = styled.button`
