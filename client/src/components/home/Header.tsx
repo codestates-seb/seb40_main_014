@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImg from '../../assets/images/header-logo.png';
 import { FaSearch } from 'react-icons/fa';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import LoginModal from './LoginModal';
 
 function Header() {
@@ -10,6 +10,8 @@ function Header() {
 
 	const [isOpenModal, setOpenModal] = useState<boolean>(false);
 	const [isOpenSearch, setOpenSearch] = useState<boolean>(false);
+	const [currentMenu, setCurrentMenu] = useState<string>('room');
+	const [prevMenu, setPrevMenu] = useState<string>('');
 
 	const handleOpenModal = useCallback(() => {
 		setOpenModal(!isOpenModal);
@@ -19,23 +21,49 @@ function Header() {
 		setOpenSearch(!isOpenSearch);
 	}, [isOpenSearch]);
 
+	const handleChangeMenu = useCallback(
+		(e) => {
+			setCurrentMenu(e.target.id);
+		},
+		[currentMenu],
+	);
+
+	useEffect(() => {
+		console.log('#1', currentMenu);
+		if (currentMenu === 'logo') setCurrentMenu('login');
+
+		const current = document.getElementById(currentMenu);
+		if (current != undefined) current.style.color = '#ffffff';
+
+		const prev = document.getElementById(prevMenu);
+		if (prev != undefined) prev.style.color = '#a3a3a3';
+
+		setPrevMenu(currentMenu);
+	}, [currentMenu]);
+
 	return (
 		<>
 			<HeaderStyle>
 				<Logo>
-					<Link to="/">
+					<Link to="/" id="logo" onClick={handleChangeMenu}>
 						<img src={LogoImg} alt="logo" />
 					</Link>
 				</Logo>
 				<Ul>
 					<li>
-						<Link to="/">방</Link>
+						<Link to="/" id="room" onClick={handleChangeMenu}>
+							방
+						</Link>
 					</li>
 					<li>
-						<Link to="/playlist">플레이리스트</Link>
+						<Link to="/playlist" id="playlist" onClick={handleChangeMenu}>
+							플레이리스트
+						</Link>
 					</li>
 					<li>
-						<Link to="/ranking">랭킹</Link>
+						<Link to="/ranking" id="rank" onClick={handleChangeMenu}>
+							랭킹
+						</Link>
 					</li>
 					<li>
 						{isOpenSearch ? (
@@ -47,7 +75,7 @@ function Header() {
 								autoFocus
 							/>
 						) : (
-							<SearchButton onClick={handleOpenSearch}>
+							<SearchButton id="search" onClick={handleOpenSearch}>
 								<FaSearch className="search-icon" />
 								검색
 							</SearchButton>
@@ -94,7 +122,7 @@ const Logo = styled.div`
 const Ul = styled.ul`
 	display: flex;
 	align-items: center;
-	color: ${(props) => props.theme.colors.gray400};
+	color: ${(props) => props.theme.colors.gray500};
 
 	li {
 		padding: 10px;
