@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 
 type LoginModalType = {
-	onClick: () => void;
+	handleOpenModal: () => void;
 };
 
-function LoginModal({ onClick }: LoginModalType) {
+function LoginModal({ handleOpenModal }: LoginModalType) {
 	return (
 		<LoginModalStyle>
 			<WhiteBox>
@@ -18,7 +18,7 @@ function LoginModal({ onClick }: LoginModalType) {
 				onClick={(e) => {
 					e.preventDefault();
 
-					onClick();
+					handleOpenModal();
 				}}
 			/>
 		</LoginModalStyle>
@@ -105,7 +105,7 @@ const GoogleLogin = styled.button`
 	}
 `;
 
-const Backdrop = styled.div`
+export const Backdrop = styled.div`
 	width: 100vw;
 	height: 100vh;
 	position: fixed;

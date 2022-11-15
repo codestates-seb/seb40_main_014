@@ -22,7 +22,7 @@ const MainWrapper = styled.div`
 
 	// Tablet
 	@media screen and (max-width: 980px) {
-		margin: 40px 70px;
+		margin: 40px 60px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
