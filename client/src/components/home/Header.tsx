@@ -95,6 +95,7 @@ const HeaderStyle = styled.div`
 	padding: 17px 300px;
 	background-color: ${(props) => props.theme.colors.headerBackground};
 	font-size: 18px;
+	z-index: 9999;
 
 	.on-pc {
 		display: block;

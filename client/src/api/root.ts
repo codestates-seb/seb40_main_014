@@ -7,6 +7,7 @@ type config = {
 	headers: object;
 	baseURL: string | undefined;
 };
+
 const axiosConfig: config = {
 	headers: { 'Content-Type': 'application/json; charset=UTF-8' },
 	baseURL: root,

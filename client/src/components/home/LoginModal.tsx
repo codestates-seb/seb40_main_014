@@ -17,7 +17,6 @@ function LoginModal({ handleOpenModal }: LoginModalType) {
 			<Backdrop
 				onClick={(e) => {
 					e.preventDefault();
-
 					handleOpenModal();
 				}}
 			/>
