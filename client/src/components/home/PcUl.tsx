@@ -8,7 +8,7 @@ export type PcUlType = {
 };
 
 function PcUl({ currentMenu }: PcUlType) {
-	const [isOpenSearch, setOpenSearch] = useState<boolean>(false);
+	const [isOpenSearch, setOpenSearch] = useState(false);
 
 	const handleOpenSearch = useCallback(() => {
 		setOpenSearch(!isOpenSearch);

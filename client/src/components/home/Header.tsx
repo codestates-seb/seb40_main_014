@@ -10,10 +10,10 @@ import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
 function Header() {
 	const { pathname } = useLocation();
 
-	const [isOpenModal, setOpenModal] = useState<boolean>(false);
-	const [currentMenu, setCurrentMenu] = useState<string>('');
+	const [isOpenModal, setOpenModal] = useState(false);
+	const [currentMenu, setCurrentMenu] = useState('');
 
-	const [isOpenSide, setOpenSide] = useState<boolean>(false);
+	const [isOpenSide, setOpenSide] = useState(false);
 
 	const handleOpenModal = useCallback(() => {
 		setOpenModal(!isOpenModal);
