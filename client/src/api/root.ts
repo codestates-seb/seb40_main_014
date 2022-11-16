@@ -1,15 +1,20 @@
 import axios from 'axios';
 
-const root: string | undefined = process.env.REACT_APP_STACK_SERVER_TEST;
-// const root = process.env.REACT_APP_STACK_SERVER;
+// const root: string | undefined = process.env.REACT_APP_STACK_SERVER_TEST;
+const root = process.env.REACT_APP_STACK_SERVER;
 
 type config = {
 	headers: object;
 	baseURL: string | undefined;
 };
 
+const accessToken = localStorage.getItem('accessToken');
+
 const axiosConfig: config = {
-	headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+	headers: {
+		'Content-Type': 'application/json; charset=UTF-8',
+		Authorization: accessToken,
+	},
 	baseURL: root,
 };
 

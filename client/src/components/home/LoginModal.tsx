@@ -1,16 +1,52 @@
 import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
+import { login } from '../../api/authApi';
+import { getUserInfo } from '../../api/userApi';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { userInfo } from '../../slices/userSlice';
 
 type LoginModalType = {
 	handleOpenModal: () => void;
 };
 
 function LoginModal({ handleOpenModal }: LoginModalType) {
+	const dispatch = useDispatch();
+
+	const [memberId, setMemberId] = useState();
+
+	const onSubmit = () => {
+		login()
+			.then((res) => {
+				console.log('login res', res);
+				// { memberId: 1 }
+
+				setMemberId(res.memberId);
+			})
+			.finally(() => {
+				getUserInfo({ memberId }).then((res) => {
+					console.log('getUserInfo res', res);
+					// {
+					// 	memberId: 1,
+					// 	follow: 10,
+					// 	like: 10,
+					// 	name: 'nickname',
+					// 	createdAt: '회원 생성 시간',
+					// 	modifiedAt: '회원 수정 시간',
+					// 	grade: 'LUVIP',
+					// 	rank: 1,
+					// }
+
+					dispatch(userInfo(res));
+				});
+			});
+	};
+
 	return (
 		<LoginModalStyle>
 			<WhiteBox>
 				<H2>로그인</H2>
-				<GoogleLogin>
+				<GoogleLogin onClick={onSubmit}>
 					<FcGoogle className="google-icon" /> 구글로 로그인하기
 				</GoogleLogin>
 			</WhiteBox>

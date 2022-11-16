@@ -39,9 +39,11 @@ function PlaylistList() {
 			<H2>플레이리스트 Top 8</H2>
 			<H2>최신 플레이리스트</H2>
 			<ListsStyle>
-				{playlists.map((playlist: PlaylistInfoType) => (
-					<Playlist playlist={playlist} key={playlist.playlistId} />
-				))}
+				{playlists.length
+					? playlists.map((playlist: PlaylistInfoType) => (
+							<Playlist playlist={playlist} key={playlist.playlistId} />
+					  ))
+					: null}
 			</ListsStyle>
 		</>
 	);

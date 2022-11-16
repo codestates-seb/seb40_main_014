@@ -14,6 +14,7 @@ export const getPlayLists = async () => {
 	try {
 		//test
 		const result = await instance.get('/playlists');
+
 		return result.data;
 	} catch (err) {
 		return err;
