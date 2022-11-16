@@ -1,23 +1,32 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImg from '../../assets/images/header-logo.png';
-import { FaSearch } from 'react-icons/fa';
-import { useCallback, useRef, useState } from 'react';
-import LoginModal from './LoginModal';
+import { useCallback, useState, useEffect } from 'react';
+import LoginModal, { Backdrop } from './LoginModal';
+import PcUl from './PcUl';
+import MobileUl from './MobileUl';
+import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
 
 function Header() {
-	const inputRef = useRef<HTMLInputElement>(null);
+	const { pathname } = useLocation();
 
-	const [isOpenModal, setOpenModal] = useState<boolean>(false);
-	const [isOpenSearch, setOpenSearch] = useState<boolean>(false);
+	const [isOpenModal, setOpenModal] = useState(false);
+	const [currentMenu, setCurrentMenu] = useState('');
+
+	const [isOpenSide, setOpenSide] = useState(false);
 
 	const handleOpenModal = useCallback(() => {
 		setOpenModal(!isOpenModal);
 	}, [isOpenModal]);
 
-	const handleOpenSearch = useCallback(() => {
-		setOpenSearch(!isOpenSearch);
-	}, [isOpenSearch]);
+	const handleOpenSide = useCallback(() => {
+		setOpenSide(!isOpenSide);
+	}, [isOpenSide]);
+
+	useEffect(() => {
+		if (pathname === '/') setCurrentMenu('room');
+		else setCurrentMenu(pathname.slice(1));
+	}, [pathname]);
 
 	return (
 		<>
@@ -27,38 +36,34 @@ function Header() {
 						<img src={LogoImg} alt="logo" />
 					</Link>
 				</Logo>
-				<Ul>
-					<li>
-						<Link to="/">방</Link>
-					</li>
-					<li>
-						<Link to="/playlist">플레이리스트</Link>
-					</li>
-					<li>
-						<Link to="/ranking">랭킹</Link>
-					</li>
-					<li>
-						{isOpenSearch ? (
-							<SearchInput
-								type="text"
-								placeholder="검색어를 입력하세요"
-								ref={inputRef}
-								onBlur={handleOpenSearch}
-								autoFocus
-							/>
-						) : (
-							<SearchButton onClick={handleOpenSearch}>
-								<FaSearch className="search-icon" />
-								검색
-							</SearchButton>
-						)}
-					</li>
-				</Ul>
-				<LoginButton onClick={handleOpenModal}>
-					<Link to="/">로그인</Link>
+				<div className="on-pc">
+					<PcUl currentMenu={currentMenu} />
+				</div>
+				{isOpenSide && (
+					<div className="on-mobile">
+						<MobileUl
+							currentMenu={currentMenu}
+							setOpenModal={setOpenModal}
+							handleOpenSide={handleOpenSide}
+						/>
+					</div>
+				)}
+				<LoginButton onClick={handleOpenModal} className="on-pc">
+					로그인
 				</LoginButton>
+				<Hambuger className="on-mobile" onClick={handleOpenSide}>
+					{isOpenSide ? <RiMenuUnfoldLine /> : <RiMenuFoldLine />}
+				</Hambuger>
 			</HeaderStyle>
-			{isOpenModal && <LoginModal onClick={handleOpenModal} />}
+			{isOpenModal && <LoginModal handleOpenModal={handleOpenModal} />}
+			{isOpenSide && (
+				<Backdrop
+					onClick={(e) => {
+						e.preventDefault();
+						handleOpenSide();
+					}}
+				/>
+			)}
 		</>
 	);
 }
@@ -66,22 +71,41 @@ function Header() {
 export default Header;
 
 const HeaderStyle = styled.div`
-	position: relative;
+	/* position: relative; */
+	position: fixed;
+	top: 0;
+	width: 100vw;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 17px 300px;
+	padding: 17px 15vw;
 	background-color: ${(props) => props.theme.colors.headerBackground};
 	font-size: 18px;
+	z-index: 6666;
+
+	.on-pc {
+		display: block;
+	}
+	.on-mobile {
+		display: none;
+	}
 
 	// Tablet
 	@media screen and (max-width: 980px) {
-		padding: 20px 70px;
+		padding: 20px 80px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
 		padding: 20px 40px;
 		font-size: ${(props) => props.theme.fontSize.medium};
+		z-index: 9999;
+
+		.on-pc {
+			display: none;
+		}
+		.on-mobile {
+			display: block;
+		}
 	}
 `;
 
@@ -91,42 +115,27 @@ const Logo = styled.div`
 	}
 `;
 
-const Ul = styled.ul`
-	display: flex;
-	align-items: center;
+export const LoginButton = styled.button`
 	color: ${(props) => props.theme.colors.gray400};
 
-	li {
-		padding: 10px;
-		margin: 0 20px;
-		transition: 0.1s;
+	&:hover {
+		color: ${(props) => props.theme.colors.white};
+	}
 
+	// Mobile
+	@media screen and (max-width: 640px) {
+		color: ${(props) => props.theme.colors.gray800};
 		&:hover {
-			color: ${(props) => props.theme.colors.white};
+			color: ${(props) => props.theme.colors.purple};
 		}
 	}
 `;
 
-const SearchButton = styled.button`
-	display: flex;
-	align-items: center;
-
-	.search-icon {
-		margin-right: 15px;
-	}
-`;
-
-const SearchInput = styled.input`
-	background-color: inherit;
-	border: none;
-	outline: none;
-	font-family: inherit;
-	font-size: 16.5px;
-	color: ${(props) => props.theme.colors.white};
-`;
-
-const LoginButton = styled.button`
+const Hambuger = styled.div`
 	color: ${(props) => props.theme.colors.gray400};
+	font-size: ${(props) => props.theme.fontSize.large};
+	transition: 0.1s;
+	cursor: pointer;
 
 	&:hover {
 		color: ${(props) => props.theme.colors.white};
