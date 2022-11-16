@@ -8,63 +8,43 @@ import MobileUl from './MobileUl';
 import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
 
 function Header() {
-	let { pathname } = useLocation();
-
-	pathname = pathname.slice(1);
+	const { pathname } = useLocation();
 
 	const [isOpenModal, setOpenModal] = useState<boolean>(false);
-	const [currentMenu, setCurrentMenu] = useState<string>(
-		pathname === '' ? 'room' : pathname,
-	);
+	const [currentMenu, setCurrentMenu] = useState<string>('');
 
-	const [prevMenu, setPrevMenu] = useState<string>('');
 	const [isOpenSide, setOpenSide] = useState<boolean>(false);
 
 	const handleOpenModal = useCallback(() => {
 		setOpenModal(!isOpenModal);
 	}, [isOpenModal]);
 
-	const handleChangeMenu = useCallback(
-		(e) => {
-			setCurrentMenu(e.target.id);
-			if (isOpenSide) setOpenSide(!isOpenSide);
-		},
-		[currentMenu, isOpenSide],
-	);
-
 	const handleOpenSide = useCallback(() => {
 		setOpenSide(!isOpenSide);
 	}, [isOpenSide]);
 
 	useEffect(() => {
-		if (currentMenu === 'logo') setCurrentMenu('room');
-		console.log('#1', currentMenu);
-
-		const current = document.getElementById(currentMenu);
-		if (current != undefined) current.style.color = '#ffffff';
-
-		const prev = document.getElementById(prevMenu);
-		if (prev != undefined) prev.style.color = '#a3a3a3';
-
-		setPrevMenu(currentMenu);
-	}, [currentMenu]);
+		if (pathname === '/') setCurrentMenu('room');
+		else setCurrentMenu(pathname.slice(1));
+	}, [pathname]);
 
 	return (
 		<>
 			<HeaderStyle>
 				<Logo>
-					<Link to="/" id="logo" onClick={handleChangeMenu}>
+					<Link to="/">
 						<img src={LogoImg} alt="logo" />
 					</Link>
 				</Logo>
 				<div className="on-pc">
-					<PcUl handleChangeMenu={handleChangeMenu} />
+					<PcUl currentMenu={currentMenu} />
 				</div>
 				{isOpenSide && (
 					<div className="on-mobile">
 						<MobileUl
-							handleChangeMenu={handleChangeMenu}
-							handleOpenModal={handleOpenModal}
+							currentMenu={currentMenu}
+							setOpenModal={setOpenModal}
+							handleOpenSide={handleOpenSide}
 						/>
 					</div>
 				)}
@@ -80,7 +60,6 @@ function Header() {
 				<Backdrop
 					onClick={(e) => {
 						e.preventDefault();
-
 						handleOpenSide();
 					}}
 				/>
@@ -102,7 +81,7 @@ const HeaderStyle = styled.div`
 	padding: 17px 15vw;
 	background-color: ${(props) => props.theme.colors.headerBackground};
 	font-size: 18px;
-	z-index: 9999;
+	z-index: 6666;
 
 	.on-pc {
 		display: block;
@@ -119,6 +98,7 @@ const HeaderStyle = styled.div`
 	@media screen and (max-width: 640px) {
 		padding: 20px 40px;
 		font-size: ${(props) => props.theme.fontSize.medium};
+		z-index: 9999;
 
 		.on-pc {
 			display: none;

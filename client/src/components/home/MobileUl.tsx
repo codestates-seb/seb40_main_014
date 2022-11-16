@@ -1,35 +1,55 @@
 import { Link } from 'react-router-dom';
-import { PcUlType } from './PcUl';
 import { LoginButton } from './Header';
 import styled from 'styled-components';
 
-function MobileUl({ handleChangeMenu, handleOpenModal }: PcUlType) {
+export type MobileUlType = {
+	currentMenu: string;
+	setOpenModal: any;
+	handleOpenSide: () => void;
+};
+
+function MobileUl({ currentMenu, setOpenModal, handleOpenSide }: MobileUlType) {
 	return (
 		<Ul>
 			<li>
 				<LoginButton
 					id="login"
-					onClick={(e) => {
-						if (handleOpenModal) handleOpenModal();
-						handleChangeMenu(e);
+					onClick={() => {
+						setOpenModal(true);
+						handleOpenSide();
 					}}
 					className="off-mobile">
 					로그인
 				</LoginButton>
 			</li>
 			<Hr />
-			<li>
-				<Link to="/" id="room" onClick={handleChangeMenu}>
+			<li className={currentMenu === 'room' ? 'active' : ''}>
+				<Link
+					to="/"
+					onClick={() => {
+						setOpenModal(false);
+						handleOpenSide();
+					}}>
 					방
 				</Link>
 			</li>
-			<li>
-				<Link to="/playlist" id="playlist" onClick={handleChangeMenu}>
+			<li className={currentMenu === 'playlist' ? 'active' : ''}>
+				<Link
+					to="/playlist"
+					onClick={() => {
+						setOpenModal(false);
+						handleOpenSide();
+					}}>
 					플레이리스트
 				</Link>
 			</li>
-			<li>
-				<Link to="/ranking" id="ranking" onClick={handleChangeMenu}>
+			<li className={currentMenu === 'ranking' ? 'active' : ''}>
+				<Link
+					to="/ranking"
+					onClick={() => {
+						setOpenModal(false);
+						handleOpenSide();
+					}}>
 					랭킹
 				</Link>
 			</li>
@@ -64,6 +84,10 @@ const Ul = styled.ul`
 		transition: 0.1s;
 
 		&:hover {
+			color: ${(props) => props.theme.colors.purple};
+		}
+
+		&.active {
 			color: ${(props) => props.theme.colors.purple};
 		}
 	}

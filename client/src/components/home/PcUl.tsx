@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export type PcUlType = {
-	handleChangeMenu: (e) => void;
-	handleOpenModal?: () => void;
+	currentMenu: string;
 };
 
-function PcUl({ handleChangeMenu }: PcUlType) {
+function PcUl({ currentMenu }: PcUlType) {
 	const [isOpenSearch, setOpenSearch] = useState<boolean>(false);
 
 	const handleOpenSearch = useCallback(() => {
@@ -17,20 +16,14 @@ function PcUl({ handleChangeMenu }: PcUlType) {
 
 	return (
 		<Ul>
-			<li>
-				<Link to="/" id="room" onClick={handleChangeMenu}>
-					방
-				</Link>
+			<li className={currentMenu === 'room' ? 'active' : ''}>
+				<Link to="/">방</Link>
 			</li>
-			<li>
-				<Link to="/playlist" id="playlist" onClick={handleChangeMenu}>
-					플레이리스트
-				</Link>
+			<li className={currentMenu === 'playlist' ? 'active' : ''}>
+				<Link to="/playlist">플레이리스트</Link>
 			</li>
-			<li>
-				<Link to="/ranking" id="ranking" onClick={handleChangeMenu}>
-					랭킹
-				</Link>
+			<li className={currentMenu === 'ranking' ? 'active' : ''}>
+				<Link to="/ranking">랭킹</Link>
 			</li>
 			<li>
 				{isOpenSearch ? (
@@ -64,6 +57,10 @@ const Ul = styled.ul`
 		transition: 0.1s;
 
 		&:hover {
+			color: ${(props) => props.theme.colors.white};
+		}
+
+		&.active {
 			color: ${(props) => props.theme.colors.white};
 		}
 	}
