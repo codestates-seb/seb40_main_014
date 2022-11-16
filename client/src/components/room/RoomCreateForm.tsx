@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import AddModal from './addModal';
-import { DefaultButton } from './common/Button';
+import { DefaultButton } from '../common/Button';
 
 export type roomInfo = {
 	title: string;
@@ -20,12 +20,12 @@ const CreateForm = styled.form`
 const DefaultInput = styled.input`
 	width: 300px;
 	height: 35px;
-	border: 1px solid var(--gray-500);
-	border-radius: var(--radius);
+	border: 1px solid ${(props) => props.theme.colors.gray500};
+	border-radius: ${(props) => props.theme.radius.largeRadius};
 	padding: 0px 10px 0px 10px;
 	:focus {
-		outline: 0.1px solid var(--purple);
-		box-shadow: var(--purple) 0px 0px 0px 1px;
+		outline: 0.1px solid ${(props) => props.theme.colors.purple};
+		box-shadow: ${(props) => props.theme.colors.purple} 0px 0px 0px 1px;
 		border: none;
 	}
 `;
@@ -47,13 +47,13 @@ const PasswordCheckInput = styled.input``;
 const PlaylistInput = styled(DefaultInput)``;
 const PeopleInput = styled(DefaultInput)``;
 const CategorySelect = styled.select`
-	width: 320px;
+	width: 300px;
 	height: 35px;
-	border-radius: var(--radius);
+	border-radius: ${(props) => props.theme.radius.largeRadius};
 	padding: 0px 10px 0px 5px;
 	:focus {
-		outline: 0.1px solid var(--purple);
-		box-shadow: var(--purple) 0px 0px 0px 1px;
+		outline: 0.1px solid ${(props) => props.theme.colors.purple};
+		box-shadow: ${(props) => props.theme.colors.purple} 0px 0px 0px 1px;
 		border: none;
 	}
 `;
@@ -63,37 +63,47 @@ const CategoryList = styled.div`
 
 	span {
 		display: flex;
-		font-size: var(--x-small);
+		font-size: ${(props) => props.theme.fontSize.xSmall};
 		justify-content: center;
 		align-items: center;
 		width: 45px;
 		height: 20px;
 		margin: 3px;
-		background-color: var(--purple);
+		background-color: ${(props) => props.theme.colors.purple};
 		border-radius: 5px;
-		color: var(--white);
+		color: ${(props) => props.theme.colors.white};
 	}
 `;
 const CreateRoomBtn = styled.button`
-	background-color: var(--purple);
-	color: var(--white);
+	background-color: ${(props) => props.theme.colors.purple};
+	color: ${(props) => props.theme.colors.white};
 	width: 70px;
 	height: 30px;
-	border-radius: var(--radius);
+	border-radius: ${(props) => props.theme.radius.largeRadius};
 	margin-top: 10px;
+	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.5),
+		3px 3px 3px 0px rgba(0, 0, 0, 0.1), 2px 2px 3px 0px rgba(0, 0, 0, 0.1);
 	cursor: pointer;
+	:hover {
+		cursor: pointer;
+		background: linear-gradient(
+			0deg,
+			rgba(96, 9, 240, 1) 0%,
+			rgba(129, 5, 240, 1) 100%
+		);
+	}
 `;
 
-const AddPlaylistBtn = styled.button`
-	background-color: var(--purple);
-	color: var(--white);
-	width: 40px;
-	height: 23px;
-	border-radius: var(--radius);
-`;
+// const AddPlaylistBtn = styled.button`
+// 	background-color: ${(props) => props.theme.colors.purple};
+// 	color: ${(props) => props.theme.colors.white};
+// 	width: 40px;
+// 	height: 23px;
+// 	border-radius: ${(props) => props.theme.radius.largeRadius};
+// `;
 
 const RoomCreateForm = () => {
-	const { register, watch, handleSubmit } = useForm<roomInfo>();
+	const { register, handleSubmit } = useForm<roomInfo>();
 	const [checked, setChecked] = useState(false);
 	const [pickCategory, setPickCategory] = useState<string[]>([]);
 	const [addModalOpen, setAddModalOpen] = useState(false);
@@ -163,7 +173,11 @@ const RoomCreateForm = () => {
 			<InputContainer>
 				<InputInfo className="add">
 					플레이리스트
-					<DefaultButton width="40px" height="25px" onClick={handleAdd}>
+					<DefaultButton
+						width="40px"
+						height="20px"
+						fontSize="10px"
+						onClick={handleAdd}>
 						추가
 					</DefaultButton>
 					{addModalOpen && <AddModal></AddModal>}

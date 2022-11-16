@@ -4,6 +4,7 @@ import Loading from '../components/common/Loading';
 import Layout from '../components/common/Layout';
 import Modaltest from '../pages/Modaltest';
 import PlaylistList from '../pages/PlaylistList';
+import Room from '../pages/Room';
 
 // const Main = lazy(() => import('../pages/Main'));
 const PlayListDetail = lazy(() => import('../pages/PlayListDetail'));
@@ -22,9 +23,10 @@ const AppRouter = () => {
 						<Route path="/ranking" element={<Ranking />} />
 						<Route path="/playlistdetail" element={<PlayListDetail />} />
 						<Route path="/playlistmodify" element={<PlayListModify />} />
+						<Route path="/modal" element={<Modaltest />} />
+						<Route path="/room" element={<Room />} />
 					</Route>
 					<Route path="*" element={<Navigate to="/" replace />} />
-					<Route path="/modal" element={<Modaltest />} />
 				</Routes>
 			</Suspense>
 		</BrowserRouter>

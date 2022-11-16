@@ -6,18 +6,19 @@ const ModalContainer = styled.div`
 	left: 85%;
 	width: 200px;
 	height: 400px;
-	background-color: var(--white);
+	background-color: ${(props) => props.theme.colors.white};
 	box-shadow: #babfc4 0px 5px 12px;
-	border-radius: var(--radius);
+	border-radius: ${(props) => props.theme.radius.largeRadius};
 	overflow: hidden;
 `;
 
 const MyPlaylistHeader = styled.div`
 	display: flex;
 	justify-content: center;
-	background-color: var(--purple);
-	color: var(--white);
-	border-radius: var(--radius) var(--radius) 0px 0px;
+	background-color: ${(props) => props.theme.colors.purple};
+	color: ${(props) => props.theme.colors.white};
+	border-radius: ${(props) => props.theme.radius.largeRadius}
+		${(props) => props.theme.radius.largeRadius} 0px 0px;
 	margin-bottom: 10px;
 
 	div {
