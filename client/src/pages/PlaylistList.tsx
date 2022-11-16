@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { getPlayLists } from '../api/listApi';
 import { DefaultButton } from '../components/common/Button';
 import { Link } from 'react-router-dom';
-import { ButtonWrapper, H2, ListsStyle } from './RoomList';
+import { ButtonWrapper, H2, ListStyle } from './RoomList';
 
 export type PlaylistInfoType = {
 	playlistId: number;
@@ -38,11 +38,13 @@ function PlaylistList() {
 			</ButtonWrapper>
 			<H2>플레이리스트 Top 8</H2>
 			<H2>최신 플레이리스트</H2>
-			<ListsStyle>
-				{playlists.map((playlist: PlaylistInfoType) => (
-					<Playlist playlist={playlist} key={playlist.playlistId} />
-				))}
-			</ListsStyle>
+			<ListStyle>
+				{playlists.length
+					? playlists.map((playlist: PlaylistInfoType) => (
+							<Playlist playlist={playlist} key={playlist.playlistId} />
+					  ))
+					: null}
+			</ListStyle>
 		</>
 	);
 }

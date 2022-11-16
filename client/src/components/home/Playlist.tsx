@@ -92,7 +92,7 @@ const Backdrop = styled.div`
 	top: 0;
 	text-align: center;
 	/* background-color: #4d0bd16e; */
-	background-color: #00000039;
+	background-color: #00000040;
 	border-radius: ${(props) => props.theme.radius.smallRadius};
 	z-index: 1111;
 
