@@ -29,7 +29,7 @@ function MobileUl({ handleChangeMenu, handleOpenModal }: PcUlType) {
 				</Link>
 			</li>
 			<li>
-				<Link to="/ranking" id="rank" onClick={handleChangeMenu}>
+				<Link to="/ranking" id="ranking" onClick={handleChangeMenu}>
 					랭킹
 				</Link>
 			</li>
@@ -56,7 +56,7 @@ const Ul = styled.ul`
 	color: ${(props) => props.theme.colors.gray800};
 	animation: open-slide 0.5s ease-in-out;
 
-	z-index: 9999;
+	z-index: 8888;
 
 	li {
 		padding: 5px 0;

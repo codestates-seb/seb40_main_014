@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImg from '../../assets/images/header-logo.png';
 import { useCallback, useState, useEffect } from 'react';
@@ -8,8 +8,15 @@ import MobileUl from './MobileUl';
 import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
 
 function Header() {
+	let { pathname } = useLocation();
+
+	pathname = pathname.slice(1);
+
 	const [isOpenModal, setOpenModal] = useState<boolean>(false);
-	const [currentMenu, setCurrentMenu] = useState<string>('room');
+	const [currentMenu, setCurrentMenu] = useState<string>(
+		pathname === '' ? 'room' : pathname,
+	);
+
 	const [prevMenu, setPrevMenu] = useState<string>('');
 	const [isOpenSide, setOpenSide] = useState<boolean>(false);
 
@@ -30,8 +37,8 @@ function Header() {
 	}, [isOpenSide]);
 
 	useEffect(() => {
-		// console.log('#1', currentMenu);
-		if (currentMenu === 'logo') setCurrentMenu('login');
+		if (currentMenu === 'logo') setCurrentMenu('room');
+		console.log('#1', currentMenu);
 
 		const current = document.getElementById(currentMenu);
 		if (current != undefined) current.style.color = '#ffffff';
@@ -106,13 +113,12 @@ const HeaderStyle = styled.div`
 
 	// Tablet
 	@media screen and (max-width: 980px) {
-		padding: 20px 100px;
+		padding: 20px 80px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		padding: 20px 50px;
+		padding: 20px 40px;
 		font-size: ${(props) => props.theme.fontSize.medium};
-		z-index: 9999;
 
 		.on-pc {
 			display: none;

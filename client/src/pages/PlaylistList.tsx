@@ -22,7 +22,7 @@ function PlaylistList() {
 
 	useEffect(() => {
 		getPlayLists().then((res) => {
-			console.log('#1', res);
+			// console.log('#1', res);
 			setPlayLists(res);
 		});
 	}, []);
@@ -31,7 +31,9 @@ function PlaylistList() {
 		<>
 			<ButtonWrapper>
 				<Link to="/addPlaylist">
-					<DefaultButton>플리 만들기</DefaultButton>
+					<DefaultButton fontSize="16px" width="105px" height="42px">
+						플리 만들기
+					</DefaultButton>
 				</Link>
 			</ButtonWrapper>
 			<H2>플레이리스트 Top 8</H2>

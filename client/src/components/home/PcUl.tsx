@@ -28,7 +28,7 @@ function PcUl({ handleChangeMenu }: PcUlType) {
 				</Link>
 			</li>
 			<li>
-				<Link to="/ranking" id="rank" onClick={handleChangeMenu}>
+				<Link to="/ranking" id="ranking" onClick={handleChangeMenu}>
 					랭킹
 				</Link>
 			</li>

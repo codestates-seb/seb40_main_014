@@ -8,7 +8,9 @@ function RoomList() {
 		<>
 			<ButtonWrapper>
 				<Link to="/addPlaylist">
-					<DefaultButton>방 만들기</DefaultButton>
+					<DefaultButton fontSize="16px" width="105px" height="42px">
+						방 만들기
+					</DefaultButton>
 				</Link>
 			</ButtonWrapper>
 			<H2>방 Top 8</H2>
@@ -37,6 +39,7 @@ export const H2 = styled.h2`
 export const ListsStyle = styled.div`
 	display: flex;
 	flex-wrap: wrap;
+	z-index: 1111;
 
 	> div:not(:nth-of-type(4n)) {
 		margin-right: calc((100vw - 30vw) * 0.03);
@@ -45,10 +48,19 @@ export const ListsStyle = styled.div`
 		margin-right: 0;
 	}
 
+	// 14
+	@media screen and (max-width: 1512px) {
+		> div:not(:nth-of-type(3n)) {
+			margin-right: calc((100vw - 30vw) * 0.04);
+		}
+		> div:nth-of-type(3n) {
+			margin-right: 0;
+		}
+	}
 	// Tablet
 	@media screen and (max-width: 980px) {
 		> div:not(:nth-of-type(2n)) {
-			margin-right: calc((100vw - 200px) * 0.06);
+			margin-right: calc((100vw - 160px) * 0.06);
 		}
 		> div:nth-of-type(2n) {
 			margin-right: 0;

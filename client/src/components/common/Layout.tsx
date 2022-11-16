@@ -25,10 +25,10 @@ const MainWrapper = styled.div`
 
 	// Tablet
 	@media screen and (max-width: 980px) {
-		margin: 40px 100px;
+		margin: 40px 80px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		margin: 40px 50px;
+		margin: 40px;
 	}
 `;
