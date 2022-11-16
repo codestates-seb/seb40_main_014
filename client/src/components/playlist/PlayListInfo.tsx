@@ -8,12 +8,10 @@ const PlayListInfo = ({ playListInfo }: PlayListInfoProps) => {
 	return (
 		<PlayListInfoStyle>
 			<div className="info">
-				<AlbumImage>
-					<img
-						src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
-						alt="플레이리스트 이미지"
-					/>
-				</AlbumImage>
+				<img
+					src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
+					alt="플레이리스트 이미지"
+				/>
 				<Info>
 					<div className="title">
 						{playListInfo.title}
@@ -22,20 +20,14 @@ const PlayListInfo = ({ playListInfo }: PlayListInfoProps) => {
 						</Category>
 					</div>
 					<div className="options">
-						<div className="author">
-							<img
-								src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
-								alt="{playListInfo.author}"
-							/>
-							{playListInfo.author}
-						</div>
-						<div>
-							<FaHeart color="red" size="24" />
-							{playListInfo.like}
-						</div>
-						<div>
-							<BookMark />
-						</div>
+						<img
+							src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
+							alt={playListInfo.author}
+						/>
+						<div>{playListInfo.author}</div>
+						<FaHeart color="#f783ac" size="24" />
+						<div>{playListInfo.like}</div>
+						<BookMark />
 					</div>
 				</Info>
 			</div>
@@ -51,28 +43,23 @@ const PlayListInfoStyle = styled.div`
 	flex-direction: column;
 	.info {
 		display: flex;
+		justify-content: center;
+
+		img {
+			width: 25%;
+			object-fit: cover;
+			margin-right: 10%;
+		}
 	}
 	.total {
-		font-size: ${(props) => props.theme.fontSize.medium};
+		font-size: ${(props) => props.theme.fontSize.large};
 		color: ${(props) => props.theme.colors.purple};
-		margin-top: 10px;
-		margin-bottom: 10px;
-	}
-`;
-const AlbumImage = styled.div`
-	flex: 4;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	img {
-		max-width: 300px;
-		max-height: 300px;
+		margin-top: 20px;
+		margin-bottom: 20px;
 	}
 `;
 const Info = styled.div`
 	padding-left: 30px;
-	flex: 6;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -80,20 +67,20 @@ const Info = styled.div`
 		font-size: ${(props) => props.theme.fontSize.medium};
 	}
 	.title {
+		font-size: ${(props) => props.theme.fontSize.large};
 	}
 	.options {
 		display: flex;
 		align-items: center;
-
-		div {
-			margin-right: 20px;
+		img {
+			width: 25px;
+			margin: 0 5px;
+			border-radius: 50%;
+			object-fit: cover;
 		}
-		.author {
-			img {
-				margin: 0 5px;
-				max-width: 30px;
-				max-height: 30px;
-			}
+		div {
+			margin-left: 5px;
+			margin-right: 20px;
 		}
 	}
 `;

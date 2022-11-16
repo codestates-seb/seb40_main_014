@@ -11,6 +11,8 @@ const PlayListDetail = lazy(() => import('../pages/PlayListDetail'));
 const RoomList = lazy(() => import('../pages/RoomList'));
 const Ranking = lazy(() => import('../pages/Ranking'));
 const PlayListModify = lazy(() => import('../pages/PlayListModify'));
+const Mypage = lazy(() => import('../pages/Mypage'));
+const PlayListCollection = lazy(() => import('../pages/PlayListCollection'));
 
 const AppRouter = () => {
 	return (
@@ -25,6 +27,11 @@ const AppRouter = () => {
 						<Route path="/playlistmodify" element={<PlayListModify />} />
 						<Route path="/modal" element={<Modaltest />} />
 						<Route path="/room" element={<Room />} />
+						<Route path="/mypage" element={<Mypage />} />
+						<Route
+							path="/playlistcollection"
+							element={<PlayListCollection />}
+						/>
 					</Route>
 					<Route path="*" element={<Navigate to="/" replace />} />
 				</Routes>

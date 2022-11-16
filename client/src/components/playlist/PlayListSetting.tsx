@@ -1,14 +1,20 @@
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { DefaultButton } from '../common/Button';
 import Toggle from '../common/Toggle';
 
-const PlayListSetting = ({ changeTitle, changeCategory }) => {
+type Props = {
+	setPlTitle?: Dispatch<SetStateAction<string>>;
+	setPlCategory?: Dispatch<SetStateAction<string>>;
+};
+
+const PlayListSetting = ({ setPlTitle, setPlCategory }: Props) => {
 	return (
 		<PlayListSettingStyle>
-			<div>플레이 리트 제목</div>
+			<div>플레이리스트 제목</div>
 			<div className="row">
 				<div className="left">
-					<input onChange={changeTitle} />
+					<input onChange={(e) => setPlTitle(e.target.value)} />
 				</div>
 				<div className="rigth">
 					공개
@@ -19,7 +25,7 @@ const PlayListSetting = ({ changeTitle, changeCategory }) => {
 			<div>카테고리</div>
 			<div className="row">
 				<div className="left">
-					<input onChange={changeCategory} />
+					<input onChange={(e) => setPlCategory(e.target.value)} />
 				</div>
 				<div className="rigth"></div>
 			</div>
@@ -29,7 +35,7 @@ const PlayListSetting = ({ changeTitle, changeCategory }) => {
 					<input />
 				</div>
 				<div className="rigth">
-					<DefaultButton fontSize="var(--medium)">추가</DefaultButton>
+					<DefaultButton>추가</DefaultButton>
 				</div>
 			</div>
 		</PlayListSettingStyle>
@@ -41,6 +47,7 @@ export default PlayListSetting;
 const PlayListSettingStyle = styled.div`
 	div {
 		font-size: ${(props) => props.theme.fontSize.medium};
+		font-weight: 700;
 		margin: 10px 0;
 	}
 	.row {
@@ -49,15 +56,17 @@ const PlayListSettingStyle = styled.div`
 	.left {
 		flex: 7;
 		input {
+			padding: 20px;
 			width: 95%;
 			height: 40px;
-			border: 1px solid gray;
-			border-radius: ${(props) => props.theme.radius.largeRadius};
+			border: 1px solid ${(props) => props.theme.colors.gray400};
+			border-radius: ${(props) => props.theme.radius.smallRadius};
 		}
 	}
 	.rigth {
 		flex: 3;
 		display: flex;
 		align-items: center;
+		font-weight: 400;
 	}
 `;

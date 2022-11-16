@@ -19,7 +19,7 @@ export type PlayListInfoProps = {
 };
 
 const PlayListDetail = () => {
-	const [playListInfo, setPlayListInfo] = useState<plinfo>();
+	const [playListInfo, setPlayListInfo] = useState();
 
 	useEffect(() => {
 		getPlayList().then((res) => {
@@ -45,7 +45,6 @@ const PlayListDetail = () => {
 export default PlayListDetail;
 
 const PlayListDetailStyle = styled.div`
-	margin: 3%;
 	display: flex;
 	flex-direction: column;
 `;

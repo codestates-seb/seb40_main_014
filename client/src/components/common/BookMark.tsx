@@ -9,7 +9,7 @@ const BookMark = () => {
 	return (
 		<>
 			{save ? (
-				<BsBookmarksFill color="green" onClick={changeBookMark} size="24" />
+				<BsBookmarksFill color="#40c057" onClick={changeBookMark} size="24" />
 			) : (
 				<BsBookmarks onClick={changeBookMark} size="24" />
 			)}

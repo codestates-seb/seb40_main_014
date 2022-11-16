@@ -19,13 +19,12 @@ export default Toggle;
 
 const ToggleBtn = styled.button<{ toggle: boolean }>`
 	margin: 0 10px;
-	width: 100px;
-	height: 40px;
+	min-width: 70px;
+	height: 30px;
 	border-radius: 30px;
-	border: 1px solid gray;
 	cursor: pointer;
 	background-color: ${(props) =>
-		!props.toggle ? 'none' : props.theme.colors.purple};
+		!props.toggle ? props.theme.colors.gray400 : props.theme.colors.purple};
 	position: relative;
 	display: flex;
 	justify-content: center;
@@ -34,11 +33,11 @@ const ToggleBtn = styled.button<{ toggle: boolean }>`
 `;
 const Circle = styled.div<{ toggle: boolean }>`
 	background-color: white;
-	width: 33px;
-	height: 33px;
+	width: 24px;
+	height: 24px;
 	border-radius: 50px;
 	position: absolute;
 	left: 5%;
-	transform: ${(props) => (props.toggle ? 'translate(55px, 0)' : 'none')};
+	transform: ${(props) => (props.toggle ? 'translate(38px, 0)' : 'none')};
 	transition: all 0.5s ease-in-out;
 `;
