@@ -23,16 +23,16 @@ const initialState: InitialState = {
 	rank: 1,
 };
 
-const userSlice = createSlice({
-	name: 'user',
+const mySlice = createSlice({
+	name: 'my',
 	initialState,
 	reducers: {
-		userInfo: (state, action) => {
+		myInfo: (state, action) => {
 			state = action.payload;
 		},
 	},
 });
 
-export default userSlice.reducer;
-export const { userInfo } = userSlice.actions;
-export const user = (state: RootState) => state.user;
+export default mySlice.reducer;
+export const { myInfo } = mySlice.actions;
+export const my = (state: RootState) => state.my;

@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
-import { login } from '../../api/authApi';
 import { getUserInfo } from '../../api/userApi';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { userInfo } from '../../slices/userSlice';
+import { myInfo } from '../../slices/mySlice';
+import { login } from '../../api/authApi';
 
 type LoginModalType = {
 	handleOpenModal: () => void;
@@ -25,7 +25,7 @@ function LoginModal({ handleOpenModal }: LoginModalType) {
 			})
 			.finally(() => {
 				getUserInfo({ memberId }).then((res) => {
-					console.log('getUserInfo res', res);
+					console.log('getMyInfo res', res);
 					// {
 					// 	memberId: 1,
 					// 	follow: 10,
@@ -37,7 +37,7 @@ function LoginModal({ handleOpenModal }: LoginModalType) {
 					// 	rank: 1,
 					// }
 
-					dispatch(userInfo(res));
+					dispatch(myInfo(res));
 				});
 			});
 	};
