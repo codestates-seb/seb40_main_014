@@ -92,7 +92,7 @@ const HeaderStyle = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 17px 300px;
+	padding: 17px 15vw;
 	background-color: ${(props) => props.theme.colors.headerBackground};
 	font-size: 18px;
 	z-index: 9999;
@@ -106,11 +106,11 @@ const HeaderStyle = styled.div`
 
 	// Tablet
 	@media screen and (max-width: 980px) {
-		padding: 20px 60px;
+		padding: 20px 100px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		padding: 20px 40px;
+		padding: 20px 50px;
 		font-size: ${(props) => props.theme.fontSize.medium};
 		z-index: 9999;
 

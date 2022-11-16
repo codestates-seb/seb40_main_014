@@ -37,4 +37,27 @@ export const H2 = styled.h2`
 export const ListsStyle = styled.div`
 	display: flex;
 	flex-wrap: wrap;
+
+	> div:not(:nth-of-type(4n)) {
+		margin-right: calc((100vw - 30vw) * 0.03);
+	}
+	> div:nth-of-type(4n) {
+		margin-right: 0;
+	}
+
+	// Tablet
+	@media screen and (max-width: 980px) {
+		> div:not(:nth-of-type(2n)) {
+			margin-right: calc((100vw - 200px) * 0.06);
+		}
+		> div:nth-of-type(2n) {
+			margin-right: 0;
+		}
+	}
+	// Mobile
+	@media screen and (max-width: 640px) {
+		> div {
+			margin-right: 0 !important;
+		}
+	}
 `;

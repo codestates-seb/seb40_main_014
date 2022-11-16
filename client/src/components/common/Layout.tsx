@@ -20,14 +20,15 @@ function Layout() {
 export default Layout;
 
 const MainWrapper = styled.div`
-	margin: 40px 300px;
+	/* margin: 40px 300px !important; */
+	margin: 40px 15vw;
 
 	// Tablet
 	@media screen and (max-width: 980px) {
-		margin: 40px 60px;
+		margin: 40px 100px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		margin: 40px;
+		margin: 40px 50px;
 	}
 `;

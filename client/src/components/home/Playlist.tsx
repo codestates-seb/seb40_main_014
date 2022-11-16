@@ -57,13 +57,25 @@ function Playlist({ playlist }: PlaylistType) {
 export default Playlist;
 
 const PlaylistStyle = styled.div`
+	width: calc((100vw - 30vw) * 0.225);
 	position: relative;
-	margin: 0 30px 30px 0;
+	margin-bottom: calc((100vw - 30vw) * 0.03);
 	padding: 20px;
 	/* background-color: ${(props) => props.theme.colors.gray50}; */
 	border-radius: ${(props) => props.theme.radius.smallRadius};
 	box-shadow: 1px 1px 10px #4d0bd120;
 	z-index: 1111;
+
+	// Tablet
+	@media screen and (max-width: 980px) {
+		width: calc((100vw - 200px) * 0.47);
+		margin-bottom: calc((100vw - 200px) * 0.06);
+	}
+	// Mobile
+	@media screen and (max-width: 640px) {
+		width: 100%;
+		margin-bottom: 30px;
+	}
 `;
 
 const Backdrop = styled.div`
@@ -74,7 +86,8 @@ const Backdrop = styled.div`
 	left: 0;
 	top: 0;
 	text-align: center;
-	background-color: #4d0bd183;
+	background-color: #4d0bd16e;
+	/* background-color: #0000002c; */
 	border-radius: ${(props) => props.theme.radius.smallRadius};
 	z-index: 1111;
 
@@ -96,7 +109,7 @@ const Thumbnail = styled.div`
 	}
 
 	img {
-		width: 200px;
+		width: 100%;
 		border-radius: ${(props) => props.theme.radius.smallRadius};
 	}
 `;
