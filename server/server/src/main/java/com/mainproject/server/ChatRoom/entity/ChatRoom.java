@@ -23,8 +23,9 @@ public class ChatRoom extends Auditable {
     @OneToMany(mappedBy = "chatRoom")
     private List<Playlist> playlistList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "chatRoom")
-    private List<Member> memberList = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -67,7 +68,7 @@ public class ChatRoom extends Auditable {
 
         if (chatMessage.getType().equals(ChatMessage.MessageType.ENTER)) {
             sessions.add(session);
-            chatMessage.setMessage(chatMessage.getMember() + "님이 입장했습니다.");
+            chatMessage.setMessage(chatMessage.getMemberId() + "님이 입장했습니다.");
         }
         sendMessage(chatMessage, chatService);
     }

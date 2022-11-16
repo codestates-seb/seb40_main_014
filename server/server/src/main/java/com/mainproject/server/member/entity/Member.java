@@ -1,5 +1,6 @@
 package com.mainproject.server.member.entity;
 
+import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.auditable.Auditable;
 import com.mainproject.server.playlist.entity.Playlist;
@@ -17,13 +18,6 @@ import java.util.List;
 @Setter
 @Entity
 public class Member extends Auditable {
-
-    @OneToMany(mappedBy = "member")
-    private List<Playlist> playlistList = new ArrayList<>();
-
-    @ManyToOne
-    @JoinColumn(name = "room_id")
-    private ChatRoom chatRoom;
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -65,6 +59,9 @@ public class Member extends Auditable {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Follow> follows  = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<ChatMessage> messages  = new ArrayList<>();
 
 //    public Member update(String name, String picture) {
 //        this.name = name;

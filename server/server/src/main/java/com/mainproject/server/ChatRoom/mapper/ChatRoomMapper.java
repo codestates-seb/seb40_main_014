@@ -27,14 +27,14 @@ public class ChatRoomMapper {
         return chatRoom;
     }
 
-    public ChatRoomDto.Count chatRoomCountDtoToChatRoom(ChatRoom chatRoom) {
-        Long memberId = chatRoom.getMemberId();
-        ChatRoomDto.Count countDto = new ChatRoomDto.Count(
-        chatRoom.getMemberList().size(),
-        chatRoom.setTitle(ch.getTitle());
-        chatRoom.setContent(chatRoomPatchDto.getContent());
-        chatRoom.setPwd(chatRoomPatchDto.getPwd()));
-
-        );
-    }
+//    public ChatRoomDto.Count chatRoomCountDtoToChatRoom(ChatRoom chatRoom) {
+//        Long memberId = chatRoom.getMemberId();
+//        ChatRoomDto.Count countDto = new ChatRoomDto.Count(
+//        chatRoom.getMemberList().size(),
+//        chatRoom.setTitle(ch.getTitle());
+//        chatRoom.setContent(chatRoomPatchDto.getContent());
+//        chatRoom.setPwd(chatRoomPatchDto.getPwd()));
+//
+//        );
+//    }
 }

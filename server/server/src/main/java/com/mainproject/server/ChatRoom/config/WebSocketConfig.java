@@ -1,6 +1,7 @@
 package com.mainproject.server.ChatRoom.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -19,6 +20,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 
-        registry.addHandler(webSocketHandler, "ws/chat").setAllowedOrigins("*");
+        registry.addHandler(webSocketHandler, "/chat").setAllowedOriginPatterns("*");
+        // url : ws://localhost:8080/chat
     }
+
 }

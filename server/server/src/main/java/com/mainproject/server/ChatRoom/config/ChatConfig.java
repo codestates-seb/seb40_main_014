@@ -12,14 +12,14 @@ public class ChatConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/stomp")
-                .setAllowedOrigins("*") // stomp 접속 url
+        registry.addEndpoint("/ws") // apic 접속 url ->  ws://localhost:8080/ws
+                .setAllowedOriginPatterns("*")
                 .withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/sub"); //message 받을때
-        registry.setApplicationDestinationPrefixes("/pub"); //message 보낼때
+        registry.enableSimpleBroker("/sub"); //message 받을때 subscriber
+        registry.setApplicationDestinationPrefixes("/pub"); //message 보낼때 publisher
     }
 }

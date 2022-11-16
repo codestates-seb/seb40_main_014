@@ -1,8 +1,11 @@
 package com.mainproject.server.ChatRoom.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mainproject.server.ChatRoom.dto.ChatRoomCountDto;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
+import com.mainproject.server.member.dto.MemberResponseDto;
+import com.mainproject.server.member.mapper.MemberMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +21,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Getter
@@ -27,6 +31,7 @@ public class ChatService {
 
     private final ObjectMapper objectMapper;
     private final ChatRoomRepository chatRoomRepository;
+    private final MemberMapper memberMapper;
 
     public ChatRoom createRoom(ChatRoom chatRoom) {
 
@@ -66,24 +71,38 @@ public class ChatService {
     }
 
 
+    //MessageType : ENTER
+    public int plusMemCount(String roomId) {
+        ChatRoomCountDto chatRoom = new ChatRoomCountDto();
+        chatRoom.getMemberList().stream()
+                        .map(MemberResponseDto::getMemberId)
+                                .collect(Collectors.toList());
+        return chatRoom.getMemberList().size() + 1;
 
-//    private Map<String, ChatRoomCountDto> chatRoomMap;
-//
-//    //MessageType : ENTER
-//    public void plusMemCount(String roomId) {
-//        ChatRoomCountDto countRoom = chatRoomMap.get(roomId);
-//        countRoom.setMemCount(countRoom.getMemCount()+1);
-//        chatRoomRepository.save();
-//    }
-//
-//    //MessageType : LEAVE
-//    public void minusMemCount(String roomId) {
-//        ChatRoomCountDto countRoom = chatRoomMap.get(roomId);
-//        countRoom.setMemCount(countRoom.getMemCount()-1);
-//    }
-//    public String addMem(String roomId, Member member) {
-//
-//    }
+    }
+
+    //MessageType : LEAVE
+    public int minusMemCount(String roomId) {
+        ChatRoomCountDto chatRoom = new ChatRoomCountDto();
+        chatRoom.getMemberList().stream()
+                .map(MemberResponseDto::getMemberId)
+                .collect(Collectors.toList());
+        return chatRoom.getMemberList().size() - 1;
+
+    }
+    public void addMem(String roomId) {
+        ChatRoom chatRoom = new ChatRoom();
+        chatRoom.setRoomId(roomId);
+        chatRoom.setMemberId(chatRoom.getMemberId());
+        chatRoomRepository.save(chatRoom);
+    }
+
+    // 채팅방 memName 조회
+    public Long getMemId(String roomId) {
+        ChatRoomCountDto chatRoom = new ChatRoomCountDto();
+        chatRoom.setRoomId(roomId);
+        return chatRoom.getMemberId();
+    }
     public <T> void sendMessage(WebSocketSession session, T message) {
         try {
             session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));

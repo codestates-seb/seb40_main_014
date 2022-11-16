@@ -1,7 +1,7 @@
 package com.mainproject.server.ChatRoom.dto;
 
-import com.mainproject.server.member.dto.MemberDto;
-import com.mainproject.server.member.entity.Member;
+import com.mainproject.server.member.dto.MemberPostDto;
+import com.mainproject.server.member.dto.MemberResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,5 +15,6 @@ public class ChatRoomCountDto {
     private String content;
     private String pwd;
     private boolean secret;
-    private List<MemberDto> memCount;
+    private List<MemberResponseDto> memCount;
+    private List<MemberResponseDto> memberList;
 }
