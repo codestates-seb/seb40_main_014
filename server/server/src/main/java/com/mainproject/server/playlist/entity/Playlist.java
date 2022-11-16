@@ -1,5 +1,6 @@
 package com.mainproject.server.playlist.entity;
 
+import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.auditable.Auditable;
 import com.mainproject.server.member.entity.Member;
 import lombok.Getter;
@@ -23,9 +24,9 @@ public class Playlist extends Auditable {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    //@ManyToOne
-    //@JoinColumn(name = "room_id")
-    //private Room room;
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private ChatRoom chatRoom;
 
     @Column(nullable = false, updatable = true, unique = false)
     private String title;

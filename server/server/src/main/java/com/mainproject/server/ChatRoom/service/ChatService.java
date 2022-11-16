@@ -1,12 +1,18 @@
 package com.mainproject.server.ChatRoom.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mainproject.server.ChatRoom.dto.ChatRoomCountDto;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
+import com.mainproject.server.member.dto.MemberResponseDto;
+import com.mainproject.server.member.mapper.MemberMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.NoSuchMessageException;
+import org.springframework.data.domain.Page;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -15,6 +21,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Getter
@@ -24,13 +31,9 @@ public class ChatService {
 
     private final ObjectMapper objectMapper;
     private final ChatRoomRepository chatRoomRepository;
+    private final MemberMapper memberMapper;
 
-//    @PostConstruct
-//    private void init() {
-//        chatRooms = new LinkedHashMap<>();
-//    }
-
-    public ChatRoom creatRoom(ChatRoom chatRoom) {
+    public ChatRoom createRoom(ChatRoom chatRoom) {
 
         String randomId = UUID.randomUUID().toString();
         chatRoom.setRoomId(randomId);
@@ -67,6 +70,39 @@ public class ChatService {
         return findVerifiedRoomId(roomId);
     }
 
+
+    //MessageType : ENTER
+    public int plusMemCount(String roomId) {
+        ChatRoomCountDto chatRoom = new ChatRoomCountDto();
+        chatRoom.getMemberList().stream()
+                        .map(MemberResponseDto::getMemberId)
+                                .collect(Collectors.toList());
+        return chatRoom.getMemberList().size() + 1;
+
+    }
+
+    //MessageType : LEAVE
+    public int minusMemCount(String roomId) {
+        ChatRoomCountDto chatRoom = new ChatRoomCountDto();
+        chatRoom.getMemberList().stream()
+                .map(MemberResponseDto::getMemberId)
+                .collect(Collectors.toList());
+        return chatRoom.getMemberList().size() - 1;
+
+    }
+    public void addMem(String roomId) {
+        ChatRoom chatRoom = new ChatRoom();
+        chatRoom.setRoomId(roomId);
+        chatRoom.setMemberId(chatRoom.getMemberId());
+        chatRoomRepository.save(chatRoom);
+    }
+
+    // 채팅방 memName 조회
+    public Long getMemId(String roomId) {
+        ChatRoomCountDto chatRoom = new ChatRoomCountDto();
+        chatRoom.setRoomId(roomId);
+        return chatRoom.getMemberId();
+    }
     public <T> void sendMessage(WebSocketSession session, T message) {
         try {
             session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
@@ -83,6 +119,12 @@ public class ChatService {
         ChatRoom findChatRoom =
                 optionalChatRoom.orElseThrow(() -> new NoSuchMessageException("채팅방을 찾을 수 없습니다."));
         return findChatRoom;
+    }
+
+    public Page<ChatRoom> searchChatRooms(int page, int size, String tab, String q) {
+        if (tab.equals("popular")) tab = "chatroom.memberCount";
+        Page<ChatRoom> chatRooms = chatRoomRepository.findByTitleContaining(q, PageRequest.of(page, size));
+        return chatRooms;
     }
 
     public void deleteChatRoom(String roomId) {

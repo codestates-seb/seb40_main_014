@@ -18,7 +18,7 @@ public class WebSecurityConfigurerAdapter extends org.springframework.security.c
                 .and()
                 .authorizeRequests()
                 .antMatchers("/", "/css/**", "images/**", "/js/**", "/h2/***").permitAll()
-                .antMatchers("/api/**").permitAll()
+                .antMatchers("/api/**", "/ws/**", "/rooms/**", "/room/**", "/chat/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
