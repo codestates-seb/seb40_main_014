@@ -19,11 +19,29 @@ function Header() {
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
 
+	const profileRef = useRef<HTMLDivElement>(null);
+	const profileUlRef = useRef<HTMLUListElement>(null);
+
 	const { name } = useSelector(myValue);
 
 	const [isOpenModal, setOpenModal] = useState(false);
 	const [isOpenSide, setOpenSide] = useState(false);
 	const [currentMenu, setCurrentMenu] = useState('');
+
+	const handleOpenProfileUl = ({ target }) => {
+		if (profileRef.current.contains(target)) {
+			profileUlRef.current.style.display = 'block';
+		} else {
+			profileUlRef.current.style.display = 'none';
+		}
+	};
+
+	useEffect(() => {
+		window.addEventListener('mouseover', handleOpenProfileUl);
+		return () => {
+			window.removeEventListener('mouseover', handleOpenProfileUl);
+		};
+	});
 
 	// 로그아웃
 	const handleLogout = () => {
@@ -74,12 +92,12 @@ function Header() {
 				)}
 				{name ? (
 					<>
-						<Profile>
+						<Profile ref={profileRef}>
 							<Img>
 								<img src={ProfileImg} alt="profile" />
 							</Img>
 							<div className="on-pc">{name}</div>
-							<ProfileUl>
+							<ProfileUl ref={profileUlRef}>
 								<Triangle>
 									<BsFillTriangleFill />
 								</Triangle>
@@ -226,7 +244,7 @@ const Img = styled.div`
 `;
 
 const ProfileUl = styled.ul`
-	/* display: none; */
+	display: none;
 	position: absolute;
 	top: 50px;
 	left: -30px;
@@ -253,8 +271,8 @@ const ProfileUl = styled.ul`
 	@media screen and (max-width: 640px) {
 		top: 47px;
 		left: -54px;
-		padding: 15px;
-		width: 132px;
+		padding: 17px;
+		width: 135px;
 		font-size: ${(props) => props.theme.fontSize.small};
 	}
 `;
@@ -263,6 +281,7 @@ const Triangle = styled.div`
 	position: absolute;
 	top: -15px;
 	left: 63px;
+	width: 150px;
 	color: ${(props) => props.theme.colors.background};
 	font-size: ${(props) => props.theme.fontSize.small};
 
@@ -274,6 +293,7 @@ const Triangle = styled.div`
 	@media screen and (max-width: 640px) {
 		top: -14px;
 		left: 57px;
+		width: 135px;
 	}
 `;
 
