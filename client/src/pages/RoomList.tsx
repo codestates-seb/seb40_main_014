@@ -15,9 +15,9 @@ function RoomList() {
 			</ButtonWrapper>
 			<H2>방 Top 8</H2>
 			<H2>최신 방</H2>
-			<ListsStyle>
+			<ListStyle>
 				<Room />
-			</ListsStyle>
+			</ListStyle>
 		</>
 	);
 }
@@ -36,7 +36,7 @@ export const H2 = styled.h2`
 	font-weight: 500;
 `;
 
-export const ListsStyle = styled.div`
+export const ListStyle = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	z-index: 1111;
