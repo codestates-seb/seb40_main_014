@@ -3,15 +3,13 @@ import styled from 'styled-components';
 const ChatContainer = styled.div`
 	margin: 10px;
 	padding: 10px;
-	border-bottom: 1px solid ${(props) => props.theme.colors.gray200};
+	border: 2px solid ${(props) => props.theme.colors.gray200};
 	border-radius: ${(props) => props.theme.radius.largeRadius};
-	background: linear-gradient(0deg, #fff 0%, #f2e5fd 100%);
 	box-shadow: 0px 2px 2px 0px #f2e5fd;
 `;
 const ChatUser = styled.div`
 	font-size: ${(props) => props.theme.fontSize.xSmall};
 	margin-bottom: 15px;
-	/* color: #711abd; */
 	color: ${(props) => props.theme.colors.purple};
 	font-weight: 700;
 `;

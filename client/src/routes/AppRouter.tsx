@@ -26,12 +26,13 @@ const AppRouter = () => {
 						<Route path="/playlistdetail" element={<PlayListDetail />} />
 						<Route path="/playlistmodify" element={<PlayListModify />} />
 						<Route path="/modal" element={<Modaltest />} />
-						<Route path="/room" element={<Room />} />
 						<Route path="/mypage" element={<Mypage />} />
 						<Route
 							path="/playlistcollection"
 							element={<PlayListCollection />}
 						/>
+
+						<Route path="/rooms/:id" element={<Room />} />
 					</Route>
 					<Route path="*" element={<Navigate to="/" replace />} />
 				</Routes>

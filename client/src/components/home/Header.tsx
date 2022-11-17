@@ -9,7 +9,8 @@ import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
 
 function Header() {
 	const { pathname } = useLocation();
-
+	const [position, setPosition] = useState('fixed');
+	const location = useLocation();
 	const [isOpenModal, setOpenModal] = useState(false);
 	const [currentMenu, setCurrentMenu] = useState('');
 
@@ -28,9 +29,17 @@ function Header() {
 		else setCurrentMenu(pathname.slice(1));
 	}, [pathname]);
 
+	useEffect(() => {
+		if (location.pathname.slice(0, 6) === '/rooms') {
+			setPosition('relative');
+		} else {
+			setPosition('fixed');
+		}
+	});
+
 	return (
 		<>
-			<HeaderStyle>
+			<HeaderStyle position={position}>
 				<Logo>
 					<Link to="/">
 						<img src={LogoImg} alt="logo" />
@@ -70,9 +79,9 @@ function Header() {
 
 export default Header;
 
-const HeaderStyle = styled.div`
-	/* position: relative; */
-	position: fixed;
+const HeaderStyle = styled.div<{ position: string }>`
+	position: ${(props) =>
+		props.position === 'relative' ? 'relative' : 'fixed'};
 	top: 0;
 	width: 100vw;
 	display: flex;

@@ -1,101 +1,150 @@
 {
-	"playlist": {
-		"title": "플리 타이틀",
-		"category": "힙합",
-		"author": "moon",
-		"like": 13,
-		"desc": "설명",
-		"total": 3,
-		"musiclist": [
-			{ "id": 1, "name": "1111111" },
-			{ "id": 2, "name": "2222222" },
-			{ "id": 3, "name": "33333333" }
-		]
-	},
-	"playlists": [
-		{
-			"playlistId": 1,
-			"title": "신나는 음악1",
-			"status": "public",
-			"videoId": [
-				"https: //youtu.be/V3km0CcYma4",
-				"https: //youtu.be/DFH2NpzgQ2E"
-			],
-			"category": ["발라드", "힙합", "OST"],
-			"like": 35,
-			"createdAt": "생성시간",
-			"modifiedAt": "수정시간",
-			"name": "플리 만든사람"
-		},
-		{
-			"playlistId": 2,
-			"title": "신나는 음악2",
-			"status": "private",
-			"videoId": [
-				"https: //youtu.be/V3km0CcYma4",
-				"https: //youtu.be/DFH2NpzgQ2E"
-			],
-			"category": ["발라드", "힙합", "OST"],
-			"like": 35,
-			"createdAt": "생성시간",
-			"modifiedAt": "수정시간",
-			"name": "플리 만든사람"
-		},
-		{
-			"playlistId": 3,
-			"title": "신나는 음악3",
-			"status": "private",
-			"videoId": [
-				"https: //youtu.be/V3km0CcYma4",
-				"https: //youtu.be/DFH2NpzgQ2E"
-			],
-			"category": ["발라드", "힙합", "OST"],
-			"like": 35,
-			"createdAt": "생성시간",
-			"modifiedAt": "수정시간",
-			"name": "플리 만든사람"
-		},
-		{
-			"playlistId": 4,
-			"title": "신나는 음악4",
-			"status": "private",
-			"videoId": [
-				"https: //youtu.be/V3km0CcYma4",
-				"https: //youtu.be/DFH2NpzgQ2E"
-			],
-			"category": ["발라드", "힙합", "OST"],
-			"like": 35,
-			"createdAt": "생성시간",
-			"modifiedAt": "수정시간",
-			"name": "플리 만든사람"
-		},
-		{
-			"playlistId": 5,
-			"title": "신나는 음악5",
-			"status": "private",
-			"videoId": [
-				"https: //youtu.be/V3km0CcYma4",
-				"https: //youtu.be/DFH2NpzgQ2E"
-			],
-			"category": ["발라드", "힙합", "OST"],
-			"like": 35,
-			"createdAt": "생성시간",
-			"modifiedAt": "수정시간",
-			"name": "플리 만든사람"
-		},
-		{
-			"playlistId": 6,
-			"title": "신나는 음악6",
-			"status": "private",
-			"videoId": [
-				"https: //youtu.be/V3km0CcYma4",
-				"https: //youtu.be/DFH2NpzgQ2E"
-			],
-			"category": ["발라드", "힙합", "OST"],
-			"like": 35,
-			"createdAt": "생성시간",
-			"modifiedAt": "수정시간",
-			"name": "플리 만든사람"
-		}
-	]
+  "playlist": {
+    "title": "플리 타이틀",
+    "category": "힙합",
+    "author": "moon",
+    "like": 13,
+    "desc": "설명",
+    "total": 3,
+    "musiclist": [
+      {
+        "id": 1,
+        "name": "1111111"
+      },
+      {
+        "id": 2,
+        "name": "2222222"
+      },
+      {
+        "id": 3,
+        "name": "33333333"
+      }
+    ]
+  },
+  "playlists": [
+    {
+      "playlistId": 1,
+      "title": "신나는 음악1",
+      "status": "public",
+      "videoId": [
+        "https: //youtu.be/V3km0CcYma4",
+        "https: //youtu.be/DFH2NpzgQ2E"
+      ],
+      "category": [
+        "발라드",
+        "힙합",
+        "OST"
+      ],
+      "like": 35,
+      "createdAt": "생성시간",
+      "modifiedAt": "수정시간",
+      "name": "플리 만든사람"
+    },
+    {
+      "playlistId": 2,
+      "title": "신나는 음악2",
+      "status": "private",
+      "videoId": [
+        "https: //youtu.be/V3km0CcYma4",
+        "https: //youtu.be/DFH2NpzgQ2E"
+      ],
+      "category": [
+        "발라드",
+        "힙합",
+        "OST"
+      ],
+      "like": 35,
+      "createdAt": "생성시간",
+      "modifiedAt": "수정시간",
+      "name": "플리 만든사람"
+    },
+    {
+      "playlistId": 3,
+      "title": "신나는 음악3",
+      "status": "private",
+      "videoId": [
+        "https: //youtu.be/V3km0CcYma4",
+        "https: //youtu.be/DFH2NpzgQ2E"
+      ],
+      "category": [
+        "발라드",
+        "힙합",
+        "OST"
+      ],
+      "like": 35,
+      "createdAt": "생성시간",
+      "modifiedAt": "수정시간",
+      "name": "플리 만든사람"
+    },
+    {
+      "playlistId": 4,
+      "title": "신나는 음악4",
+      "status": "private",
+      "videoId": [
+        "https: //youtu.be/V3km0CcYma4",
+        "https: //youtu.be/DFH2NpzgQ2E"
+      ],
+      "category": [
+        "발라드",
+        "힙합",
+        "OST"
+      ],
+      "like": 35,
+      "createdAt": "생성시간",
+      "modifiedAt": "수정시간",
+      "name": "플리 만든사람"
+    },
+    {
+      "playlistId": 5,
+      "title": "신나는 음악5",
+      "status": "private",
+      "videoId": [
+        "https: //youtu.be/V3km0CcYma4",
+        "https: //youtu.be/DFH2NpzgQ2E"
+      ],
+      "category": [
+        "발라드",
+        "힙합",
+        "OST"
+      ],
+      "like": 35,
+      "createdAt": "생성시간",
+      "modifiedAt": "수정시간",
+      "name": "플리 만든사람"
+    },
+    {
+      "playlistId": 6,
+      "title": "신나는 음악6",
+      "status": "private",
+      "videoId": [
+        "https: //youtu.be/V3km0CcYma4",
+        "https: //youtu.be/DFH2NpzgQ2E"
+      ],
+      "category": [
+        "발라드",
+        "힙합",
+        "OST"
+      ],
+      "like": 35,
+      "createdAt": "생성시간",
+      "modifiedAt": "수정시간",
+      "name": "플리 만든사람"
+    }
+  ],
+  "rooms": [
+    {
+      "id": 1,
+      "title": "방제목1",
+      "password": "",
+      "playlist": "플리제목1",
+      "people": "총인원수"
+    },
+    {
+      "title": "왜안지워져",
+      "playlist": "??",
+      "people": "1",
+      "thumbnail": "/static/media/thumbnail.15e29d7cf0897e24c057.png",
+      "id": 2
+    }
+  ]
 }
