@@ -27,22 +27,22 @@ const initialStateValue: InitialStateValue = {
 	rank: 0,
 };
 
-const initialState: InitialState = {
-	value: {
-		memberId: 1,
-		follow: 10,
-		like: 10,
-		name: '닉네임',
-		createdAt: '회원 생성 시간',
-		modifiedAt: '회원 수정 시간',
-		grade: 'LUVIP',
-		rank: 1,
-	},
-};
-
 // const initialState: InitialState = {
-// 	value: initialStateValue,
+// 	value: {
+// 		memberId: 1,
+// 		follow: 10,
+// 		like: 10,
+// 		name: '닉네임',
+// 		createdAt: '회원 생성 시간',
+// 		modifiedAt: '회원 수정 시간',
+// 		grade: 'LUVIP',
+// 		rank: 1,
+// 	},
 // };
+
+const initialState: InitialState = {
+	value: initialStateValue,
+};
 
 const mySlice = createSlice({
 	name: 'my',

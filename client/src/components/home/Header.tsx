@@ -30,16 +30,15 @@ function Header() {
 
 	// 로그아웃
 	const handleLogout = () => {
-		// logout().then((res) => {
-		// 	console.log('logout res', res);
-
-		// 	localStorage.removeItem('accessToken');
-		// 	dispatch(myLogout());
-		// 	navigate('/');
-		// });
-		localStorage.removeItem('accessToken');
-		dispatch(myLogout());
-		navigate('/');
+		logout().then((res) => {
+			console.log('logout res', res);
+			localStorage.removeItem('accessToken');
+			dispatch(myLogout());
+			navigate('/');
+		});
+		// localStorage.removeItem('accessToken');
+		// dispatch(myLogout());
+		// navigate('/');
 	};
 
 	const handleOpenModal = useCallback(() => {
@@ -51,10 +50,12 @@ function Header() {
 	}, [isOpenSide]);
 
 	const handleOpenProfileUl = ({ target }) => {
+		if (!profileRef.current) return;
+
 		if (profileRef.current.contains(target)) {
 			profileUlRef.current.style.display = 'block';
 		} else {
-			// profileUlRef.current.style.display = 'none';
+			profileUlRef.current.style.display = 'none';
 		}
 	};
 
@@ -244,7 +245,7 @@ const Img = styled.div`
 `;
 
 const ProfileUl = styled.ul`
-	/* display: none; */
+	display: none;
 	position: absolute;
 	top: 50px;
 	left: -30px;
@@ -270,7 +271,7 @@ const ProfileUl = styled.ul`
 	// Mobile
 	@media screen and (max-width: 640px) {
 		top: 46px;
-		left: -54px;
+		left: -52px;
 		padding: 17px;
 		width: 135px;
 		font-size: ${(props) => props.theme.fontSize.small};
@@ -279,9 +280,9 @@ const ProfileUl = styled.ul`
 
 const Triangle = styled.div`
 	position: absolute;
-	top: -15px;
-	left: 63px;
-	width: 150px;
+	top: -12px;
+	left: 0;
+	padding: 0 68px;
 	color: ${(props) => props.theme.colors.background};
 	font-size: ${(props) => props.theme.fontSize.small};
 
@@ -291,9 +292,8 @@ const Triangle = styled.div`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		top: -14px;
-		left: 57px;
-		width: 135px;
+		top: -10px;
+		padding: 0 60.5px;
 	}
 `;
 
@@ -301,4 +301,9 @@ const MyPageLink = styled.div``;
 
 const LogoutButton = styled.button`
 	margin-top: 8px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		margin-top: 6px;
+	}
 `;
