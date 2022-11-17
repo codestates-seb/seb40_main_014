@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const root = process.env.REACT_APP_STACK_SERVER;
+import instance, { root } from './root';
 
 export const login = async () => {
 	try {
@@ -8,6 +7,16 @@ export const login = async () => {
 
 		const accessToken = result.headers.authorization;
 		localStorage.setItem('accessToken', accessToken);
+
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
+
+export const logout = async () => {
+	try {
+		const result = await instance.post('/api/members/logout');
 
 		return result.data;
 	} catch (err) {

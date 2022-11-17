@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // const root: string | undefined = process.env.REACT_APP_STACK_SERVER_TEST;
-const root = process.env.REACT_APP_STACK_SERVER;
+export const root = process.env.REACT_APP_STACK_SERVER;
 
 type config = {
 	headers: object;

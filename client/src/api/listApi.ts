@@ -10,7 +10,7 @@ export const getPlayList = async () => {
 	}
 };
 
-export const getPlayLists = async () => {
+export const getPlaylists = async () => {
 	try {
 		//test
 		const result = await instance.get('/playlists');

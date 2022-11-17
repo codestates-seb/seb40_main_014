@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImg from '../../assets/images/header-logo.png';
 import { useCallback, useState, useEffect } from 'react';
@@ -6,14 +6,24 @@ import LoginModal, { Backdrop } from './LoginModal';
 import PcUl from './PcUl';
 import MobileUl from './MobileUl';
 import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
+import { myLogout, myValue } from '../../slices/mySlice';
+import { logout } from '../../api/authApi';
 
 function Header() {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const { pathname } = useLocation();
 
-	const [isOpenModal, setOpenModal] = useState(false);
-	const [currentMenu, setCurrentMenu] = useState('');
+	const { name } = useSelector(myValue);
 
+	useEffect(() => {
+		console.log('#1', name);
+	}, [name]);
+
+	const [isOpenModal, setOpenModal] = useState(false);
 	const [isOpenSide, setOpenSide] = useState(false);
+	const [currentMenu, setCurrentMenu] = useState('');
 
 	const handleOpenModal = useCallback(() => {
 		setOpenModal(!isOpenModal);
@@ -22,6 +32,17 @@ function Header() {
 	const handleOpenSide = useCallback(() => {
 		setOpenSide(!isOpenSide);
 	}, [isOpenSide]);
+
+	const handleLogout = () => {
+		// logout().then((res) => {
+		// 	console.log('logout res', res);
+
+		// 	dispatch(mylogout());
+		// });
+		localStorage.removeItem('accessToken');
+		dispatch(myLogout());
+		navigate('/');
+	};
 
 	useEffect(() => {
 		if (pathname === '/') setCurrentMenu('room');
@@ -48,9 +69,13 @@ function Header() {
 						/>
 					</div>
 				)}
-				<LoginButton onClick={handleOpenModal} className="on-pc">
-					로그인
-				</LoginButton>
+				{name ? (
+					<LoginButton onClick={handleLogout}>로그아웃</LoginButton>
+				) : (
+					<LoginButton onClick={handleOpenModal} className="on-pc">
+						로그인
+					</LoginButton>
+				)}
 				<Hambuger className="on-mobile" onClick={handleOpenSide}>
 					{isOpenSide ? <RiMenuUnfoldLine /> : <RiMenuFoldLine />}
 				</Hambuger>
