@@ -1,7 +1,7 @@
 package com.mainproject.server.member.service;
 
-import com.mainproject.server.config.auth.dto.OAuthAttributes;
-import com.mainproject.server.config.auth.dto.SessionMember;
+import com.mainproject.server.auth.dto.OAuthAttributes;
+import com.mainproject.server.auth.dto.SessionMember;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
