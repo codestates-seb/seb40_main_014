@@ -21,16 +21,9 @@ const PlayListModify = () => {
 		playListInfo,
 	};
 
-	const changeTitle = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		setPlTitle(e.target.value);
-	};
-	const changeCategory = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		setPlCategory(e.target.value);
-	};
-
-	const settingProps: any = {
-		changeTitle,
-		changeCategory,
+	const settingProps = {
+		setPlTitle,
+		setPlCategory,
 	};
 	return (
 		<PlayListModifyStyle>
@@ -48,7 +41,6 @@ const PlayListModify = () => {
 export default PlayListModify;
 
 const PlayListModifyStyle = styled.div`
-	margin: 3%;
 	display: flex;
 	flex-direction: column;
 `;
