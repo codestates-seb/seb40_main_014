@@ -28,21 +28,6 @@ function Header() {
 	const [isOpenSide, setOpenSide] = useState(false);
 	const [currentMenu, setCurrentMenu] = useState('');
 
-	const handleOpenProfileUl = ({ target }) => {
-		if (profileRef.current.contains(target)) {
-			profileUlRef.current.style.display = 'block';
-		} else {
-			profileUlRef.current.style.display = 'none';
-		}
-	};
-
-	useEffect(() => {
-		window.addEventListener('mouseover', handleOpenProfileUl);
-		return () => {
-			window.removeEventListener('mouseover', handleOpenProfileUl);
-		};
-	});
-
 	// 로그아웃
 	const handleLogout = () => {
 		// logout().then((res) => {
@@ -65,10 +50,25 @@ function Header() {
 		setOpenSide(!isOpenSide);
 	}, [isOpenSide]);
 
+	const handleOpenProfileUl = ({ target }) => {
+		if (profileRef.current.contains(target)) {
+			profileUlRef.current.style.display = 'block';
+		} else {
+			profileUlRef.current.style.display = 'none';
+		}
+	};
+
 	useEffect(() => {
 		if (pathname === '/') setCurrentMenu('room');
 		else setCurrentMenu(pathname.slice(1));
 	}, [pathname]);
+
+	useEffect(() => {
+		window.addEventListener('mouseover', handleOpenProfileUl);
+		return () => {
+			window.removeEventListener('mouseover', handleOpenProfileUl);
+		};
+	});
 
 	return (
 		<>
