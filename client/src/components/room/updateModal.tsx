@@ -54,29 +54,28 @@ export const ExitBtn = styled.button`
 	font-size: ${(props) => props.theme.fontSize.medium};
 `;
 
-const CreateModal = ({ modalOpen, setModalOpen }) => {
+const UpdateRoomModal = ({ modalOpen, setModalOpen }) => {
 	const onClick = () => {
 		setModalOpen(!modalOpen);
 	};
 
-	return (
-		<>
-			<ModalOverlay></ModalOverlay>
-			<ModalContaincer>
-				<ModalHeader>
-					<HeaderContent>
-						<div>방 만들기</div>
-					</HeaderContent>
-					<HeaderContent>
-						<ExitBtn onClick={onClick}>
-							<ImExit />
-						</ExitBtn>
-					</HeaderContent>
-				</ModalHeader>
-				<RoomCreateForm />
-			</ModalContaincer>
-		</>
-	);
+	return null;
+	// <>
+	// 	<ModalOverlay></ModalOverlay>
+	// 	<ModalContaincer>
+	// 		<ModalHeader>
+	// 			<HeaderContent>
+	// 				<div>방 수정하기</div>
+	// 			</HeaderContent>
+	// 			<HeaderContent>
+	// 				<ExitBtn onClick={onClick}>
+	// 					<ImExit />
+	// 				</ExitBtn>
+	// 			</HeaderContent>
+	// 		</ModalHeader>
+	// 		<RoomCreateForm />
+	// 	</ModalContaincer>
+	// </>
 };
 
-export default CreateModal;
+export default UpdateRoomModal;
