@@ -54,7 +54,7 @@ function Header() {
 		if (profileRef.current.contains(target)) {
 			profileUlRef.current.style.display = 'block';
 		} else {
-			profileUlRef.current.style.display = 'none';
+			// profileUlRef.current.style.display = 'none';
 		}
 	};
 
@@ -244,7 +244,7 @@ const Img = styled.div`
 `;
 
 const ProfileUl = styled.ul`
-	display: none;
+	/* display: none; */
 	position: absolute;
 	top: 50px;
 	left: -30px;
@@ -269,7 +269,7 @@ const ProfileUl = styled.ul`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		top: 47px;
+		top: 46px;
 		left: -54px;
 		padding: 17px;
 		width: 135px;
