@@ -1,14 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { getRooms } from '../api/listApi';
 import { DefaultButton } from '../components/common/Button';
 import Room from '../components/home/Room';
 import CreateModal from '../components/room/createModal';
 
+export type RoomInfoType = {
+	roomId: 1;
+	member: HostType;
+	title: string;
+	content: string;
+	onair: string;
+	pwd: string;
+	secret: boolean;
+	category: string[];
+	createdAt: string;
+	modifiedAt: string;
+	curMember: number;
+	totalMember: number;
+};
+
+export type HostType = {
+	memberId: number;
+	playlistId: number;
+	name: string;
+	roles: string;
+	grade: string;
+};
+
 function RoomList() {
+	const [rooms, setRooms] = useState([]);
 	const [modalOpen, setModalOpen] = useState(false);
+
 	const modalClose = () => {
 		setModalOpen(!modalOpen);
 	};
+
+	useEffect(() => {
+		getRooms().then((res) => {
+			// console.log('#1', res);
+			setRooms(res);
+		});
+	}, []);
+
 	return (
 		<>
 			<ButtonWrapper>
@@ -26,7 +60,11 @@ function RoomList() {
 			<H2>방 Top 8</H2>
 			<H2>최신 방</H2>
 			<ListStyle>
-				<Room />
+				{rooms.length
+					? rooms.map((room: RoomInfoType) => (
+							<Room room={room} key={room.roomId} />
+					  ))
+					: null}
 			</ListStyle>
 		</>
 	);

@@ -20,3 +20,14 @@ export const getPlaylists = async () => {
 		return err;
 	}
 };
+
+export const getRooms = async () => {
+	try {
+		//test
+		const result = await instance.get('/roomss');
+
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};

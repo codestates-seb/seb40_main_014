@@ -56,7 +56,7 @@ function Playlist({ playlist }: PlaylistType) {
 
 export default Playlist;
 
-const PlaylistStyle = styled.div`
+export const PlaylistStyle = styled.div`
 	width: calc((100vw - 30vw) * 0.225);
 	margin-bottom: calc((100vw - 30vw) * 0.03);
 	padding: 7px;
@@ -82,7 +82,7 @@ const PlaylistStyle = styled.div`
 	}
 `;
 
-const Backdrop = styled.div`
+export const Backdrop = styled.div`
 	display: none;
 	width: 100%;
 	height: 100%;
@@ -102,7 +102,7 @@ const Backdrop = styled.div`
 	}
 `;
 
-const Thumbnail = styled.div`
+export const Thumbnail = styled.div`
 	position: relative;
 	margin-bottom: 15px;
 	cursor: pointer;
@@ -119,7 +119,7 @@ const Thumbnail = styled.div`
 	}
 `;
 
-const Title = styled.h3`
+export const Title = styled.h3`
 	display: inline-block;
 	margin-bottom: 10px;
 	font-weight: 700;
@@ -131,19 +131,19 @@ const Title = styled.h3`
 	}
 `;
 
-const Name = styled.h4`
+export const Name = styled.h4`
 	font-size: ${(props) => props.theme.fontSize.small};
 	color: ${(props) => props.theme.colors.gray500};
 	margin-bottom: 15px;
 `;
 
-const Detail = styled.div`
+export const Detail = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 `;
 
-const Categorys = styled.div``;
+export const Categorys = styled.div``;
 
 const Like = styled.button`
 	> *:first-of-type {

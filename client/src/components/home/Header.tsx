@@ -101,7 +101,7 @@ function Header() {
 						/>
 					</div>
 				)}
-				{name ? (
+				{name !== '' && name !== 'AxiosError' ? (
 					<>
 						<Profile ref={profileRef}>
 							<Img>
