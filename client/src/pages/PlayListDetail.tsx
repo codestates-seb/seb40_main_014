@@ -1,21 +1,23 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getPlayList } from '../api/listApi';
 import MusicList, { music } from '../components/playlist/MusicList';
 import PlayListInfo from '../components/playlist/PlayListInfo';
+import { musicInfoType } from './MakePlayList';
 
 export type plinfo = {
+	memberId: string;
 	title: string;
-	category: string;
-	author: string;
-	like: number;
-	desc: string;
-	total: number;
-	musiclist: Array<music>;
+	playlist: Array<musicInfoType>;
+	categoryList: Array<string>;
+	public: boolean;
+	like?: number;
 };
 
 export type PlayListInfoProps = {
 	playListInfo?: plinfo;
+	plList?: Array<musicInfoType>;
+	setPlList?: Dispatch<SetStateAction<Array<musicInfoType>>>;
 };
 
 const PlayListDetail = () => {
