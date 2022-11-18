@@ -9,18 +9,17 @@ import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { myLogout, myValue } from '../../slices/mySlice';
 import { logout } from '../../api/authApi';
-import ProfileImg from '../../assets/images/profile.jpg';
 import { BiUser } from 'react-icons/bi';
 import { MdLogout } from 'react-icons/md';
 import { BsFillTriangleFill } from 'react-icons/bs';
 
 function Header() {
-	const { name } = useSelector(myValue);
-
 	const dispatch = useDispatch();
+
+	const { name, picture } = useSelector(myValue);
+
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
-	const location = useLocation();
 
 	const profileRef = useRef<HTMLDivElement>(null);
 	const profileUlRef = useRef<HTMLUListElement>(null);
@@ -35,12 +34,10 @@ function Header() {
 		logout().then((res) => {
 			console.log('logout res', res);
 			localStorage.removeItem('accessToken');
+			localStorage.removeItem('refreshToken');
 			dispatch(myLogout());
 			navigate('/');
 		});
-		// localStorage.removeItem('accessToken');
-		// dispatch(myLogout());
-		// navigate('/');
 	};
 
 	const handleOpenModal = useCallback(() => {
@@ -74,7 +71,7 @@ function Header() {
 	});
 
 	useEffect(() => {
-		if (location.pathname.slice(0, 6) === '/rooms') {
+		if (pathname.slice(0, 6) === '/rooms') {
 			setPosition('relative');
 		} else {
 			setPosition('fixed');
@@ -104,8 +101,16 @@ function Header() {
 				{name !== '' && name !== 'AxiosError' ? (
 					<>
 						<Profile ref={profileRef}>
-							<Img>
-								<img src={ProfileImg} alt="profile" />
+							<Img
+								style={{ background: `url(${picture.replace('96', '32')})` }}>
+								{/* <div
+									style={{
+										width: '32px',
+										height: '32px',
+										borderRadius: '32px',
+										background: `url(${picture.replace('96', '32')})`,
+									}}
+								/> */}
 							</Img>
 							<div className="on-pc">{name}</div>
 							<ProfileUl ref={profileUlRef}>
@@ -189,9 +194,9 @@ const HeaderStyle = styled.div<{ position: string }>`
 `;
 
 const Logo = styled.div`
+	width: 110px;
 	img {
-		width: 110px;
-		border-radius: 50%;
+		width: 100%;
 	}
 `;
 
@@ -238,27 +243,17 @@ const Profile = styled.div`
 `;
 
 const Img = styled.div`
-	width: 35px;
-	border-radius: 50%;
-	overflow: hidden;
+	width: 30px;
+	height: 31px;
+	border-radius: 31px;
 	margin-right: 15px;
-
-	img {
-		width: 100%;
-		height: 100%;
-	}
-
-	// Mobile
-	@media screen and (max-width: 640px) {
-		width: 30px;
-	}
 `;
 
 const ProfileUl = styled.ul`
 	display: none;
 	position: absolute;
 	top: 50px;
-	left: -30px;
+	left: -11px;
 	padding: 20px;
 	width: 150px;
 	background-color: ${(props) => props.theme.colors.background};
@@ -290,9 +285,9 @@ const ProfileUl = styled.ul`
 
 const Triangle = styled.div`
 	position: absolute;
-	top: -12px;
+	top: -26px;
 	left: 0;
-	padding: 0 68px;
+	padding: 15px 68px 0 68px;
 	color: ${(props) => props.theme.colors.background};
 	font-size: ${(props) => props.theme.fontSize.small};
 
@@ -302,8 +297,8 @@ const Triangle = styled.div`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		top: -10px;
-		padding: 0 60.5px;
+		top: -24px;
+		padding: 15px 60.5px 0 60.5px;
 	}
 `;
 

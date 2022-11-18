@@ -10,6 +10,7 @@ type InitialStateValue = {
 	modifiedAt: string;
 	grade: string;
 	rank: number;
+	picture: string;
 };
 
 type InitialState = {
@@ -25,6 +26,7 @@ const initialStateValue: InitialStateValue = {
 	modifiedAt: '',
 	grade: '',
 	rank: 0,
+	picture: '',
 };
 
 // const initialState: InitialState = {

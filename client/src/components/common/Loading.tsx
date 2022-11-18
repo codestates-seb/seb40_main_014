@@ -29,8 +29,8 @@ const Background = styled.div`
 `;
 
 const LottieContainer = styled.div`
-	width: 150px;
-	height: 150px;
+	width: 140px;
+	height: 140px;
 	margin: 0 auto;
 	position: absolute;
 	z-index: 1000;

@@ -4,7 +4,9 @@ import { getUserInfo } from '../../api/userApi';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { myInfo } from '../../slices/mySlice';
-import { login } from '../../api/authApi';
+// import { login } from '../../api/authApi';
+import { root } from '../../api/root';
+import { Link } from 'react-router-dom';
 
 type LoginModalType = {
 	handleOpenModal: () => void;
@@ -15,39 +17,41 @@ function LoginModal({ handleOpenModal }: LoginModalType) {
 
 	const [memberId, setMemberId] = useState();
 
-	const onSubmit = () => {
-		login()
-			.then((res) => {
-				console.log('login res', res);
-				// { memberId: 1 }
+	// const onSubmit = () => {
+	// 	login()
+	// 		.then((res) => {
+	// 			console.log('login res', res);
+	// 			// { memberId: 1 }
 
-				setMemberId(res.memberId);
-			})
-			.finally(() => {
-				getUserInfo({ memberId }).then((res) => {
-					console.log('getMyInfo res', res);
-					// {
-					// 	memberId: 1,
-					// 	follow: 10,
-					// 	like: 10,
-					// 	name: 'nickname',
-					// 	createdAt: '회원 생성 시간',
-					// 	modifiedAt: '회원 수정 시간',
-					// 	grade: 'LUVIP',
-					// 	rank: 1,
-					// }
+	// 			setMemberId(res.memberId);
+	// 		})
+	// 		.finally(() => {
+	// 			getUserInfo({ memberId }).then((res) => {
+	// 				console.log('getMyInfo res', res);
+	// 				// {
+	// 				// 	memberId: 1,
+	// 				// 	follow: 10,
+	// 				// 	like: 10,
+	// 				// 	name: 'nickname',
+	// 				// 	createdAt: '회원 생성 시간',
+	// 				// 	modifiedAt: '회원 수정 시간',
+	// 				// 	grade: 'LUVIP',
+	// 				// 	rank: 1,
+	// 				// }
 
-					dispatch(myInfo(res));
-				});
-			});
-	};
+	// 				dispatch(myInfo(res));
+	// 			});
+	// 		});
+	// };
 
 	return (
 		<LoginModalStyle>
 			<WhiteBox>
 				<H2>로그인</H2>
-				<GoogleLogin onClick={onSubmit}>
-					<FcGoogle className="google-icon" /> 구글로 로그인하기
+				<GoogleLogin>
+					<a href={`${root}/login/oauth2/code/google`}>
+						<FcGoogle className="google-icon" /> 구글로 로그인하기
+					</a>
 				</GoogleLogin>
 			</WhiteBox>
 			<Backdrop
@@ -111,11 +115,6 @@ const H2 = styled.h2`
 `;
 
 const GoogleLogin = styled.button`
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 15px 85px;
-	width: 100%;
 	background-color: ${(props) => props.theme.colors.white};
 	border: 1.5px solid ${(props) => props.theme.colors.gray300};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
@@ -126,18 +125,37 @@ const GoogleLogin = styled.button`
 		background-color: ${(props) => props.theme.colors.gray50};
 	}
 
+	> a {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 15px 85px;
+		width: 100%;
+	}
+
 	.google-icon {
 		font-size: 30px;
+		margin-right: 20px;
 	}
 
 	// Tablet
 	@media screen and (max-width: 980px) {
-		padding: 15px 55px;
+		> a {
+			padding: 15px 55px;
+		}
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		padding: 13px 35px;
 		font-size: ${(props) => props.theme.fontSize.medium};
+
+		> a {
+			padding: 13px 35px;
+		}
+
+		.google-icon {
+			font-size: 26px;
+			margin-right: 15px;
+		}
 	}
 `;
 

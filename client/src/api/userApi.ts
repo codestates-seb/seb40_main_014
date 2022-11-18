@@ -1,6 +1,6 @@
 import instance from './root';
 
-export const getUserInfo = async ({ memberId }) => {
+export const getUserInfo = async (memberId: number) => {
 	try {
 		const result = await instance.get(`/api/members/${memberId}`);
 
