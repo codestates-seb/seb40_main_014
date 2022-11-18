@@ -63,5 +63,7 @@ instance.interceptors.response.use(
 );
 
 instance.defaults.withCredentials = true; // withCredentials 전역 설정
+// youtube api 에서 withCredentials = true 하면 cors에 막힘
+// instance.defaults.withCredentials = true; // withCredentials 전역 설정
 
 export default instance;

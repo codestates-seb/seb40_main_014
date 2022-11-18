@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 
-const Toggle = () => {
-	const [toggle, setToggle] = useState<boolean>(false);
+type ToggleType = {
+	state: boolean;
+	setState: Dispatch<SetStateAction<boolean>>;
+};
+const Toggle = (props: ToggleType) => {
 	const clickedToggle = () => {
-		setToggle((prev) => !prev);
+		props.setState((prev) => !prev);
 	};
 	return (
 		<>
-			<ToggleBtn onClick={clickedToggle} toggle={toggle}>
-				<Circle toggle={toggle} />
+			<ToggleBtn onClick={clickedToggle} toggle={props.state}>
+				<Circle toggle={props.state} />
 			</ToggleBtn>
 		</>
 	);

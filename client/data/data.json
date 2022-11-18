@@ -1,25 +1,40 @@
 {
 	"playlist": {
-		"title": "플리 타이틀",
-		"category": "힙합",
-		"author": "moon",
-		"like": 13,
-		"desc": "설명",
-		"total": 3,
-		"musiclist": [
+		"memberId": "moon",
+		"title": "공부 할때~공부 할때~공부 할때~공부 할때~공부 할때~공부 할때~공부 할때~공부 할때~공부 할때~공부 할때~공부 할때~공부 할",
+		"playlist": [
 			{
-				"id": 1,
-				"name": "1111111"
+				"vedioId": "Ai94UyJX5gE",
+				"url": "https://www.youtube.com/watch?v=Ai94UyJX5gE",
+				"channelTitle": "Yerin Baek",
+				"title": "백예린 (Yerin Baek) '그럴때마다' Lyric Video",
+				"thumbnail": "https://i.ytimg.com/vi/Ai94UyJX5gE/hqdefault.jpg"
 			},
 			{
-				"id": 2,
-				"name": "2222222"
+				"vedioId": "iAeeTin1uCA",
+				"url": "https://www.youtube.com/watch?v=iAeeTin1uCA",
+				"channelTitle": "Music is my life",
+				"title": "백예린 - 산책 / 가사",
+				"thumbnail": "https://i.ytimg.com/vi/iAeeTin1uCA/hqdefault.jpg"
 			},
 			{
-				"id": 3,
-				"name": "33333333"
+				"vedioId": "QGgKZlTsriM",
+				"url": "https://www.youtube.com/watch?v=QGgKZlTsriM",
+				"channelTitle": "Yerin Baek",
+				"title": "백예린 (Yerin Baek) '돌아가자' Lyric Video",
+				"thumbnail": "https://i.ytimg.com/vi/QGgKZlTsriM/hqdefault.jpg"
+			},
+			{
+				"vedioId": "Vg0foqYOOt8",
+				"url": "https://www.youtube.com/watch?v=Vg0foqYOOt8",
+				"channelTitle": "Yerin Baek",
+				"title": "백예린 (Yerin Baek) '한계' Lyric Video",
+				"thumbnail": "https://i.ytimg.com/vi/Vg0foqYOOt8/hqdefault.jpg"
 			}
-		]
+		],
+		"categoryList": ["발라드", "OST"],
+		"public": true,
+		"like": 13
 	},
 	"playlists": [
 		{
