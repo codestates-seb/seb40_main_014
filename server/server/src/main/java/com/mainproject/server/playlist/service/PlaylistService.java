@@ -8,6 +8,9 @@ import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.entity.Playlist;
 import com.mainproject.server.playlist.repository.PlaylistRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -52,6 +55,13 @@ public class PlaylistService {
     }
 
     //전체 조회
+    public Page<Playlist> findPlList(int page, int size) {
+
+        Page<Playlist> findAllPlaylist = playlistRepository.findAll(
+                PageRequest.of(page, size, Sort.by("playlistId").descending()));
+
+        return findAllPlaylist;
+    }
 
 
 
@@ -69,6 +79,13 @@ public class PlaylistService {
                 .orElseThrow(() -> new BusinessException(ExceptionCode.PLAYLIST_NOT_EXIST));
 
         return findPlaylist;
+    }
+
+    //플리가 아예없을때
+    private void verifiedNoPlaylist(Page<Playlist> findAllPlaylist) {
+        if (findAllPlaylist.getTotalElements()==0) {
+            throw new BusinessException(ExceptionCode.PLAYLIST_NOT_EXIST);
+        }
     }
 
     //존재하는 회원인지 검증

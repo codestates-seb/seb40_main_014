@@ -21,12 +21,12 @@ public class PlaylistResponseDto {
 
     private String videoId;
 
+    private String thumbnail;
+
     private String category;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
-
-//    private List<PlaylistResponseDto> playlistList;
 
 }
