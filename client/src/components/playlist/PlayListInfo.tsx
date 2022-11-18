@@ -51,6 +51,10 @@ const PlayListInfoStyle = styled.div`
 	.info {
 		display: flex;
 		justify-content: center;
+		@media (max-width: 850px) {
+			flex-direction: column;
+			align-items: center;
+		}
 	}
 	.total {
 		font-size: ${(props) => props.theme.fontSize.large};
@@ -63,12 +67,28 @@ const Img = styled.span`
 	img {
 		width: 350px;
 		object-fit: cover;
+		@media (max-width: 850px) {
+			margin-bottom: 10px;
+		}
+		@media (max-width: 550px) {
+			width: 300px;
+		}
 	}
 `;
 const Info = styled.div`
 	width: 500px;
 	margin-left: 3%;
-	padding-left: 30px;
+	@media (max-width: 850px) {
+		width: 400px;
+		margin-left: 0;
+
+		div {
+			margin-bottom: 10px;
+		}
+	}
+	@media (max-width: 550px) {
+		width: 300px;
+	}
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;

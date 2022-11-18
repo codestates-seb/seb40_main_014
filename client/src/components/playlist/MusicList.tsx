@@ -37,7 +37,7 @@ const MusicList = ({ playListInfo, plList, setPlList }: PlayListInfoProps) => {
 									<img src={ele.thumbnail} alt="thumbnail" />
 								</span>
 								<span className="title">{ele.title}</span>
-								<span className="channelTitle">by {ele.channelTitle}</span>
+								<span className="channelTitle">{ele.channelTitle}</span>
 							</div>
 							<div className="rigth"></div>
 						</Music>
@@ -68,7 +68,7 @@ const MusicList = ({ playListInfo, plList, setPlList }: PlayListInfoProps) => {
 															</span>
 															<span className="title">{title}</span>
 															<span className="channelTitle">
-																by {channelTitle}
+																{channelTitle}
 															</span>
 														</div>
 														<div className="rigth">
@@ -137,11 +137,17 @@ const Music = styled.div<{ pathname: string }>`
 	}
 	.thumbnail {
 		flex: 0.7;
+		@media (max-width: 800px) {
+			flex: 2;
+		}
 	}
 	.title {
 		flex: 7.3;
 		line-height: 1.3;
 		height: 1.3em;
+		@media (max-width: 800px) {
+			flex: 6;
+		}
 	}
 	.channelTitle {
 		flex: 2;

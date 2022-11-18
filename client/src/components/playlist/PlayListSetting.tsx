@@ -157,6 +157,9 @@ const PlayListSettingStyle = styled.div`
 	}
 	.row {
 		display: flex;
+		@media (max-width: 800px) {
+			flex-direction: column;
+		}
 	}
 	.left {
 		flex: 7;
