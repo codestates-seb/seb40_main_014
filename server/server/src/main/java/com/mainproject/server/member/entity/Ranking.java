@@ -21,6 +21,6 @@ public class Ranking {
     @Column
     private Integer rank = 0;
 
-    @OneToOne(mappedBy = "ranking", cascade = CascadeType.ALL)
-    private Member member;
+//    @OneToOne(mappedBy = "ranking", cascade = CascadeType.ALL)
+//    private Member member;
 }

@@ -1,6 +1,5 @@
 package com.mainproject.server.member.entity;
 
-import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.auditable.Auditable;
 import com.mainproject.server.playlist.entity.Playlist;
@@ -35,8 +34,11 @@ public class Member extends Auditable {
     @Column
     private String grade = "silver";
 
-    @OneToOne
-    private Ranking ranking;
+//    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+//    private Ranking ranking;
+
+    @Column
+    private String ranking = "unranked";
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -57,11 +59,8 @@ public class Member extends Auditable {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ChatRoom> chatRooms = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Follow> follows  = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<ChatMessage> messages  = new ArrayList<>();
 
 //    public Member update(String name, String picture) {
 //        this.name = name;
