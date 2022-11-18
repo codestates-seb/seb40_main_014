@@ -1,17 +1,27 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { DefaultButton } from '../components/common/Button';
 import Room from '../components/home/Room';
+import CreateModal from '../components/room/createModal';
 
 function RoomList() {
+	const [modalOpen, setModalOpen] = useState(false);
+	const modalClose = () => {
+		setModalOpen(!modalOpen);
+	};
 	return (
 		<>
 			<ButtonWrapper>
-				<Link to="/addPlaylist">
-					<DefaultButton fontSize="16px" width="105px" height="42px">
-						방 만들기
-					</DefaultButton>
-				</Link>
+				<DefaultButton
+					fontSize="16px"
+					width="105px"
+					height="42px"
+					onClick={modalClose}>
+					방 만들기
+				</DefaultButton>
+				{modalOpen && (
+					<CreateModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+				)}
 			</ButtonWrapper>
 			<H2>방 Top 8</H2>
 			<H2>최신 방</H2>

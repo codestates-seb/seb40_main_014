@@ -13,6 +13,8 @@ const GlobalStyle = createGlobalStyle`
     background-color: ${(props) => props.theme.colors.background};
     font-family: 'Noto Sans KR', sans-serif;
     color: ${(props) => props.theme.colors.gray900};
+
+   
   }
 
   button {

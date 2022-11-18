@@ -15,15 +15,17 @@ import { MdLogout } from 'react-icons/md';
 import { BsFillTriangleFill } from 'react-icons/bs';
 
 function Header() {
+	const { name } = useSelector(myValue);
+
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
+	const location = useLocation();
 
 	const profileRef = useRef<HTMLDivElement>(null);
 	const profileUlRef = useRef<HTMLUListElement>(null);
 
-	const { name } = useSelector(myValue);
-
+	const [position, setPosition] = useState('fixed');
 	const [isOpenModal, setOpenModal] = useState(false);
 	const [isOpenSide, setOpenSide] = useState(false);
 	const [currentMenu, setCurrentMenu] = useState('');
@@ -71,9 +73,17 @@ function Header() {
 		};
 	});
 
+	useEffect(() => {
+		if (location.pathname.slice(0, 6) === '/rooms') {
+			setPosition('relative');
+		} else {
+			setPosition('fixed');
+		}
+	});
+
 	return (
 		<>
-			<HeaderStyle>
+			<HeaderStyle position={position}>
 				<Logo>
 					<Link to="/">
 						<img src={LogoImg} alt="logo" />
@@ -139,9 +149,9 @@ function Header() {
 
 export default Header;
 
-const HeaderStyle = styled.div`
-	/* position: relative; */
-	position: fixed;
+const HeaderStyle = styled.div<{ position: string }>`
+	position: ${(props) =>
+		props.position === 'relative' ? 'relative' : 'fixed'};
 	top: 0;
 	width: 100vw;
 	display: flex;

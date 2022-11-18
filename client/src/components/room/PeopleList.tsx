@@ -14,8 +14,25 @@ const PeopleContainer = styled.div`
 	height: 110px;
 	border-radius: 0px 0px ${(props) => props.theme.radius.largeRadius} 10px;
 	padding: 10px;
-	overflow: scroll;
+	overflow-y: scroll;
 	font-size: ${(props) => props.theme.fontSize.xSmall};
+
+	:hover {
+		::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		::-webkit-scrollbar-thumb {
+			height: 30%;
+			background: ${(props) => props.theme.colors.gray300};
+
+			border-radius: 10px;
+		}
+
+		::-webkit-scrollbar-track {
+			background: rgba(33, 122, 244, 0.1);
+		}
+	}
 `;
 
 const Person = styled.div`

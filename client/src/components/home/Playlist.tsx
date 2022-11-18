@@ -29,13 +29,13 @@ function Playlist({ playlist }: PlaylistType) {
 		<PlaylistStyle>
 			<Thumbnail>
 				<img src={ThumbnailImg} alt="thumbnail" />
-				<Backdrop>
-					<Link to={`/playlist/${playlistId}`}>
-						<div>자세히 보기</div>
-					</Link>
-				</Backdrop>
+				<Link to={`/playlist/${playlistId}`}>
+					<Backdrop />
+				</Link>
 			</Thumbnail>
-			<Title>{title}</Title>
+			<Title>
+				<Link to={`/playlist/${playlistId}`}>{title}</Link>
+			</Title>
 			<Name>{name}</Name>
 			<Detail>
 				<Categorys>
@@ -58,12 +58,11 @@ export default Playlist;
 
 const PlaylistStyle = styled.div`
 	width: calc((100vw - 30vw) * 0.225);
-	position: relative;
 	margin-bottom: calc((100vw - 30vw) * 0.03);
-	padding: 20px;
-	background-color: ${(props) => props.theme.colors.gray50};
-	border-radius: ${(props) => props.theme.radius.smallRadius};
-	box-shadow: 1px 1px 10px #4d0bd133;
+	padding: 7px;
+	/* background-color: ${(props) => props.theme.colors.gray50}; */
+	/* border-radius: ${(props) => props.theme.radius.smallRadius}; */
+	/* box-shadow: 1px 1px 10px #4d0bd133; */
 	z-index: 1111;
 
 	// 14
@@ -92,7 +91,7 @@ const Backdrop = styled.div`
 	top: 0;
 	text-align: center;
 	/* background-color: #4d0bd16e; */
-	background-color: #00000040;
+	background-color: #ffffff3b;
 	border-radius: ${(props) => props.theme.radius.smallRadius};
 	z-index: 1111;
 
@@ -104,7 +103,8 @@ const Backdrop = styled.div`
 `;
 
 const Thumbnail = styled.div`
-	margin-bottom: 20px;
+	position: relative;
+	margin-bottom: 15px;
 	cursor: pointer;
 
 	&:hover {
@@ -120,13 +120,21 @@ const Thumbnail = styled.div`
 `;
 
 const Title = styled.h3`
+	display: inline-block;
 	margin-bottom: 10px;
+	font-weight: 700;
+	font-size: 18px;
+	cursor: pointer;
+
+	&:hover {
+		color: ${(props) => props.theme.colors.gray600};
+	}
 `;
 
 const Name = styled.h4`
 	font-size: ${(props) => props.theme.fontSize.small};
-	color: ${(props) => props.theme.colors.gray400};
-	margin-bottom: 20px;
+	color: ${(props) => props.theme.colors.gray500};
+	margin-bottom: 15px;
 `;
 
 const Detail = styled.div`
@@ -139,7 +147,7 @@ const Categorys = styled.div``;
 
 const Like = styled.button`
 	> *:first-of-type {
-		margin-right: 5px;
+		margin-right: 4px;
 		font-size: 18px;
 	}
 	display: flex;
