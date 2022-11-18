@@ -13,7 +13,7 @@ const CplayList = ({ playlist }: CplayListProps) => {
 	return (
 		<CplayListStyle>
 			<div className="top">
-				<DefaultButton onClick={() => navigate('/playlistmodify')}>
+				<DefaultButton onClick={() => navigate('/makeplaylist/modify')}>
 					수정
 				</DefaultButton>
 				<Deletebutton>삭제</Deletebutton>

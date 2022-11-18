@@ -22,7 +22,7 @@ const MypageContents = ({ title, contents }: MypageContentsType) => {
 				<div>{title}</div>
 				{title === '나의 플레이 리스트' ? (
 					<div>
-						<button onClick={() => navigate('/playlistmodify')}>
+						<button onClick={() => navigate('/makeplaylist/create')}>
 							플레이리스트 만들기
 						</button>
 						<button onClick={() => navigate('/playlistcollection')}>

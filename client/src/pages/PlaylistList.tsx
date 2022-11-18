@@ -30,7 +30,7 @@ function PlaylistList() {
 	return (
 		<>
 			<ButtonWrapper>
-				<Link to="/addPlaylist">
+				<Link to="/makeplaylist/create">
 					<DefaultButton fontSize="16px" width="105px" height="42px">
 						플리 만들기
 					</DefaultButton>
