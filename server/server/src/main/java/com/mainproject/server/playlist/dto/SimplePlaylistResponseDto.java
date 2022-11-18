@@ -19,6 +19,8 @@ public class SimplePlaylistResponseDto {
 
     private String videoId;
 
+    private String thumbnail;
+
     private String category;
 
     private LocalDateTime createdAt;

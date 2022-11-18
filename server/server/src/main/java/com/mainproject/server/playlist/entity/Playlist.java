@@ -1,5 +1,6 @@
 package com.mainproject.server.playlist.entity;
 
+import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.auditable.Auditable;
 import com.mainproject.server.member.entity.Member;
 import lombok.Getter;
@@ -32,9 +33,11 @@ public class Playlist extends Auditable {
     @OneToMany(mappedBy = "playlist")
     private List<Category> categoryList = new ArrayList<>();
 
-    //@ManyToOne
-    //@JoinColumn(name = "room_id")
-    //private Room room;
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private ChatRoom chatRoom;
+
+
 
 //    @Enumerated(EnumType.STRING)
 //    private PlaylistStatus playlistStatus = PlaylistStatus.PLAYLIST_ACTIVE;
