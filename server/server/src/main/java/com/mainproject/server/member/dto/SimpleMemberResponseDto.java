@@ -1,17 +1,16 @@
 package com.mainproject.server.member.dto;
 
-import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.entity.Role;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
-public class MemberResponseDto {
+public class SimpleMemberResponseDto {
 
     private Long memberId;
 
@@ -32,5 +31,4 @@ public class MemberResponseDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
-
 }

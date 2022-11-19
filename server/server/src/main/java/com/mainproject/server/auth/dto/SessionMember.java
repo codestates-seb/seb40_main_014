@@ -1,4 +1,4 @@
-package com.mainproject.server.config.auth.dto;
+package com.mainproject.server.auth.dto;
 
 import com.mainproject.server.member.entity.Member;
 import lombok.Getter;

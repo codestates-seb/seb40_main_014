@@ -1,13 +1,11 @@
-package com.mainproject.server.config.auth.dto;
+package com.mainproject.server.auth.dto;
 
-import com.mainproject.server.auditable.Auditable;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.entity.Role;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Map;
-import java.util.Objects;
 
 @Getter
 public class OAuthAttributes {

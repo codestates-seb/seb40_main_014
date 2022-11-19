@@ -5,7 +5,53 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e024fcb-eb40-4073-aa26-52292ea37820" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/config/WebSocketTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/dto/ResponseChatRoomDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/repository/ChatMessageRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/auth/config/WebConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/auth/handler/OAuth2SuccessHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/auth/utils/CustomAuthorityUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/dto/SimpleMemberResponseDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/jwt/JwtTokenizer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/jwt/RefreshToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/repository/TokenRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/playlist/controller/PlaylistController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/playlist/dto/PlaylistPatchDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/playlist/dto/PlaylistPostDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/playlist/dto/PlaylistResponseDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/playlist/dto/SimplePlaylistResponseDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/playlist/entity/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/playlist/mapper/PlaylistMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/playlist/repository/CategoryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/playlist/repository/PlaylistRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/playlist/service/PlaylistService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/roomMember/entity/roomMember.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/server/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/config/WebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/config/WebSocketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/controller/ChatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/controller/RoomController.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/controller/RoomController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/dto/ChatRoomDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/dto/ChatRoomPostDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/dto/ChatRoomPostDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/dto/ChatRoomResDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/entity/ChatMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/entity/ChatMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/entity/ChatRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/entity/ChatRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/mapper/ChatRoomMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/mapper/ChatRoomMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/repository/ChatRoomRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/repository/ChatRoomRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/service/ChatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/ChatRoom/service/ChatService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/auth/config/WebSecurityConfigurerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/auth/config/WebSecurityConfigurerAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/config/auth/WebSecurityConfigurerAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/config/auth/dto/OAuthAttributes.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/auth/dto/OAuthAttributes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/config/auth/dto/SessionMember.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/auth/dto/SessionMember.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/exception/ExceptionCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/exception/ExceptionCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/dto/MemberResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/dto/MemberResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/entity/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/entity/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/entity/Ranking.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/entity/Ranking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/mapper/MemberMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/mapper/MemberMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/service/CustomOAuth2UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/member/service/CustomOAuth2UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/playlist/entity/Playlist.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/mainproject/server/playlist/entity/Playlist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,8 +79,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -77,7 +123,7 @@
       <recent name="C:\Users\00003807\Downloads\project014\seb40_main_014\server\server\src\main\resources\templates" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.ServerApplication">
+  <component name="RunManager" selected="Spring Boot.ServerApplication (1)">
     <configuration name="ServerApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="server.server.main~1" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.mainproject.server.ServerApplication" />
@@ -101,7 +147,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1668303291993</updated>
-      <workItem from="1668303294235" duration="106826000" />
+      <workItem from="1668303294235" duration="166283000" />
     </task>
     <servers />
   </component>

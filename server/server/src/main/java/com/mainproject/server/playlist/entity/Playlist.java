@@ -24,31 +24,33 @@ public class Playlist extends Auditable {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name = "room_id")
-    private ChatRoom chatRoom;
-
     @Column(nullable = false, updatable = true, unique = false)
     private String title;
 
     @Column(nullable = false, updatable = true, unique = false)
-    private String content;
+    private String videoId;
 
-    @Enumerated(EnumType.STRING)
-    private PlaylistStatus playlistStatus = PlaylistStatus.PLAYLIST_ACTIVE;
+    @OneToMany(mappedBy = "playlist")
+    private List<Category> categoryList = new ArrayList<>();
 
-    //카테고리
-    // private List<Category> categories = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private ChatRoom chatRoom;
 
-    public enum PlaylistStatus {
-        PLAYLIST_ACTIVE("활성중"),
-        PLAYLIST_INACTIVE("비활성중");
+    private String thumbnail;
+//    @Enumerated(EnumType.STRING)
+//    private PlaylistStatus playlistStatus = PlaylistStatus.PLAYLIST_ACTIVE;
 
-        @Getter
-        private String status;
 
-        PlaylistStatus(String status){
-            this.status = status;
-        }
-    }
+//    public enum PlaylistStatus {
+//        PLAYLIST_ACTIVE("활성중"),
+//        PLAYLIST_INACTIVE("비활성중");
+//
+//        @Getter
+//        private String status;
+//
+//        PlaylistStatus(String status){
+//            this.status = status;
+//        }
+//    }
 }

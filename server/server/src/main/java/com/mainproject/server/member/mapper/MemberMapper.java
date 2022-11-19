@@ -3,6 +3,7 @@ package com.mainproject.server.member.mapper;
 import com.mainproject.server.member.dto.MemberPatchDto;
 import com.mainproject.server.member.dto.MemberPostDto;
 import com.mainproject.server.member.dto.MemberResponseDto;
+import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Follow;
 import com.mainproject.server.member.entity.Member;
 import org.mapstruct.Mapper;
@@ -17,6 +18,8 @@ public interface MemberMapper {
 //    MemberResponseDto memberToMemberResponseDto(Member member);
 
     List<MemberResponseDto> memberListToMemberResponseDtoList(List<Member> memberList);
+
+    SimpleMemberResponseDto memberToSimpleMemberResponseDto(Member member);
 
     default MemberResponseDto memberToMemberResponseDto(Member member) {
         if ( member == null ) {

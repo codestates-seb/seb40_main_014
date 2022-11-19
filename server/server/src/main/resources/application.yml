@@ -1,3 +1,8 @@
+jwt:
+  key:
+    secret: 123123123123123123123123123123123123123123123123123123123123123213213213123123123123123
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420
 server:
   port: 8080
   servlet:
@@ -44,6 +49,6 @@ spring:
       client:
         registration:
           google:
-            clientId: 481362697753-9flaa029k2ifbuvorla0knr9dk8fnbg2.apps.googleusercontent.com
-            clientSecret: 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
+            clientId: 21363260622-4pnht3ff0v1t0h4259ue00rpdr733ub9.apps.googleusercontent.com
+            clientSecret: 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
             scope: profile, email

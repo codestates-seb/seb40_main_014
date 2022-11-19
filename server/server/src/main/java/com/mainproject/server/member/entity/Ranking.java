@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -21,6 +19,6 @@ public class Ranking {
     @Column
     private Integer rank = 0;
 
-    @OneToOne(mappedBy = "ranking", cascade = CascadeType.ALL)
-    private Member member;
+//    @OneToOne(mappedBy = "ranking", cascade = CascadeType.ALL)
+//    private Member member;
 }
