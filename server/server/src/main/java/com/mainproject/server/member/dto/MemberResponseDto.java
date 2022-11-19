@@ -6,11 +6,11 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Builder
 public class MemberResponseDto {
 
     private Long memberId;
