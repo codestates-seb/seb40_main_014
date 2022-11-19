@@ -33,16 +33,4 @@ public class PlaylistResponseDto {
 
 //    private List<PlaylistResponseDto> playlistList;
 
-
-//    @Builder -> 이거 쓸거면 위에 Builder 빼야 함
-//    public PlaylistResponseDto(Playlist playlist) {
-//        this.playlistId = playlist.getPlaylistId();
-//        this.name = playlist.getTitle();
-//        this.thumbnail = playlist.getThumbnail();
-//        this.title = playlist.getTitle();
-//        this.videoId = playlist.getVideoId();
-//        this.categoryList = playlist.getCategoryList();
-//        this.createdAt = playlist.getCreatedAt();
-//        this.modifiedAt = playlist.getModifiedAt();
-//    }
 }
