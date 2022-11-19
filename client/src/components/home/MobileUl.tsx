@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { LoginButton } from './Header';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { myValue } from '../../slices/mySlice';
 
 export type MobileUlType = {
 	currentMenu: string;
@@ -9,20 +11,26 @@ export type MobileUlType = {
 };
 
 function MobileUl({ currentMenu, setOpenModal, handleOpenSide }: MobileUlType) {
+	const { name } = useSelector(myValue);
+
 	return (
 		<Ul>
-			<li>
-				<LoginButton
-					id="login"
-					onClick={() => {
-						setOpenModal(true);
-						handleOpenSide();
-					}}
-					className="off-mobile">
-					로그인
-				</LoginButton>
-			</li>
-			<Hr />
+			{name ? null : (
+				<>
+					<li>
+						<LoginButton
+							id="login"
+							onClick={() => {
+								setOpenModal(true);
+								handleOpenSide();
+							}}
+							className="off-mobile">
+							로그인
+						</LoginButton>
+					</li>
+					<Hr />
+				</>
+			)}
 			<li className={currentMenu === 'room' ? 'active' : ''}>
 				<Link
 					to="/"

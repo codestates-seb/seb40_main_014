@@ -1,9 +1,9 @@
 import Playlist from '../components/home/Playlist';
 import { useState, useEffect } from 'react';
-import { getPlayLists } from '../api/listApi';
 import { DefaultButton } from '../components/common/Button';
 import { Link } from 'react-router-dom';
 import { ButtonWrapper, H2, ListStyle } from './RoomList';
+import { getPlaylists } from '../api/listApi';
 
 export type PlaylistInfoType = {
 	playlistId: number;
@@ -21,7 +21,7 @@ function PlaylistList() {
 	const [playlists, setPlayLists] = useState([]);
 
 	useEffect(() => {
-		getPlayLists().then((res) => {
+		getPlaylists().then((res) => {
 			// console.log('#1', res);
 			setPlayLists(res);
 		});

@@ -32,10 +32,22 @@ export const modifyPlayList = async (data) => {
 	}
 };
 
-export const getPlayLists = async () => {
+export const getPlaylists = async () => {
 	try {
 		//test
 		const result = await instance.get('/playlists');
+
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
+
+export const getRooms = async () => {
+	try {
+		//test
+		const result = await instance.get('/roomss');
+
 		return result.data;
 	} catch (err) {
 		return err;
