@@ -31,4 +31,5 @@ public class MemberResponseDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
+
 }
