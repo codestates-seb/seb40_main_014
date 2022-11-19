@@ -1,6 +1,5 @@
 package com.mainproject.server.member.dto;
 
-import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.entity.Role;
 import lombok.*;
 
