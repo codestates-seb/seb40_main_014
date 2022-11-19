@@ -25,10 +25,14 @@ const MakePlayList = () => {
 	useEffect(() => {
 		if (type === 'modify') {
 			getPlayList().then((res) => {
-				setPlTitle(res.title);
-				setPlList(res.playlist);
-				setCategoryList(res.categoryList);
-				setPublicPl(res.public);
+				if (res.code) {
+					alert(res);
+				} else {
+					setPlTitle(res.title);
+					setPlList(res.playlist);
+					setCategoryList(res.categoryList);
+					setPublicPl(res.public);
+				}
 			});
 		}
 	}, []);

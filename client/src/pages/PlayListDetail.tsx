@@ -25,7 +25,11 @@ const PlayListDetail = () => {
 
 	useEffect(() => {
 		getPlayList().then((res) => {
-			setPlayListInfo(res);
+			if (res.code) {
+				alert(res);
+			} else {
+				setPlayListInfo(res);
+			}
 		});
 	}, []);
 
