@@ -1,9 +1,9 @@
 import Playlist from '../components/home/Playlist';
 import { useState, useEffect } from 'react';
-import { getPlaylists } from '../api/listApi';
 import { DefaultButton } from '../components/common/Button';
 import { Link } from 'react-router-dom';
 import { ButtonWrapper, H2, ListStyle } from './RoomList';
+import { getPlaylists } from '../api/listApi';
 
 export type PlaylistInfoType = {
 	playlistId: number;

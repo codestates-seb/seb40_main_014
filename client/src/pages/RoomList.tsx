@@ -71,12 +71,12 @@ function RoomList() {
 		setModalOpen(!modalOpen);
 	};
 
-	// useEffect(() => {
-	// 	getRooms().then((res) => {
-	// 		// console.log('#1', res);
-	// 		setRooms(res);
-	// 	});
-	// }, []);
+	useEffect(() => {
+		getRooms().then((res) => {
+			// console.log('#1', res);
+			setRooms(res);
+		});
+	}, []);
 
 	return (
 		<>
