@@ -4,6 +4,7 @@
 	"private": true,
 	"dependencies": {
 		"@reduxjs/toolkit": "^1.9.0",
+		"@stomp/stompjs": "^6.1.2",
 		"@testing-library/jest-dom": "^5.16.5",
 		"@testing-library/react": "^13.4.0",
 		"@testing-library/user-event": "^13.5.0",
@@ -11,11 +12,15 @@
 		"@types/json-server": "^0.14.4",
 		"@types/node": "^16.18.3",
 		"@types/react": "^18.0.25",
+		"@types/react-beautiful-dnd": "^13.1.2",
 		"@types/react-dom": "^18.0.8",
 		"@types/react-icons": "^3.0.0",
 		"@types/react-lottie": "^1.2.6",
 		"@types/react-router-dom": "^5.3.3",
+		"@types/sockjs-client": "^1.5.1",
+		"@types/stompjs": "^2.3.5",
 		"axios": "^1.1.3",
+		"http-proxy-middleware": "^2.0.6",
 		"lottie-react": "^2.3.1",
 		"react": "^18.2.0",
 		"react-beautiful-dnd": "^13.1.1",
@@ -25,10 +30,14 @@
 		"react-redux": "^8.0.5",
 		"react-router-dom": "^6.4.3",
 		"react-scripts": "5.0.1",
+		"socketjs-client": "^1.0.2",
+		"sockjs-client": "^1.6.1",
 		"styled-components": "^5.3.6",
 		"swiper": "^8.4.4",
 		"typescript": "^4.8.4",
-		"web-vitals": "^2.1.4"
+		"web-vitals": "^2.1.4",
+		"websocket": "^1.0.34",
+		"ws": "^8.11.0"
 	},
 	"scripts": {
 		"start": "react-scripts start",
@@ -63,5 +72,6 @@
 		"eslint-plugin-prettier": "^4.2.1",
 		"eslint-plugin-react": "^7.31.10",
 		"eslint-plugin-react-hooks": "^4.6.0"
-	}
+	},
+	"proxy": "http://localhost:3000/"
 }

@@ -22,6 +22,12 @@ const Container = styled.div`
 	box-shadow: 0px 5px 5px 0px ${(props) => props.theme.colors.gray500};
 	border: 1px solid ${(props) => props.theme.colors.gray300};
 	background-color: ${(props) => props.theme.colors.background};
+	@media screen and (max-width: 980px) {
+		width: 500px;
+	}
+	@media screen and (max-width: 640px) {
+		width: 300px;
+	}
 `;
 
 const ChatRoomContainer = styled.div`
@@ -55,9 +61,23 @@ const ChatLeft = styled.div`
 	height: 600px;
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	background-color: ${(props) => props.theme.colors.background};
+
+	@media screen and (max-width: 980px) {
+		width: 200px;
+	}
+	@media screen and (max-width: 640px) {
+		width: 200px;
+	}
 `;
 
-const ChatRight = styled.div``;
+const ChatRight = styled.div`
+	@media screen and (max-width: 980px) {
+		width: 200px;
+	}
+	@media screen and (max-width: 640px) {
+		width: 200px;
+	}
+`;
 
 const ChatSection = styled.div`
 	width: 570px;
@@ -83,6 +103,12 @@ const ChatSection = styled.div`
 		::-webkit-scrollbar-track {
 			background: rgba(33, 122, 244, 0.1);
 		}
+	}
+	@media screen and (max-width: 980px) {
+		width: 200px;
+	}
+	@media screen and (max-width: 640px) {
+		width: 200px;
 	}
 `;
 

@@ -13,6 +13,12 @@ const PlaylistSection = styled.div`
 	border-radius: ${(props) => props.theme.radius.largeRadius}
 		${(props) => props.theme.radius.largeRadius} 0px 0px;
 	box-shadow: 0px 5px 5px 0px ${(props) => props.theme.colors.gray500};
+	/* @media screen and (max-width: 980px) {
+		display: none;
+	} */
+	/* @media screen and (max-width: 640px) {
+		width: 50px;
+	} */
 `;
 
 const ThumbnailContainer = styled.div`
