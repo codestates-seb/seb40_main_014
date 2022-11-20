@@ -1,10 +1,10 @@
 package com.mainproject.server.member.jwt;
 
+import com.mainproject.server.exception.BusinessException;
+import com.mainproject.server.exception.ExceptionCode;
 import com.mainproject.server.member.repository.TokenRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
+import com.mainproject.server.member.service.response.ErrorResponse;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
@@ -12,14 +12,15 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -46,14 +47,16 @@ public class JwtTokenizer {
     public String generateAccessToken(Map<String, Object> claims,
                                       String subject,
                                       Date expiration,
-                                      Key secretkey) {;
+                                      Key secretkey) {
+        ;
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(Calendar.getInstance().getTime())
                 .setExpiration(expiration)
-                .signWith(secretkey)
+//                .signWith(secretkey)
+                .signWith(secretkey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
@@ -85,16 +88,15 @@ public class JwtTokenizer {
 //    }
 
     public String getUserEmail(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token).getBody().getSubject();
     }
 
     // 토큰의 유효성 + 만료일자 확인
     public boolean validateToken(String jwtToken) {
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (ExpiredJwtException e) {
-            log.info(e.getMessage());
             return false;
         }
     }
@@ -104,11 +106,11 @@ public class JwtTokenizer {
         return tokenRepository.existsByRefreshToken(refreshToken);
     }
 
-    public Map<String, Object> verifyJws(String jws) {
-        Jws<Claims> jwsClaims = getClaims(jws);
-        Map<String, Object> claims = jwsClaims.getBody();
-        return claims;
-    }
+//    public Map<String, Object> verifyJws(String jws) {
+//        Jws<Claims> jwsClaims = getClaims(jws);
+//        Map<String, Object> claims = jwsClaims.getBody();
+//        return claims;
+//    }
 
     public Key getSecretKeyFromPlainSecretKey() {
 
@@ -118,13 +120,32 @@ public class JwtTokenizer {
         return key;
     }
 
-    public Jws<Claims> getClaims(String jws) {
+    // Access Token 생성.
+    public String createNewToken(String email, List<GrantedAuthority> authorities) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("email", email);
+        claims.put("roles", authorities);
 
-        Jws<Claims> claims = Jwts.parserBuilder()
-                .setSigningKey(getSecretKeyFromPlainSecretKey())
-                .build()
-                .parseClaimsJws(jws);
-        return claims;
+        String subject = email;
+        Date expiration = getTokenExpiration(getAccessTokenExpirationMinutes());
+
+        Key secretKey = getSecretKeyFromPlainSecretKey();
+
+        String accessToken = generateAccessToken(claims, subject, expiration, secretKey);
+
+        return accessToken;
     }
-
 }
+
+//    public Jws<Claims> getClaims(String jws) {
+//
+//        try {
+//            Jws<Claims> claims = Jwts.parserBuilder()
+//                    .setSigningKey(getSecretKeyFromPlainSecretKey())
+//                    .build()
+//                    .parseClaimsJws(jws);
+//            return claims;
+//        } catch (ExpiredJwtException e){
+//            throw new BusinessException(ExceptionCode.Expired_Jwt);
+//        }
+//    }

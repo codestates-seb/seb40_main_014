@@ -4,25 +4,27 @@ import com.mainproject.server.member.dto.MemberFollowDto;
 import com.mainproject.server.member.dto.MemberPatchDto;
 import com.mainproject.server.member.dto.MemberResponseDto;
 import com.mainproject.server.member.entity.Member;
+import com.mainproject.server.member.jwt.RefreshToken;
 import com.mainproject.server.member.mapper.MemberMapper;
 import com.mainproject.server.member.service.MemberService;
-import com.mainproject.server.response.MultiResponseDto;
-import com.mainproject.server.response.SingleResponseDto;
+import com.mainproject.server.member.service.response.MultiResponseDto;
+import com.mainproject.server.member.service.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Validated
 @RequiredArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/api/members")
 public class MemberController {
 
@@ -67,7 +69,6 @@ public class MemberController {
 
     }
 
-
     @PatchMapping("/follow/{member-id}")
     public ResponseEntity followMember(@PathVariable("member-id") Long memberId,
                                        @Valid @RequestBody MemberFollowDto memberFollowDto) {
@@ -80,4 +81,15 @@ public class MemberController {
         return new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity logout(HttpServletRequest request, HttpServletResponse response) {
+        service.logoutMember(request, response);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity refreshToken(HttpServletRequest request, HttpServletResponse response) {
+        return service.refresh(request, response);
+    }
 }
