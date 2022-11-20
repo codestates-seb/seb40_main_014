@@ -7,6 +7,7 @@ import { musicInfoType } from './MakePlayList';
 
 export type plinfo = {
 	memberId: string;
+	playListId?: number;
 	title: string;
 	playlist: Array<musicInfoType>;
 	categoryList: Array<string>;
@@ -16,12 +17,13 @@ export type plinfo = {
 
 export type PlayListInfoProps = {
 	playListInfo?: plinfo;
+	setPlayListInfo?: Dispatch<SetStateAction<plinfo>>;
 	plList?: Array<musicInfoType>;
 	setPlList?: Dispatch<SetStateAction<Array<musicInfoType>>>;
 };
 
 const PlayListDetail = () => {
-	const [playListInfo, setPlayListInfo] = useState();
+	const [playListInfo, setPlayListInfo] = useState<plinfo>();
 
 	useEffect(() => {
 		getPlayList().then((res) => {
@@ -35,6 +37,7 @@ const PlayListDetail = () => {
 
 	const props: PlayListInfoProps = {
 		playListInfo,
+		setPlayListInfo,
 	};
 	return (
 		<PlayListDetailStyle>
