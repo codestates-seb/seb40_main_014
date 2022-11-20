@@ -1,18 +1,19 @@
 package com.mainproject.server.member.jwt;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class RefreshToken {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column
+    private Long tokenId;
+
     private String refreshToken;
 }

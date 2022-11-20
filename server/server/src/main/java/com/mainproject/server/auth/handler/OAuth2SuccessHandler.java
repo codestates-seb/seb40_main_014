@@ -3,20 +3,21 @@ package com.mainproject.server.auth.handler;
 import com.google.gson.Gson;
 import com.mainproject.server.auth.utils.CustomAuthorityUtil;
 import com.mainproject.server.member.dto.MemberResponseDto;
-import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.jwt.JwtTokenizer;
 import com.mainproject.server.member.jwt.RefreshToken;
 import com.mainproject.server.member.mapper.MemberMapper;
 import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.member.repository.TokenRepository;
-import com.mainproject.server.response.SingleResponseDto;
+import com.mainproject.server.member.service.MemberService;
+import com.mainproject.server.member.service.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -32,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Transactional
 @Component
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -41,6 +43,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final Gson gson;
     private final TokenRepository tokenRepository;
     private final CustomAuthorityUtil customAuthorityUtil;
+    private final MemberService memberService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -54,7 +57,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String refreshToken = delegateRefreshToken(email, authorities);
 
         //RefreshToken 저장
-        tokenRepository.save(new RefreshToken(refreshToken));
+        memberService.savedToken(refreshToken);
 
         response.setHeader("Authorization", "bearer "+accessToken);
         response.setHeader("RefreshToken", "bearer "+refreshToken);
