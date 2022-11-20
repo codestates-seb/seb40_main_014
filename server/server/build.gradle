@@ -20,45 +20,50 @@ repositories {
 
 dependencies {
 	//WEB
-//	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	//WEB Socket
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    //WEB Socket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
-	//Lombok
-	compileOnly 'org.projectlombok:lombok'
+    //Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
-	implementation 'org.springframework.boot:spring-boot-devtools'
-	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
-	annotationProcessor 'org.projectlombok:lombok'
-	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
+    //JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-	testImplementation 'org.springframework.security:spring-security-test'
-	implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.7.0'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
-	implementation 'com.auth0:java-jwt:3.19.2'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
-	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
-	implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+    //OAuth
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'javax.servlet:jstl'
 
+    //H2 로컬용
+    //runtimeOnly 'com.h2database:h2'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	testImplementation 'org.springframework.security:spring-security-test'
+    //Mysql 배포용
+    implementation 'mysql:mysql-connector-java'
+
+    //유효성 관련
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    //MapStruct
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
+    //Json Mapper
+    implementation 'com.google.code.gson:gson:2.9.0'
+
+    //JWT 관련
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    //test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation("org.junit.vintage:junit-vintage-engine") {
+        exclude group: "org.hamcrest", module: "hamcrest-core"
+    }
 }
 
 
