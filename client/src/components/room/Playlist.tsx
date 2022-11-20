@@ -13,12 +13,13 @@ const PlaylistSection = styled.div`
 	border-radius: ${(props) => props.theme.radius.largeRadius}
 		${(props) => props.theme.radius.largeRadius} 0px 0px;
 	box-shadow: 0px 5px 5px 0px ${(props) => props.theme.colors.gray500};
-	/* @media screen and (max-width: 980px) {
-		display: none;
-	} */
-	/* @media screen and (max-width: 640px) {
-		width: 50px;
-	} */
+
+	@media screen and (max-width: 640px) {
+		height: 240px;
+		display: flex;
+		flex-direction: column;
+		margin-left: 20px;
+	}
 `;
 
 const ThumbnailContainer = styled.div`
@@ -28,6 +29,9 @@ const ThumbnailContainer = styled.div`
 	border-radius: ${(props) => props.theme.radius.largeRadius}
 		${(props) => props.theme.radius.largeRadius} 0px 0px;
 	height: 180px;
+	@media screen and (max-width: 640px) {
+		height: 120px;
+	}
 `;
 
 const MusicContainer = styled.div`
@@ -54,6 +58,9 @@ const MusicContainer = styled.div`
 
 	.music_logo {
 		margin-right: 5px;
+	}
+	@media screen and (max-width: 640px) {
+		height: 100px;
 	}
 `;
 

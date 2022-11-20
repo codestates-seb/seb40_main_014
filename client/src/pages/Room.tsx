@@ -37,6 +37,12 @@ const ChatRoomContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	border-radius: ${(props) => props.theme.radius.largeRadius};
+	@media screen and (max-width: 980px) {
+		flex-direction: row;
+	}
+	@media screen and (max-width: 640px) {
+		display: block;
+	}
 `;
 
 const ChatHeader = styled.div`
@@ -66,16 +72,21 @@ const ChatLeft = styled.div`
 		width: 200px;
 	}
 	@media screen and (max-width: 640px) {
-		width: 200px;
+		margin-left: 5px;
+		height: 220px;
 	}
 `;
 
 const ChatRight = styled.div`
 	@media screen and (max-width: 980px) {
 		width: 200px;
+		margin: auto;
 	}
 	@media screen and (max-width: 640px) {
-		width: 200px;
+		display: flex;
+		flex-direction: column;
+
+		align-items: center;
 	}
 `;
 
@@ -105,10 +116,11 @@ const ChatSection = styled.div`
 		}
 	}
 	@media screen and (max-width: 980px) {
-		width: 200px;
+		width: 90%;
 	}
 	@media screen and (max-width: 640px) {
-		width: 200px;
+		width: 125%;
+		height: 200px;
 	}
 `;
 

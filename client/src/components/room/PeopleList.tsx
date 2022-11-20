@@ -8,8 +8,9 @@ const PeopleSetcion = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	box-shadow: 0px 5px 5px 0px ${(props) => props.theme.colors.gray500};
-	@media screen and (max-width: 980px) {
-		width: 100px;
+	@media screen and (max-width: 640px) {
+		margin-top: -10px;
+		margin-bottom: 20px;
 	}
 `;
 
