@@ -62,7 +62,7 @@ public class PlaylistController {
     //전체 플레이리스트 조회
     @GetMapping("/playlist")
     public ResponseEntity getPlList(@Positive @RequestParam(required = false, defaultValue = "1") int page,
-                                       @Positive @RequestParam(required = false, defaultValue = "5") int size) {
+                                    @Positive @RequestParam(required = false, defaultValue = "5") int size) {
         Page<Playlist> pagePlList = playlistService.findPlList(page - 1, size);
         List<Playlist> playlists = pagePlList.getContent();
 

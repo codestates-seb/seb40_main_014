@@ -37,8 +37,7 @@ public class Playlist extends Auditable {
     @JoinColumn(name = "room_id")
     private ChatRoom chatRoom;
 
-
-
+    private String thumbnail;
 //    @Enumerated(EnumType.STRING)
 //    private PlaylistStatus playlistStatus = PlaylistStatus.PLAYLIST_ACTIVE;
 
