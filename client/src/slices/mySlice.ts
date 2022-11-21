@@ -1,38 +1,40 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store/store';
 
-type InitialStateValue = {
+export type MyInitialStateValue = {
 	memberId: number;
-	follow: number;
-	like: number;
+	email: string;
 	name: string;
+	picture: string;
+	grade: string;
+	follow: number;
+	rank: number;
+	role: string;
 	createdAt: string;
 	modifiedAt: string;
-	grade: string;
-	rank: number;
-	picture: string;
 };
 
-type InitialState = {
+type MyInitialState = {
 	isLogin: boolean;
-	value: InitialStateValue;
+	value: MyInitialStateValue;
 };
 
-const initialStateValue: InitialStateValue = {
+export const myInitialStateValue: MyInitialStateValue = {
 	memberId: 0,
-	follow: 0,
-	like: 0,
+	email: '',
 	name: '',
+	picture: '',
+	grade: '',
+	follow: 0,
+	rank: 0,
+	role: '',
 	createdAt: '',
 	modifiedAt: '',
-	grade: '',
-	rank: 0,
-	picture: '',
 };
 
-const initialState: InitialState = {
+const initialState: MyInitialState = {
 	isLogin: false,
-	value: initialStateValue,
+	value: myInitialStateValue,
 };
 
 const mySlice = createSlice({
@@ -45,7 +47,7 @@ const mySlice = createSlice({
 		},
 		myLogout: (state) => {
 			state.isLogin = false;
-			state.value = initialStateValue;
+			state.value = myInitialStateValue;
 		},
 	},
 });

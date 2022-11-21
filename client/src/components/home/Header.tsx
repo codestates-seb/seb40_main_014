@@ -17,7 +17,7 @@ function Header() {
 	const dispatch = useDispatch();
 	const { pathname } = useLocation();
 
-	const { name, picture } = useSelector(myValue);
+	const { memberId, name, picture } = useSelector(myValue);
 	const isLogin = useSelector(myLogin);
 
 	useEffect(() => {
@@ -120,7 +120,7 @@ function Header() {
 									<BsFillTriangleFill />
 								</Triangle>
 								<MyPageLink>
-									<Link to="/mypage">
+									<Link to={`/mypage/${memberId}`}>
 										<BiUser />
 										<span>마이페이지</span>
 									</Link>
@@ -254,7 +254,7 @@ const Img = styled.div`
 const ProfileUl = styled.ul`
 	display: none;
 	position: absolute;
-	top: 50px;
+	top: 45px;
 	left: -11px;
 	padding: 20px;
 	width: 150px;

@@ -1,6 +1,13 @@
 import styled from 'styled-components';
+import { MyInitialStateValue } from '../../slices/mySlice';
 
-const MypageInfo = () => {
+type MypageInfoType = {
+	userInfo: MyInitialStateValue;
+};
+
+const MypageInfo = ({ userInfo }: MypageInfoType) => {
+	const { name, rank, grade, follow } = userInfo;
+
 	return (
 		<Wrapper>
 			<div className="top">
@@ -9,8 +16,9 @@ const MypageInfo = () => {
 					alt="이미지"
 				/>
 				<div>
-					<div className="nickname">닉네임</div>
-					<div>팔로우, 등급, 부가요소</div>
+					<div className="nickname">{name}</div>
+					<div>{grade}</div>
+					<div>팔로워 {follow}</div>
 				</div>
 			</div>
 			<div className="bottom">자기소개</div>
@@ -22,14 +30,14 @@ export default MypageInfo;
 
 const Wrapper = styled.div`
 	div {
-		margin: 30px 0;
+		margin: 40px 0;
 	}
 	.top {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		img {
-			width: 20%;
+			width: 230px;
 			object-fit: cover;
 			border-radius: 50%;
 			margin-right: 10%;

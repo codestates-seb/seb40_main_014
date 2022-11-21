@@ -26,7 +26,7 @@ const AppRouter = () => {
 						<Route path="/playlistdetail" element={<PlayListDetail />} />
 						<Route path="/makeplaylist/:type" element={<MakePlayList />} />
 						<Route path="/modal" element={<Modaltest />} />
-						<Route path="/mypage" element={<Mypage />} />
+						<Route path="/mypage/:userId" element={<Mypage />} />
 						<Route
 							path="/playlistcollection"
 							element={<PlayListCollection />}
