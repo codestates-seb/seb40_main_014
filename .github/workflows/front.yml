@@ -18,13 +18,14 @@ jobs:
         env:
           REACT_APP_STACK_SERVER: ${{ secrets.REACT_APP_STACK_SERVER }}
           REACT_APP_YOUTUBE_KEY: ${{ secrets.REACT_APP_YOUTUBE_KEY }}
+          REACT_APP_STACK_WS_SERVER: ${{ secrets.REACT_APP_STACK_WS_SERVER}}
       - name: Install dependencies
         run: npm install
         working-directory: ./client
       - name: Build
         run: npm run build
         env:
-          CI: ''
+          CI: ""
         working-directory: ./client
       - name: SHOW AWS CLI VERSION
         env:
