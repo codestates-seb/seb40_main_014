@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -36,19 +36,10 @@ function RoomList() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const [page, setPage] = useState(0);
-	const [size, setSize] = useState(16);
-	const [rooms, setRooms] = useState([]);
-	const [modalOpen, setModalOpen] = useState(false);
-
-	// 구글 로그인
+	//* 구글 로그인
 	const accessToken = new URL(location.href).searchParams.get('access_token');
 	const refreshToken = new URL(location.href).searchParams.get('refresh_token');
 	const memberId = new URL(location.href).searchParams.get('member_id');
-
-	const modalClose = () => {
-		setModalOpen(!modalOpen);
-	};
 
 	useEffect(() => {
 		if (accessToken && refreshToken) {
@@ -74,13 +65,48 @@ function RoomList() {
 		}
 	}, []);
 
-	useEffect(() => {
-		getRooms(page, size).then((res) => {
-			console.log('getRooms res', res);
+	//* 무한 스크롤
+	const [rooms, setRooms] = useState<RoomInfoType[]>([]);
+	const [hasNextPage, setHasNextPage] = useState(true);
+	const currentPage = useRef<number>(1);
+	const observerTargetEl = useRef<HTMLDivElement>(null);
 
-			setRooms(res);
-		});
+	const fetch = useCallback(() => {
+		() => {
+			getRooms(currentPage.current, 10).then((res) => {
+				const data = res.data;
+				const { page, totalPages } = res.pageInfo;
+
+				setRooms([...rooms, ...data]);
+				// setHasNextPage(data.length === 10);
+				setHasNextPage(page !== totalPages);
+
+				// if (data.length) currentPage.current += 1;
+				if (hasNextPage) currentPage.current += 1;
+			});
+		};
 	}, []);
+
+	useEffect(() => {
+		if (!observerTargetEl.current || !hasNextPage) return;
+
+		const io = new IntersectionObserver((entries, observer) => {
+			if (entries[0].isIntersecting) fetch();
+		});
+
+		io.observe(observerTargetEl.current);
+
+		return () => {
+			io.disconnect();
+		};
+	}, [fetch, hasNextPage]);
+
+	// 방 만들기 모달
+	const [modalOpen, setModalOpen] = useState(false);
+
+	const modalClose = () => {
+		setModalOpen(!modalOpen);
+	};
 
 	return (
 		<>
@@ -107,6 +133,7 @@ function RoomList() {
 				{rooms.map((room: RoomInfoType) => (
 					<Room room={room} key={room.roomId} />
 				))}
+				<div ref={observerTargetEl} />
 			</ListStyle>
 		</>
 	);
