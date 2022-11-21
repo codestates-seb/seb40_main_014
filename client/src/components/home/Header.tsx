@@ -7,7 +7,7 @@ import PcUl from './PcUl';
 import MobileUl from './MobileUl';
 import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
-import { myLogout, myValue } from '../../slices/mySlice';
+import { myLogin, myLogout, myValue } from '../../slices/mySlice';
 import { logout } from '../../api/authApi';
 import { BiUser } from 'react-icons/bi';
 import { MdLogout } from 'react-icons/md';
@@ -15,11 +15,15 @@ import { BsFillTriangleFill } from 'react-icons/bs';
 
 function Header() {
 	const dispatch = useDispatch();
-
-	const { name, picture } = useSelector(myValue);
-
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
+
+	const { name, picture } = useSelector(myValue);
+	const isLogin = useSelector(myLogin);
+
+	useEffect(() => {
+		console.log('isLogin', isLogin);
+	}, [isLogin]);
 
 	const profileRef = useRef<HTMLDivElement>(null);
 	const profileUlRef = useRef<HTMLUListElement>(null);
@@ -35,6 +39,7 @@ function Header() {
 			console.log('logout res', res);
 			localStorage.removeItem('accessToken');
 			localStorage.removeItem('refreshToken');
+			localStorage.removeItem('memberId');
 			dispatch(myLogout());
 			navigate('/');
 		});
@@ -98,7 +103,7 @@ function Header() {
 						/>
 					</div>
 				)}
-				{name !== '' && name !== 'AxiosError' ? (
+				{isLogin ? (
 					<>
 						<Profile ref={profileRef}>
 							<Img
@@ -260,6 +265,7 @@ const ProfileUl = styled.ul`
 	color: ${(props) => props.theme.colors.gray900};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
 	box-shadow: 1px 1px 10px 2px rgba(30, 30, 30, 0.185);
+	z-index: 9999;
 
 	> * {
 		padding: 5px;
