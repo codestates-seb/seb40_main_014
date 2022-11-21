@@ -15,7 +15,6 @@ import { BsFillTriangleFill } from 'react-icons/bs';
 
 function Header() {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 	const { pathname } = useLocation();
 
 	const { name, picture } = useSelector(myValue);
@@ -41,7 +40,6 @@ function Header() {
 			localStorage.removeItem('refreshToken');
 			localStorage.removeItem('memberId');
 			dispatch(myLogout());
-			navigate('/');
 		});
 	};
 
