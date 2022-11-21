@@ -38,7 +38,6 @@ function Header() {
 			console.log('logout res', res);
 			localStorage.removeItem('accessToken');
 			localStorage.removeItem('refreshToken');
-			localStorage.removeItem('memberId');
 			dispatch(myLogout());
 		});
 	};

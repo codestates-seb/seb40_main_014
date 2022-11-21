@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getRooms } from '../api/listApi';
+import { getRooms } from '../api/roomApi';
 import { getMyInfo } from '../api/userApi';
 import { DefaultButton } from '../components/common/Button';
 import Room from '../components/home/Room';
@@ -36,16 +36,24 @@ function RoomList() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	const [page, setPage] = useState(0);
+	const [size, setSize] = useState(16);
+	const [rooms, setRooms] = useState([]);
+	const [modalOpen, setModalOpen] = useState(false);
+
 	// 구글 로그인
 	const accessToken = new URL(location.href).searchParams.get('access_token');
 	const refreshToken = new URL(location.href).searchParams.get('refresh_token');
 	const memberId = new URL(location.href).searchParams.get('member_id');
 
+	const modalClose = () => {
+		setModalOpen(!modalOpen);
+	};
+
 	useEffect(() => {
 		if (accessToken && refreshToken) {
 			localStorage.setItem('accessToken', accessToken);
 			localStorage.setItem('refreshToken', refreshToken);
-			localStorage.setItem('memberId', memberId);
 
 			getMyInfo(Number(memberId), accessToken).then((res) => {
 				console.log('getMyInfo res', res);
@@ -66,19 +74,13 @@ function RoomList() {
 		}
 	}, []);
 
-	const [rooms, setRooms] = useState([]);
-	const [modalOpen, setModalOpen] = useState(false);
+	useEffect(() => {
+		getRooms(page, size).then((res) => {
+			console.log('getRooms res', res);
 
-	const modalClose = () => {
-		setModalOpen(!modalOpen);
-	};
-
-	// useEffect(() => {
-	// 	getRooms().then((res) => {
-	// 		// console.log('#1', res);
-	// 		setRooms(res);
-	// 	});
-	// }, []);
+			setRooms(res);
+		});
+	}, []);
 
 	return (
 		<>
@@ -97,11 +99,14 @@ function RoomList() {
 			<H2>방 Top 8</H2>
 			<H2>최신 방</H2>
 			<ListStyle>
-				{rooms.length
+				{/* {rooms.length
 					? rooms.map((room: RoomInfoType) => (
 							<Room room={room} key={room.roomId} />
 					  ))
-					: null}
+					: null} */}
+				{rooms.map((room: RoomInfoType) => (
+					<Room room={room} key={room.roomId} />
+				))}
 			</ListStyle>
 		</>
 	);
