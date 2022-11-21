@@ -67,24 +67,23 @@ function RoomList() {
 
 	//* 무한 스크롤
 	const [rooms, setRooms] = useState<RoomInfoType[]>([]);
+
 	const [hasNextPage, setHasNextPage] = useState(true);
 	const currentPage = useRef<number>(1);
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
-		() => {
-			getRooms(currentPage.current, 10).then((res) => {
-				const data = res.data;
-				const { page, totalPages } = res.pageInfo;
+		getRooms(currentPage.current, 10).then((res) => {
+			const data = res.data;
+			const { page, totalPages } = res.pageInfo;
 
-				setRooms([...rooms, ...data]);
-				// setHasNextPage(data.length === 10);
-				setHasNextPage(page !== totalPages);
+			setRooms((prevRooms) => [...prevRooms, ...data]);
+			// setHasNextPage(data.length === 10);
+			setHasNextPage(page !== totalPages);
 
-				// if (data.length) currentPage.current += 1;
-				if (hasNextPage) currentPage.current += 1;
-			});
-		};
+			// if (data.length) currentPage.current += 1;
+			if (hasNextPage) currentPage.current += 1;
+		});
 	}, []);
 
 	useEffect(() => {

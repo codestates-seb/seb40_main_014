@@ -20,7 +20,7 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 					<div>
 						<Name>{name}</Name>
 						{myId === memberId && (
-							<Link to="/">
+							<Link to="/editProfile">
 								<AiFillEdit />
 							</Link>
 						)}

@@ -28,19 +28,17 @@ function PlaylistList() {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
-		() => {
-			getPlaylists(memberId, currentPage.current, 10).then((res) => {
-				const data = res.data;
-				const { page, totalPages } = res.pageInfo;
+		getPlaylists(memberId, currentPage.current, 10).then((res) => {
+			const data = res.data;
+			const { page, totalPages } = res.pageInfo;
 
-				setPlayLists([...playlists, ...data]);
-				// setHasNextPage(data.length === 10);
-				setHasNextPage(page !== totalPages);
+			setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
+			// setHasNextPage(data.length === 10);
+			setHasNextPage(page !== totalPages);
 
-				// if (data.length) currentPage.current += 1;
-				if (hasNextPage) currentPage.current += 1;
-			});
-		};
+			// if (data.length) currentPage.current += 1;
+			if (hasNextPage) currentPage.current += 1;
+		});
 	}, []);
 
 	useEffect(() => {

@@ -5,6 +5,7 @@ import Layout from '../components/common/Layout';
 import Modaltest from '../pages/Modaltest';
 import PlaylistList from '../pages/PlaylistList';
 import Room from '../pages/Room';
+import EditProfile from '../pages/EditProfile';
 
 // const Main = lazy(() => import('../pages/Main'));
 const PlayListDetail = lazy(() => import('../pages/PlayListDetail'));
@@ -32,6 +33,7 @@ const AppRouter = () => {
 							path="/playlistcollection"
 							element={<PlayListCollection />}
 						/>
+						<Route path="/editProfile" element={<EditProfile />} />
 
 						<Route path="/rooms/:id" element={<Room />} />
 					</Route>
