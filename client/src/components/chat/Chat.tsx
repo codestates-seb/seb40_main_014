@@ -1,5 +1,4 @@
 import SockJS from 'sockjs-client';
-import { Client } from '@stomp/stompjs';
 import { over } from 'stompjs';
 import { useState } from 'react';
 import styled from 'styled-components';
@@ -14,9 +13,7 @@ const Chat = () => {
 		message: '',
 	});
 	const connect = () => {
-		const Sock = new SockJS(
-			'http://ec2-3-36-120-103.ap-northeast-2.compute.amazonaws.com:8080/ws',
-		);
+		const Sock = new SockJS(`${process.env.REACT_APP_STACK_SERVER}/ws`);
 		stompClient = over(Sock);
 		stompClient.connect({}, onConnected, onError);
 		console.log('Stomp Client : ', stompClient);

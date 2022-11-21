@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { over } from 'stompjs';
-import SockJS from 'sockjs-client';
 
 const Chattest = () => {
 	// chatting 토클 상태
@@ -25,9 +23,7 @@ const Chattest = () => {
 	}, [receivedData]);
 
 	const onClickConnectBtn = () => {
-		const sock = new WebSocket(
-			`ws://ec2-3-36-120-103.ap-northeast-2.compute.amazonaws.com:8080/chat`,
-		);
+		const sock = new WebSocket(`${process.env.REACT_APP_STACK_WS_SERVER}/chat`);
 		sock.onmessage = function (e) {
 			setReceivedData(e.data);
 			console.log('server로 받은 데이터', e.data);

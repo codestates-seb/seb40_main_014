@@ -4,7 +4,7 @@ module.exports = (app) => {
 	app.use(
 		'/ws',
 		createProxyMiddleware({
-			target: 'ws://ec2-3-36-120-103.ap-northeast-2.compute.amazonaws.com:8080',
+			target: `${process.env.REACT_APP_STACK_WS_SERVER}`,
 			ws: true,
 		}),
 	);

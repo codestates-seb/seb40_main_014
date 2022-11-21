@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import SockJS from 'sockjs-client';
+import React, { useEffect, useState } from 'react';
+
 import * as StompJS from '@stomp/stompjs';
-import styled from 'styled-components';
 
 const StompChat = () => {
 	const [ms, setMs] = useState('');
@@ -16,8 +15,7 @@ const StompChat = () => {
 
 	const connect = () => {
 		client.configure({
-			brokerURL:
-				'ws://ec2-3-36-120-103.ap-northeast-2.compute.amazonaws.com:8080/ws/websocket', // 왜 websocket을 붙여줘야하는거지..?
+			brokerURL: `${process.env.REACT_APP_STACK_WS_SERVER}/ws/websocket`, // 왜 websocket을 붙여줘야하는거지..?
 			// webSocketFactory: () => new SockJS("/ws"),
 			connectHeaders: {
 				login: 'user',

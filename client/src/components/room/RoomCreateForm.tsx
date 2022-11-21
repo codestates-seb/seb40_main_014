@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import AddModal from './addModal';
 import { DefaultButton } from '../common/Button';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 
 export type roomInfo = {
@@ -95,6 +95,7 @@ const RoomCreateForm = () => {
 		axios
 			.post(`${process.env.REACT_APP_STACK_SERVER}/rooms`, CreateRoomInfo)
 			.then((res) => {
+				console.log(res);
 				navigate(`rooms/${res.data.roomId}`);
 			})
 			.catch((err) => console.log(err));
