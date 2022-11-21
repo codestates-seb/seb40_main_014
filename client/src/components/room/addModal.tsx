@@ -10,6 +10,12 @@ const ModalContainer = styled.div`
 	box-shadow: #babfc4 0px 5px 12px;
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	overflow: hidden;
+
+	@media screen and (max-width: 640px) {
+		top: 60%;
+		left: 50%;
+		height: 300px;
+	}
 `;
 
 const MyPlaylistHeader = styled.div`
@@ -33,6 +39,9 @@ const MyPlaylist = styled.div`
 	overflow: scroll;
 	div {
 		margin: 0px 10px 10px 10px;
+	}
+	@media screen and (max-width: 640px) {
+		height: 100px;
 	}
 `;
 const BookmarkPlaylistHeader = styled(MyPlaylistHeader)`

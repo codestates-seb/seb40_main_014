@@ -13,11 +13,10 @@ jobs:
         # Github Repository Secrets를 통해 환경 변수 파일을 생성합니다.
       - name: Generate Environment Variables File for Production
         run: |
-          echo "REACT_APP_STACK_SERVER=$REACT_APP_STACK_SERVER" >> .env.production
-          echo "REACT_APP_YOUTUBE_KEY=$REACT_APP_YOUTUBE_KEY" >> .env.production
-        env:
-          REACT_APP_STACK_SERVER: ${{ secrets.REACT_APP_STACK_SERVER }}
-          REACT_APP_YOUTUBE_KEY: ${{ secrets.REACT_APP_YOUTUBE_KEY }}
+          echo "REACT_APP_STACK_SERVER=${{ secrets.REACT_APP_STACK_SERVER }}" >> .env
+          echo "REACT_APP_YOUTUBE_KEY=${{ secrets.REACT_APP_YOUTUBE_KEY }}" >> .env
+          echo "REACT_APP_STACK_WS_SERVER=${{ secrets.REACT_APP_STACK_WS_SERVER}}" >> .env
+          cat .env
       - name: Install dependencies
         run: npm install
         working-directory: ./client

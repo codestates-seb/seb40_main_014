@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { ImExit } from 'react-icons/im';
 import RoomCreateForm from './RoomCreateForm';
+import RoomUpdateForm from './RoomUpdateForm';
 
 export type roomInfo = {
 	title: string;
@@ -59,23 +60,24 @@ const UpdateRoomModal = ({ modalOpen, setModalOpen }) => {
 		setModalOpen(!modalOpen);
 	};
 
-	return null;
-	// <>
-	// 	<ModalOverlay></ModalOverlay>
-	// 	<ModalContaincer>
-	// 		<ModalHeader>
-	// 			<HeaderContent>
-	// 				<div>방 수정하기</div>
-	// 			</HeaderContent>
-	// 			<HeaderContent>
-	// 				<ExitBtn onClick={onClick}>
-	// 					<ImExit />
-	// 				</ExitBtn>
-	// 			</HeaderContent>
-	// 		</ModalHeader>
-	// 		<RoomCreateForm />
-	// 	</ModalContaincer>
-	// </>
+	return (
+		<>
+			<ModalOverlay></ModalOverlay>
+			<ModalContaincer>
+				<ModalHeader>
+					<HeaderContent>
+						<div>방 수정하기</div>
+					</HeaderContent>
+					<HeaderContent>
+						<ExitBtn onClick={onClick}>
+							<ImExit />
+						</ExitBtn>
+					</HeaderContent>
+				</ModalHeader>
+				<RoomUpdateForm />
+			</ModalContaincer>
+		</>
+	);
 };
 
 export default UpdateRoomModal;
