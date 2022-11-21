@@ -1,55 +1,77 @@
-import * as SockJS from 'sockjs-client';
-import * as StompJS from '@stomp/stompjs';
+import SockJS from 'sockjs-client';
+import { Client } from '@stomp/stompjs';
+import { over } from 'stompjs';
+import { useState } from 'react';
+import styled from 'styled-components';
 
-// const Chat = () => {
-// const client = new StompJS.Client({
-// 	brokerURL: 'ws://localhost:8001/ws',
-// 	connectHeaders: {
-// 		login: 'user',
-// 		passcode: 'password',
-// 	},
-// 	debug: function (str) {
-// 		console.log(str);
-// 	},
-// 	reconnectDelay: 5000, //자동 재 연결
-// 	heartbeatIncoming: 4000,
-// 	heartbeatOutgoing: 4000,
-// });
+const Chat = () => {
+	let stompClient = null;
+	const [publicChats, setPublicChats] = useState([]);
+	const [userData, setUserData] = useState({
+		username: '',
+		receivername: '',
+		connected: false,
+		message: '',
+	});
+	const connect = () => {
+		const Sock = new SockJS(
+			'http://ec2-3-36-120-103.ap-northeast-2.compute.amazonaws.com:8080/ws',
+		);
+		stompClient = over(Sock);
+		stompClient.connect({}, onConnected, onError);
+		console.log('Stomp Client : ', stompClient);
+	};
 
-// 	client.onConnect = function (frame) {
-// 		// Do something, all subscribes must be done is this callback
-// 		// This is needed because this will be executed after a (re)connect
-// 	};
+	const onConnected = () => {
+		setUserData({ ...userData, connected: true });
+		stompClient.subscribe(
+			'/chat/room/5d00aadc-e8f0-4020-a2da-f105e2e84d50',
+			onMessageReceived,
+		);
+	};
+	const onError = (err) => {
+		console.log(err);
+	};
+	const onMessageReceived = (payload) => {
+		const payloadData = JSON.parse(payload.body);
+		console.log('payload', payload);
+		switch (payloadData.status) {
+			case 'MESSAGE':
+				publicChats.push(payloadData);
+				setPublicChats([...publicChats]);
+				break;
+		}
+	};
 
-// 	client.onStompError = function (frame) {
-// 		// Will be invoked in case of error encountered at Broker
-// 		// Bad login/passcode typically will cause an error
-// 		// Complaint brokers will set `message` header with a brief message. Body may contain details.
-// 		// Compliant brokers will terminate the connection after any error
-// 		console.log('Broker reported error: ' + frame.headers['message']);
-// 		console.log('Additional details: ' + frame.body);
-// 	};
+	const registerUser = () => {
+		connect();
+	};
 
-// 	client.deactivate();
+	const handleMessage = (event) => {
+		const { value } = event.target;
+		setUserData({ ...userData, message: value });
+	};
 
-// 	client.publish({
-// 		destination: '/topic/general',
-// 		body: 'Hello world',
-// 		headers: { priority: '9' },
-// 	});
+	const sendValue = () => {
+		if (stompClient) {
+			const chatMessage = {
+				senderName: userData.username,
+				message: userData.message,
+				status: 'MESSAGE',
+			};
+			console.log(chatMessage);
+			stompClient.send('/app/message', {}, JSON.stringify(chatMessage));
+			setUserData({ ...userData, message: '' });
+		}
+	};
+	return (
+		<Container>
+			<h1>채팅 테스트</h1>
+			<button onClick={registerUser}>연결</button>
+		</Container>
+	);
+};
 
-// 	const callback = (message) => {
-// 		// called when the client receives a STOMP message from the server
-// 		if (message.body) {
-// 			alert('got message with body ' + message.body);
-// 		} else {
-// 			alert('got empty message');
-// 		}
-// 	};
+export default Chat;
 
-// 	const subscription = client.subscribe('/queue/test', callback);
-
-// 	return null;
-// };
-
-// export default Chat;
+const Container = styled.div``;

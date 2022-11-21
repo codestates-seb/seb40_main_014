@@ -5,7 +5,6 @@ import AddModal from './addModal';
 import { DefaultButton } from '../common/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import thumbnail from '../../assets/images/thumbnail.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 
@@ -85,7 +84,7 @@ const RoomCreateForm = () => {
 
 	const onValid = (e) => {
 		const CreateRoomInfo = {
-			memberId: userInfo.memberId,
+			memberId: 1,
 			title: e.title,
 			pwd: e.password,
 			playlist: e.playlist,

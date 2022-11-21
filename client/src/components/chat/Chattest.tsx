@@ -1,65 +1,113 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
+import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
-import * as StompJS from '@stomp/stompjs';
 
-const ChatTest = () => {
-	// const [ms, setMs] = useState('');
-	// const [content, setContent] = useState('');
-	// const client = new StompJS.Client();
+const Chattest = () => {
+	// chatting 토클 상태
+	const [live, setLive] = useState(false);
+	// 메세지 유저 및 내용
+	const [message, setMessage] = useState('');
+	//서버 url
+	const [serverUrl, setServerUrl] = useState<any>('');
+	// 서버로 부터 받아온 내용
+	const [chat, setChat] = useState([]);
+
+	const [sockjs, setSockjs] = useState<any>();
+	const [receivedData, setReceivedData] = useState('');
 
 	// useEffect(() => {
-	// 	connect();
-	// 	return () => wsDisconnect();
-	// }, []);
+	// 	console.log(chat);
+	// }, [chat]);
 
-	// const connect = () => {
-	// 	client.configure({
-	// 		brokerURL: 'ws://localhost:8001/ws/websocket', // 왜 websocket을 붙여줘야하는거지..?
-	// 		// webSocketFactory: () => new SockJS("/ws"),
-	// 		connectHeaders: {
-	// 			login: 'user',
-	// 			password: 'password',
-	// 		},
-	// 		onConnect: () => {
-	// 			wsSubscribe();
-	// 		},
-	// 		debug: function (str) {
-	// 			console.log(str);
-	// 		},
-	// 	});
+	useEffect(() => {
+		if (receivedData === '') return;
+		setChat([...chat, { name: 'Server', message: receivedData }]);
+	}, [receivedData]);
 
-	// 	client.activate();
-	// };
+	const onClickConnectBtn = () => {
+		const sock = new WebSocket(
+			`ws://ec2-3-36-120-103.ap-northeast-2.compute.amazonaws.com:8080/chat`,
+		);
+		sock.onmessage = function (e) {
+			setReceivedData(e.data);
+			console.log('server로 받은 데이터', e.data);
+		};
+		setSockjs(sock);
+		setChat([...chat, { name: 'testUser', message: '님이 입장하셨습니다.' }]);
+		setLive(true);
+		console.log('sock', sock);
+	};
+	const onClickDisconnectBtn = () => {
+		setLive(false);
+	};
+	const inputMessage = (e) => {
+		setMessage(e.target.value);
+	};
+	const sendMessage = () => {
+		if (message === '') return;
+		setChat([...chat, { name: 'testUser', message: message }]);
+		console.log('message', message);
+		console.log('sockjs', sockjs);
+		sockjs.send(message);
+		setMessage('');
+	};
+	const onEnter = (e) => {
+		if (e.keyCode === 13) {
+			sendMessage();
+		}
+	};
+	const renderChat = () => {
+		console.log(chat);
+		return chat.map(({ name, message }, index) => (
+			<div key={index}>
+				<>
+					{name}: <>{message}</>
+				</>
+			</div>
+		));
+	};
 
-	// const onClick = (message: string) => {
-	// 	console.log(client.connected);
-	// 	console.log(message);
-	// 	if (!client.connected) return;
-
-	// 	client.publish({
-	// 		destination: '/app/hello',
-	// 		body: JSON.stringify({
-	// 			message: message,
-	// 		}),
-	// 	});
-	// };
-
-	// const wsSubscribe = () => {
-	// 	client.subscribe(
-	// 		'/topic/message',
-	// 		(msg) => {
-	// 			const newMessage = JSON.parse(msg.body).message;
-	// 			setContent(newMessage);
-	// 		},
-	// 		{ id: 'user' },
-	// 	);
-	// };
-
-	// const wsDisconnect = () => {
-	// 	client.deactivate();
-	// };
-
-	return null;
+	return (
+		<div className="chatting_container">
+			{!live && (
+				<>
+					<>Chrome Extension Chatting Application</>
+					<input
+						className="chatting_urlInput"
+						type="text"
+						placeholder="URL을 입력해주세요"
+						onChange={setServerUrl}
+						value={serverUrl}
+					/>
+					<button className="chatting_connectBtn" onClick={onClickConnectBtn}>
+						연결
+					</button>
+				</>
+			)}
+			{live && (
+				<>
+					<div className="chatting_Room">{renderChat()}</div>
+					<input
+						className="chatting_messageInput"
+						type="text"
+						placeholder="메세지를 입력해주세요"
+						onChange={inputMessage}
+						onKeyDown={onEnter}
+						value={message}
+					/>
+					<button className="chatting_sendMessage" onClick={sendMessage}>
+						전송
+					</button>
+					<br />
+					<button
+						className="chatting_disConnectBtn"
+						onClick={onClickDisconnectBtn}>
+						연결 끊기
+					</button>
+				</>
+			)}
+		</div>
+	);
 };
 
-export default ChatTest;
+export default Chattest;
