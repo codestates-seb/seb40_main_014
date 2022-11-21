@@ -34,6 +34,7 @@
 		"socketjs-client": "^1.0.2",
 		"sockjs-client": "^1.6.1",
 		"stompjs": "^2.3.3",
+		"redux-persist": "^6.0.0",
 		"styled-components": "^5.3.6",
 		"swiper": "^8.4.4",
 		"typescript": "^4.8.4",

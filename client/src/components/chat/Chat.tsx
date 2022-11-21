@@ -25,7 +25,7 @@ const Chat = () => {
 	const onConnected = () => {
 		setUserData({ ...userData, connected: true });
 		stompClient.subscribe(
-			'/chat/room/5d00aadc-e8f0-4020-a2da-f105e2e84d50',
+			'/chat/room/2c9f8a2d84986fe90184987e57eb0000',
 			onMessageReceived,
 		);
 	};
@@ -35,8 +35,8 @@ const Chat = () => {
 	const onMessageReceived = (payload) => {
 		const payloadData = JSON.parse(payload.body);
 		console.log('payload', payload);
-		switch (payloadData.status) {
-			case 'MESSAGE':
+		switch (payloadData.type) {
+			case 'ENTER':
 				publicChats.push(payloadData);
 				setPublicChats([...publicChats]);
 				break;
@@ -55,12 +55,12 @@ const Chat = () => {
 	const sendValue = () => {
 		if (stompClient) {
 			const chatMessage = {
-				senderName: userData.username,
+				senderName: '송준모',
 				message: userData.message,
-				status: 'MESSAGE',
+				type: 'ENTER',
 			};
 			console.log(chatMessage);
-			stompClient.send('/app/message', {}, JSON.stringify(chatMessage));
+			stompClient.send('/chat/enterUser', {}, JSON.stringify(chatMessage));
 			setUserData({ ...userData, message: '' });
 		}
 	};
@@ -68,6 +68,18 @@ const Chat = () => {
 		<Container>
 			<h1>채팅 테스트</h1>
 			<button onClick={registerUser}>연결</button>
+			<div className="send-message">
+				<input
+					type="text"
+					className="input-message"
+					placeholder="enter the message"
+					value={userData.message}
+					onChange={handleMessage}
+				/>
+				<button type="button" className="send-button" onClick={sendValue}>
+					send
+				</button>
+			</div>
 		</Container>
 	);
 };

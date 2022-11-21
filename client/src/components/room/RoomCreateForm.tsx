@@ -84,7 +84,7 @@ const RoomCreateForm = () => {
 
 	const onValid = (e) => {
 		const CreateRoomInfo = {
-			memberId: 1,
+			memberId: userInfo.memberId,
 			title: e.title,
 			pwd: e.password,
 			playlist: e.playlist,
