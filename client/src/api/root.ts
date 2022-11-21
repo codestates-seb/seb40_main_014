@@ -8,7 +8,6 @@ export const root = process.env.REACT_APP_STACK_SERVER;
 type config = {
 	headers: object;
 	baseURL: string | undefined;
-	withCredentials: boolean;
 };
 
 const accessToken = localStorage.getItem('accessToken');
@@ -22,7 +21,6 @@ const axiosConfig: config = {
 		Authorization: accessToken,
 	},
 	baseURL: root,
-	withCredentials: true,
 };
 
 const instance = axios.create(axiosConfig);
@@ -76,9 +74,5 @@ instance.interceptors.response.use(
 		// return Promise.reject(error);
 	},
 );
-
-// instance.defaults.withCredentials = true; // withCredentials 전역 설정
-// youtube api 에서 withCredentials = true 하면 cors에 막힘
-// instance.defaults.withCredentials = true; // withCredentials 전역 설정
 
 export default instance;
