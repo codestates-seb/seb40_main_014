@@ -20,6 +20,8 @@ export const getPlayList = async () => {
 	try {
 		//test
 		const result = await instance.get('/playlist');
+		//real
+		// const result = await instance.get(`/api/playlists/${data}`);
 		return result.data;
 	} catch (err) {
 		return err;
@@ -32,6 +34,23 @@ export const createPlayList = async (data) => {
 		data.like = 0;
 		data.playListId = 1;
 		const result = await instance.post('/playlist', data);
+		//real
+		// const result = await instance.post(`/api/playlists`, data);
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
+
+export const modifyPlayList = async (data) => {
+	try {
+		//test
+		const result = await instance.post('/playlist', data);
+		//real
+		// const result = await instance.patch(
+		// 	`/api/playlists/${data.playlistId}`,
+		// 	data,
+		// );
 		return result.data;
 	} catch (err) {
 		return err;
@@ -72,17 +91,6 @@ export const updateBookMark = async (data) => {
 		if (data.type === 'cancel') {
 			result = await instance.post('/bookmarklist', { bookmarklist: [] });
 		}
-		return result.data;
-	} catch (err) {
-		return err;
-	}
-};
-
-export const modifyPlayList = async (data) => {
-	try {
-		//test
-		data.like = 13;
-		const result = await instance.post('/playlist', data);
 		return result.data;
 	} catch (err) {
 		return err;

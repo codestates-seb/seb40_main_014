@@ -1,7 +1,8 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getPlayList } from '../api/playlistApi';
-import MusicList, { music } from '../components/playlist/MusicList';
+import MusicList from '../components/playlist/MusicList';
 import PlayListInfo from '../components/playlist/PlayListInfo';
 import { musicInfoType } from './MakePlayList';
 
@@ -11,7 +12,7 @@ export type plinfo = {
 	title: string;
 	playlist: Array<musicInfoType>;
 	categoryList: Array<string>;
-	public: boolean;
+	status: boolean;
 	like?: number;
 };
 
@@ -24,9 +25,9 @@ export type PlayListInfoProps = {
 
 const PlayListDetail = () => {
 	const [playListInfo, setPlayListInfo] = useState<plinfo>();
-
+	const { id } = useParams();
 	useEffect(() => {
-		getPlayList().then((res) => {
+		getPlayList(id).then((res) => {
 			if (res.code) {
 				alert(res);
 			} else {

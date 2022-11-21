@@ -1,13 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-<<<<<<< HEAD
-import { getRooms } from '../api/listApi';
-import { getUserInfo } from '../api/userApi';
-=======
 import { getRooms } from '../api/roomApi';
 import { getMyInfo } from '../api/userApi';
->>>>>>> 99f5d6e93823c5d943ed40eadb67c659614a6bac
 import { DefaultButton } from '../components/common/Button';
 import Room from '../components/home/Room';
 import CreateModal from '../components/room/createModal';
@@ -38,6 +34,7 @@ export type HostType = {
 
 function RoomList() {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const [page, setPage] = useState(0);
 	const [size, setSize] = useState(16);
@@ -45,28 +42,20 @@ function RoomList() {
 	const [modalOpen, setModalOpen] = useState(false);
 
 	// 구글 로그인
-	const gAccessToken = new URL(location.href).searchParams.get('access_token');
-	const gRefreshToken = new URL(location.href).searchParams.get(
-		'refresh_token',
-	);
-	const memberId = Number(new URL(location.href).searchParams.get('member_id'));
+	const accessToken = new URL(location.href).searchParams.get('access_token');
+	const refreshToken = new URL(location.href).searchParams.get('refresh_token');
+	const memberId = new URL(location.href).searchParams.get('member_id');
 
 	const modalClose = () => {
 		setModalOpen(!modalOpen);
 	};
 
 	useEffect(() => {
-<<<<<<< HEAD
-		if (gAccessToken && gRefreshToken) {
-			localStorage.setItem('accessToken', gAccessToken);
-			localStorage.setItem('refreshToken', gRefreshToken);
-=======
 		if (accessToken && refreshToken) {
 			localStorage.setItem('accessToken', accessToken);
 			localStorage.setItem('refreshToken', refreshToken);
->>>>>>> 99f5d6e93823c5d943ed40eadb67c659614a6bac
 
-			getUserInfo(memberId).then((res) => {
+			getMyInfo(Number(memberId), accessToken).then((res) => {
 				console.log('getMyInfo res', res);
 				// {
 				// 	memberId: 1,
@@ -78,8 +67,9 @@ function RoomList() {
 				// 	grade: 'LUVIP',
 				// 	rank: 1,
 				// }
-
 				dispatch(myInfo(res.data));
+
+				navigate('/');
 			});
 		}
 	}, []);
@@ -88,12 +78,6 @@ function RoomList() {
 		getRooms(page, size).then((res) => {
 			console.log('getRooms res', res);
 
-<<<<<<< HEAD
-	useEffect(() => {
-		getRooms().then((res) => {
-			// console.log('#1', res);
-=======
->>>>>>> 99f5d6e93823c5d943ed40eadb67c659614a6bac
 			setRooms(res);
 		});
 	}, []);
