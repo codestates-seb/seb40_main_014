@@ -1,6 +1,6 @@
 import { BsBookmarksFill, BsBookmarks } from 'react-icons/bs';
 import { useDispatch } from 'react-redux';
-import { updateBookMark } from '../../api/listApi';
+import { updateBookMark } from '../../api/playlistApi';
 import { changeBookMarkList } from '../../slices/mySlice';
 
 type BookMarkType = {

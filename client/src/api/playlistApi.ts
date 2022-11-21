@@ -2,10 +2,13 @@ import instance from './root';
 
 export const getPlaylists = async (
 	memberId: number,
-	page: number,
-	size: number,
+	page?: number,
+	size?: number,
 ) => {
 	try {
+		//test
+		// const result = await instance.get('/playlists');
+		//real
 		const result = await instance.get(
 			`/api/${memberId}/playlists?page=${page}&size=${size}`,
 		);
@@ -16,12 +19,12 @@ export const getPlaylists = async (
 	}
 };
 
-export const getPlayList = async () => {
+export const getPlayList = async (data) => {
 	try {
 		//test
-		const result = await instance.get('/playlist');
+		// const result = await instance.get('/playlist');
 		//real
-		// const result = await instance.get(`/api/playlists/${data}`);
+		const result = await instance.get(`/api/playlists/${data}`);
 		return result.data;
 	} catch (err) {
 		return err;
@@ -31,11 +34,11 @@ export const getPlayList = async () => {
 export const createPlayList = async (data) => {
 	try {
 		//test
-		data.like = 0;
-		data.playListId = 1;
-		const result = await instance.post('/playlist', data);
+		// data.like = 0;
+		// data.playListId = 1;
+		// const result = await instance.post('/playlist', data);
 		//real
-		// const result = await instance.post(`/api/playlists`, data);
+		const result = await instance.post(`/api/playlists`, data);
 		return result.data;
 	} catch (err) {
 		return err;
@@ -45,12 +48,24 @@ export const createPlayList = async (data) => {
 export const modifyPlayList = async (data) => {
 	try {
 		//test
-		const result = await instance.post('/playlist', data);
+		// const result = await instance.post('/playlist', data);
 		//real
-		// const result = await instance.patch(
-		// 	`/api/playlists/${data.playlistId}`,
-		// 	data,
-		// );
+		const result = await instance.patch(
+			`/api/playlists/${data.playlistId}`,
+			data,
+		);
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
+
+export const deletePlayList = async (data) => {
+	try {
+		//test
+		// const result = await instance.delete(`/playlist`);
+		//real
+		const result = await instance.delete(`/api/playlist/${data}`);
 		return result.data;
 	} catch (err) {
 		return err;

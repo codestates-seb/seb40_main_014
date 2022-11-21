@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { HiHeart, HiOutlineHeart } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
-import { patchLike } from '../../api/listApi';
+import { patchLike } from '../../api/playlistApi';
 import { plinfo } from '../../pages/PlayListDetail';
 import { changeLikeList } from '../../slices/mySlice';
 

@@ -1,230 +1,139 @@
 {
-  "playlist": {
-    "memberId": "moon",
-    "title": "일요일",
-    "playlist": [
-      {
-        "vedioId": "7PrTh3hpZlk",
-        "url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
-        "channelTitle": "장밀크milk",
-        "title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
-        "thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
-      }
-    ],
-    "categoryList": [
-      "발라드",
-      "OST"
-    ],
-    "public": true,
-    "like": 1,
-    "playListId": 1
-  },
-  "playlists": [
-    {
-      "playlistId": 1,
-      "title": "신나는 음악1",
-      "status": "public",
-      "videoId": [
-        "https: //youtu.be/V3km0CcYma4",
-        "https: //youtu.be/DFH2NpzgQ2E"
-      ],
-      "category": [
-        "발라드",
-        "힙합",
-        "OST"
-      ],
-      "like": 35,
-      "createdAt": "생성시간",
-      "modifiedAt": "수정시간",
-      "name": "플리 만든사람"
-    },
-    {
-      "playlistId": 2,
-      "title": "신나는 음악2",
-      "status": "private",
-      "videoId": [
-        "https: //youtu.be/V3km0CcYma4",
-        "https: //youtu.be/DFH2NpzgQ2E"
-      ],
-      "category": [
-        "발라드",
-        "힙합",
-        "OST"
-      ],
-      "like": 35,
-      "createdAt": "생성시간",
-      "modifiedAt": "수정시간",
-      "name": "플리 만든사람"
-    },
-    {
-      "playlistId": 3,
-      "title": "신나는 음악3",
-      "status": "private",
-      "videoId": [
-        "https: //youtu.be/V3km0CcYma4",
-        "https: //youtu.be/DFH2NpzgQ2E"
-      ],
-      "category": [
-        "발라드",
-        "힙합",
-        "OST"
-      ],
-      "like": 35,
-      "createdAt": "생성시간",
-      "modifiedAt": "수정시간",
-      "name": "플리 만든사람"
-    },
-    {
-      "playlistId": 4,
-      "title": "신나는 음악4",
-      "status": "private",
-      "videoId": [
-        "https: //youtu.be/V3km0CcYma4",
-        "https: //youtu.be/DFH2NpzgQ2E"
-      ],
-      "category": [
-        "발라드",
-        "힙합",
-        "OST"
-      ],
-      "like": 35,
-      "createdAt": "생성시간",
-      "modifiedAt": "수정시간",
-      "name": "플리 만든사람"
-    },
-    {
-      "playlistId": 5,
-      "title": "신나는 음악5",
-      "status": "private",
-      "videoId": [
-        "https: //youtu.be/V3km0CcYma4",
-        "https: //youtu.be/DFH2NpzgQ2E"
-      ],
-      "category": [
-        "발라드",
-        "힙합",
-        "OST"
-      ],
-      "like": 35,
-      "createdAt": "생성시간",
-      "modifiedAt": "수정시간",
-      "name": "플리 만든사람"
-    },
-    {
-      "playlistId": 6,
-      "title": "신나는 음악6",
-      "status": "private",
-      "videoId": [
-        "https: //youtu.be/V3km0CcYma4",
-        "https: //youtu.be/DFH2NpzgQ2E"
-      ],
-      "category": [
-        "발라드",
-        "힙합",
-        "OST"
-      ],
-      "like": 35,
-      "createdAt": "생성시간",
-      "modifiedAt": "수정시간",
-      "name": "플리 만든사람"
-    }
-  ],
-  "rooms": [
-    {
-      "id": 1,
-      "title": "방제목1",
-      "password": "",
-      "playlist": "플리제목1",
-      "people": "총인원수"
-    },
-    {
-      "title": "왜안지워져",
-      "playlist": "??",
-      "people": "1",
-      "thumbnail": "/static/media/thumbnail.15e29d7cf0897e24c057.png",
-      "id": 2
-    }
-  ],
-  "roomss": [
-    {
-      "roomId": 1,
-      "member": {
-        "memberId": 1,
-        "playlistId": 1,
-        "name": "luvpli dj",
-        "roles": "ADMIN",
-        "grade": "SILVER"
-      },
-      "title": "carol room1",
-      "content": "christmas carol",
-      "onair": "ON",
-      "pwd": "null",
-      "secret": false,
-      "category": [
-        "발라드",
-        "힙합",
-        "OST"
-      ],
-      "createdAt": "2022-11-11T23:36:01.761998",
-      "modifiedAt": "2022-11-11T23:36:01.762014",
-      "curMember": 3,
-      "totalMember": 6
-    },
-    {
-      "roomId": 2,
-      "member": {
-        "memberId": 2,
-        "playlistId": 2,
-        "name": "luvpli dj",
-        "roles": "ADMIN",
-        "grade": "SILVER"
-      },
-      "title": "carol room2 시크릿",
-      "content": "christmas carol",
-      "onair": "ON",
-      "pwd": "null",
-      "secret": true,
-      "category": [
-        "발라드",
-        "힙합",
-        "OST"
-      ],
-      "createdAt": "2022-11-11T23:36:01.761998",
-      "modifiedAt": "2022-11-11T23:36:01.762014",
-      "curMember": 3,
-      "totalMember": 6
-    },
-    {
-      "roomId": 3,
-      "member": {
-        "memberId": 3,
-        "playlistId": 3,
-        "name": "luvpli dj",
-        "roles": "ADMIN",
-        "grade": "SILVER"
-      },
-      "title": "carol room3",
-      "content": "christmas carol",
-      "onair": "ON",
-      "pwd": "null",
-      "secret": false,
-      "category": [
-        "발라드",
-        "힙합",
-        "OST"
-      ],
-      "createdAt": "2022-11-11T23:36:01.761998",
-      "modifiedAt": "2022-11-11T23:36:01.762014",
-      "curMember": 3,
-      "totalMember": 6
-    }
-  ],
-  "likelist": {
-    "likelist": [
-      1
-    ]
-  },
-  "bookmarklist": {
-    "bookmarklist": []
-  }
+	"playlist": {
+		"memberId": "moon",
+		"title": "일요일",
+		"playlist": [
+			{
+				"vedioId": "7PrTh3hpZlk",
+				"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+				"channelTitle": "장밀크milk",
+				"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+				"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+			}
+		],
+		"categoryList": ["발라드", "OST"],
+		"status": true,
+		"like": 0,
+		"playListId": 1
+	},
+	"playlists": [
+		{
+			"memberId": "moon",
+			"title": "일요일",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			],
+			"categoryList": ["발라드", "OST"],
+			"status": true,
+			"like": 0,
+			"playListId": 1
+		},
+		{
+			"memberId": "moon",
+			"title": "일요일",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			],
+			"categoryList": ["발라드", "OST"],
+			"status": true,
+			"like": 0,
+			"playListId": 2
+		}
+	],
+	"rooms": [
+		{
+			"id": 1,
+			"title": "방제목1",
+			"password": "",
+			"playlist": "플리제목1",
+			"people": "총인원수"
+		},
+		{
+			"title": "왜안지워져",
+			"playlist": "??",
+			"people": "1",
+			"thumbnail": "/static/media/thumbnail.15e29d7cf0897e24c057.png",
+			"id": 2
+		}
+	],
+	"roomss": [
+		{
+			"roomId": 1,
+			"member": {
+				"memberId": 1,
+				"playlistId": 1,
+				"name": "luvpli dj",
+				"roles": "ADMIN",
+				"grade": "SILVER"
+			},
+			"title": "carol room1",
+			"content": "christmas carol",
+			"onair": "ON",
+			"pwd": "null",
+			"secret": false,
+			"category": ["발라드", "힙합", "OST"],
+			"createdAt": "2022-11-11T23:36:01.761998",
+			"modifiedAt": "2022-11-11T23:36:01.762014",
+			"curMember": 3,
+			"totalMember": 6
+		},
+		{
+			"roomId": 2,
+			"member": {
+				"memberId": 2,
+				"playlistId": 2,
+				"name": "luvpli dj",
+				"roles": "ADMIN",
+				"grade": "SILVER"
+			},
+			"title": "carol room2 시크릿",
+			"content": "christmas carol",
+			"onair": "ON",
+			"pwd": "null",
+			"secret": true,
+			"category": ["발라드", "힙합", "OST"],
+			"createdAt": "2022-11-11T23:36:01.761998",
+			"modifiedAt": "2022-11-11T23:36:01.762014",
+			"curMember": 3,
+			"totalMember": 6
+		},
+		{
+			"roomId": 3,
+			"member": {
+				"memberId": 3,
+				"playlistId": 3,
+				"name": "luvpli dj",
+				"roles": "ADMIN",
+				"grade": "SILVER"
+			},
+			"title": "carol room3",
+			"content": "christmas carol",
+			"onair": "ON",
+			"pwd": "null",
+			"secret": false,
+			"category": ["발라드", "힙합", "OST"],
+			"createdAt": "2022-11-11T23:36:01.761998",
+			"modifiedAt": "2022-11-11T23:36:01.762014",
+			"curMember": 3,
+			"totalMember": 6
+		}
+	],
+	"likelist": {
+		"likelist": [1]
+	},
+	"bookmarklist": {
+		"bookmarklist": []
+	}
 }
