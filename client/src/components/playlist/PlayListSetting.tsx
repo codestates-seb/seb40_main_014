@@ -14,8 +14,8 @@ type Props = {
 	plList: Array<musicInfoType>;
 	setCategoryList: Dispatch<SetStateAction<Array<string>>>;
 	categoryList: Array<string>;
-	setPublicPl: Dispatch<SetStateAction<boolean>>;
-	publicPl: boolean;
+	setStatus: Dispatch<SetStateAction<boolean>>;
+	status: boolean;
 };
 
 const PlayListSetting = ({
@@ -25,8 +25,8 @@ const PlayListSetting = ({
 	plList,
 	setCategoryList,
 	categoryList,
-	setPublicPl,
-	publicPl,
+	setStatus,
+	status,
 }: Props) => {
 	const [url, setUrl] = useState('');
 
@@ -98,7 +98,7 @@ const PlayListSetting = ({
 				</div>
 				<div className="rigth">
 					비공개
-					<Toggle setState={setPublicPl} state={publicPl} />
+					<Toggle setState={setStatus} state={status} />
 					공개
 				</div>
 			</div>

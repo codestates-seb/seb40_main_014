@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { createPlayList, getPlayList, modifyPlayList } from '../api/listApi';
+import {
+	createPlayList,
+	getPlayList,
+	modifyPlayList,
+} from '../api/playlistApi';
 import { DefaultButton } from '../components/common/Button';
 import MusicList from '../components/playlist/MusicList';
 import PlayListSetting from '../components/playlist/PlayListSetting';
@@ -16,22 +20,23 @@ export type musicInfoType = {
 };
 const MakePlayList = () => {
 	const [plTitle, setPlTitle] = useState<string>('');
+	const [plId, setPlId] = useState<number>();
 	const [plList, setPlList] = useState<Array<musicInfoType>>([]);
 	const [categoryList, setCategoryList] = useState<Array<string>>([]);
-	const [publicPl, setPublicPl] = useState<boolean>(true);
-	const { type } = useParams();
+	const [status, setStatus] = useState<boolean>(true);
+	const { type, id } = useParams();
 	const navigate = useNavigate();
-
 	useEffect(() => {
 		if (type === 'modify') {
-			getPlayList().then((res) => {
+			getPlayList(id).then((res) => {
 				if (res.code) {
 					alert(res);
 				} else {
+					setPlId(res.playlistId);
 					setPlTitle(res.title);
 					setPlList(res.playlist);
 					setCategoryList(res.categoryList);
-					setPublicPl(res.public);
+					setStatus(res.status);
 				}
 			});
 		}
@@ -49,15 +54,15 @@ const MakePlayList = () => {
 		plList,
 		setCategoryList,
 		categoryList,
-		setPublicPl,
-		publicPl,
+		setStatus,
+		status,
 	};
 	const data: plinfo = {
 		memberId: 'moon',
 		title: plTitle,
 		playlist: plList,
 		categoryList,
-		public: publicPl,
+		status,
 	};
 
 	const validation = (data) => {
@@ -82,6 +87,7 @@ const MakePlayList = () => {
 	};
 	const modifyPl = () => {
 		if (validation(data)) {
+			data.playListId = plId;
 			modifyPlayList(data).then((res) => navigate('/playlistdetail'));
 		}
 	};

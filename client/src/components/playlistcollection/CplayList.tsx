@@ -1,38 +1,42 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { deletePlayList } from '../../api/playlistApi';
+import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { DefaultBtn, DefaultButton } from '../common/Button';
 import Category from '../common/Category';
-
-type CplayListProps = {
-	key: string;
-	playlist?: string;
+type PlaylistType = {
+	playList: PlaylistInfoType;
+	key?: number;
 };
-
-const CplayList = ({ playlist }: CplayListProps) => {
+const CplayList = ({ playList }: PlaylistType) => {
+	const { playListId, title, categoryList, playlist } = playList;
 	const navigate = useNavigate();
+
+	const onClickDelete = () => {
+		deletePlayList(playListId).then((res) => console.log(res));
+	};
 	return (
 		<CplayListStyle>
 			<div className="top">
-				<DefaultButton onClick={() => navigate('/makeplaylist/modify')}>
+				<DefaultButton
+					onClick={() => navigate(`/makeplaylist/modify/${playListId}`)}>
 					수정
 				</DefaultButton>
-				<Deletebutton>삭제</Deletebutton>
+				<Deletebutton onClick={onClickDelete}>삭제</Deletebutton>
 			</div>
 			<div className="bottom">
 				<div className="left">
-					<img
-						src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
-						alt="이미지"
-					/>
+					<img src={playlist[0].thumbnail} alt="이미지" />
 				</div>
 				<div className="right">
 					<div>
-						<Category category="힙합">힙합</Category>
-						<Category category="발라드">발라드</Category>
-						<Category category="OST">OST</Category>
+						{categoryList.map((el, idx) => (
+							<Category category={el} margin="0 4px 0 0" key={idx}>
+								{el}
+							</Category>
+						))}
 					</div>
-					<div className="pltitle">플레이리스트 이름</div>
-					<div className="desc">플레이리스트 설명</div>
+					<div className="pltitle">{title}</div>
 				</div>
 			</div>
 		</CplayListStyle>

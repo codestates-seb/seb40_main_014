@@ -5,11 +5,6 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import arrowCursor from '../../assets/images/arrowCursor.png';
 import { useLocation } from 'react-router-dom';
 
-export type music = {
-	id: number;
-	name: string;
-};
-
 const MusicList = ({ playListInfo, plList, setPlList }: PlayListInfoProps) => {
 	const { pathname } = useLocation();
 	//음악 삭제이벤트
@@ -28,7 +23,7 @@ const MusicList = ({ playListInfo, plList, setPlList }: PlayListInfoProps) => {
 	};
 	return (
 		<MusicListStyle>
-			{pathname === '/playlistdetail' ? (
+			{pathname.split('/')[1] === '/playlistdetail' ? (
 				playListInfo.playlist.map((ele, idx) => (
 					<a key={idx} href={ele.url} target="_blank" rel="noreferrer">
 						<Music pathname={pathname}>
