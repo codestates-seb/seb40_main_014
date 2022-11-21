@@ -26,5 +26,5 @@ public class SimplePlaylistResponseDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
-
+    
 }
