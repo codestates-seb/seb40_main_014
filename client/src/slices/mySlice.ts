@@ -14,6 +14,7 @@ type InitialStateValue = {
 };
 
 type InitialState = {
+	isLogin: boolean;
 	value: InitialStateValue;
 };
 
@@ -29,20 +30,8 @@ const initialStateValue: InitialStateValue = {
 	picture: '',
 };
 
-// const initialState: InitialState = {
-// 	value: {
-// 		memberId: 1,
-// 		follow: 10,
-// 		like: 10,
-// 		name: '닉네임',
-// 		createdAt: '회원 생성 시간',
-// 		modifiedAt: '회원 수정 시간',
-// 		grade: 'LUVIP',
-// 		rank: 1,
-// 	},
-// };
-
 const initialState: InitialState = {
+	isLogin: false,
 	value: initialStateValue,
 };
 
@@ -51,9 +40,11 @@ const mySlice = createSlice({
 	initialState,
 	reducers: {
 		myInfo: (state, action) => {
+			state.isLogin = true;
 			state.value = action.payload;
 		},
 		myLogout: (state) => {
+			state.isLogin = false;
 			state.value = initialStateValue;
 		},
 	},
@@ -62,3 +53,4 @@ const mySlice = createSlice({
 export default mySlice.reducer;
 export const { myInfo, myLogout } = mySlice.actions;
 export const myValue = (state: RootState) => state.my.value;
+export const myLogin = (state: RootState) => state.my.isLogin;
