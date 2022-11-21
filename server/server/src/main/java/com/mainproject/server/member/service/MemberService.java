@@ -82,7 +82,7 @@ public class MemberService {
 
     public void logoutMember(HttpServletRequest request, HttpServletResponse response){
 
-        String refreshToken = request.getHeader("RefreshToken").substring(7);
+        String refreshToken = request.getHeader("RefreshToken").substring(6);
         RefreshToken token = tokenRepository.findByRefreshToken(refreshToken).get();
 
         tokenRepository.deleteById(token.getTokenId());
@@ -90,7 +90,7 @@ public class MemberService {
 
     public ResponseEntity refresh(HttpServletRequest request, HttpServletResponse response) {
 
-        String refreshToken = request.getHeader("RefreshToken").substring(7);
+        String refreshToken = request.getHeader("RefreshToken").substring(6);
 
         Boolean validateRefreshToken = jwtTokenizer.validateToken(refreshToken);
         Boolean isRefreshToken = jwtTokenizer.existsRefreshToken(refreshToken);
@@ -102,7 +102,7 @@ public class MemberService {
 
             String newAccessToken = jwtTokenizer.createNewToken(email, authorities);
 
-            response.setHeader("Authorization", "bearer "+newAccessToken);
+            response.setHeader("Authorization", "bearer"+newAccessToken);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         else {

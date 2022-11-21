@@ -17,10 +17,15 @@ import java.io.IOException;
 public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        if (request.getHeader("Authorization").startsWith("bearer ")){
+        try {
+            if (request.getHeader("Authorization").startsWith("bearer")) {
+                ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
+            } else {
+                ErrorResponder.sendErrorResponse(response, HttpStatus.BAD_REQUEST);
+            }
+        } catch (NullPointerException e) {
             ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
         }
-        else {ErrorResponder.sendErrorResponse(response, HttpStatus.BAD_REQUEST);}
     }
 }
 

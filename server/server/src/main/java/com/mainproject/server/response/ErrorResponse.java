@@ -1,4 +1,4 @@
-package com.mainproject.server.member.service.response;
+package com.mainproject.server.response;
 
 import com.mainproject.server.exception.ExceptionCode;
 import lombok.Getter;
