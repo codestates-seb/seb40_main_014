@@ -14,10 +14,6 @@ jobs:
     steps:
       - name: Checkout source code.
         uses: actions/checkout@v2
-        # Github Repository Secrets를 통해 환경 변수 파일을 생성합니다.
-      - name: Generate Environment Variables File for Production
-        run: |
-          cat .env
 
       - name: Install dependencies
         run: npm install
