@@ -1,20 +1,14 @@
 package com.mainproject.server.auth.filter;
 
 import com.mainproject.server.auth.utils.CustomAuthorityUtil;
-import com.mainproject.server.auth.utils.ErrorResponder;
-import com.mainproject.server.exception.BusinessException;
-import com.mainproject.server.exception.ExceptionCode;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.jwt.JwtTokenizer;
 import com.mainproject.server.member.repository.MemberRepository;
-import com.mainproject.server.member.service.response.ErrorResponse;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -22,8 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -57,7 +49,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         // AccessToken 유효하다면 컨텍스트에 저장
         if (accessToken != null && jwtTokenizer.validateToken(accessToken)) {
             if ( jwtTokenizer.validateToken(accessToken) )
-                response.setHeader("Authorization", "bearer " + accessToken);
+//                response.setHeader("Authorization", "bearer"+accessToken);
                 setSecurityContext(claims);
         }
 
@@ -84,13 +76,13 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
     public String resolveAccessToken(HttpServletRequest request) {
         if (request.getHeader("Authorization") != null)
-            return request.getHeader("Authorization").substring(7);
+            return request.getHeader("Authorization").substring(6);
         return null;
     }
 
     public String resolveRefreshToken(HttpServletRequest request) {
         if (request.getHeader("RefreshToken") != null)
-            return request.getHeader("RefreshToken").substring(7);
+            return request.getHeader("RefreshToken").substring(6);
         return null;
     }
 }

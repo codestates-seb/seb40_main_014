@@ -1,24 +1,16 @@
 package com.mainproject.server.member.jwt;
 
-import com.mainproject.server.exception.BusinessException;
-import com.mainproject.server.exception.ExceptionCode;
 import com.mainproject.server.member.repository.TokenRepository;
-import com.mainproject.server.member.service.response.ErrorResponse;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import javax.servlet.http.HttpServletResponse;
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.*;
 

@@ -5,12 +5,11 @@ import com.mainproject.server.auth.utils.CustomAuthorityUtil;
 import com.mainproject.server.member.dto.MemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.jwt.JwtTokenizer;
-import com.mainproject.server.member.jwt.RefreshToken;
 import com.mainproject.server.member.mapper.MemberMapper;
 import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.member.repository.TokenRepository;
 import com.mainproject.server.member.service.MemberService;
-import com.mainproject.server.member.service.response.SingleResponseDto;
+import com.mainproject.server.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -59,14 +58,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         //RefreshToken 저장
         memberService.savedToken(refreshToken);
 
-        response.setHeader("Authorization", "bearer "+accessToken);
-        response.setHeader("RefreshToken", "bearer "+refreshToken);
+        response.setHeader("Authorization", "bearer"+accessToken);
+        response.setHeader("RefreshToken", "bearer"+refreshToken);
 
         //헤더 추가
         response.addHeader("memberId", loginMember.getMemberId().toString());
 
         //출력용
-//        System.out.println("Authorization = " + "bearer "+accessToken);
+//        System.out.println("Authorization = " + "bearer"+accessToken);
 
         setResponseBody(response, loginMember);
 
@@ -122,8 +121,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private URI createURI(String accessToken, String refreshToken, String email) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         String memberId = memberRepository.findByEmail(email).get().getMemberId().toString();
-        queryParams.add("access_token", accessToken);
-        queryParams.add("refresh_token", refreshToken);
+        queryParams.add("access_token", "bearer"+accessToken);
+        queryParams.add("refresh_token", "bearer"+refreshToken);
         queryParams.add("member_id", memberId);
 
         return UriComponentsBuilder
