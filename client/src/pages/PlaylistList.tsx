@@ -6,17 +6,16 @@ import { ButtonWrapper, H2, ListStyle } from './RoomList';
 import { getPlaylists } from '../api/playlistApi';
 import { useSelector } from 'react-redux';
 import { myValue } from '../slices/mySlice';
+import { musicInfoType } from './MakePlayList';
 
 export type PlaylistInfoType = {
-	playlistId: number;
+	memberId: string;
 	title: string;
-	status: string;
-	videoId: string[];
-	category: string[];
+	playlist: Array<musicInfoType>;
+	categoryList: Array<string>;
+	status: boolean;
 	like: number;
-	createdAt: string;
-	modifiedAt: string;
-	name: string;
+	playListId: number;
 };
 
 function PlaylistList() {
@@ -30,7 +29,7 @@ function PlaylistList() {
 		getPlaylists(memberId, page, size).then((res) => {
 			console.log('getPlaylists res', res);
 
-			setPlayLists(res.data);
+			setPlayLists(res);
 		});
 	}, []);
 
@@ -48,7 +47,7 @@ function PlaylistList() {
 			<ListStyle>
 				{playlists.length
 					? playlists.map((playlist: PlaylistInfoType) => (
-							<Playlist playlist={playlist} key={playlist.playlistId} />
+							<Playlist playList={playlist} key={playlist.playListId} />
 					  ))
 					: null}
 			</ListStyle>

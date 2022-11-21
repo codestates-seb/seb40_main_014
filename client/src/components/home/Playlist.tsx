@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
-import ThumbnailImg from '../../assets/images/playlist-thumbnail.png';
 import { IoMdHeartEmpty } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import Category from '../common/Category';
@@ -18,28 +17,29 @@ import Category from '../common/Category';
 // };
 
 type PlaylistType = {
-	playlist: PlaylistInfoType;
+	playList: PlaylistInfoType;
 	key?: number;
 };
 
-function Playlist({ playlist }: PlaylistType) {
-	const { playlistId, title, category, like, name } = playlist;
+function Playlist({ playList }: PlaylistType) {
+	const { playListId, title, categoryList, like, memberId, playlist } =
+		playList;
 
 	return (
 		<PlaylistStyle>
 			<Thumbnail>
-				<img src={ThumbnailImg} alt="thumbnail" />
-				<Link to={`/playlist/${playlistId}`}>
+				<img src={playlist[0].thumbnail} alt="thumbnail" />
+				<Link to={`/playlistdetail/${playListId}`}>
 					<Backdrop />
 				</Link>
 			</Thumbnail>
 			<Title>
-				<Link to={`/playlist/${playlistId}`}>{title}</Link>
+				<Link to={`/playlistdetail/${playListId}`}>{title}</Link>
 			</Title>
-			<Name>{name}</Name>
+			<Name>{memberId}</Name>
 			<Detail>
 				<Categorys>
-					{category.map((el, idx) => (
+					{categoryList.map((el, idx) => (
 						<Category category={el} margin="0 4px 0 0" key={idx}>
 							{el}
 						</Category>

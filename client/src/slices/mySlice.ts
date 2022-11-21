@@ -11,6 +11,8 @@ type InitialStateValue = {
 	grade: string;
 	rank: number;
 	picture: string;
+	likeList?: Array<number>;
+	bookMarkList?: Array<number>;
 };
 
 type InitialState = {
@@ -28,6 +30,8 @@ const initialStateValue: InitialStateValue = {
 	grade: '',
 	rank: 0,
 	picture: '',
+	likeList: [],
+	bookMarkList: [],
 };
 
 const initialState: InitialState = {
@@ -47,10 +51,20 @@ const mySlice = createSlice({
 			state.isLogin = false;
 			state.value = initialStateValue;
 		},
+		changeLikeList: (state, action) => {
+			state.value.likeList = action.payload;
+		},
+		changeBookMarkList: (state, action) => {
+			state.value.bookMarkList = action.payload;
+		},
 	},
 });
 
 export default mySlice.reducer;
-export const { myInfo, myLogout } = mySlice.actions;
+export const { myInfo, myLogout, changeLikeList, changeBookMarkList } =
+	mySlice.actions;
 export const myValue = (state: RootState) => state.my.value;
 export const myLogin = (state: RootState) => state.my.isLogin;
+export const selectLikeList = (state: RootState) => state.my.value.likeList;
+export const selectBookMarkList = (state: RootState) =>
+	state.my.value.bookMarkList;
