@@ -1,22 +1,19 @@
-// import axios from 'axios';
 import instance from './root';
 
-// export const login = async () => {
-// 	try {
-// 		const result = await axios.get(`${root}/login/oauth2/code/google`);
-
-// 		const accessToken = result.headers.authorization;
-// 		localStorage.setItem('accessToken', accessToken);
-
-// 		return result.data;
-// 	} catch (err) {
-// 		return err;
-// 	}
-// };
-
 export const logout = async () => {
+	const refreshToken = localStorage.getItem('refreshToken');
+
 	try {
-		const result = await instance.post('/api/members/logout');
+		const result = await instance.post(
+			'/api/members/logout',
+			{},
+			{
+				headers: {
+					'Content-Type': 'application/json; charset=UTF-8',
+					RefreshToken: refreshToken,
+				},
+			},
+		);
 
 		return result.data;
 	} catch (err) {
