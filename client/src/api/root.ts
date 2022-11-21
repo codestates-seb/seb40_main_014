@@ -65,7 +65,6 @@ instance.interceptors.response.use(
 
 						localStorage.removeItem('accessToken');
 						localStorage.removeItem('refreshToken');
-						localStorage.removeItem('memberId');
 						dispatch(myLogout());
 
 						window.alert('로그인이 만료되었습니다. 홈으로 이동됩니다.');

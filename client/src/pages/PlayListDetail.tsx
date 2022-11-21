@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { getPlayList } from '../api/listApi';
+import { getPlayList } from '../api/playlistApi';
 import MusicList, { music } from '../components/playlist/MusicList';
 import PlayListInfo from '../components/playlist/PlayListInfo';
 import { musicInfoType } from './MakePlayList';
