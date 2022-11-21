@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class MemberPatchDto {
 
-    @NotBlank
     private String name;
+    private String picture;
+
 }

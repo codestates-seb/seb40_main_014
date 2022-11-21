@@ -24,7 +24,7 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
                 ErrorResponder.sendErrorResponse(response, HttpStatus.BAD_REQUEST);
             }
         } catch (NullPointerException e) {
-            ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED);
+            ErrorResponder.sendErrorResponse(response, HttpStatus.BAD_REQUEST);
         }
     }
 }

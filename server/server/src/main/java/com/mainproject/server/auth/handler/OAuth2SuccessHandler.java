@@ -3,6 +3,7 @@ package com.mainproject.server.auth.handler;
 import com.google.gson.Gson;
 import com.mainproject.server.auth.utils.CustomAuthorityUtil;
 import com.mainproject.server.member.dto.MemberResponseDto;
+import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.jwt.JwtTokenizer;
 import com.mainproject.server.member.mapper.MemberMapper;
@@ -65,7 +66,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addHeader("memberId", loginMember.getMemberId().toString());
 
         //출력용
-//        System.out.println("Authorization = " + "bearer"+accessToken);
+        System.out.println("Authorization");
+        System.out.println("bearer"+accessToken);
 
         setResponseBody(response, loginMember);
 
@@ -74,7 +76,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private void setResponseBody(HttpServletResponse response, Member loginMember) throws IOException{
 
-        MemberResponseDto responseDto = memberMapper.memberToMemberResponseDto(loginMember);
+        SimpleMemberResponseDto responseDto = memberMapper.memberToSimpleMemberResponseDto(loginMember);
         SingleResponseDto singleResponseDto = new SingleResponseDto(responseDto);
         String content = gson.toJson(singleResponseDto);
         response.getWriter().write(content);

@@ -1,6 +1,8 @@
 package com.mainproject.server.member.dto;
 
 import com.mainproject.server.member.entity.Role;
+import com.mainproject.server.playlist.dto.SimplePlaylistResponseDto;
+import com.mainproject.server.response.MultiResponseDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -31,5 +33,7 @@ public class MemberResponseDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
+
+    private MultiResponseDto<SimplePlaylistResponseDto> playlist;
 
 }
