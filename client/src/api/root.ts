@@ -52,6 +52,7 @@ instance.interceptors.response.use(
 
 						localStorage.removeItem('accessToken');
 						localStorage.removeItem('refreshToken');
+						dispatch(myLogout());
 
 						window.location.href = '/';
 					}

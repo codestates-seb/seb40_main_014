@@ -3,7 +3,9 @@ import { useState, useEffect } from 'react';
 import { DefaultButton } from '../components/common/Button';
 import { Link } from 'react-router-dom';
 import { ButtonWrapper, H2, ListStyle } from './RoomList';
-import { getPlaylists } from '../api/listApi';
+import { getPlaylists } from '../api/playlistApi';
+import { useSelector } from 'react-redux';
+import { myValue } from '../slices/mySlice';
 
 export type PlaylistInfoType = {
 	playlistId: number;
@@ -18,14 +20,19 @@ export type PlaylistInfoType = {
 };
 
 function PlaylistList() {
+	const [page, setPage] = useState(0);
+	const [size, setSize] = useState(16);
 	const [playlists, setPlayLists] = useState([]);
 
-	// useEffect(() => {
-	// 	getPlaylists().then((res) => {
-	// 		// console.log('#1', res);
-	// 		setPlayLists(res);
-	// 	});
-	// }, []);
+	const { memberId } = useSelector(myValue);
+
+	useEffect(() => {
+		getPlaylists(memberId, page, size).then((res) => {
+			console.log('getPlaylists res', res);
+
+			setPlayLists(res.data);
+		});
+	}, []);
 
 	return (
 		<>

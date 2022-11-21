@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { createPlayList, getPlayList, modifyPlayList } from '../api/listApi';
+import {
+	createPlayList,
+	getPlayList,
+	modifyPlayList,
+} from '../api/playlistApi';
 import { DefaultButton } from '../components/common/Button';
 import MusicList from '../components/playlist/MusicList';
 import PlayListSetting from '../components/playlist/PlayListSetting';
