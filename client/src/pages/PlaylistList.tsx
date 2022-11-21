@@ -69,14 +69,10 @@ function PlaylistList() {
 			<H2>플레이리스트 Top 8</H2>
 			<H2>최신 플레이리스트</H2>
 			<ListStyle>
-				{/* {playlists.length
-					? playlists.map((playlist: PlaylistInfoType) => (
-							<Playlist playList={playlist} key={playlist.playListId} />
-					  ))
-					: null} */}
-				{playlists.map((playlist: PlaylistInfoType) => (
-					<Playlist playlist={playlist} key={playlist.playlistId} />
-				))}
+				{playlists &&
+					playlists.map((playlist: PlaylistInfoType) => (
+						<Playlist playList={playlist} key={playlist.playListId} />
+					))}
 				<div ref={observerTargetEl} />
 			</ListStyle>
 		</>
