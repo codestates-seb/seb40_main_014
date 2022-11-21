@@ -3,13 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { down, init, up, selectValue } from '../slices/counterSlice';
 import styled from 'styled-components';
 
-const MainStyle = styled.div`
-	margin-top: 300px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-`;
-
 const Main = () => {
 	const dispach = useDispatch();
 	const count = useSelector(selectValue);
@@ -28,8 +21,16 @@ const Main = () => {
 			<button onClick={addNumber}>+</button>
 			<button onClick={minusNumber}>-</button>
 			<button onClick={initNumber}>초기화</button>
+			<a href="www.naver.com">링크</a>
 		</MainStyle>
 	);
 };
 
 export default Main;
+
+const MainStyle = styled.div`
+	margin-top: 300px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
