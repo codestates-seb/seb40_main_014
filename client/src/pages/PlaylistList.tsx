@@ -20,12 +20,12 @@ export type PlaylistInfoType = {
 function PlaylistList() {
 	const [playlists, setPlayLists] = useState([]);
 
-	useEffect(() => {
-		getPlaylists().then((res) => {
-			// console.log('#1', res);
-			setPlayLists(res);
-		});
-	}, []);
+	// useEffect(() => {
+	// 	getPlaylists().then((res) => {
+	// 		// console.log('#1', res);
+	// 		setPlayLists(res);
+	// 	});
+	// }, []);
 
 	return (
 		<>
