@@ -1,5 +1,7 @@
 package com.mainproject.server.playlist.controller;
 
+import com.mainproject.server.member.entity.Member;
+import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.dto.PlaylistPatchDto;
 import com.mainproject.server.playlist.dto.PlaylistPostDto;
 import com.mainproject.server.playlist.entity.Playlist;
@@ -7,11 +9,11 @@ import com.mainproject.server.playlist.mapper.PlaylistMapper;
 import com.mainproject.server.playlist.service.PlaylistService;
 import com.mainproject.server.response.MultiResponseDto;
 import com.mainproject.server.response.SingleResponseDto;
+import com.mainproject.server.tx.NeedMemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,11 +28,15 @@ import java.util.List;
 public class PlaylistController {
     private final PlaylistService playlistService;
     private final PlaylistMapper mapper;
+    private final MemberService memberService;
 
+    @NeedMemberId // 액세스토큰에 있는 멤버 ID를 가져옴
     @PostMapping("/playlist")
-    public ResponseEntity postPlaylist(@Valid @RequestBody PlaylistPostDto playlistPostDto) throws Exception {
+    public ResponseEntity postPlaylist(@Valid @RequestBody PlaylistPostDto playlistPostDto, Long authMemberId) throws Exception {
 
-        Playlist playlist = mapper.playlistPostDtoToPlaylist(playlistPostDto);
+        Member member = memberService.findMember(authMemberId);
+
+        Playlist playlist = mapper.playlistPostDtoToPlaylist(playlistPostDto, member);
         Playlist savedPlaylist = playlistService.createPlaylist(playlist);
 
         return new ResponseEntity<>(
@@ -62,7 +68,7 @@ public class PlaylistController {
     //전체 플레이리스트 조회
     @GetMapping("/playlist")
     public ResponseEntity getPlList(@Positive @RequestParam(required = false, defaultValue = "1") int page,
-                                       @Positive @RequestParam(required = false, defaultValue = "5") int size) {
+                                    @Positive @RequestParam(required = false, defaultValue = "5") int size) {
         Page<Playlist> pagePlList = playlistService.findPlList(page - 1, size);
         List<Playlist> playlists = pagePlList.getContent();
 
