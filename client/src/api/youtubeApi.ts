@@ -7,7 +7,7 @@ export const getYouTubeMusic = async (data) => {
 	try {
 		//test
 		const result = await instance.get(url);
-		return result.data.items[0].snippet;
+		return result.data;
 	} catch (err) {
 		return err;
 	}
