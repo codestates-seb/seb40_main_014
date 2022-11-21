@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getRooms } from '../api/listApi';
-import { getUserInfo } from '../api/userApi';
+import { getMyInfo } from '../api/userApi';
 import { DefaultButton } from '../components/common/Button';
 import Room from '../components/home/Room';
 import CreateModal from '../components/room/createModal';
@@ -47,7 +47,7 @@ function RoomList() {
 			localStorage.setItem('refreshToken', refreshToken);
 			localStorage.setItem('memberId', memberId);
 
-			getUserInfo(Number(memberId), accessToken).then((res) => {
+			getMyInfo(Number(memberId), accessToken).then((res) => {
 				console.log('getMyInfo res', res);
 				// {
 				// 	memberId: 1,

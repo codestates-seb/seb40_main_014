@@ -1,6 +1,6 @@
 import instance from './root';
 
-export const getUserInfo = async (memberId: number, accessToken: string) => {
+export const getMyInfo = async (memberId: number, accessToken: string) => {
 	try {
 		const result = await instance.get(`/api/members/${memberId}`, {
 			headers: {
@@ -8,6 +8,16 @@ export const getUserInfo = async (memberId: number, accessToken: string) => {
 				Authorization: accessToken,
 			},
 		});
+
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
+
+export const getUserInfo = async (memberId: number) => {
+	try {
+		const result = await instance.get(`/api/members/${memberId}`);
 
 		return result.data;
 	} catch (err) {
