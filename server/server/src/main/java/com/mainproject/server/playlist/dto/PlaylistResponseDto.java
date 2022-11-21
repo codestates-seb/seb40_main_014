@@ -1,5 +1,7 @@
 package com.mainproject.server.playlist.dto;
 
+import com.mainproject.server.playlist.entity.Category;
+import com.mainproject.server.playlist.entity.Playlist;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,12 +23,14 @@ public class PlaylistResponseDto {
 
     private String videoId;
 
-    private String thumbnail;
-
-    private String category;
+    private  List<Category> categoryList;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
+
+    private String thumbnail;
+
+//    private List<PlaylistResponseDto> playlistList;
 
 }

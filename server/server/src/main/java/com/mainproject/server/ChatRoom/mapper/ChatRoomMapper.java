@@ -1,6 +1,7 @@
 package com.mainproject.server.ChatRoom.mapper;
 
-import com.mainproject.server.ChatRoom.dto.ChatRoomDto;
+import com.mainproject.server.ChatRoom.dto.ChatRoomPatchDto;
+import com.mainproject.server.ChatRoom.dto.ChatRoomPostDto;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ChatRoomMapper {
 
-    public ChatRoom chatRoomPostDtoToChatRoom(ChatRoomDto.Post chatRoomPostDto) {
+    public ChatRoom chatRoomPostDtoToChatRoom(ChatRoomPostDto chatRoomPostDto) {
         if (chatRoomPostDto == null) return null;
         ChatRoom chatRoom = new ChatRoom();
         chatRoom.setTitle(chatRoomPostDto.getTitle());
@@ -18,7 +19,7 @@ public class ChatRoomMapper {
         return chatRoom;
     }
 
-    public ChatRoom chatRoomPatchDtoToChatRoom(ChatRoomDto.Patch chatRoomPatchDto) {
+    public ChatRoom chatRoomPatchDtoToChatRoom(ChatRoomPatchDto chatRoomPatchDto) {
         if (chatRoomPatchDto == null) return null;
         ChatRoom chatRoom = new ChatRoom();
         chatRoom.setTitle(chatRoomPatchDto.getTitle());

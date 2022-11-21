@@ -1,5 +1,6 @@
 package com.mainproject.server.playlist.entity;
 
+
 import lombok.Getter;
 import lombok.Setter;
 

@@ -2,6 +2,8 @@ package com.mainproject.server.ChatRoom.repository;
 
 import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.member.entity.Member;
+import com.mainproject.server.playlist.entity.Playlist;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

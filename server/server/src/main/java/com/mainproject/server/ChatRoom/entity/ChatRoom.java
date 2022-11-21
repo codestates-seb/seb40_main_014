@@ -2,6 +2,7 @@ package com.mainproject.server.ChatRoom.entity;
 
 import com.mainproject.server.ChatRoom.service.ChatService;
 import com.mainproject.server.auditable.Auditable;
+import com.mainproject.server.roomMember.entity.roomMember;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.playlist.entity.Playlist;
 import lombok.*;
@@ -27,6 +28,16 @@ public class ChatRoom extends Auditable {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    // chatroom_member
+
+    // idx(pk), roomId, memberId
+
+    // 1    1       2
+    //  1   1       3
+
+    @OneToMany(mappedBy = "chatRoom")
+    private List<roomMember> roomMemberList = new ArrayList<>();
+
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
@@ -43,7 +54,7 @@ public class ChatRoom extends Auditable {
     private boolean secret;
     @Column
     private String pwd;
-    private Long memberId;
+//    private Long memberId;
     private Long playlistId;
 
     public enum Onair {
@@ -68,7 +79,7 @@ public class ChatRoom extends Auditable {
 
         if (chatMessage.getType().equals(ChatMessage.MessageType.ENTER)) {
             sessions.add(session);
-            chatMessage.setMessage(chatMessage.getMemberId() + "님이 입장했습니다.");
+            chatMessage.setMessage(chatMessage.getMember().getMemberId() + "님이 입장했습니다.");
         }
         sendMessage(chatMessage, chatService);
     }
