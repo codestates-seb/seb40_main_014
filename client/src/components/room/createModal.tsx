@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { ImExit } from 'react-icons/im';
 import RoomCreateForm from './RoomCreateForm';
+import { IoClose } from 'react-icons/io5';
 
 export type roomInfo = {
 	title: string;
@@ -10,7 +11,7 @@ export type roomInfo = {
 };
 
 const ModalContaincer = styled.div`
-	font-size: ${(props) => props.theme.fontSize.xSmall};
+	font-size: ${(props) => props.theme.fontSize.small};
 	background-color: ${(props) => props.theme.colors.background};
 	width: 550px;
 	height: 500px;
@@ -21,6 +22,11 @@ const ModalContaincer = styled.div`
 	left: 50%;
 	transform: translate(-50%, -50%);
 	z-index: 2;
+
+	@media screen and (max-width: 640px) {
+		width: 350px;
+		height: 500px;
+	}
 `;
 
 const ModalHeader = styled.div`
@@ -38,7 +44,7 @@ const HeaderContent = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	margin: 15px;
-	font-size: ${(props) => props.theme.fontSize.small};
+	font-size: ${(props) => props.theme.fontSize.medium};
 `;
 const ModalOverlay = styled.div`
 	top: 0;
@@ -51,7 +57,7 @@ const ModalOverlay = styled.div`
 `;
 
 export const ExitBtn = styled.button`
-	font-size: ${(props) => props.theme.fontSize.medium};
+	font-size: ${(props) => props.theme.fontSize.large};
 `;
 
 const CreateModal = ({ modalOpen, setModalOpen }) => {
@@ -69,7 +75,7 @@ const CreateModal = ({ modalOpen, setModalOpen }) => {
 					</HeaderContent>
 					<HeaderContent>
 						<ExitBtn onClick={onClick}>
-							<ImExit />
+							<IoClose />
 						</ExitBtn>
 					</HeaderContent>
 				</ModalHeader>
