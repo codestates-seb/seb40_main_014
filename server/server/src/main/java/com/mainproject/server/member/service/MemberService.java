@@ -47,6 +47,8 @@ public class MemberService {
 
         Optional.ofNullable(member.getName())
                 .ifPresent(name -> findMember.setName(name));
+        Optional.ofNullable(member.getPicture())
+                .ifPresent(picture -> findMember.setPicture(picture));
         Optional.ofNullable(member.getModifiedAt())
                 .ifPresent(modifiedAt -> findMember.setModifiedAt(modifiedAt));
 
@@ -80,7 +82,7 @@ public class MemberService {
         return findMembers;
     }
 
-    public void logoutMember(HttpServletRequest request, HttpServletResponse response){
+    public void logoutMember(HttpServletRequest request){
 
         String refreshToken = request.getHeader("RefreshToken").substring(6);
         RefreshToken token = tokenRepository.findByRefreshToken(refreshToken).get();
@@ -103,10 +105,10 @@ public class MemberService {
             String newAccessToken = jwtTokenizer.createNewToken(email, authorities);
 
             response.setHeader("Authorization", "bearer"+newAccessToken);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>("Refresh OK", HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Refresh Failed", HttpStatus.NOT_FOUND);
         }
     }
 

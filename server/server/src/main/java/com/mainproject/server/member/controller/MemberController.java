@@ -1,11 +1,13 @@
 package com.mainproject.server.member.controller;
 
+import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
 import com.mainproject.server.member.dto.MemberFollowDto;
 import com.mainproject.server.member.dto.MemberPatchDto;
 import com.mainproject.server.member.dto.MemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.mapper.MemberMapper;
 import com.mainproject.server.member.service.MemberService;
+import com.mainproject.server.playlist.mapper.PlaylistMapper;
 import com.mainproject.server.response.MultiResponseDto;
 import com.mainproject.server.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,8 @@ public class MemberController {
 
     private final MemberMapper mapper;
     private final MemberService service;
+    private final ChatRoomMapper chatRoomMapper;
+    private final PlaylistMapper playlistMapper;
 
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") Long memberId,
@@ -37,18 +41,19 @@ public class MemberController {
         Member member = mapper.memberPatchDtoToMember(memberPatchDto);
         Member updateMember = service.updateMember(member, memberId);
 
-        MemberResponseDto response = mapper.memberToMemberResponseDto(updateMember);
+        MemberResponseDto response = mapper.memberToMemberResponseDto(updateMember, chatRoomMapper, playlistMapper, 0);
         SingleResponseDto<MemberResponseDto> singleResponseDto = new SingleResponseDto<>(response);
 
         return new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
     }
 
     @GetMapping("/{member-id}")
-    public ResponseEntity getMember(@PathVariable("member-id") Long memberId) {
+    public ResponseEntity getMember(@PathVariable("member-id") Long memberId,
+                                    @Positive @RequestParam(defaultValue = "1") int playlistPage) {
 
         Member findMember = service.findMember(memberId);
 
-        MemberResponseDto response = mapper.memberToMemberResponseDto(findMember);
+        MemberResponseDto response = mapper.memberToMemberResponseDto(findMember, chatRoomMapper, playlistMapper, playlistPage-1);
         SingleResponseDto<MemberResponseDto> singleResponseDto = new SingleResponseDto<>(response);
 
         return new ResponseEntity(singleResponseDto, HttpStatus.OK);
@@ -74,17 +79,17 @@ public class MemberController {
 
         Member followMember = service.followMember(memberId);
 
-        MemberResponseDto response = mapper.memberToMemberResponseDto(followMember);
+        MemberResponseDto response = mapper.memberToMemberResponseDto(followMember, chatRoomMapper, playlistMapper, 0);
         SingleResponseDto<MemberResponseDto> singleResponseDto = new SingleResponseDto<>(response);
 
         return new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity logout(HttpServletRequest request, HttpServletResponse response) {
-        service.logoutMember(request, response);
+    public ResponseEntity logout(HttpServletRequest request) {
+        service.logoutMember(request);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Logout", HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/refresh")

@@ -1,6 +1,7 @@
 package com.mainproject.server.auth.filter;
 
 import com.mainproject.server.auth.utils.CustomAuthorityUtil;
+import com.mainproject.server.auth.utils.MemberIdAuthenticationToken;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.jwt.JwtTokenizer;
 import com.mainproject.server.member.repository.MemberRepository;
@@ -67,11 +68,14 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
         String username = claims.get("email").toString();
         Member loginMember = memberRepository.findByEmail(username).get();
+        Long memberId = loginMember.getMemberId();
         List<GrantedAuthority> authorities = customAuthorityUtil.stringToGrantedAuthority(loginMember.getRole().toString());
 
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
+        MemberIdAuthenticationToken memberIdAuthenticationToken = new MemberIdAuthenticationToken(username, null, authorities, memberId);
 
-        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+//        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
+
+        SecurityContextHolder.getContext().setAuthentication(memberIdAuthenticationToken);
     }
 
     public String resolveAccessToken(HttpServletRequest request) {
