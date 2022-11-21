@@ -15,13 +15,13 @@ const testList = ['1', '2', '3', '4', '5'];
 
 const Mypage = () => {
 	const contentList = [
-		'나의 플레이 리스트',
+		'나의 플레이리스트',
 		'북마크한 플레이리스트',
 		'팔로우 한 DJ',
 	];
 
 	const { userId } = useParams();
-	const { memberId } = useSelector(myValue);
+	const myId = useSelector(myValue).memberId;
 
 	const [userInfo, setUserInfo] =
 		useState<MyInitialStateValue>(myInitialStateValue);
@@ -36,7 +36,7 @@ const Mypage = () => {
 
 	return (
 		<MypageStyle>
-			<MypageInfo userInfo={userInfo} />
+			<MypageInfo userInfo={userInfo} myId={myId} />
 			{contentList.map((ele) => {
 				return <MypageContents key={ele} title={ele} contents={testList} />;
 			})}

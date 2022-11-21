@@ -120,12 +120,20 @@ function Header() {
 									<BsFillTriangleFill />
 								</Triangle>
 								<MyPageLink>
-									<Link to={`/mypage/${memberId}`}>
+									<Link
+										to={`/mypage/${memberId}`}
+										onClick={() => {
+											profileUlRef.current.style.display = 'none';
+										}}>
 										<BiUser />
 										<span>마이페이지</span>
 									</Link>
 								</MyPageLink>
-								<LogoutButton onClick={handleLogout}>
+								<LogoutButton
+									onClick={() => {
+										handleLogout();
+										profileUlRef.current.style.display = 'none';
+									}}>
 									<MdLogout />
 									<span>로그아웃</span>
 								</LogoutButton>

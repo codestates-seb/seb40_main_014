@@ -1,27 +1,36 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { MyInitialStateValue } from '../../slices/mySlice';
+import { AiFillEdit } from 'react-icons/ai';
 
 type MypageInfoType = {
 	userInfo: MyInitialStateValue;
+	myId: number;
 };
 
-const MypageInfo = ({ userInfo }: MypageInfoType) => {
-	const { name, rank, grade, follow } = userInfo;
+const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
+	const { memberId, name, grade, follow, picture } = userInfo;
 
 	return (
 		<Wrapper>
-			<div className="top">
-				<img
-					src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
-					alt="이미지"
-				/>
-				<div>
-					<div className="nickname">{name}</div>
-					<div>{grade}</div>
-					<div>팔로워 {follow}</div>
-				</div>
-			</div>
-			<div className="bottom">자기소개</div>
+			<Top>
+				<Img src={picture} alt="profile" />
+				<Info>
+					<Grade>{grade}</Grade>
+					<div>
+						<Name>{name}</Name>
+						{myId === memberId && (
+							<Link to="/">
+								<AiFillEdit />
+							</Link>
+						)}
+					</div>
+					<Follower>
+						<span>팔로워</span> {follow}
+					</Follower>
+				</Info>
+			</Top>
+			<Bottom className="bottom">자기소개</Bottom>
 		</Wrapper>
 	);
 };
@@ -29,30 +38,97 @@ const MypageInfo = ({ userInfo }: MypageInfoType) => {
 export default MypageInfo;
 
 const Wrapper = styled.div`
-	div {
-		margin: 40px 0;
+	padding: 40px 0;
+`;
+
+const Top = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 60px;
+`;
+
+const Img = styled.img`
+	width: 190px;
+	height: 190px;
+	border-radius: 50%;
+	margin-right: 12%;
+
+	// Tablet
+	@media screen and (max-width: 980px) {
+		width: 170px;
+		height: 170px;
 	}
-	.top {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		img {
-			width: 230px;
-			object-fit: cover;
-			border-radius: 50%;
-			margin-right: 10%;
+	// Mobile
+	@media screen and (max-width: 640px) {
+		width: 120px;
+		height: 120px;
+	}
+`;
+
+const Info = styled.div`
+	> div:nth-of-type(2) {
+		position: relative;
+		margin-bottom: 40px;
+
+		a {
+			position: absolute;
+			top: 0;
+			right: -45px;
+			color: ${(props) => props.theme.colors.gray500};
+			font-size: 18px;
+			transition: 0.1s;
+			padding: 5px;
+
+			:hover {
+				color: ${(props) => props.theme.colors.purple};
+			}
+
+			// Mobile
+			@media screen and (max-width: 640px) {
+				right: -35px;
+			}
 		}
-		.nickname {
-			font-size: ${(props) => props.theme.fontSize.large};
-		}
 	}
-	.bottom {
-		height: 100px;
-		background-color: ${(props) => props.theme.colors.white};
-		border-radius: ${(props) => props.theme.radius.largeRadius};
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		box-shadow: 1px 1px 10px #4d0bd133;
+`;
+
+const Grade = styled.div`
+	display: inline-block;
+	background-color: gray;
+	color: white;
+	font-size: 14px;
+	padding: 5px;
+	margin-bottom: 15px;
+	border-radius: 5px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 12px;
 	}
+`;
+
+const Name = styled.div`
+	font-size: 24px;
+	font-weight: 500;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 22px;
+	}
+`;
+
+const Follower = styled.div`
+	span {
+		margin-right: 5px;
+	}
+`;
+
+const Bottom = styled.div`
+	height: 100px;
+	background-color: ${(props) => props.theme.colors.white};
+	border-radius: ${(props) => props.theme.radius.largeRadius};
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 1px 1px 10px #4d0bd133;
 `;

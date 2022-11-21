@@ -20,7 +20,7 @@ const MypageContents = ({ title, contents }: MypageContentsType) => {
 		<MypageContentsStyle>
 			<Roof>
 				<div>{title}</div>
-				{title === '나의 플레이 리스트' ? (
+				{title === '나의 플레이리스트' ? (
 					<div>
 						<button onClick={() => navigate('/makeplaylist/create')}>
 							플레이리스트 만들기
@@ -72,7 +72,9 @@ const Roof = styled.div`
 
 	button {
 		padding: 5px;
-		border: 1px solid white;
+		background-color: ${(props) => props.theme.colors.white};
+		color: ${(props) => props.theme.colors.purple};
+		/* border: 1px solid white; */
 		border-radius: ${(props) => props.theme.radius.smallRadius};
 		margin-left: 10px;
 		&:hover {
