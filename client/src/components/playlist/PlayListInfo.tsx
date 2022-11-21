@@ -1,10 +1,14 @@
 import styled from 'styled-components';
 import { PlayListInfoProps } from '../../pages/PlayListDetail';
 import Category from '../common/Category';
-import { FaHeart } from 'react-icons/fa';
 import BookMark from '../common/BookMark';
+import { useSelector } from 'react-redux';
+import { selectBookMarkList, selectLikeList } from '../../slices/mySlice';
+import Like from '../common/Like';
 
-const PlayListInfo = ({ playListInfo }: PlayListInfoProps) => {
+const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
+	const likeList = useSelector(selectLikeList);
+	const bookMarkList = useSelector(selectBookMarkList);
 	return (
 		<PlayListInfoStyle>
 			<div className="info">
@@ -32,9 +36,18 @@ const PlayListInfo = ({ playListInfo }: PlayListInfoProps) => {
 							alt={playListInfo.memberId}
 						/>
 						<div>{playListInfo.memberId}</div>
-						<FaHeart color="#f783ac" size="24" />
+						<Like
+							likeList={likeList}
+							playListId={playListInfo.playListId}
+							memberId={playListInfo.memberId}
+							setPlayListInfo={setPlayListInfo}
+						/>
 						<div>{playListInfo.like}</div>
-						<BookMark />
+						<BookMark
+							bookMarkList={bookMarkList}
+							playListId={playListInfo.playListId}
+							memberId={playListInfo.memberId}
+						/>
 					</div>
 				</Info>
 			</div>
