@@ -1,4 +1,4 @@
-import instance from './root';
+import instance, { isTest } from './root';
 
 export const getPlaylists = async (
 	memberId: number,
@@ -6,12 +6,14 @@ export const getPlaylists = async (
 	size?: number,
 ) => {
 	try {
-		//test
-		// const result = await instance.get('/playlists');
-		//real
-		const result = await instance.get(
-			`/api/${memberId}/playlists?page=${page}&size=${size}`,
-		);
+		let result;
+		if (isTest) {
+			result = await instance.get('/playlists');
+		} else {
+			result = await instance.get(
+				`/api/${memberId}/playlists?page=${page}&size=${size}`,
+			);
+		}
 
 		return result.data;
 	} catch (err) {
@@ -21,10 +23,12 @@ export const getPlaylists = async (
 
 export const getPlayList = async (data) => {
 	try {
-		//test
-		// const result = await instance.get('/playlist');
-		//real
-		const result = await instance.get(`/api/playlists/${data}`);
+		let result;
+		if (isTest) {
+			result = await instance.get('/playlists');
+		} else {
+			result = await instance.get(`/api/playlists/${data}`);
+		}
 		return result.data;
 	} catch (err) {
 		return err;
@@ -33,12 +37,15 @@ export const getPlayList = async (data) => {
 
 export const createPlayList = async (data) => {
 	try {
-		//test
-		// data.like = 0;
-		// data.playListId = 1;
-		// const result = await instance.post('/playlist', data);
-		//real
-		const result = await instance.post(`/api/playlists`, data);
+		let result;
+		if (isTest) {
+			data.like = 0;
+			data.playListId = 1;
+			result = await instance.post('/playlist', data);
+		} else {
+			result = await instance.post(`/api/playlists`, data);
+		}
+
 		return result.data;
 	} catch (err) {
 		return err;
@@ -47,13 +54,12 @@ export const createPlayList = async (data) => {
 
 export const modifyPlayList = async (data) => {
 	try {
-		//test
-		// const result = await instance.post('/playlist', data);
-		//real
-		const result = await instance.patch(
-			`/api/playlists/${data.playlistId}`,
-			data,
-		);
+		let result;
+		if (isTest) {
+			result = await instance.post('/playlist', data);
+		} else {
+			result = await instance.patch(`/api/playlists/${data.playlistId}`, data);
+		}
 		return result.data;
 	} catch (err) {
 		return err;
@@ -62,10 +68,12 @@ export const modifyPlayList = async (data) => {
 
 export const deletePlayList = async (data) => {
 	try {
-		//test
-		// const result = await instance.delete(`/playlist`);
-		//real
-		const result = await instance.delete(`/api/playlist/${data}`);
+		let result;
+		if (isTest) {
+			result = await instance.delete(`/playlist`);
+		} else {
+			result = await instance.delete(`/api/playlist/${data}`);
+		}
 		return result.data;
 	} catch (err) {
 		return err;
