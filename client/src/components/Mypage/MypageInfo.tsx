@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { MyInitialStateValue } from '../../slices/mySlice';
 import { AiFillEdit } from 'react-icons/ai';
+import { useState, useEffect } from 'react';
+import { followApi } from '../../api/userApi';
 
 type MypageInfoType = {
 	userInfo: MyInitialStateValue;
@@ -9,7 +11,26 @@ type MypageInfoType = {
 };
 
 const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
-	const { memberId, name, grade, follow, picture } = userInfo;
+	const { memberId, name, grade, follow, followState, picture } = userInfo;
+
+	const [followNum, setFollowNum] = useState(follow);
+	const [followCheck, setFollowCheck] = useState(followState);
+
+	useEffect(() => {
+		setFollowNum(follow);
+		setFollowCheck(followState);
+	}, [follow, followState]);
+
+	const handleFollow = () => {
+		followApi(memberId).then((res) => {
+			console.log('follow res', res);
+
+			const { follow, followState } = res.data;
+
+			setFollowNum(follow);
+			setFollowCheck(followState);
+		});
+	};
 
 	return (
 		<Wrapper>
@@ -30,8 +51,12 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 					</div>
 					<Follower>
 						팔로워
-						<span>{follow}</span>
-						<button>팔로우</button>
+						<span>{followNum}</span>
+						{myId !== memberId && (
+							<button onClick={handleFollow}>
+								{followCheck ? '언팔로우' : '팔로우'}
+							</button>
+						)}
 					</Follower>
 				</Info>
 			</Top>
@@ -80,13 +105,13 @@ const Info = styled.div`
 			position: absolute;
 			top: 0;
 			right: -40px;
-			color: ${(props) => props.theme.colors.gray600};
+			color: ${(props) => props.theme.colors.gray500};
 			font-size: 18px;
 			transition: 0.1s;
 			padding: 5px;
 
 			:hover {
-				color: ${(props) => props.theme.colors.gray500};
+				color: ${(props) => props.theme.colors.gray600};
 			}
 
 			// Mobile
@@ -153,9 +178,10 @@ const Follower = styled.div`
 		color: ${(props) => props.theme.colors.white};
 		font-size: ${(props) => props.theme.fontSize.xSmall};
 		border-radius: ${(props) => props.theme.radius.smallRadius};
+		transition: 0.1s;
 
 		:hover {
-			opacity: 60%;
+			background-color: #410bae;
 		}
 
 		// Mobile

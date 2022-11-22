@@ -39,3 +39,13 @@ export const editUserInfo = async (memberId: number, formData) => {
 		return err;
 	}
 };
+
+export const followApi = async (memberId: number) => {
+	try {
+		const result = await instance.post(`/api/members/follow/${memberId}`);
+
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};

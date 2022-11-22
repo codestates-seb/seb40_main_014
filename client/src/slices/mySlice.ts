@@ -8,6 +8,7 @@ export type MyInitialStateValue = {
 	picture: string;
 	grade: string;
 	follow: number;
+	followState: boolean;
 	rank: number;
 	role: string;
 	createdAt: string;
@@ -28,6 +29,7 @@ export const myInitialStateValue: MyInitialStateValue = {
 	picture: '',
 	grade: '',
 	follow: 0,
+	followState: false,
 	rank: 0,
 	role: '',
 	createdAt: '',

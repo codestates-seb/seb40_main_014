@@ -131,11 +131,12 @@ const Wrapper = styled.div`
 				width: 200px;
 				padding: 10px 0;
 				border-radius: ${(props) => props.theme.radius.smallRadius};
+				transition: 0.1s;
 				:first-of-type {
 					color: ${(props) => props.theme.colors.white};
 					background-color: ${(props) => props.theme.colors.purple};
 					margin-right: 30px;
-					&:hover {
+					:hover {
 						background-color: #410bae;
 					}
 				}
@@ -143,7 +144,7 @@ const Wrapper = styled.div`
 					color: ${(props) => props.theme.colors.purple};
 					background-color: ${(props) => props.theme.colors.white};
 					border: 1px solid ${(props) => props.theme.colors.purple};
-					&:hover {
+					:hover {
 						background-color: ${(props) => props.theme.colors.gray50};
 					}
 				}

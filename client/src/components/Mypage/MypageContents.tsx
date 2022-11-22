@@ -72,14 +72,14 @@ const Roof = styled.div`
 
 	button {
 		padding: 5px;
+		margin-left: 10px;
 		background-color: ${(props) => props.theme.colors.white};
 		color: ${(props) => props.theme.colors.purple};
-
-		/* border: 1px solid white; */
 		border-radius: ${(props) => props.theme.radius.smallRadius};
-		margin-left: 10px;
+		transition: 0.1s;
+
 		&:hover {
-			opacity: 60%;
+			background-color: #e8ddff;
 		}
 	}
 `;
