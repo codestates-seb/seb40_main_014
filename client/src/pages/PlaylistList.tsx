@@ -72,9 +72,10 @@ function PlaylistList() {
 							<Playlist playList={playlist} key={playlist.playListId} />
 					  ))
 					: null} */}
-				{playlists.map((playlist: PlaylistInfoType) => (
-					<Playlist playList={playlist} key={playlist.playListId} />
-				))}
+				{playlists &&
+					playlists.map((playlist: PlaylistInfoType) => (
+						<Playlist playList={playlist} key={playlist.playListId} />
+					))}
 				<div ref={observerTargetEl} />
 			</ListStyle>
 		</>

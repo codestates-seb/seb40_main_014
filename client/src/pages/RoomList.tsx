@@ -129,9 +129,10 @@ function RoomList() {
 							<Room room={room} key={room.roomId} />
 					  ))
 					: null} */}
-				{rooms.map((room: RoomInfoType) => (
-					<Room room={room} key={room.roomId} />
-				))}
+				{rooms &&
+					rooms.map((room: RoomInfoType) => (
+						<Room room={room} key={room.roomId} />
+					))}
 				<div ref={observerTargetEl} />
 			</ListStyle>
 		</>

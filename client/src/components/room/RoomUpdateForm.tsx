@@ -1,26 +1,19 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import AddModal from './addModal';
-import { DefaultButton } from '../common/Button';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
 
-export type roomInfo = {
-	memberId: number;
+type updateRoomInfo = {
 	title: string;
 	password?: string;
 	playlist: string[] | string;
 	people: string;
 };
 
-const CreateForm = styled.form`
+const UpdateForm = styled.form`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	font-size: ${(props) => props.theme.fontSize.small};
 	.top {
 		margin-top: 15px;
 	}
@@ -45,7 +38,7 @@ const InputContainer = styled.div`
 	}
 `;
 const InputInfo = styled.div`
-	margin: 5px 5px 10px 5px;
+	margin: 5px;
 	display: flex;
 	align-items: center;
 `;
@@ -75,29 +68,25 @@ const CreateRoomBtn = styled.button`
 	}
 `;
 
-const RoomCreateForm = () => {
-	const navigate = useNavigate();
-	const userInfo = useSelector((state: RootState) => state.my.value);
-	const { register, handleSubmit } = useForm<roomInfo>();
-	const [checked, setChecked] = useState<boolean>(false);
-	const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
+const RoomUpdateForm = () => {
+	const { register, handleSubmit } = useForm<updateRoomInfo>();
+	const [checked, setChecked] = useState(false);
 
 	const onValid = (e) => {
-		const CreateRoomInfo = {
-			memberId: userInfo.memberId,
+		const UpdateRoomInfo = {
 			title: e.title,
-			pwd: e.password,
-			playlist: e.playlist,
+			password: e.password,
 			people: e.people,
 		};
-		console.log('생성될 방의 정보', CreateRoomInfo);
+
+		console.log('수정될 방의 정보', UpdateRoomInfo);
 
 		axios
-			.post(`${process.env.REACT_APP_STACK_SERVER}/rooms`, CreateRoomInfo)
-			.then((res) => {
-				console.log(res);
-				navigate(`rooms/${res.data.roomId}`);
-			})
+			.post(
+				`${process.env.REACT_APP_STACK_SERVER_TEST}/rooms/update`,
+				UpdateRoomInfo,
+			)
+			.then((res) => console.log(res))
 			.catch((err) => console.log(err));
 	};
 
@@ -105,12 +94,8 @@ const RoomCreateForm = () => {
 		setChecked(!checked);
 	};
 
-	const handleAdd = () => {
-		return setAddModalOpen(!addModalOpen);
-	};
-
 	return (
-		<CreateForm onSubmit={handleSubmit(onValid)}>
+		<UpdateForm onSubmit={handleSubmit(onValid)}>
 			<InputContainer className="top">
 				<InputInfo>방 제목</InputInfo>
 				<TitleInput
@@ -129,23 +114,13 @@ const RoomCreateForm = () => {
 					placeholder="비밀번호"
 					disabled={!checked}></PasswordInput>
 			</InputContainer>
-
 			<InputContainer>
-				<InputInfo className="add">
-					플레이리스트
-					<DefaultButton
-						width="40px"
-						height="20px"
-						fontSize="10px"
-						onClick={handleAdd}>
-						추가
-					</DefaultButton>
-					{addModalOpen && <AddModal></AddModal>}
-				</InputInfo>
+				<InputInfo className="add">플레이리스트</InputInfo>
 				<PlaylistInput
-					{...register('playlist', { required: true })}
-					placeholder="플레이리스트를 추가해주세요!"
-					type="text"></PlaylistInput>
+					{...register('playlist')}
+					placeholder="플레이리스트는 수정할 수 없습니다!"
+					type="text"
+					disabled></PlaylistInput>
 			</InputContainer>
 			<InputContainer>
 				<InputInfo>최대 인원 수</InputInfo>
@@ -154,9 +129,11 @@ const RoomCreateForm = () => {
 					placeholder="최대 인원 수"
 					type="number"></PeopleInput>
 			</InputContainer>
-			<CreateRoomBtn as="input" type="submit" value="방 생성"></CreateRoomBtn>
-		</CreateForm>
+			{/* <Link to="/room"> */}
+			<CreateRoomBtn as="input" type="submit" value="방 수정"></CreateRoomBtn>
+			{/* </Link> */}
+		</UpdateForm>
 	);
 };
 
-export default RoomCreateForm;
+export default RoomUpdateForm;

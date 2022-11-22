@@ -4,23 +4,24 @@ on:
   push:
     branches:
       - dev
+env:
+  REACT_APP_STACK_SERVER: ${{ secrets.REACT_APP_STACK_SERVER }}
+  REACT_APP_YOUTUBE_KEY: ${{ secrets.REACT_APP_YOUTUBE_KEY }}
+  REACT_APP_STACK_WS_SERVER: ${{ secrets.REACT_APP_STACK_WS_SERVER}}
 jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout source code.
         uses: actions/checkout@v2
-        # Github Repository Secrets를 통해 환경 변수 파일을 생성합니다.
-      - name: Generate Environment Variables File for Production
-        run: |
-          echo "REACT_APP_STACK_SERVER=$REACT_APP_STACK_SERVER" >> .env.production
-        env:
-          REACT_APP_DOMAIN: ${{ secrets.REACT_APP_STACK_SERVER }}
+
       - name: Install dependencies
         run: npm install
         working-directory: ./client
       - name: Build
         run: npm run build
+        env:
+          CI: ''
         working-directory: ./client
       - name: SHOW AWS CLI VERSION
         env:

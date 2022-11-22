@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ChatContainer = styled.div`
 	margin: 10px;
