@@ -1,8 +1,10 @@
 package com.mainproject.server.playlist.mapper;
 
+import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.playlist.dto.PlaylistPatchDto;
 import com.mainproject.server.playlist.dto.PlaylistPostDto;
 import com.mainproject.server.playlist.dto.PlaylistResponseDto;
+import com.mainproject.server.playlist.dto.SimplePlaylistResponseDto;
 import com.mainproject.server.playlist.entity.Playlist;
 import org.mapstruct.Mapper;
 
@@ -13,13 +15,16 @@ public interface PlaylistMapper {
 
     List<PlaylistResponseDto> playlistToPlaylistResponseDtoList(List<Playlist> playlistList);
 
-    default Playlist playlistPostDtoToPlaylist(PlaylistPostDto playlistPostDto) {
+    List<SimplePlaylistResponseDto> playlistToSimplePlaylistResponseDtoList(List<Playlist> playlistList);
+
+    default Playlist playlistPostDtoToPlaylist(PlaylistPostDto playlistPostDto, Member member) {
         if (playlistPostDto == null) {
             return null;
         } else {
             Playlist playlist = new Playlist();
             playlist.setTitle(playlistPostDto.getTitle());
             playlist.setVideoId(playlistPostDto.getVideoId());
+            playlist.setMember(member);
             return playlist;
         }
     }
@@ -46,6 +51,7 @@ public interface PlaylistMapper {
             playlistResponseDto.videoId(playlist.getVideoId());
             playlistResponseDto.createdAt(playlist.getCreatedAt());
             playlistResponseDto.modifiedAt(playlist.getModifiedAt());
+            playlistResponseDto.memberId(playlist.getMember().getMemberId());
             return playlistResponseDto.build();
         }
     }

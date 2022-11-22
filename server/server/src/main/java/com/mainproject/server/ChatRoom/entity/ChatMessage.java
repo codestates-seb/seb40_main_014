@@ -20,13 +20,16 @@ import javax.persistence.*;
         private Long chatMessageId;
 
         private MessageType type;
-        private String roomId;
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "room_id")
+        private ChatRoom chatRoom;
 
         @ManyToOne
         @JoinColumn(name = "member_id")
         private Member member;
 
-        private String memberId;
+//        private String memberId;
 //        private String channelId;
 
         private String message;

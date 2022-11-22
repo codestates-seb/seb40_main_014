@@ -2,6 +2,7 @@ package com.mainproject.server.playlist.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import javax.validation.constraints.NotBlank;
 
 @Getter
@@ -16,5 +17,5 @@ public class PlaylistPostDto {
 
     private String category;
 
-    //공개,비공개 미구현
+//    private boolean status;
 }
