@@ -17,6 +17,8 @@ import java.util.List;
 public class PlaylistResponseDto {
     private long playlistId;
 
+    private long memberId;
+
     private String name;
 
     private String title;
@@ -30,6 +32,8 @@ public class PlaylistResponseDto {
     private LocalDateTime modifiedAt;
 
     private String thumbnail;
+
+//    private boolean status;
 
 //    private List<PlaylistResponseDto> playlistList;
 

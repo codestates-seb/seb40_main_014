@@ -17,5 +17,5 @@ public class PlaylistPostDto {
 
     private String category;
 
-    //공개, 비공개 미구현
+//    private boolean status;
 }
