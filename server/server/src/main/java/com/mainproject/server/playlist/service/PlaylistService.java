@@ -93,4 +93,9 @@ public class PlaylistService {
 //        memberService.verifyExistsMember(playlist.getMember().getMemberId());
 //                throw new BusinessException(ExceptionCode.MEMBER_NOT_EXISTS);
 //    }
+
+//    private void verifyMember(Member member) {
+//        memberRepository.findById(member.getMemberId())
+//                .orElseThrow(() -> new BusinessException(ExceptionCode.MEMBER_NOT_EXISTS));
+//    }
 }
