@@ -17,7 +17,7 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
 
-    public ResponseEntity followMember(Long memberId, Long authMemberId) {
+    public void followMember(Long memberId, Long authMemberId) {
 
         Member member = verifyExistsMember(memberId);
 
@@ -33,7 +33,6 @@ public class FollowService {
                     .findAny().get();
 
             followRepository.delete(followMember);
-            return new ResponseEntity<>("Unfollow", HttpStatus.OK);
         }
         else {
             Follow followMember = new Follow();
@@ -41,9 +40,7 @@ public class FollowService {
             followMember.setMember(member);
 
             followRepository.save(followMember);
-            return new ResponseEntity<>("Follow", HttpStatus.CREATED);
         }
-
     }
 
     public Boolean followState(Long memberId, Long authMemberId){

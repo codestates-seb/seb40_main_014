@@ -29,7 +29,6 @@ public class PlaylistController {
     private final PlaylistService playlistService;
     private final MemberService memberService;
     private final PlaylistMapper mapper;
-    private final MemberService memberService;
 
     @NeedMemberId
     @PostMapping

@@ -2,6 +2,7 @@ package com.mainproject.server.ChatRoom.dto;
 
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.member.dto.MemberResponseDto;
+import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.playlist.dto.PlaylistResponseDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,11 +22,11 @@ public class ResponseChatRoomDto {
     private boolean secret;
     private int roomMemberlist;
 
-    MemberResponseDto memberResponseDto;
+    SimpleMemberResponseDto memberResponseDto;
     List<PlaylistResponseDto> playlistResponseDtoList;
 
     @Builder
-    public ResponseChatRoomDto(ChatRoom chatRoom, MemberResponseDto memberResponseDto, List<PlaylistResponseDto> playlistResponseDtoList) {
+    public ResponseChatRoomDto(ChatRoom chatRoom, SimpleMemberResponseDto memberResponseDto, List<PlaylistResponseDto> playlistResponseDtoList) {
         this.roomId = chatRoom.getRoomId();
         this.title = chatRoom.getTitle();
         this.content = chatRoom.getContent();

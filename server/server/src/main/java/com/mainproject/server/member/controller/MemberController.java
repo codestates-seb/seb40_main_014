@@ -81,8 +81,20 @@ public class MemberController {
 
     @NeedMemberId
     @PostMapping("/follow/{member-id}") // member-id = 팔로우 대상
-    public ResponseEntity followMember(@PathVariable("member-id") Long memberId, Long authMemberId) {
-        return followService.followMember(memberId, authMemberId);
+    public ResponseEntity followMember(@PathVariable("member-id") Long memberId, Long authMemberId,
+                                       @Positive @RequestParam(defaultValue = "1") int playlistPage) {
+        followService.followMember(memberId, authMemberId);
+
+        // 이 아래는 get과 동일
+        Member findMember = service.findMember(memberId);
+
+        Boolean followState = followService.followState(memberId, authMemberId);
+
+        // Follow했을때, follow count가 반대로 되는 현상이 있어서 memberToFollowMemberResponseDto 추가로 만듦
+        MemberResponseDto response = mapper.memberToFollowMemberResponseDto(findMember, followState, chatRoomMapper, playlistMapper, playlistPage-1);
+        SingleResponseDto<MemberResponseDto> singleResponseDto = new SingleResponseDto<>(response);
+
+        return new ResponseEntity(singleResponseDto, HttpStatus.OK);
 
     }
 
