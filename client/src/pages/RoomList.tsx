@@ -73,17 +73,15 @@ function RoomList() {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
-		getRooms(currentPage.current, 10).then((res) => {
-			const data = res.data;
-			const { page, totalPages } = res.pageInfo;
-
-			setRooms((prevRooms) => [...prevRooms, ...data]);
-			// setHasNextPage(data.length === 10);
-			setHasNextPage(page !== totalPages);
-
-			// if (data.length) currentPage.current += 1;
-			if (hasNextPage) currentPage.current += 1;
-		});
+		// getRooms(currentPage.current, 10).then((res) => {
+		// 	const data = res.data;
+		// 	const { page, totalPages } = res.pageInfo;
+		// 	setRooms((prevRooms) => [...prevRooms, ...data]);
+		// 	// setHasNextPage(data.length === 10);
+		// 	setHasNextPage(page !== totalPages);
+		// 	// if (data.length) currentPage.current += 1;
+		// 	if (hasNextPage) currentPage.current += 1;
+		// });
 	}, []);
 
 	useEffect(() => {

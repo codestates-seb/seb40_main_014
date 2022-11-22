@@ -16,7 +16,10 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 			<Top>
 				<Img src={picture} alt="profile" />
 				<Info>
-					<Grade>{grade}</Grade>
+					<Grade>
+						<div></div>
+						{grade}
+					</Grade>
 					<div>
 						<Name>{name}</Name>
 						{myId === memberId && (
@@ -26,7 +29,9 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 						)}
 					</div>
 					<Follower>
-						<span>팔로워</span> {follow}
+						팔로워
+						<span>{follow}</span>
+						<button>팔로우</button>
 					</Follower>
 				</Info>
 			</Top>
@@ -74,36 +79,47 @@ const Info = styled.div`
 		a {
 			position: absolute;
 			top: 0;
-			right: -45px;
-			color: ${(props) => props.theme.colors.gray500};
+			right: -40px;
+			color: ${(props) => props.theme.colors.gray600};
 			font-size: 18px;
 			transition: 0.1s;
 			padding: 5px;
 
 			:hover {
-				color: ${(props) => props.theme.colors.purple};
+				color: ${(props) => props.theme.colors.gray500};
 			}
 
 			// Mobile
 			@media screen and (max-width: 640px) {
-				right: -35px;
+				right: -30px;
 			}
 		}
 	}
 `;
 
 const Grade = styled.div`
-	display: inline-block;
-	background-color: gray;
-	color: white;
-	font-size: 14px;
-	padding: 5px;
+	display: flex;
+	align-items: center;
 	margin-bottom: 15px;
-	border-radius: 5px;
+	font-size: ${(props) => props.theme.fontSize.small};
+	color: ${(props) => props.theme.colors.gray600};
+
+	> div {
+		width: 13px;
+		height: 13px;
+		margin-right: 6px;
+		border-radius: 50%;
+		background-color: ${(props) => props.theme.colors.gray600};
+	}
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 12px;
+		font-size: ${(props) => props.theme.fontSize.xSmall};
+
+		> div {
+			width: 11px;
+			height: 11px;
+		}
 	}
 `;
 
@@ -118,8 +134,35 @@ const Name = styled.div`
 `;
 
 const Follower = styled.div`
+	display: flex;
+	align-items: center;
+
 	span {
-		margin-right: 5px;
+		margin-left: 10px;
+
+		// Mobile
+		@media screen and (max-width: 640px) {
+			margin-left: 7px;
+		}
+	}
+
+	button {
+		margin-left: 20px;
+		padding: 4px;
+		background-color: ${(props) => props.theme.colors.purple};
+		color: ${(props) => props.theme.colors.white};
+		font-size: ${(props) => props.theme.fontSize.xSmall};
+		border-radius: ${(props) => props.theme.radius.smallRadius};
+
+		:hover {
+			opacity: 60%;
+		}
+
+		// Mobile
+		@media screen and (max-width: 640px) {
+			margin-left: 17px;
+			font-size: 10px;
+		}
 	}
 `;
 

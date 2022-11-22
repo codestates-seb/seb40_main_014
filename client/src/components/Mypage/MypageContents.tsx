@@ -74,6 +74,7 @@ const Roof = styled.div`
 		padding: 5px;
 		background-color: ${(props) => props.theme.colors.white};
 		color: ${(props) => props.theme.colors.purple};
+
 		/* border: 1px solid white; */
 		border-radius: ${(props) => props.theme.radius.smallRadius};
 		margin-left: 10px;
