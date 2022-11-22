@@ -5,6 +5,7 @@ import com.mainproject.server.auth.utils.ErrorResponder;
 import com.mainproject.server.exception.BusinessException;
 import com.mainproject.server.exception.ExceptionCode;
 import com.mainproject.server.member.dto.MemberPatchDto;
+import com.mainproject.server.member.entity.Follow;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.jwt.JwtTokenizer;
 import com.mainproject.server.member.jwt.RefreshToken;
@@ -51,14 +52,6 @@ public class MemberService {
                 .ifPresent(picture -> findMember.setPicture(picture));
         Optional.ofNullable(member.getModifiedAt())
                 .ifPresent(modifiedAt -> findMember.setModifiedAt(modifiedAt));
-
-        Member updateMember = memberRepository.save(findMember);
-
-        return updateMember;
-    }
-
-    public Member followMember(Long memberId) {
-        Member findMember = verifyExistsMember(memberId);
 
         Member updateMember = memberRepository.save(findMember);
 

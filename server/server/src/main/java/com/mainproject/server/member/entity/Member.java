@@ -24,10 +24,10 @@ public class Member extends Auditable {
     @Id
     private Long memberId;
 
-    @Column(nullable = false)
+    @Column
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String name;
 
     @Column
@@ -43,7 +43,7 @@ public class Member extends Auditable {
     private String ranking = "unranked";
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column
     private Role role;
 
     @Builder

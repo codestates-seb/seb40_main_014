@@ -2,11 +2,10 @@ package com.mainproject.server.member.mapper;
 
 import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
 import com.mainproject.server.member.dto.MemberPatchDto;
-import com.mainproject.server.member.dto.MemberPostDto;
 import com.mainproject.server.member.dto.MemberResponseDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
-import com.mainproject.server.member.entity.Follow;
 import com.mainproject.server.member.entity.Member;
+import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.playlist.dto.SimplePlaylistResponseDto;
 import com.mainproject.server.playlist.entity.Playlist;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
@@ -22,13 +21,10 @@ public interface MemberMapper {
 
     Member memberPatchDtoToMember(MemberPatchDto memberPatchDto);
 
-//    MemberResponseDto memberToMemberResponseDto(Member member);
-
     List<MemberResponseDto> memberListToMemberResponseDtoList(List<Member> memberList);
     List<SimpleMemberResponseDto> memberListToSimpleMemberResponseDtoList(List<Member> memberList);
-    SimpleMemberResponseDto memberToSimpleMemberResponseDto(Member member);
 
-    default MemberResponseDto memberToMemberResponseDto(Member member, ChatRoomMapper chatRoomMapper,
+    default MemberResponseDto memberToMemberResponseDto(Member member, Boolean followState, ChatRoomMapper chatRoomMapper,
                                                         PlaylistMapper playlistMapper, int playlistPage) {
         if ( member == null ) {
             return null;
@@ -59,6 +55,28 @@ public interface MemberMapper {
 
         memberResponseDto.playlist(multiResponseDto);
 
+        memberResponseDto.followState(followState);
+
         return memberResponseDto.build();
+    }
+
+    default SimpleMemberResponseDto memberToSimpleMemberResponseDto(Member member) {
+        if ( member == null ) {
+            return null;
+        }
+
+        SimpleMemberResponseDto.SimpleMemberResponseDtoBuilder simpleMemberResponseDto = SimpleMemberResponseDto.builder();
+
+        simpleMemberResponseDto.memberId( member.getMemberId() );
+        simpleMemberResponseDto.email( member.getEmail() );
+        simpleMemberResponseDto.name( member.getName() );
+        simpleMemberResponseDto.picture( member.getPicture() );
+        simpleMemberResponseDto.grade( member.getGrade() );
+        simpleMemberResponseDto.follow( member.getFollows().size());
+        simpleMemberResponseDto.role( member.getRole() );
+        simpleMemberResponseDto.createdAt( member.getCreatedAt() );
+        simpleMemberResponseDto.modifiedAt( member.getModifiedAt() );
+
+        return simpleMemberResponseDto.build();
     }
 }
