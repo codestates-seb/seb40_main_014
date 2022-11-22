@@ -60,6 +60,44 @@ public interface MemberMapper {
         return memberResponseDto.build();
     }
 
+    /** Follow API 요청때만 사용 **/
+    default MemberResponseDto memberToFollowMemberResponseDto(Member member, Boolean followState, ChatRoomMapper chatRoomMapper,
+                                                        PlaylistMapper playlistMapper, int playlistPage) {
+        if ( member == null ) {
+            return null;
+        }
+
+        MemberResponseDto.MemberResponseDtoBuilder memberResponseDto = MemberResponseDto.builder();
+
+        memberResponseDto.memberId( member.getMemberId() );
+        memberResponseDto.email( member.getEmail() );
+        memberResponseDto.name( member.getName() );
+        memberResponseDto.picture( member.getPicture() );
+        memberResponseDto.grade( member.getGrade() );
+        if (followState == true){ memberResponseDto.follow( member.getFollows().size()+1 ); }
+        if (followState == false){ memberResponseDto.follow( member.getFollows().size()-1 ); }
+//        memberResponseDto.rank( member.getRanking().getRank() );
+        memberResponseDto.role( member.getRole() );
+        memberResponseDto.createdAt( member.getCreatedAt() );
+        memberResponseDto.modifiedAt( member.getModifiedAt() );
+
+        List<Playlist> playlistList = member.getPlaylists()
+                .stream()
+                .skip(5*playlistPage)
+                .limit(5)
+                .collect(Collectors.toList());
+
+        PageImpl page = new PageImpl<>(playlistList);
+        MultiResponseDto<SimplePlaylistResponseDto> multiResponseDto =
+                new MultiResponseDto<>(playlistMapper.playlistToSimplePlaylistResponseDtoList(playlistList), page);
+
+        memberResponseDto.playlist(multiResponseDto);
+
+        memberResponseDto.followState(followState);
+
+        return memberResponseDto.build();
+    }
+
     default SimpleMemberResponseDto memberToSimpleMemberResponseDto(Member member) {
         if ( member == null ) {
             return null;

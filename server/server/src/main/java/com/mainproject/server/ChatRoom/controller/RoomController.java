@@ -7,6 +7,7 @@ import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
 import com.mainproject.server.ChatRoom.service.ChatService;
 import com.mainproject.server.member.dto.MemberResponseDto;
+import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.mapper.MemberMapper;
 import com.mainproject.server.member.service.MemberService;
@@ -48,7 +49,7 @@ public class RoomController {
             room.setSecret(true);
         }
 
-        MemberResponseDto memberResponseDto = memberMapper.memberToMemberResponseDto(member);
+        SimpleMemberResponseDto memberResponseDto = memberMapper.memberToSimpleMemberResponseDto(member);
 
 //        MemberResponseDto memberResponseDto = MemberResponseDto.builder()
 //                .member(member)
