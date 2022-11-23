@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Footer from '../home/Footer';
 import Header from '../home/Header';
 import HeaderBottom from '../home/HeaderBottom';
+import ScrollToTop from './ScrollToTop';
 
 function Layout() {
 	return (
@@ -13,6 +14,7 @@ function Layout() {
 				<Outlet />
 			</MainWrapper>
 			<Footer />
+			<ScrollToTop />
 		</>
 	);
 }

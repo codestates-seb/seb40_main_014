@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { getRooms } from '../api/roomApi';
 import { DefaultButton } from '../components/common/Button';
 import Room from '../components/home/Room';
 import CreateModal from '../components/room/createModal';
@@ -40,15 +41,15 @@ function RoomList() {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
-		// getRooms(currentPage.current, 10).then((res) => {
-		// 	const data = res.data;
-		// 	const { page, totalPages } = res.pageInfo;
-		// 	setRooms((prevRooms) => [...prevRooms, ...data]);
-		// 	// setHasNextPage(data.length === 10);
-		// 	setHasNextPage(page !== totalPages);
-		// 	// if (data.length) currentPage.current += 1;
-		// 	if (hasNextPage) currentPage.current += 1;
-		// });
+		getRooms(currentPage.current, 10).then((res) => {
+			const data = res.data;
+			const { page, totalPages } = res.pageInfo;
+			setRooms((prevRooms) => [...prevRooms, ...data]);
+			// setHasNextPage(data.length === 10);
+			setHasNextPage(page !== totalPages);
+			// if (data.length) currentPage.current += 1;
+			if (hasNextPage) currentPage.current += 1;
+		});
 	}, []);
 
 	useEffect(() => {
@@ -121,6 +122,7 @@ export const H2 = styled.h2`
 `;
 
 export const ListStyle = styled.div`
+	height: 2000px;
 	display: flex;
 	flex-wrap: wrap;
 	z-index: 1111;
