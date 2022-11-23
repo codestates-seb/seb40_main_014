@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import ThumbnailImg from '../../assets/images/playlist-thumbnail.png';
+import ThumbnailImg from '../../assets/images/thumbnail.png';
 import { Link } from 'react-router-dom';
 import Category from '../common/Category';
 import { RoomInfoType } from '../../pages/RoomList';

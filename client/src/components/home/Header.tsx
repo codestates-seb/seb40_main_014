@@ -103,17 +103,7 @@ function Header() {
 				{isLogin ? (
 					<>
 						<Profile ref={profileRef}>
-							<Img
-								style={{ background: `url(${picture.replace('96', '32')})` }}>
-								{/* <div
-									style={{
-										width: '32px',
-										height: '32px',
-										borderRadius: '32px',
-										background: `url(${picture.replace('96', '32')})`,
-									}}
-								/> */}
-							</Img>
+							<Img src={picture} alt="profile" />
 							<div className="on-pc">{name}</div>
 							<ProfileUl ref={profileUlRef}>
 								<Triangle>
@@ -252,11 +242,18 @@ const Profile = styled.div`
 	}
 `;
 
-const Img = styled.div`
-	width: 30px;
-	height: 31px;
-	border-radius: 31px;
-	margin-right: 15px;
+const Img = styled.img`
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	margin-right: 16px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		width: 25px;
+		height: 25px;
+		margin-right: 12px;
+	}
 `;
 
 const ProfileUl = styled.ul`
