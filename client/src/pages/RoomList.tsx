@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { getRooms } from '../api/roomApi';
 import { getMyInfo } from '../api/userApi';
 import { DefaultButton } from '../components/common/Button';
+import Loading from '../components/common/Loading';
 import Room from '../components/home/Room';
 import CreateModal from '../components/room/createModal';
 import { myInfo, myLogin } from '../slices/mySlice';
@@ -39,6 +40,8 @@ function RoomList() {
 
 	const isLogin = useSelector(myLogin);
 
+	const [isLoading, setLoading] = useState(false);
+
 	//* 구글 로그인
 	const accessToken = new URL(location.href).searchParams.get('access_token');
 	const refreshToken = new URL(location.href).searchParams.get('refresh_token');
@@ -46,6 +49,7 @@ function RoomList() {
 
 	useEffect(() => {
 		if (accessToken && refreshToken) {
+			setLoading(true);
 			localStorage.setItem('accessToken', accessToken);
 			localStorage.setItem('refreshToken', refreshToken);
 
@@ -63,7 +67,8 @@ function RoomList() {
 				// }
 				dispatch(myInfo(res.data));
 
-				navigate('/');
+				// navigate('/');
+				window.location.href = '/';
 			});
 		}
 	}, []);
@@ -138,6 +143,7 @@ function RoomList() {
 					))}
 				<div ref={observerTargetEl} />
 			</ListStyle>
+			{isLoading && <Loading />}
 		</>
 	);
 }

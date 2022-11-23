@@ -15,12 +15,12 @@ const persistedMySlice = persistReducer(persistConfig, mySlice);
 const store = configureStore({
 	reducer: {
 		counter: counterSlice,
-		my: persistedMySlice,
+		my: mySlice,
 		room: roomSlice,
 	},
-	middleware: getDefaultMiddleware({
-		serializableCheck: false,
-	}),
+	// middleware: getDefaultMiddleware({
+	// 	serializableCheck: false,
+	// }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

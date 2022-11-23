@@ -1,82 +1,73 @@
-import React, { useEffect, useState } from 'react';
-
-import * as StompJS from '@stomp/stompjs';
+import { useEffect, useState } from 'react';
+import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
-const StompChat = () => {
-	const [ms, setMs] = useState('');
-	const [content, setContent] = useState('');
-	const client = new StompJS.Client();
+let client: Client | null = null;
 
-	useEffect(() => {
-		connect();
-		console.log('연결상태', client.connected);
-		// return () => wsDisconnect();
-	}, []);
+const StompChat = () => {
+	const [content, setContent] = useState('');
+
+	const addContent = (message: string) => {
+		setContent(content.concat(message));
+	};
+
+	const subscribe = () => {
+		if (client != null) {
+			client.subscribe(
+				'sub/chat/room/c399a998-2e6d-46b7-ba09-bfc60a787803',
+				(data: any) => {
+					const newMessage: string = JSON.parse(data.body).message as string;
+					addContent(newMessage);
+				},
+			);
+		}
+	};
+
+	const publish = (message: string) => {
+		if (client != null) {
+			if (!client.connected) return;
+
+			console.log('client.connected', client.connected);
+
+			client.publish({
+				destination: 'pub/chat/sendMessage',
+				body: JSON.stringify({
+					message: message,
+					type: 'TALK',
+					roomId: 'c399a998-2e6d-46b7-ba09-bfc60a787803',
+					memberId: 1,
+				}),
+			});
+		}
+	};
 
 	const connect = () => {
-		client.configure({
-			brokerURL: `${process.env.REACT_APP_STACK_WS_SERVER}/ws/websocket`, // 왜 websocket을 붙여줘야하는거지..?
-			// webSocketFactory: () => new SockJS("/ws"),
-			connectHeaders: {
-				login: 'user',
-				password: 'password',
-			},
-			onConnect: (e) => {
-				console.log('onConnect event:', e);
-				wsSubscribe();
-			},
+		client = new Client({
+			brokerURL: `${process.env.REACT_APP_STACK_WS_SERVER}/ws/websocket`,
 			debug: function (str) {
-				console.log('debug', str);
+				console.log(str);
+			},
+			onConnect: () => {
+				subscribe();
 			},
 			webSocketFactory: () =>
 				new SockJS(`${process.env.REACT_APP_STACK_SERVER}/ws`),
 		});
+
 		client.activate();
 	};
 
-	const onClick = (message: string) => {
-		console.log(client.connected);
-		console.log(message);
-		if (!client.connected) {
-			console.log('클라이언트 커넥트 상태 : ', client.connected);
-			// client.activate();
-			return;
+	const disConnect = () => {
+		if (client != null) {
+			if (client.connected) client.deactivate();
 		}
-
-		client.publish({
-			destination: 'pub/chat/enterUser',
-			body: JSON.stringify({
-				message: message,
-				type: 'ENTER',
-				roomId: 'c399a998-2e6d-46b7-ba09-bfc60a787803',
-				memberId: 1,
-			}),
-		});
 	};
 
-	const wsSubscribe = () => {
-		client.subscribe(
-			'sub/chat/room/c399a998-2e6d-46b7-ba09-bfc60a787803',
-			(msg) => {
-				const newMessage = JSON.parse(msg.body).message;
-				setContent(newMessage);
-				console.log('subscribe msg', msg);
-			},
-			{ id: 'user' },
-		);
-		console.log('subscribe 함수 작동!');
-		console.log('연결상태', client.connected);
-	};
+	useEffect(() => {
+		connect();
+		return () => disConnect();
+	}, []);
 
-	const wsDisconnect = () => {
-		client.deactivate();
-	};
-
-	const onChange = (e) => {
-		e.preventDefault();
-		setMs(e.target.value);
-	};
 	return (
 		<>
 			<div>
@@ -84,16 +75,15 @@ const StompChat = () => {
 					<p>Welcome,</p>
 				</div>
 				<div>{content}</div>
-				<input onChange={onChange} name={'ms'} />
-				<button
-					type={'button'}
-					onClick={() => {
-						onClick(ms);
-						setMs('');
-					}}>
-					전송
-				</button>
-				<button onClick={wsDisconnect}>연결해제</button>
+				<input
+					type="text"
+					value={content}
+					onChange={(e) => {
+						setContent(e.target.value);
+					}}
+				/>
+				<button onClick={() => publish(content)}>전송</button>
+				{/* <Container sendMessage={handler} /> */}
 			</div>
 		</>
 	);

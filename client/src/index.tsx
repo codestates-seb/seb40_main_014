@@ -13,8 +13,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
 	<Provider store={store}>
-		<PersistGate loading={null} persistor={persistor}>
-			<App />
-		</PersistGate>
+		{/* <PersistGate loading={null} persistor={persistor}> */}
+		<App />
+		{/* </PersistGate> */}
 	</Provider>,
 );
