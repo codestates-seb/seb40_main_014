@@ -4,6 +4,7 @@ import { MyInitialStateValue } from '../../slices/mySlice';
 import { AiFillEdit } from 'react-icons/ai';
 import { useState, useEffect } from 'react';
 import { followApi } from '../../api/userApi';
+import Badge from '../../components/common/Badge';
 
 type MypageInfoType = {
 	userInfo: MyInitialStateValue;
@@ -37,10 +38,7 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 			<Top>
 				<Img src={picture} alt="profile" />
 				<Info>
-					<Grade>
-						<div></div>
-						{grade}
-					</Grade>
+					<Badge grade={grade} margin="0px 0px 15px 0px" />
 					<div>
 						<Name>{name}</Name>
 						{myId === memberId && (
@@ -118,32 +116,6 @@ const Info = styled.div`
 			@media screen and (max-width: 640px) {
 				right: -30px;
 			}
-		}
-	}
-`;
-
-const Grade = styled.div`
-	display: flex;
-	align-items: center;
-	margin-bottom: 15px;
-	font-size: ${(props) => props.theme.fontSize.small};
-	color: ${(props) => props.theme.colors.gray600};
-
-	> div {
-		width: 13px;
-		height: 13px;
-		margin-right: 6px;
-		border-radius: 50%;
-		background-color: ${(props) => props.theme.colors.gray600};
-	}
-
-	// Mobile
-	@media screen and (max-width: 640px) {
-		font-size: ${(props) => props.theme.fontSize.xSmall};
-
-		> div {
-			width: 11px;
-			height: 11px;
 		}
 	}
 `;
