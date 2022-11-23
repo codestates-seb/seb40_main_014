@@ -1,14 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getRooms } from '../api/roomApi';
-import { getMyInfo } from '../api/userApi';
 import { DefaultButton } from '../components/common/Button';
 import Room from '../components/home/Room';
 import CreateModal from '../components/room/createModal';
-import { myInfo, myLogin } from '../slices/mySlice';
+import { myLogin } from '../slices/mySlice';
 
 export type RoomInfoType = {
 	roomId: 1;
@@ -34,39 +30,7 @@ export type HostType = {
 };
 
 function RoomList() {
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-
 	const isLogin = useSelector(myLogin);
-
-	//* 구글 로그인
-	const accessToken = new URL(location.href).searchParams.get('access_token');
-	const refreshToken = new URL(location.href).searchParams.get('refresh_token');
-	const memberId = new URL(location.href).searchParams.get('member_id');
-
-	useEffect(() => {
-		if (accessToken && refreshToken) {
-			localStorage.setItem('accessToken', accessToken);
-			localStorage.setItem('refreshToken', refreshToken);
-
-			getMyInfo(Number(memberId), accessToken).then((res) => {
-				console.log('getMyInfo res', res);
-				// {
-				// 	memberId: 1,
-				// 	follow: 10,
-				// 	like: 10,
-				// 	name: 'nickname',
-				// 	createdAt: '회원 생성 시간',
-				// 	modifiedAt: '회원 수정 시간',
-				// 	grade: 'LUVIP',
-				// 	rank: 1,
-				// }
-				dispatch(myInfo(res.data));
-
-				navigate('/');
-			});
-		}
-	}, []);
 
 	//* 무한 스크롤
 	const [rooms, setRooms] = useState<RoomInfoType[]>([]);
@@ -101,7 +65,7 @@ function RoomList() {
 		};
 	}, [fetch, hasNextPage]);
 
-	// 방 만들기 모달
+	//* 방 만들기 모달
 	const [modalOpen, setModalOpen] = useState(false);
 
 	const modalClose = () => {
