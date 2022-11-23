@@ -5,8 +5,10 @@ import AddModal from './addModal';
 import { DefaultButton } from '../common/Button';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
+import { myLogin } from '../../slices/mySlice';
+import { currentRoomInfo } from '../../slices/roomSlice';
 
 export type roomInfo = {
 	memberId: number;
@@ -76,8 +78,12 @@ const CreateRoomBtn = styled.button`
 `;
 
 const RoomCreateForm = () => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const userInfo = useSelector((state: RootState) => state.my.value);
+	const roomInfo = useSelector((state: RootState) => state.room);
+	console.log('roomInfo', roomInfo);
+	const isLogin = useSelector(myLogin);
 	const { register, handleSubmit } = useForm<roomInfo>();
 	const [checked, setChecked] = useState<boolean>(false);
 	const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
@@ -92,13 +98,17 @@ const RoomCreateForm = () => {
 		};
 		console.log('생성될 방의 정보', CreateRoomInfo);
 
-		axios
-			.post(`${process.env.REACT_APP_STACK_SERVER}/rooms`, CreateRoomInfo)
-			.then((res) => {
-				console.log(res);
-				navigate(`rooms/${res.data.roomId}`);
-			})
-			.catch((err) => console.log(err));
+		if (!isLogin) {
+			alert('로그인 후 생성하실 수 있습니다.');
+		} else {
+			axios
+				.post(`${process.env.REACT_APP_STACK_SERVER}/rooms`, CreateRoomInfo)
+				.then((res) => {
+					console.log(res);
+					navigate(`rooms/${res.data.roomId}`);
+				})
+				.catch((err) => console.log(err));
+		}
 	};
 
 	const onCheck = () => {
