@@ -11,8 +11,13 @@ const StompChat = () => {
 	useEffect(() => {
 		connect();
 		console.log('연결상태', client.connected);
-		return () => wsDisconnect();
+		// return () => wsDisconnect();
 	}, []);
+
+	useEffect(() => {
+		console.log('ms', ms);
+		console.log('client.connected', client.connected);
+	}, [ms, client.connected]);
 
 	const connect = () => {
 		client.configure({
@@ -31,26 +36,24 @@ const StompChat = () => {
 			},
 			webSocketFactory: () =>
 				new SockJS(`${process.env.REACT_APP_STACK_SERVER}/ws`),
-			reconnectDelay: 5000,
-			heartbeatIncoming: 4000,
-			heartbeatOutgoing: 4000,
 		});
 		client.activate();
 	};
 
-	const onClick = (message: string) => {
-		console.log(client.connected);
-		console.log('메세지', message);
+	const onClick = () => {
+		console.log('client.connected2', client.connected);
 		if (!client.connected) {
 			console.log('클라이언트 커넥트 상태 : ', client.connected);
 			// client.activate();
 			return;
 		}
 
+		console.log('ms', ms);
+
 		client.publish({
-			destination: 'pub/chat/sendMessage',
+			destination: 'pub/chat/enterUser',
 			body: JSON.stringify({
-				message: message,
+				message: 'hello',
 				type: 'ENTER',
 				roomId: 'c399a998-2e6d-46b7-ba09-bfc60a787803',
 				memberId: 1,
@@ -77,9 +80,9 @@ const StompChat = () => {
 	};
 
 	const onChange = (e) => {
-		e.preventDefault();
 		setMs(e.target.value);
 	};
+
 	return (
 		<>
 			<div>
@@ -87,11 +90,11 @@ const StompChat = () => {
 					<p>Welcome,</p>
 				</div>
 				<div>{content}</div>
-				<input onChange={onChange} name={'ms'} />
+				<input value={ms} onChange={onChange} name={'ms'} />
 				<button
 					type={'button'}
 					onClick={() => {
-						onClick(ms);
+						onClick();
 						setMs('');
 					}}>
 					전송

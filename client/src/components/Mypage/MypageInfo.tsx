@@ -1,19 +1,66 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { MyInitialStateValue } from '../../slices/mySlice';
+import { AiFillEdit } from 'react-icons/ai';
+import { useState, useEffect } from 'react';
+import { followApi } from '../../api/userApi';
 
-const MypageInfo = () => {
+type MypageInfoType = {
+	userInfo: MyInitialStateValue;
+	myId: number;
+};
+
+const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
+	const { memberId, name, grade, follow, followState, picture } = userInfo;
+
+	const [followNum, setFollowNum] = useState(follow);
+	const [followCheck, setFollowCheck] = useState(followState);
+
+	useEffect(() => {
+		setFollowNum(follow);
+		setFollowCheck(followState);
+	}, [follow, followState]);
+
+	const handleFollow = () => {
+		followApi(memberId).then((res) => {
+			console.log('follow res', res);
+
+			const { follow, followState } = res.data;
+
+			setFollowNum(follow);
+			setFollowCheck(followState);
+		});
+	};
+
 	return (
 		<Wrapper>
-			<div className="top">
-				<img
-					src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
-					alt="이미지"
-				/>
-				<div>
-					<div className="nickname">닉네임</div>
-					<div>팔로우, 등급, 부가요소</div>
-				</div>
-			</div>
-			<div className="bottom">자기소개</div>
+			<Top>
+				<Img src={picture} alt="profile" />
+				<Info>
+					<Grade>
+						<div></div>
+						{grade}
+					</Grade>
+					<div>
+						<Name>{name}</Name>
+						{myId === memberId && (
+							<Link to="/editProfile">
+								<AiFillEdit />
+							</Link>
+						)}
+					</div>
+					<Follower>
+						팔로워
+						<span>{followNum}</span>
+						{myId !== memberId && (
+							<button onClick={handleFollow}>
+								{followCheck ? '언팔로우' : '팔로우'}
+							</button>
+						)}
+					</Follower>
+				</Info>
+			</Top>
+			<Bottom className="bottom">자기소개</Bottom>
 		</Wrapper>
 	);
 };
@@ -21,30 +68,136 @@ const MypageInfo = () => {
 export default MypageInfo;
 
 const Wrapper = styled.div`
-	div {
-		margin: 30px 0;
+	padding: 40px 0;
+`;
+
+const Top = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 60px;
+`;
+
+const Img = styled.img`
+	width: 190px;
+	height: 190px;
+	border-radius: 50%;
+	margin-right: 12%;
+
+	// Tablet
+	@media screen and (max-width: 980px) {
+		width: 170px;
+		height: 170px;
 	}
-	.top {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		img {
-			width: 20%;
-			object-fit: cover;
-			border-radius: 50%;
-			margin-right: 10%;
+	// Mobile
+	@media screen and (max-width: 640px) {
+		width: 120px;
+		height: 120px;
+	}
+`;
+
+const Info = styled.div`
+	> div:nth-of-type(2) {
+		position: relative;
+		margin-bottom: 40px;
+
+		a {
+			position: absolute;
+			top: 0;
+			right: -40px;
+			color: ${(props) => props.theme.colors.gray500};
+			font-size: 18px;
+			transition: 0.1s;
+			padding: 5px;
+
+			:hover {
+				color: ${(props) => props.theme.colors.gray600};
+			}
+
+			// Mobile
+			@media screen and (max-width: 640px) {
+				right: -30px;
+			}
 		}
-		.nickname {
-			font-size: ${(props) => props.theme.fontSize.large};
+	}
+`;
+
+const Grade = styled.div`
+	display: flex;
+	align-items: center;
+	margin-bottom: 15px;
+	font-size: ${(props) => props.theme.fontSize.small};
+	color: ${(props) => props.theme.colors.gray600};
+
+	> div {
+		width: 13px;
+		height: 13px;
+		margin-right: 6px;
+		border-radius: 50%;
+		background-color: ${(props) => props.theme.colors.gray600};
+	}
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: ${(props) => props.theme.fontSize.xSmall};
+
+		> div {
+			width: 11px;
+			height: 11px;
 		}
 	}
-	.bottom {
-		height: 100px;
-		background-color: ${(props) => props.theme.colors.white};
-		border-radius: ${(props) => props.theme.radius.largeRadius};
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		box-shadow: 1px 1px 10px #4d0bd133;
+`;
+
+const Name = styled.div`
+	font-size: 24px;
+	font-weight: 500;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 22px;
 	}
+`;
+
+const Follower = styled.div`
+	display: flex;
+	align-items: center;
+
+	span {
+		margin-left: 10px;
+
+		// Mobile
+		@media screen and (max-width: 640px) {
+			margin-left: 7px;
+		}
+	}
+
+	button {
+		margin-left: 20px;
+		padding: 4px;
+		background-color: ${(props) => props.theme.colors.purple};
+		color: ${(props) => props.theme.colors.white};
+		font-size: ${(props) => props.theme.fontSize.xSmall};
+		border-radius: ${(props) => props.theme.radius.smallRadius};
+		transition: 0.1s;
+
+		:hover {
+			background-color: #410bae;
+		}
+
+		// Mobile
+		@media screen and (max-width: 640px) {
+			margin-left: 17px;
+			font-size: 10px;
+		}
+	}
+`;
+
+const Bottom = styled.div`
+	height: 100px;
+	background-color: ${(props) => props.theme.colors.white};
+	border-radius: ${(props) => props.theme.radius.largeRadius};
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 1px 1px 10px #4d0bd133;
 `;

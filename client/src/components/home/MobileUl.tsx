@@ -84,7 +84,7 @@ const Ul = styled.ul`
 	color: ${(props) => props.theme.colors.gray800};
 	animation: open-slide 0.5s ease-in-out;
 
-	z-index: 8888;
+	z-index: 5555;
 
 	li {
 		padding: 5px 0;

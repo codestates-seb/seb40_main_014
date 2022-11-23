@@ -1,13 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getRooms } from '../api/roomApi';
-import { getMyInfo } from '../api/userApi';
 import { DefaultButton } from '../components/common/Button';
 import Room from '../components/home/Room';
 import CreateModal from '../components/room/createModal';
-import { myInfo } from '../slices/mySlice';
+import { myLogin } from '../slices/mySlice';
 
 export type RoomInfoType = {
 	roomId: 1;
@@ -33,58 +30,25 @@ export type HostType = {
 };
 
 function RoomList() {
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-
-	//* 구글 로그인
-	const accessToken = new URL(location.href).searchParams.get('access_token');
-	const refreshToken = new URL(location.href).searchParams.get('refresh_token');
-	const memberId = new URL(location.href).searchParams.get('member_id');
-
-	useEffect(() => {
-		if (accessToken && refreshToken) {
-			localStorage.setItem('accessToken', accessToken);
-			localStorage.setItem('refreshToken', refreshToken);
-
-			getMyInfo(Number(memberId), accessToken).then((res) => {
-				console.log('getMyInfo res', res);
-				// {
-				// 	memberId: 1,
-				// 	follow: 10,
-				// 	like: 10,
-				// 	name: 'nickname',
-				// 	createdAt: '회원 생성 시간',
-				// 	modifiedAt: '회원 수정 시간',
-				// 	grade: 'LUVIP',
-				// 	rank: 1,
-				// }
-				dispatch(myInfo(res.data));
-
-				navigate('/');
-			});
-		}
-	}, []);
+	const isLogin = useSelector(myLogin);
 
 	//* 무한 스크롤
 	const [rooms, setRooms] = useState<RoomInfoType[]>([]);
+
 	const [hasNextPage, setHasNextPage] = useState(true);
 	const currentPage = useRef<number>(1);
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
-		() => {
-			getRooms(currentPage.current, 10).then((res) => {
-				const data = res.data;
-				const { page, totalPages } = res.pageInfo;
-
-				setRooms([...rooms, ...data]);
-				// setHasNextPage(data.length === 10);
-				setHasNextPage(page !== totalPages);
-
-				// if (data.length) currentPage.current += 1;
-				if (hasNextPage) currentPage.current += 1;
-			});
-		};
+		// getRooms(currentPage.current, 10).then((res) => {
+		// 	const data = res.data;
+		// 	const { page, totalPages } = res.pageInfo;
+		// 	setRooms((prevRooms) => [...prevRooms, ...data]);
+		// 	// setHasNextPage(data.length === 10);
+		// 	setHasNextPage(page !== totalPages);
+		// 	// if (data.length) currentPage.current += 1;
+		// 	if (hasNextPage) currentPage.current += 1;
+		// });
 	}, []);
 
 	useEffect(() => {
@@ -101,7 +65,7 @@ function RoomList() {
 		};
 	}, [fetch, hasNextPage]);
 
-	// 방 만들기 모달
+	//* 방 만들기 모달
 	const [modalOpen, setModalOpen] = useState(false);
 
 	const modalClose = () => {
@@ -111,13 +75,15 @@ function RoomList() {
 	return (
 		<>
 			<ButtonWrapper>
-				<DefaultButton
-					fontSize="16px"
-					width="105px"
-					height="42px"
-					onClick={modalClose}>
-					방 만들기
-				</DefaultButton>
+				{isLogin && (
+					<DefaultButton
+						fontSize="16px"
+						width="105px"
+						height="42px"
+						onClick={modalClose}>
+						방 만들기
+					</DefaultButton>
+				)}
 				{modalOpen && (
 					<CreateModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
 				)}
@@ -130,9 +96,10 @@ function RoomList() {
 							<Room room={room} key={room.roomId} />
 					  ))
 					: null} */}
-				{rooms.map((room: RoomInfoType) => (
-					<Room room={room} key={room.roomId} />
-				))}
+				{rooms &&
+					rooms.map((room: RoomInfoType) => (
+						<Room room={room} key={room.roomId} />
+					))}
 				<div ref={observerTargetEl} />
 			</ListStyle>
 		</>

@@ -37,7 +37,7 @@ const LoginModalStyle = styled.div`
 	align-items: center;
 	position: fixed;
 	top: 0;
-	z-index: 8888;
+	z-index: 5555;
 `;
 
 const WhiteBox = styled.div`
@@ -50,7 +50,7 @@ const WhiteBox = styled.div`
 	box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
 	background-color: ${(props) => props.theme.colors.white};
 	border-radius: ${(props) => props.theme.radius.largeRadius};
-	z-index: 8888;
+	z-index: 5555;
 
 	// Tablet
 	@media screen and (max-width: 980px) {
@@ -128,5 +128,5 @@ export const Backdrop = styled.div`
 	position: fixed;
 	top: 0;
 	background-color: rgba(0, 0, 0, 0.4);
-	z-index: 7777;
+	z-index: 4444;
 `;
