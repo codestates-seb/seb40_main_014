@@ -3,6 +3,7 @@ import counterSlice from '../slices/counterSlice';
 import mySlice from '../slices/mySlice';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import roomSlice from '../slices/roomSlice';
 
 const persistConfig = {
 	key: 'root',
@@ -15,6 +16,7 @@ const store = configureStore({
 	reducer: {
 		counter: counterSlice,
 		my: persistedMySlice,
+		room: roomSlice,
 	},
 	middleware: getDefaultMiddleware({
 		serializableCheck: false,
