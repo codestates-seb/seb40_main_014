@@ -15,9 +15,17 @@ import com.mainproject.server.playlist.dto.PlaylistResponseDto;
 import com.mainproject.server.playlist.entity.Playlist;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
 import com.mainproject.server.playlist.repository.PlaylistRepository;
+import com.mainproject.server.response.MultiResponseDto;
+import com.mainproject.server.response.SingleResponseDto;
+import com.mainproject.server.tx.NeedMemberId;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,87 +38,69 @@ public class RoomController {
     private final ChatService chatService;
     private final MemberService memberService;
     private final ChatRoomMapper chatRoomMapper;
-    private final PlaylistRepository playlistRepository;
 
-    private final PlaylistMapper playlistMapper;
-
-    private final MemberMapper memberMapper;
-
+    @NeedMemberId
     @PostMapping
-//    public ChatRoom createRoom(@RequestBody ChatRoomDto.Post requestBody) {
-    public ResponseChatRoomDto createRoom(@RequestBody ChatRoomPostDto requestBody) {
-        ChatRoom chatRoom = chatRoomMapper.chatRoomPostDtoToChatRoom(requestBody);
+    public ResponseEntity createRoom(@RequestBody ChatRoomPostDto requestBody, Long authMemberId) {
+        Member member = memberService.findMember(authMemberId);
+
+        ChatRoom chatRoom = chatRoomMapper.chatRoomPostDtoToChatRoom(requestBody, member);
         ChatRoom room = chatService.createRoom(chatRoom);
 
-        Member member = memberService.findMember(requestBody.getMemberId());
-
-        List<Playlist> playlists = playlistRepository.getPlaylistsByMember(member);
-        if (requestBody.getPwd() != null) {
-            room.setSecret(true);
-        }
-
-        SimpleMemberResponseDto memberResponseDto = memberMapper.memberToSimpleMemberResponseDto(member);
-
-//        MemberResponseDto memberResponseDto = MemberResponseDto.builder()
-//                .member(member)
-//                .build();
-//        List<PlaylistResponseDto> playlistResponseDtoList = new ArrayList<>();
-//
-//        for (Playlist playlist : playlists) {
-//            PlaylistResponseDto playlistResponseDto = PlaylistResponseDto.builder()
-//                    .playlist(playlist)
-//                    .build();
-//            playlistResponseDtoList.add(playlistResponseDto);
-//        }
-
-        List<PlaylistResponseDto> playlistResponseDtos = member.getPlaylists().stream()
-                .map(playlistMapper::playlistToPlaylistResponseDto)
-                .collect(Collectors.toList());
-
-//        ResponseChatRoomDto responseChatRoomDto = ResponseChatRoomDto.builder()
-//                .chatRoom(chatRoom)
-//                .memberResponseDto(memberResponseDto)
-//                .playlistResponseDtoList(playlistResponseDtoList)
-//                .build();
-        ResponseChatRoomDto responseChatRoomDto = ResponseChatRoomDto.builder()
-                .chatRoom(chatRoom)
-                .memberResponseDto(memberResponseDto)
-                .playlistResponseDtoList(playlistResponseDtos)
-                .build();
-        return responseChatRoomDto;
-
-//        return room;
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(chatRoomMapper.chatRoomResponseDtoToChatRoom(room, member)), HttpStatus.OK);
     }
 
+    @NeedMemberId
     @PatchMapping("/update/{roomId}")
-    public ChatRoom updateRoom(@PathVariable String roomId,
-                               @RequestBody ChatRoomPatchDto requestBody) {
-
+    public ResponseEntity updateRoom(@PathVariable String roomId,
+                                     @Valid @RequestBody ChatRoomPatchDto requestBody, Long authMemberId) {
         requestBody.setRoomId(roomId);
-        ChatRoom room = chatService.updateRoom(chatRoomMapper.chatRoomPatchDtoToChatRoom(requestBody));
-        if (requestBody.getPwd() != null) room.setSecret(true);
+        Member member = memberService.findMember(authMemberId);
+        ChatRoom chatRoom1 = chatRoomMapper.chatRoomPatchDtoToChatRoom(requestBody, member);
+        ChatRoom chatRoom = chatService.updateRoom(chatRoom1);
 
-        return room;
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(chatRoomMapper.chatRoomResponseDtoToChatRoom(chatRoom, member)), HttpStatus.OK);
     }
 
     @GetMapping
-    public List<ChatRoom> findAllRoom() {
-        return chatService.findAllRoom();
+    public ResponseEntity findAllRooms(@RequestParam(required = false, defaultValue = "1") int page,
+                                       @RequestParam(required = false, defaultValue = "15") int size, Member member) {
+
+        Page<ChatRoom> chatRoomPage = chatService.findChatRooms(page - 1 , size);
+        List<ChatRoom> content = chatRoomPage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(chatRoomMapper.responseChatRoomDtoList(content, member), chatRoomPage), HttpStatus.OK);
     }
 
     @GetMapping("/{roomId}")
     @ResponseBody
-    public ChatRoom findRoomById(@PathVariable String roomId) {
+    public ResponseEntity findRoomById(@PathVariable String roomId, Member member) {
 
-        return chatService.findChatRoom(roomId);
+        ChatRoom chatRoom = chatService.findVerifiedRoomId(roomId);
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(chatRoomMapper.chatRoomResponseDtoToChatRoom(chatRoom, member)),HttpStatus.OK);
     }
 
+//    @GetMapping("/{roomId}")
+//    @ResponseBody
+//    public ResponseEntity findRoomById(@PathVariable String roomId, List<Member> memberList) {
+//
+//
+//        ChatRoom chatRoom = chatService.findVerifiedRoomId(roomId);
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(chatRoomMapper.chatRoomMemberListResponseDtoToChatRoom(chatRoom, memberList)),HttpStatus.OK);
+//    }
+
+    @NeedMemberId
     @DeleteMapping("/{roomId}")
     @ResponseBody
-    public void deleteRoom(@PathVariable String roomId) {
+    public String deleteRoom(@PathVariable String roomId) {
 
         chatService.deleteChatRoom(roomId);
-
+        return "room deleted success";
     }
 
 }

@@ -32,17 +32,22 @@ dependencies {
     //JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+    testImplementation 'org.springframework.security:spring-security-test'
+    implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.7.0'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    implementation 'com.auth0:java-jwt:3.19.2'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
     //OAuth
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'javax.servlet:jstl'
 
     //H2 로컬용
-//    runtimeOnly 'com.h2database:h2'
-
-    //Mysql 배포용
-    implementation 'mysql:mysql-connector-java'
+    runtimeOnly 'com.h2database:h2'
 
     //유효성 관련
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -52,7 +57,7 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 
     //Json Mapper
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     //JWT 관련
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'

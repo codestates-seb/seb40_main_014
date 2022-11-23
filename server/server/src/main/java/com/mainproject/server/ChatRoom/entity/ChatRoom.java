@@ -45,7 +45,7 @@ public class ChatRoom extends Auditable {
     @Column
     private String title;
     @Column
-    private String content;
+    private int maxCount;
 
     @Column
     private Onair onair = Onair.ON;
@@ -66,10 +66,10 @@ public class ChatRoom extends Auditable {
 
 
     @Builder
-    public ChatRoom(String roomId, String title, String content, String pwd) {
+    public ChatRoom(String roomId, String title, int maxCount, String pwd) {
         this.roomId = roomId;
         this.title = title;
-        this.content = content;
+        this.maxCount = maxCount;
         this.pwd = pwd;
         Onair on = Onair.ON;
     }

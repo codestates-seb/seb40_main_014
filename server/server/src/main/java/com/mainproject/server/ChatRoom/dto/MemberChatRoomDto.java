@@ -4,17 +4,15 @@ import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.member.dto.MemberResponseDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.playlist.dto.PlaylistResponseDto;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class ResponseChatRoomDto {
+public class MemberChatRoomDto {
     private String roomId;
     private String title;
     private int maxCount;
@@ -22,11 +20,11 @@ public class ResponseChatRoomDto {
     private boolean secret;
     private int roomMemberlist;
 
-    SimpleMemberResponseDto memberResponseDto;
+    List<SimpleMemberResponseDto> memberResponseDto;
     List<PlaylistResponseDto> playlistResponseDtoList;
 
     @Builder
-    public ResponseChatRoomDto(ChatRoom chatRoom, SimpleMemberResponseDto memberResponseDto, List<PlaylistResponseDto> playlistResponseDtoList) {
+    public MemberChatRoomDto(ChatRoom chatRoom, List<SimpleMemberResponseDto> memberResponseDto, List<PlaylistResponseDto> playlistResponseDtoList) {
         this.roomId = chatRoom.getRoomId();
         this.title = chatRoom.getTitle();
         this.maxCount = chatRoom.getMaxCount();
