@@ -11,7 +11,7 @@ public class ChatRoomPostDto {
     private Long memberId;
     private long playlistId;
     private String title;
-    private String content;
+    private int maxCount;
     private String pwd;
     private boolean secret;
 }

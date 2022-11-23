@@ -6,6 +6,8 @@ import com.mainproject.server.ChatRoom.dto.ResponseChatRoomDto;
 import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
+import com.mainproject.server.exception.BusinessException;
+import com.mainproject.server.exception.ExceptionCode;
 import com.mainproject.server.roomMember.entity.roomMember;
 import com.mainproject.server.member.mapper.MemberMapper;
 import lombok.Getter;
@@ -15,6 +17,7 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.data.domain.Page;
 
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -38,8 +41,8 @@ public class ChatService {
 
     public ChatRoom createRoom(ChatRoom chatRoom) {
 
-        String randomId = UUID.randomUUID().toString();
-        chatRoom.setRoomId(randomId);
+//        String randomId = UUID.randomUUID().toString();
+//        chatRoom.setRoomId(randomId);
         if (chatRoom.getPwd() != null) chatRoom.setSecret(true);
         ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
 
@@ -51,8 +54,6 @@ public class ChatService {
 
         Optional.ofNullable(chatRoom.getTitle())
                 .ifPresent(title -> verifiedRoom.setTitle(title));
-        Optional.ofNullable(chatRoom.getContent())
-                .ifPresent(content -> verifiedRoom.setContent(content));
         Optional.ofNullable(chatRoom.getPwd())
                 .ifPresent(pwd -> verifiedRoom.setPwd(pwd));
 
@@ -95,7 +96,12 @@ public class ChatService {
         verifiedRoom.setRoomMemberList((List<roomMember>) verifiedRoom.getMember());
     }
 
-    // 채팅방 memName 조회
+    public Page<ChatRoom> findChatRooms(int page, int size) {
+        Page<ChatRoom> findAllRooms = chatRoomRepository.findAll(
+                PageRequest.of(page, size, Sort.by("roomId").descending()));
+
+        return findAllRooms;
+    }
 
     public <T> void sendMessage(WebSocketSession session, T message) {
         //webSocketTest.onMessage("");
@@ -108,12 +114,13 @@ public class ChatService {
     }
 
     public ChatRoom findVerifiedRoomId(String roomId){
-        Optional<ChatRoom> optionalChatRoom= chatRoomRepository.findChatRoomByRoomId(roomId);
-        ChatRoom chatRoom = new ChatRoom();
-        if (optionalChatRoom.isEmpty()) return chatRoom;
-        ChatRoom findChatRoom =
-                optionalChatRoom.orElseThrow(() -> new NoSuchMessageException("채팅방을 찾을 수 없습니다."));
-        return findChatRoom;
+        ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId)
+                .orElseThrow(() -> new BusinessException(ExceptionCode.ROOM_NOT_EXISTS));
+//        ChatRoom chatRoom = new ChatRoom();
+//        if (optionalChatRoom.isEmpty()) return chatRoom;
+//        ChatRoom findChatRoom =
+//                optionalChatRoom.orElseThrow(() -> new NoSuchMessageException("채팅방을 찾을 수 없습니다."));
+        return chatRoom;
     }
 
     public Page<ChatRoom> searchChatRooms(int page, int size, String tab, String q) {
