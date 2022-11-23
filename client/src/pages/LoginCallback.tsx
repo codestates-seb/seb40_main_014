@@ -29,12 +29,7 @@ const LoginCallback = () => {
 		}
 	}, []);
 
-	return (
-		<>
-			<div style={{ fontSize: '30px', textAlign: 'center' }}>로그인 중...</div>
-			<Loading />
-		</>
-	);
+	return <Loading />;
 };
 
 export default LoginCallback;
