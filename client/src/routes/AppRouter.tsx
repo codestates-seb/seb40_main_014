@@ -5,6 +5,7 @@ import Layout from '../components/common/Layout';
 import Modaltest from '../pages/Modaltest';
 import PlaylistList from '../pages/PlaylistList';
 import Room from '../pages/Room';
+import EditProfile from '../pages/EditProfile';
 import Chat from '../components/chat/Chat';
 import Chattest from '../components/chat/Chattest';
 import StompChat from '../components/chat/ChatStompTest';
@@ -30,11 +31,12 @@ const AppRouter = () => {
 						<Route path="/makeplaylist/:type" element={<MakePlayList />} />
 						<Route path="/makeplaylist/:type/:id" element={<MakePlayList />} />
 						<Route path="/modal" element={<Modaltest />} />
-						<Route path="/mypage" element={<Mypage />} />
+						<Route path="/mypage/:userId" element={<Mypage />} />
 						<Route
 							path="/playlistcollection"
 							element={<PlayListCollection />}
 						/>
+						<Route path="/editProfile" element={<EditProfile />} />
 
 						<Route path="/rooms/:id" element={<Room />} />
 					</Route>

@@ -20,7 +20,6 @@ function Layout() {
 export default Layout;
 
 const MainWrapper = styled.div`
-	/* margin: 40px 300px !important; */
 	margin: 40px 15vw;
 
 	// Tablet

@@ -21,7 +21,7 @@ const ModalContaincer = styled.div`
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	z-index: 2;
+	z-index: 8888;
 
 	@media screen and (max-width: 640px) {
 		width: 350px;
@@ -52,7 +52,7 @@ const ModalOverlay = styled.div`
 	width: 100vw;
 	height: 100vh;
 	backdrop-filter: blur(2px);
-	z-index: 1;
+	z-index: 7777;
 	position: fixed;
 `;
 

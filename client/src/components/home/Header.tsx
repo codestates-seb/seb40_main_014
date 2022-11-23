@@ -17,7 +17,7 @@ function Header() {
 	const dispatch = useDispatch();
 	const { pathname } = useLocation();
 
-	const { name, picture } = useSelector(myValue);
+	const { memberId, name, picture } = useSelector(myValue);
 	const isLogin = useSelector(myLogin);
 
 	useEffect(() => {
@@ -120,12 +120,20 @@ function Header() {
 									<BsFillTriangleFill />
 								</Triangle>
 								<MyPageLink>
-									<Link to="/mypage">
+									<Link
+										to={`/mypage/${memberId}`}
+										onClick={() => {
+											profileUlRef.current.style.display = 'none';
+										}}>
 										<BiUser />
 										<span>마이페이지</span>
 									</Link>
 								</MyPageLink>
-								<LogoutButton onClick={handleLogout}>
+								<LogoutButton
+									onClick={() => {
+										handleLogout();
+										profileUlRef.current.style.display = 'none';
+									}}>
 									<MdLogout />
 									<span>로그아웃</span>
 								</LogoutButton>
@@ -167,7 +175,7 @@ const HeaderStyle = styled.div<{ position: string }>`
 	padding: 17px 15vw;
 	background-color: ${(props) => props.theme.colors.headerBackground};
 	font-size: 18px;
-	z-index: 6666;
+	z-index: 3333;
 
 	.on-pc {
 		display: block;
@@ -184,7 +192,7 @@ const HeaderStyle = styled.div<{ position: string }>`
 	@media screen and (max-width: 640px) {
 		padding: 20px 40px;
 		font-size: ${(props) => props.theme.fontSize.medium};
-		z-index: 9999;
+		z-index: 6666;
 
 		.on-pc {
 			display: none;
@@ -254,7 +262,7 @@ const Img = styled.div`
 const ProfileUl = styled.ul`
 	display: none;
 	position: absolute;
-	top: 50px;
+	top: 45px;
 	left: -11px;
 	padding: 20px;
 	width: 150px;
@@ -262,7 +270,7 @@ const ProfileUl = styled.ul`
 	color: ${(props) => props.theme.colors.gray900};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
 	box-shadow: 1px 1px 10px 2px rgba(30, 30, 30, 0.185);
-	z-index: 9999;
+	z-index: 6666;
 
 	> * {
 		padding: 5px;

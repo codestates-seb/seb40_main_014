@@ -24,3 +24,28 @@ export const getUserInfo = async (memberId: number) => {
 		return err;
 	}
 };
+
+export const editUserInfo = async (memberId: number, formData) => {
+	try {
+		const result = await instance.patch(`/api/members/${memberId}`, formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+				Authorization: localStorage.getItem('accessToken'),
+			},
+		});
+
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
+
+export const followApi = async (memberId: number) => {
+	try {
+		const result = await instance.post(`/api/members/follow/${memberId}`);
+
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
