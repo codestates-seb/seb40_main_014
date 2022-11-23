@@ -175,7 +175,7 @@ const HeaderStyle = styled.div<{ position: string }>`
 	padding: 17px 15vw;
 	background-color: ${(props) => props.theme.colors.headerBackground};
 	font-size: 18px;
-	z-index: 6666;
+	z-index: 3333;
 
 	.on-pc {
 		display: block;
@@ -192,7 +192,7 @@ const HeaderStyle = styled.div<{ position: string }>`
 	@media screen and (max-width: 640px) {
 		padding: 20px 40px;
 		font-size: ${(props) => props.theme.fontSize.medium};
-		z-index: 9999;
+		z-index: 6666;
 
 		.on-pc {
 			display: none;
@@ -270,7 +270,7 @@ const ProfileUl = styled.ul`
 	color: ${(props) => props.theme.colors.gray900};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
 	box-shadow: 1px 1px 10px 2px rgba(30, 30, 30, 0.185);
-	z-index: 9999;
+	z-index: 6666;
 
 	> * {
 		padding: 5px;
