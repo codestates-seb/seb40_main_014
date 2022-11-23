@@ -6,7 +6,7 @@ import { ButtonWrapper, H2, ListStyle } from './RoomList';
 import { getPlaylists } from '../api/playlistApi';
 import { useSelector } from 'react-redux';
 import { musicInfoType } from './MakePlayList';
-import { myValue } from '../slices/mySlice';
+import { myLogin, myValue } from '../slices/mySlice';
 
 export type PlaylistInfoType = {
 	memberId: string;
@@ -20,6 +20,7 @@ export type PlaylistInfoType = {
 
 function PlaylistList() {
 	const { memberId } = useSelector(myValue);
+	const isLogin = useSelector(myLogin);
 
 	//* 무한 스크롤
 	const [playlists, setPlayLists] = useState<PlaylistInfoType[]>([]);
@@ -59,9 +60,11 @@ function PlaylistList() {
 		<>
 			<ButtonWrapper>
 				<Link to="/makeplaylist/create">
-					<DefaultButton fontSize="16px" width="105px" height="42px">
-						플리 만들기
-					</DefaultButton>
+					{isLogin && (
+						<DefaultButton fontSize="16px" width="105px" height="42px">
+							플리 만들기
+						</DefaultButton>
+					)}
 				</Link>
 			</ButtonWrapper>
 			<H2>플레이리스트 Top 8</H2>
