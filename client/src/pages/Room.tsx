@@ -4,9 +4,13 @@ import PlaylistPart from '../components/room/Playlist';
 import PeoplePart from '../components/room/PeopleList';
 import Message from '../components/room/Message';
 import Chatting from '../components/room/Chatting';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 import UpdateRoomModal from '../components/room/updateModal';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { useForm } from 'react-hook-form';
 
 const TotalContainer = styled.div`
 	display: flex;
@@ -149,11 +153,73 @@ const onClick = (e) => {
 	console.log(e);
 };
 
+export type MessageInfo = {
+	memberId?: string;
+	message?: string;
+};
+
+export type MessageObjectType = {
+	memberId: number;
+	username: string;
+	message: string;
+	roomId: string;
+};
+
+const MessageForm = styled.form`
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
+
+const MessageInput = styled.input`
+	width: 700px;
+	height: 35px;
+	border: 1px solid ${(props) => props.theme.colors.gray500};
+	border-radius: ${(props) => props.theme.radius.largeRadius};
+	padding: 0px 10px 0px 10px;
+	:focus {
+		outline: 0.1px solid ${(props) => props.theme.colors.purple};
+		box-shadow: ${(props) => props.theme.colors.purple} 0px 0px 0px 1px;
+		border: none;
+	}
+`;
 const Room = () => {
-	const [modalOpen, setModalOpen] = useState(false);
+	const { register, handleSubmit, reset } = useForm<MessageInfo>();
+	const userInfo = useSelector((state: RootState) => state.my.value);
+	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const modalClose = () => {
 		setModalOpen(!modalOpen);
 	};
+	const [title, setTitle] = useState<string>('존재하지 않는 방입니다.');
+	const params = useParams();
+	const [messageObject, setMessageObject] = useState<any>([]);
+
+	const roomInfo = useSelector((state: RootState) => state.room);
+
+	console.log('현재 룸 상태', roomInfo);
+
+	const onValid = (e) => {
+		const MessageObj: MessageObjectType = {
+			roomId: params.id,
+			username: userInfo.name,
+			memberId: userInfo.memberId,
+			message: e.message,
+		};
+		setMessageObject((prev) => [...prev, MessageObj]);
+
+		reset();
+	};
+	console.log('메세지 상태', messageObject);
+	useEffect(() => {
+		axios
+			.get(`${process.env.REACT_APP_STACK_SERVER}/rooms/${params.id}`)
+			.then((res) => {
+				setTitle(res.data.title);
+			})
+			.catch((err) => console.log('방이 없어'));
+	}, []);
+
 	return (
 		<>
 			{' '}
@@ -161,7 +227,7 @@ const Room = () => {
 				<Container>
 					<ChatHeader>
 						<ChatHeaderContent>
-							<div>방 제목</div>
+							<div>{title}</div>
 						</ChatHeaderContent>
 						<ChatHeaderContent>
 							<UpdateRoomBtn onClick={modalClose}>Edit</UpdateRoomBtn>
@@ -181,7 +247,7 @@ const Room = () => {
 					<ChatRoomContainer>
 						<ChatLeft>
 							<ChatSection>
-								<Chatting></Chatting>
+								<Chatting messageObject={messageObject}></Chatting>
 							</ChatSection>
 						</ChatLeft>
 						<ChatRight>
@@ -191,7 +257,11 @@ const Room = () => {
 					</ChatRoomContainer>
 					<ChatFooter>
 						<MessageSection>
-							<Message />
+							<MessageForm onSubmit={handleSubmit(onValid)}>
+								<MessageInput
+									{...register('message', { required: true })}
+									placeholder="하고 싶은 말을 입력하세요!"></MessageInput>
+							</MessageForm>
 						</MessageSection>
 					</ChatFooter>
 				</Container>

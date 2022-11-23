@@ -1,5 +1,5 @@
+import { useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
 
 const ChatContainer = styled.div`
 	margin: 10px;
@@ -16,65 +16,20 @@ const ChatUser = styled.div`
 `;
 const ChatMessage = styled.div`
 	font-size: ${(props) => props.theme.fontSize.small};
-	line-height: ${(props) => props.theme.fontSize.medium};
+	line-height: ${(props) => props.theme.fontSize.large};
 `;
-const Chatting = () => {
+
+const Chatting = ({ messageObject }) => {
 	return (
 		<>
-			<ChatContainer>
-				<ChatUser>문지훈</ChatUser>
-				<ChatMessage>안녕하세요</ChatMessage>
-			</ChatContainer>
-			<ChatContainer>
-				<ChatUser>송준모</ChatUser>
-				<ChatMessage>여러분</ChatMessage>
-			</ChatContainer>
-			<ChatContainer>
-				<ChatUser>홍유진</ChatUser>
-				<ChatMessage>모두</ChatMessage>
-			</ChatContainer>
-			<ChatContainer>
-				<ChatUser>김아리</ChatUser>
-				<ChatMessage>화이팅</ChatMessage>
-			</ChatContainer>
-			<ChatContainer>
-				<ChatUser>노영석</ChatUser>
-				<ChatMessage>해여</ChatMessage>
-			</ChatContainer>
-			<ChatContainer>
-				<ChatUser>정경은</ChatUser>
-				<ChatMessage>^^</ChatMessage>
-			</ChatContainer>
-			<ChatContainer>
-				<ChatUser>송준모</ChatUser>
-				<ChatMessage>
-					긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴
-					텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴
-					텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴
-					텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴
-					텍스트 테스트
-				</ChatMessage>
-			</ChatContainer>
-			<ChatContainer>
-				<ChatUser>송준모</ChatUser>
-				<ChatMessage>
-					긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴
-					텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴
-					텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴
-					텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴
-					텍스트 테스트
-				</ChatMessage>
-			</ChatContainer>
-			<ChatContainer>
-				<ChatUser>송준모</ChatUser>
-				<ChatMessage>
-					긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴
-					텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴
-					텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴
-					텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴 텍스트 테스트 긴
-					텍스트 테스트
-				</ChatMessage>
-			</ChatContainer>
+			{messageObject.map((e, index) => {
+				return (
+					<ChatContainer key={index}>
+						<ChatUser>{e.username}</ChatUser>
+						<ChatMessage>{e.message}</ChatMessage>
+					</ChatContainer>
+				);
+			})}
 		</>
 	);
 };
