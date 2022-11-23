@@ -12,7 +12,7 @@ const ChatUser = styled.div`
 	font-size: ${(props) => props.theme.fontSize.xSmall};
 	margin-bottom: 15px;
 	color: ${(props) => props.theme.colors.purple};
-	font-weight: 700;
+	font-weight: 600;
 `;
 const ChatMessage = styled.div`
 	font-size: ${(props) => props.theme.fontSize.small};

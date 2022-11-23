@@ -152,7 +152,7 @@ export default PlayListSetting;
 const PlayListSettingStyle = styled.div`
 	div {
 		font-size: ${(props) => props.theme.fontSize.medium};
-		font-weight: 700;
+		font-weight: 600;
 		margin: 10px 0;
 	}
 	.row {

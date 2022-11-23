@@ -122,7 +122,7 @@ export const Thumbnail = styled.div`
 export const Title = styled.h3`
 	display: inline-block;
 	margin-bottom: 10px;
-	font-weight: 700;
+	font-weight: 600;
 	font-size: 18px;
 	cursor: pointer;
 

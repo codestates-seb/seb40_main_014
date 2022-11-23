@@ -67,7 +67,7 @@ const WhiteBox = styled.div`
 
 const H2 = styled.h2`
 	font-size: ${(props) => props.theme.fontSize.xLarge};
-	font-weight: 700;
+	font-weight: 600;
 	margin-bottom: 46px;
 
 	// Mobile
