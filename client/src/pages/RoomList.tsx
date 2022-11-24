@@ -89,18 +89,19 @@ function RoomList() {
 					<CreateModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
 				)}
 			</ButtonWrapper>
-			<H2>방 Top 8</H2>
-			<H2>최신 방</H2>
+			<H2>가장 많은 청취자가 있는 방송</H2>
+			<H2>인기 DJ 방송</H2>
+			<H2>전체</H2>
 			<ListStyle>
 				{/* {rooms.length
 					? rooms.map((room: RoomInfoType) => (
 							<Room room={room} key={room.roomId} />
 					  ))
 					: null} */}
-				{rooms &&
+				{/* {rooms &&
 					rooms.map((room: RoomInfoType) => (
 						<Room room={room} key={room.roomId} />
-					))}
+					))} */}
 				<div ref={observerTargetEl} />
 			</ListStyle>
 		</>
