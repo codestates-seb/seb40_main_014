@@ -3,14 +3,10 @@ package com.mainproject.server.ChatRoom.config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mainproject.server.ChatRoom.entity.ChatMessage;
-import com.mainproject.server.ChatRoom.entity.ChatRoom;
-import com.mainproject.server.ChatRoom.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.tomcat.util.modeler.Util;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -27,19 +23,19 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper;
-    private final
+    private final HashMap<String, WebSocketSession> sessionMap = new HashMap<>();
+
     /**
      * key : session ID
      * value : session
      */
-
-    HashMap<String, WebSocketSession> sessionMap = new HashMap<>();
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         //소켓 연결
         super.afterConnectionEstablished(session);
         sessionMap.put(session.getId(), session);
+        log.info("소켓 시작 {}", session.getId());
     }
 
     @Override
@@ -66,5 +62,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
         //소켓 종료
         sessionMap.remove(session.getId());
         super.afterConnectionClosed(session, status);
+        log.info("소켓 종료 {}", session.getId());
     }
 }

@@ -2,13 +2,10 @@ package com.mainproject.server.ChatRoom.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mainproject.server.ChatRoom.config.WebSocketTest;
-import com.mainproject.server.ChatRoom.dto.ResponseChatRoomDto;
-import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.exception.BusinessException;
 import com.mainproject.server.exception.ExceptionCode;
-import com.mainproject.server.roomMember.entity.roomMember;
 import com.mainproject.server.member.mapper.MemberMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -71,27 +68,31 @@ public class ChatService {
         return findVerifiedRoomId(roomId);
     }
 
-
     //MessageType : ENTER
-    public int plusMemCount(String roomId) {
-        ResponseChatRoomDto chatRoom = new ResponseChatRoomDto();
+    public void plusMemCount(String roomId) {
 //        List<Member> members = chatRoom.getRoomMemberlist().stream()
 //                .map(roomMember::getMember)
 //                .collect(Collectors.toList());
-        chatRoom.setRoomId(roomId);
-        return chatRoom.getRoomMemberlist() + 1; //responsedto에서 memberlist type을 int로 지정해서
+        ChatRoom room = findVerifiedRoomId(roomId);
+        room.setUserCount(room.getUserCount() + 1);
     }
 
     //MessageType : LEAVE
-    public int minusMemCount(String roomId) {
-        ResponseChatRoomDto chatRoom = new ResponseChatRoomDto();
-        return chatRoom.getRoomMemberlist() - 1;
+    public void minusMemCount(String roomId) {
+//        ChatRoom room = chatRoomMap.get(roomId);
+//        room.setUserCount(room.getUserCount() - 1);
+        ChatRoom room = findVerifiedRoomId(roomId);
+        room.setUserCount(room.getUserCount() + 1);
+    }
 
-    }
-    public void addMem(String roomId) {
-        ChatRoom verifiedRoom = findVerifiedRoomId(roomId);
-        verifiedRoom.setRoomMemberList((List<roomMember>) verifiedRoom.getMember());
-    }
+//    public String getUserName(String roomId, String memberName){
+//        ChatRoom room = chatRoomMap.get(roomId);
+//        return room.getMember().getName(memberName);
+//    }
+//    public void addMem(String roomId, String memberName) {
+//        ChatRoom chatRoom = chatRoomMap.get(roomId);
+//        verifiedRoom.setRoomMemberList((List<roomMember>) verifiedRoom.getMember());
+//    }
 
     public Page<ChatRoom> findChatRooms(int page, int size) {
         Page<ChatRoom> findAllRooms = chatRoomRepository.findAll(

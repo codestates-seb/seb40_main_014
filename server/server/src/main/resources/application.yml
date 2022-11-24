@@ -1,8 +1,8 @@
 jwt:
-  key:
-    secret: 123123123123123123123123123123123123123123123123123123123123123213213213123123123123123
-  access-token-expiration-minutes: 30
-  refresh-token-expiration-minutes: 420
+  secret:
+    key: jhtjpjbp@@jpovdsdfwegheqsbthnhryfdgdfnjdfnvjlfdv12312312312312312312312312312312312312312312312312312312312312321321321312312312312312312312321321321321312qweqwewqeasdwqafqweqwewqawf1345667wfgbrbarghwioerh31973190yrioweyhrawe7fra7203847908437v90n7309rv7329078rv9037821904vb8a192083v09a17b904790vtbafugybvauerv7t8e7v08t3
+  access-token-expiration-minutes: 5
+  refresh-token-expiration-minutes: 30
 server:
   port: 8080
   servlet:
@@ -10,10 +10,6 @@ server:
       charset: UTF-8
       enabled: true
       force: true
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
   datasource:
     url: jdbc:h2:mem:server
     driver-class-name: org.h2.Driver
