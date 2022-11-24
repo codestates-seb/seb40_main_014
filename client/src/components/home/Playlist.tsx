@@ -30,7 +30,7 @@ function Playlist({ playList }: PlaylistType) {
 			<Thumbnail>
 				<img src={playlist[0].thumbnail} alt="thumbnail" />
 				<Link to={`/playlistdetail/${playListId}`}>
-					<Backdrop />
+					<ThumbnailBackdrop />
 				</Link>
 			</Thumbnail>
 			<Title>
@@ -82,7 +82,7 @@ export const PlaylistStyle = styled.div`
 	}
 `;
 
-export const Backdrop = styled.div`
+export const ThumbnailBackdrop = styled.div`
 	display: none;
 	width: 100%;
 	height: 100%;
@@ -108,7 +108,7 @@ export const Thumbnail = styled.div`
 	cursor: pointer;
 
 	&:hover {
-		${Backdrop} {
+		${ThumbnailBackdrop} {
 			display: block;
 		}
 	}

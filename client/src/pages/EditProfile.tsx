@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import styled from 'styled-components';
-import { editUserInfo } from '../api/userApi';
+import { editUserInfox } from '../api/userApi';
 import { myInfo, myValue } from '../slices/mySlice';
 
 const EditProfile = () => {
@@ -59,7 +59,7 @@ const EditProfile = () => {
 
 			console.log('formData', formData);
 
-			editUserInfo(memberId, formData).then((res) => {
+			editUserInfox(memberId, formData).then((res) => {
 				console.log('editProfile res', res);
 
 				dispatch(myInfo(res.data));

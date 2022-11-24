@@ -25,7 +25,7 @@ export const getUserInfo = async (memberId: number) => {
 	}
 };
 
-export const editUserInfo = async (memberId: number, formData) => {
+export const editUserInfox = async (memberId: number, formData) => {
 	try {
 		const result = await instance.patch(`/api/members/${memberId}`, formData, {
 			headers: {
@@ -33,6 +33,16 @@ export const editUserInfo = async (memberId: number, formData) => {
 				Authorization: localStorage.getItem('accessToken'),
 			},
 		});
+
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
+
+export const editUserInfo = async (memberId: number, name: string) => {
+	try {
+		const result = await instance.patch(`/api/members/${memberId}`, { name });
 
 		return result.data;
 	} catch (err) {

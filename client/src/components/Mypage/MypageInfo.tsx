@@ -1,10 +1,12 @@
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { MyInitialStateValue } from '../../slices/mySlice';
+import { MyInitialStateValue, myValue } from '../../slices/mySlice';
 import { AiFillEdit } from 'react-icons/ai';
-import { useState, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { followApi } from '../../api/userApi';
 import Badge from '../../components/common/Badge';
+import EditProfileModal from './EditProfileModal';
+import { Backdrop } from '../home/LoginModal';
+import { useSelector } from 'react-redux';
 
 type MypageInfoType = {
 	userInfo: MyInitialStateValue;
@@ -14,13 +16,25 @@ type MypageInfoType = {
 const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 	const { memberId, name, grade, follow, followState, picture } = userInfo;
 
+	const my = useSelector(myValue);
+
+	const [isOpenModal, setOpenModal] = useState(false);
+	const [isOpenSide, setOpenSide] = useState(false);
 	const [followNum, setFollowNum] = useState(follow);
 	const [followCheck, setFollowCheck] = useState(followState);
+	const [myName, setMyName] = useState(my.name);
 
 	useEffect(() => {
-		setFollowNum(follow);
-		setFollowCheck(followState);
-	}, [follow, followState]);
+		setMyName(my.name);
+	}, [my.name]);
+
+	const handleOpenModal = useCallback(() => {
+		setOpenModal(!isOpenModal);
+	}, [isOpenModal]);
+
+	const handleOpenSide = useCallback(() => {
+		setOpenSide(!isOpenSide);
+	}, [isOpenSide]);
 
 	const handleFollow = () => {
 		followApi(memberId).then((res) => {
@@ -34,32 +48,52 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 	};
 
 	return (
-		<Wrapper>
-			<Top>
-				<Img src={picture} alt="profile" />
-				<Info>
-					<Badge grade={grade} margin="0px 0px 15px 0px" />
-					<div>
-						<Name>{name}</Name>
-						{myId === memberId && (
-							<Link to="/editProfile">
-								<AiFillEdit />
-							</Link>
-						)}
-					</div>
-					<Follower>
-						팔로워
-						<span>{followNum}</span>
-						{myId !== memberId && (
-							<button onClick={handleFollow}>
-								{followCheck ? '언팔로우' : '팔로우'}
-							</button>
-						)}
-					</Follower>
-				</Info>
-			</Top>
-			<Bottom className="bottom">자기소개</Bottom>
-		</Wrapper>
+		<>
+			<Wrapper>
+				<Top>
+					<Img src={picture} alt="profile" />
+					<Info>
+						<Badge grade={grade} margin="0px 0px 15px 0px" />
+						<div>
+							<Name>{myId === memberId ? myName : name}</Name>
+							{myId === memberId && (
+								// <Link to="/editProfile">
+								// 	<AiFillEdit />
+								// </Link>
+								<Edit onClick={handleOpenModal}>
+									<AiFillEdit />
+								</Edit>
+							)}
+						</div>
+						<Follower>
+							팔로워
+							<span>{followNum}</span>
+							{myId !== memberId && (
+								<button onClick={handleFollow}>
+									{followCheck ? '언팔로우' : '팔로우'}
+								</button>
+							)}
+						</Follower>
+					</Info>
+				</Top>
+				<Bottom className="bottom">자기소개</Bottom>
+			</Wrapper>{' '}
+			{isOpenModal && (
+				<EditProfileModal
+					handleOpenModal={handleOpenModal}
+					memberId={memberId}
+					name={name}
+				/>
+			)}
+			{isOpenSide && (
+				<Backdrop
+					onClick={(e) => {
+						e.preventDefault();
+						handleOpenSide();
+					}}
+				/>
+			)}
+		</>
 	);
 };
 
@@ -96,37 +130,35 @@ const Img = styled.img`
 
 const Info = styled.div`
 	> div:nth-of-type(2) {
-		position: relative;
+		display: flex;
 		margin-bottom: 40px;
-
-		a {
-			position: absolute;
-			top: 0;
-			right: -40px;
-			color: ${(props) => props.theme.colors.gray500};
-			font-size: 18px;
-			transition: 0.1s;
-			padding: 5px;
-
-			:hover {
-				color: ${(props) => props.theme.colors.gray600};
-			}
-
-			// Mobile
-			@media screen and (max-width: 640px) {
-				right: -30px;
-			}
-		}
 	}
 `;
 
 const Name = styled.div`
 	font-size: 24px;
 	font-weight: 500;
+	margin-right: 10px;
 
 	// Mobile
 	@media screen and (max-width: 640px) {
 		font-size: 22px;
+	}
+`;
+
+const Edit = styled.button`
+	padding: 5px;
+	color: ${(props) => props.theme.colors.gray500};
+	font-size: 18px;
+	transition: 0.1s;
+
+	:hover {
+		color: ${(props) => props.theme.colors.gray600};
+	}
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 16px;
 	}
 `;
 
