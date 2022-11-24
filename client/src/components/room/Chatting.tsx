@@ -1,5 +1,9 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useState } from 'react';
+import * as StompJS from '@stomp/stompjs';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 const ChatContainer = styled.div`
 	margin: 10px;
@@ -19,13 +23,13 @@ const ChatMessage = styled.div`
 	line-height: ${(props) => props.theme.fontSize.large};
 `;
 
-const Chatting = ({ messageObject }) => {
+const Chatting = ({ receiveMessageObject }) => {
 	return (
 		<>
-			{messageObject.map((e, index) => {
+			{receiveMessageObject.map((e, index) => {
 				return (
 					<ChatContainer key={index}>
-						<ChatUser>{e.username}</ChatUser>
+						<ChatUser>{e.user}</ChatUser>
 						<ChatMessage>{e.message}</ChatMessage>
 					</ChatContainer>
 				);
