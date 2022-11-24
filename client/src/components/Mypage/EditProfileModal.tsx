@@ -8,17 +8,17 @@ import { myInfo } from '../../slices/mySlice';
 type EditProfileModalType = {
 	handleOpenModal: () => void;
 	memberId: number;
-	name: string;
+	myName: string;
 };
 
 const EditProfileModal = ({
 	handleOpenModal,
 	memberId,
-	name,
+	myName,
 }: EditProfileModalType) => {
 	const dispatch = useDispatch();
 
-	const [changeName, setChangeName] = useState(name);
+	const [changeName, setChangeName] = useState(myName);
 	const [isError, setError] = useState(false);
 
 	useEffect(() => {
@@ -26,7 +26,7 @@ const EditProfileModal = ({
 	}, [changeName]);
 
 	const onSubmit = () => {
-		if (name === changeName) {
+		if (myName === changeName) {
 			setError(true);
 			return;
 		}

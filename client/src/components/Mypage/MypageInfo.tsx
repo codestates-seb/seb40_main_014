@@ -26,7 +26,9 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 
 	useEffect(() => {
 		setMyName(my.name);
-	}, [my.name]);
+		setFollowNum(follow);
+		setFollowCheck(followState);
+	}, [my.name, follow, followState]);
 
 	const handleOpenModal = useCallback(() => {
 		setOpenModal(!isOpenModal);
@@ -82,7 +84,7 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 				<EditProfileModal
 					handleOpenModal={handleOpenModal}
 					memberId={memberId}
-					name={name}
+					myName={myName}
 				/>
 			)}
 			{isOpenSide && (

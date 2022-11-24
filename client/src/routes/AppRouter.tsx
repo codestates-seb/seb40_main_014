@@ -8,6 +8,7 @@ import EditProfile from '../pages/EditProfile';
 import Chat from '../components/chat/Chat';
 import Chattest from '../components/chat/Chattest';
 import StompChat from '../components/chat/ChatStompTest';
+import ScrollToTop from '../components/common/ScrollToTop';
 
 // const Main = lazy(() => import('../pages/Main'));
 const LoginCallback = lazy(() => import('../pages/LoginCallback'));
@@ -21,6 +22,7 @@ const PlayListCollection = lazy(() => import('../pages/PlayListCollection'));
 const AppRouter = () => {
 	return (
 		<BrowserRouter>
+			<ScrollToTop />
 			<Suspense fallback={<Loading />}>
 				<Routes>
 					<Route element={<Layout />}>
