@@ -41,7 +41,7 @@ type RoomType = {
 	key?: number;
 };
 
-function Room({ room }: RoomType) {
+const Room = ({ room }: RoomType) => {
 	const { roomId, title, category, member, onair, curMember, totalMember } =
 		room;
 
@@ -72,7 +72,7 @@ function Room({ room }: RoomType) {
 			</Detail>
 		</PlaylistStyle>
 	);
-}
+};
 
 export default Room;
 

@@ -7,7 +7,7 @@ type LoginModalType = {
 	handleOpenModal: () => void;
 };
 
-function LoginModal({ handleOpenModal }: LoginModalType) {
+const LoginModal = ({ handleOpenModal }: LoginModalType) => {
 	useEffect(() => {
 		document.body.style.cssText = `
       position: fixed; 
@@ -39,7 +39,7 @@ function LoginModal({ handleOpenModal }: LoginModalType) {
 			/>
 		</ModalStyle>
 	);
-}
+};
 
 export default LoginModal;
 

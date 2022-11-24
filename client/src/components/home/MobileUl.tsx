@@ -10,7 +10,11 @@ export type MobileUlType = {
 	handleOpenSide: () => void;
 };
 
-function MobileUl({ currentMenu, setOpenModal, handleOpenSide }: MobileUlType) {
+const MobileUl = ({
+	currentMenu,
+	setOpenModal,
+	handleOpenSide,
+}: MobileUlType) => {
 	const { name } = useSelector(myValue);
 
 	return (
@@ -67,7 +71,7 @@ function MobileUl({ currentMenu, setOpenModal, handleOpenSide }: MobileUlType) {
 			</li>
 		</Ul>
 	);
-}
+};
 
 export default MobileUl;
 

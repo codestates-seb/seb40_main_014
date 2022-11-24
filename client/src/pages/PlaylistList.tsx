@@ -18,7 +18,7 @@ export type PlaylistInfoType = {
 	playListId: number;
 };
 
-function PlaylistList() {
+const PlaylistList = () => {
 	const { memberId } = useSelector(myValue);
 	const isLogin = useSelector(myLogin);
 
@@ -84,6 +84,6 @@ function PlaylistList() {
 			</ListStyle>
 		</>
 	);
-}
+};
 
 export default PlaylistList;

@@ -15,7 +15,7 @@ export type RankingInfoType = {
 	memberId: number;
 };
 
-function RankingList() {
+const RankingList = () => {
 	const [rankings, setRankings] = useState<RankingInfoType[]>([]);
 
 	useEffect(() => {
@@ -47,7 +47,7 @@ function RankingList() {
 			</RankingListStyle>
 		</>
 	);
-}
+};
 
 export default RankingList;
 

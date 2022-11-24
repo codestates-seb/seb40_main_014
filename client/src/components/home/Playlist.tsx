@@ -21,7 +21,7 @@ type PlaylistType = {
 	key?: number;
 };
 
-function Playlist({ playList }: PlaylistType) {
+const Playlist = ({ playList }: PlaylistType) => {
 	const { playListId, title, categoryList, like, memberId, playlist } =
 		playList;
 
@@ -52,7 +52,7 @@ function Playlist({ playList }: PlaylistType) {
 			</Detail>
 		</PlaylistStyle>
 	);
-}
+};
 
 export default Playlist;
 

@@ -5,7 +5,7 @@ import Header from '../home/Header';
 import HeaderBottom from '../home/HeaderBottom';
 import ScrollToTopButton from './ScrollToTopButton';
 
-function Layout() {
+const Layout = () => {
 	return (
 		<>
 			<Header />
@@ -17,7 +17,7 @@ function Layout() {
 			<ScrollToTopButton />
 		</>
 	);
-}
+};
 
 export default Layout;
 

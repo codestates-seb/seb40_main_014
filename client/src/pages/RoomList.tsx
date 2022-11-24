@@ -30,7 +30,7 @@ export type HostType = {
 	grade: string;
 };
 
-function RoomList() {
+const RoomList = () => {
 	const isLogin = useSelector(myLogin);
 
 	//* 무한 스크롤
@@ -106,7 +106,7 @@ function RoomList() {
 			</ListStyle>
 		</>
 	);
-}
+};
 
 export default RoomList;
 

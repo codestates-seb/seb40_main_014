@@ -7,7 +7,7 @@ export type PcUlType = {
 	currentMenu: string;
 };
 
-function PcUl({ currentMenu }: PcUlType) {
+const PcUl = ({ currentMenu }: PcUlType) => {
 	const [isOpenSearch, setOpenSearch] = useState(false);
 
 	const handleOpenSearch = useCallback(() => {
@@ -42,7 +42,7 @@ function PcUl({ currentMenu }: PcUlType) {
 			</li>
 		</Ul>
 	);
-}
+};
 
 export default PcUl;
 

@@ -13,7 +13,7 @@ import { BiUser } from 'react-icons/bi';
 import { MdLogout } from 'react-icons/md';
 import { BsFillTriangleFill } from 'react-icons/bs';
 
-function Header() {
+const Header = () => {
 	const dispatch = useDispatch();
 	const { pathname } = useLocation();
 
@@ -150,7 +150,7 @@ function Header() {
 			)}
 		</>
 	);
-}
+};
 
 export default Header;
 
