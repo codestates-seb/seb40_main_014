@@ -91,7 +91,7 @@ const Ul = styled.ul`
 		margin: 10px 0;
 		transition: 0.1s;
 
-		&:hover {
+		:hover {
 			color: ${(props) => props.theme.colors.purple};
 		}
 

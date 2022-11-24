@@ -107,7 +107,7 @@ export const Thumbnail = styled.div`
 	margin-bottom: 15px;
 	cursor: pointer;
 
-	&:hover {
+	:hover {
 		${ThumbnailBackdrop} {
 			display: block;
 		}
@@ -126,7 +126,7 @@ export const Title = styled.h3`
 	font-size: 18px;
 	cursor: pointer;
 
-	&:hover {
+	:hover {
 		color: ${(props) => props.theme.colors.gray600};
 	}
 `;

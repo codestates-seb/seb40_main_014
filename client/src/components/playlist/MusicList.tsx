@@ -99,7 +99,7 @@ const Music = styled.div<{ pathname: string }>`
 	background-color: ${(props) => props.theme.colors.white};
 	border-bottom: 1px solid ${(props) => props.theme.colors.gray400};
 
-	&:hover {
+	:hover {
 		cursor: ${(props) =>
 			props.pathname === '/playlistdetail'
 				? `pointer`
@@ -154,7 +154,7 @@ const Music = styled.div<{ pathname: string }>`
 
 	.deleteBtn {
 		color: gray;
-		&:hover {
+		:hover {
 			cursor: pointer;
 			color: ${(props) => props.theme.colors.purple};
 		}

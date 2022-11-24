@@ -203,14 +203,14 @@ const Logo = styled.div`
 export const LoginButton = styled.button`
 	color: ${(props) => props.theme.colors.gray400};
 
-	&:hover {
+	:hover {
 		color: ${(props) => props.theme.colors.white};
 	}
 
 	// Mobile
 	@media screen and (max-width: 640px) {
 		color: ${(props) => props.theme.colors.gray800};
-		&:hover {
+		:hover {
 			color: ${(props) => props.theme.colors.purple};
 		}
 	}
@@ -222,7 +222,7 @@ const Hambuger = styled.div`
 	transition: 0.1s;
 	cursor: pointer;
 
-	&:hover {
+	:hover {
 		color: ${(props) => props.theme.colors.white};
 	}
 `;
@@ -276,7 +276,7 @@ const ProfileUl = styled.ul`
 			margin-left: 10px;
 		}
 
-		&:hover {
+		:hover {
 			color: ${(props) => props.theme.colors.gray700};
 		}
 	}
@@ -299,7 +299,7 @@ const Triangle = styled.div`
 	color: ${(props) => props.theme.colors.background};
 	font-size: ${(props) => props.theme.fontSize.small};
 
-	&:hover {
+	:hover {
 		color: ${(props) => props.theme.colors.background};
 	}
 

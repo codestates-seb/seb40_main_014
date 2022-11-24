@@ -99,7 +99,7 @@ const GoogleLogin = styled.button`
 	font-size: 18px;
 	transition: 0.2s;
 
-	&:hover {
+	:hover {
 		background-color: ${(props) => props.theme.colors.gray50};
 	}
 
