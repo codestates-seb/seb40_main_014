@@ -50,7 +50,7 @@ export const editUserInfo = async (memberId: number, name: string) => {
 	}
 };
 
-export const followApi = async (memberId: number) => {
+export const followUser = async (memberId: number) => {
 	try {
 		const result = await instance.post(`/api/members/follow/${memberId}`);
 

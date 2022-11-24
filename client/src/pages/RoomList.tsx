@@ -75,8 +75,8 @@ function RoomList() {
 
 	return (
 		<>
-			<ButtonWrapper>
-				{isLogin && (
+			{isLogin && (
+				<ButtonWrapper>
 					<DefaultButton
 						fontSize="16px"
 						width="105px"
@@ -84,11 +84,11 @@ function RoomList() {
 						onClick={modalClose}>
 						방 만들기
 					</DefaultButton>
-				)}
-				{modalOpen && (
-					<CreateModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
-				)}
-			</ButtonWrapper>
+					{modalOpen && (
+						<CreateModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+					)}
+				</ButtonWrapper>
+			)}
 			<H2>가장 많은 청취자가 있는 방송</H2>
 			<H2>인기 DJ 방송</H2>
 			<H2>전체</H2>

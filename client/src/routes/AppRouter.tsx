@@ -13,7 +13,7 @@ import StompChat from '../components/chat/ChatStompTest';
 const LoginCallback = lazy(() => import('../pages/LoginCallback'));
 const PlayListDetail = lazy(() => import('../pages/PlayListDetail'));
 const RoomList = lazy(() => import('../pages/RoomList'));
-const Ranking = lazy(() => import('../pages/Ranking'));
+const RankingList = lazy(() => import('../pages/RankingList'));
 const MakePlayList = lazy(() => import('../pages/MakePlayList'));
 const Mypage = lazy(() => import('../pages/Mypage'));
 const PlayListCollection = lazy(() => import('../pages/PlayListCollection'));
@@ -27,7 +27,7 @@ const AppRouter = () => {
 						{/* 메인 */}
 						<Route path="/" element={<RoomList />} />
 						<Route path="/playlist" element={<PlaylistList />} />
-						<Route path="/ranking" element={<Ranking />} />
+						<Route path="/ranking" element={<RankingList />} />
 						<Route path="/mypage/:userId" element={<Mypage />} />
 						<Route path="/editProfile" element={<EditProfile />} />
 						{/* 플레이리스트 */}

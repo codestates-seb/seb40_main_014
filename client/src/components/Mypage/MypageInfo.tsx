@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { MyInitialStateValue, myValue } from '../../slices/mySlice';
 import { AiFillEdit } from 'react-icons/ai';
 import { useState, useCallback, useEffect } from 'react';
-import { followApi } from '../../api/userApi';
+import { followUser } from '../../api/userApi';
 import Badge from '../../components/common/Badge';
 import EditProfileModal from './EditProfileModal';
 import { Backdrop } from '../home/LoginModal';
@@ -37,7 +37,7 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 	}, [isOpenSide]);
 
 	const handleFollow = () => {
-		followApi(memberId).then((res) => {
+		followUser(memberId).then((res) => {
 			console.log('follow res', res);
 
 			const { follow, followState } = res.data;
