@@ -38,8 +38,8 @@ public class PlaylistService {
 
         Optional.ofNullable(playlist.getTitle()) //제목수정
                 .ifPresent(title -> findPlaylist.setTitle(title));
-        Optional.ofNullable(playlist.getVideoId()) //영상수정
-                .ifPresent(videoId -> findPlaylist.setVideoId(videoId));
+//        Optional.ofNullable(playlist.getVideoId()) //영상수정
+//                .ifPresent(videoId -> findPlaylist.setVideoId(videoId));
         Optional.ofNullable(playlist.getCategoryList()) //카테고리 수정
                 .ifPresent(categories -> findPlaylist.setCategoryList(categories));
 
