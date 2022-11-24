@@ -52,7 +52,7 @@ public class ChatController {
         headerAccessor.getSessionAttributes().put("roomId", chat.getRoomId());
 
         log.info("CHAT2 {}", chat.getMessage()); // Hello World
-        log.info("CHAT6 {}", headerAccessor.getSessionAttributes()); // roomId
+        log.info("CHAT6 {}", headerAccessor.getSessionAttributes()); // MemberName, roomId가 저장된 sessionAttributes가 찍힘
 
         chat.setMessage(chat.getMemberName() + " 님 입장하셨습니다.");
         if (chat.getType().equals(ENTER)) {
