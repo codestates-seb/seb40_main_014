@@ -1,5 +1,6 @@
 package com.mainproject.server.ChatRoom.config;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
@@ -15,6 +16,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,60 +26,45 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WebSocketHandler extends TextWebSocketHandler {
 
     private final Map<String, WebSocketSession> sessions = new ConcurrentHashMap<>();
+    private final ObjectMapper objectMapper;
+    private final
     /**
      * key : session ID
      * value : session
      */
-    private final ObjectMapper objectMapper;
-    private final ChatService chatService;
 
-//    @Override
-//    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-//
-//        var sessionId = session.getId();
-//        sessions.put(sessionId, session); // 1. 세션 저장
-//
-//        ChatMessage chatMessage = ChatMessage.builder().memberId(sessionId).channelId("all").build();
-//        chatMessage.newConnect();
-//
-//        sessions.values().forEach(s -> {
-//            try {
-//                if (!s.getId().equals(sessionId)) {
-//                    s.sendMessage(new TextMessage(StringUtils.getString(chatMessage)));
-//                }
-//            }
-//            catch (Exception e) {
-//
-//            }
-//        });
-//    }
+    HashMap<String, WebSocketSession> sessionMap = new HashMap<>();
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-
-        String payload = message.getPayload();
-        log.info("{}", payload);
-        ChatMessage chatMessage = objectMapper.readValue(payload, ChatMessage.class);
-
-        ChatRoom chatRoom = chatService.findChatRoom(String.valueOf(chatMessage.getMember().getMemberId()));
-        chatRoom.handlerActions(session, chatMessage, chatService);
+    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        //소켓 연결
+        super.afterConnectionEstablished(session);
+        sessionMap.put(session.getId(), session);
     }
 
-//    @Override
-//    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) {
-//        var sessionId = session.getId();
-//        sessions.remove(sessionId);
-//
-//        final ChatMessage message = new ChatMessage();
-//        message.closeConnect();
-//        message.setMemberId(sessionId);
-//
-//        sessions.values().forEach(s -> {
-//            try {
-//                s.sendMessage(new ChatMessage(Utils.getString(message)));
-//            } catch (Exception e) {
-//
-//            }
-//        });
-//    }
+    @Override
+    public void handleTextMessage(WebSocketSession session, TextMessage message) throws JsonProcessingException {
+        //메시지 발송
+        String msg = message.getPayload();
+        log.info("{}", msg);
+
+        ChatMessage chatMessage = objectMapper.readValue(msg, ChatMessage.class);
+        log.info("session {}", chatMessage.toString());
+
+        for (String key : sessionMap.keySet()) {
+            WebSocketSession ws = sessionMap.get(key);
+            try {
+                ws.sendMessage(new TextMessage(msg));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        //소켓 종료
+        sessionMap.remove(session.getId());
+        super.afterConnectionClosed(session, status);
+    }
 }

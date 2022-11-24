@@ -23,10 +23,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Getter
@@ -121,6 +118,12 @@ public class ChatService {
 //        ChatRoom findChatRoom =
 //                optionalChatRoom.orElseThrow(() -> new NoSuchMessageException("채팅방을 찾을 수 없습니다."));
         return chatRoom;
+    }
+
+    private final Map<String, ChatRoom> chatRooms;
+
+    public ChatRoom findRoomById(String roomId) {
+        return chatRooms.get(roomId);
     }
 
     public Page<ChatRoom> searchChatRooms(int page, int size, String tab, String q) {

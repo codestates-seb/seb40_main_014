@@ -62,6 +62,7 @@ public class ChatController {
     public void sendMessage(@Payload ChatMessage chat) {
         log.info("CHAT {}", chat);
         chat.setMessage(chat.getMessage());
+
         template.convertAndSend("/sub/chat/room/" + chat.getChatRoom().getRoomId(), chat);
     }
 

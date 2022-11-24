@@ -76,18 +76,24 @@ public class ChatRoom extends Auditable {
 
     public void handlerActions(WebSocketSession session, ChatMessage chatMessage, ChatService chatService) {
         Set<WebSocketSession> sessions = new HashSet<>();
-
+//        if (chatMessage.getType().equals(ChatMessage.MessageType.ENTER)) {
+//            sessions.add(session);
+//            chatMessage.setMessage("님이 입장했습니다.");
+//        }
+//        sendMessage(chatMessage, chatService);
         if (chatMessage.getType().equals(ChatMessage.MessageType.ENTER)) {
             sessions.add(session);
-            chatMessage.setMessage(chatMessage.getMember().getMemberId() + "님이 입장했습니다.");
+            chatMessage.setMessage(chatMessage.getMember() + "입장");
+            sendMessage(chatMessage, chatService);
+        } else if (chatMessage.getType().equals(ChatMessage.MessageType.TALK)) {
+            chatMessage.setMessage(chatMessage.getMessage());
+            sendMessage(chatMessage, chatService);
         }
-        sendMessage(chatMessage, chatService);
     }
 
-    private <T> void sendMessage(T message, ChatService chatService) {
+    public <T> void sendMessage(T message, ChatService chatService) {
         Set<WebSocketSession> sessions = new HashSet<>();
-        sessions.parallelStream()
-                .forEach(session -> chatService.sendMessage(session, message));
+        sessions.parallelStream().forEach(session -> chatService.sendMessage(session, message));
     }
 
 }
