@@ -34,6 +34,10 @@ import javax.persistence.*;
 
         private String message;
 
+        private String memberName;
+
+        private String roomString;
+
         public void newConnect() {
             this.type = MessageType.ENTER;
         }

@@ -38,6 +38,9 @@ public class ChatRoom extends Auditable {
     @OneToMany(mappedBy = "chatRoom")
     private List<roomMember> roomMemberList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
+    private List<ChatMessage> chatMessage = new ArrayList<>();
+
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")

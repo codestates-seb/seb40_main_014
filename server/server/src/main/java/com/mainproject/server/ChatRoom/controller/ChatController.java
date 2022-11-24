@@ -5,19 +5,29 @@ import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.ChatRoom.service.ChatService;
 import com.mainproject.server.member.entity.Member;
+import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.roomMember.entity.roomMember;
+import com.mainproject.server.tx.NeedMemberId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+import java.util.regex.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 
@@ -26,7 +36,9 @@ import java.util.Optional;
 @Slf4j
 public class ChatController {
 
-    private final SimpMessageSendingOperations template;
+    private final SimpMessagingTemplate template;
+
+    private final MemberService memberService;
 
     @Autowired
     ChatService chatService;
@@ -58,12 +70,24 @@ public class ChatController {
     }
 
     // 해당 유저 채팅 보내기
-    @MessageMapping("/chat/sendMessage")
-    public void sendMessage(@Payload ChatMessage chat) {
-        log.info("CHAT {}", chat);
+    @NeedMemberId
+    @MessageMapping("/chat/sendMessage/{roomId}")
+    public void sendMessage(@Payload ChatMessage chat,
+                            @PathVariable String roomId) {
+
+        log.info("CHAT1 {}", chat);
+        log.info("CHAT2 {}", chat.getMessage()); // Hello World
+        log.info("CHAT3 {}", roomId);  // chat
+        log.info("CHAT5 {}", chat.getRoomString()); // roomId
+
+        chat.setMemberName(chat.getMemberName());
         chat.setMessage(chat.getMessage());
+<<<<<<< HEAD
 
         template.convertAndSend("/sub/chat/room/" + chat.getChatRoom().getRoomId(), chat);
+=======
+        template.convertAndSend("/sub/chat/room/"+chat.getRoomString(), chat);
+>>>>>>> 34599b895036487bf949a195e8e8459857c9fc0e
     }
 
     // 유저 퇴장 시에는 EventListener 을 통해서 유저 퇴장을 확인
