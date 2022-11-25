@@ -34,7 +34,7 @@ const PlaylistList = () => {
 
 	// real
 	const fetch = useCallback(() => {
-		getPlaylists(currentPage.current, 10).then((res) => {
+		getPlaylists(currentPage.current, 6).then((res) => {
 			console.log('getPlaylists res', res);
 			const data = res.data;
 			const { page, totalPages } = res.pageInfo;

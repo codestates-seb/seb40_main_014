@@ -56,7 +56,7 @@ const RoomList = () => {
 
 	// real
 	const fetch = useCallback(() => {
-		getRooms(currentPage.current, 10).then((res) => {
+		getRooms(currentPage.current, 6).then((res) => {
 			console.log('getRooms res', res);
 			const data = res.data;
 			const { page, totalPages } = res.pageInfo;
