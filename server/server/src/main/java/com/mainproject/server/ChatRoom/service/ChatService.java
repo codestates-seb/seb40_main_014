@@ -86,14 +86,6 @@ public class ChatService {
         room.setUserCount(room.getUserCount() - 1);
     }
 
-//    public String getUserName(String roomId, String memberName){
-//        ChatRoom room = chatRoomMap.get(roomId);
-//        return room.getMember().getName(memberName);
-//    }
-//    public void addMem(String roomId, String memberName) {
-//        ChatRoom chatRoom = chatRoomMap.get(roomId);
-//        verifiedRoom.setRoomMemberList((List<roomMember>) verifiedRoom.getMember());
-//    }
 //    private Map<String, ChatRoomDto> chatRoomMap;
 //    public ArrayList<String> getNameList(String roomId){
 //        ArrayList<String> list = new ArrayList<>();

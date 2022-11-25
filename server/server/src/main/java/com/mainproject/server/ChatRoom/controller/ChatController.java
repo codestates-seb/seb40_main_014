@@ -3,6 +3,7 @@ package com.mainproject.server.ChatRoom.controller;
 import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.ChatRoom.entity.ChatRoomDto;
+import com.mainproject.server.ChatRoom.repository.ChatMessageRepository;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.ChatRoom.service.ChatService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,8 @@ public class ChatController {
     private final SimpMessagingTemplate template;
     private final ChatService chatService;
     private final ChatRoomRepository chatRoomRepository;
+    private final ChatMessageRepository chatMessageRepository;
+
 
     // MessageMapping 을 통해 webSocket 로 들어오는 메시지를 발신 처리한다.
     // 이때 클라이언트에서는 /pub/chat/~ 로 요청하게 되고 이것을 controller 가 받아서 처리한다.
@@ -45,12 +48,14 @@ public class ChatController {
         ChatRoom room = chatService.findVerifiedRoomId(chat.getRoomId());
         room.setRoomId(chat.getRoomId());
         room.setUserCount(room.getUserCount() + 1) ;
-
-//        room.setNameList(Collections.singletonList(chat.getMemberName()));
 //        chatRoomDto.nameList.put(chat.getRoomId(), chat.getMemberName());
         chatRoomRepository.save(room);
         chatRoomDto.setUserlist(Collections.singletonList(chat.getMemberName()));
+
         log.info("CHAT1 {}", chatRoomDto.getUserlist());
+
+        chatMessageRepository.save(chat);
+
         // 반환 결과를 socket session 에 memName 으로 저장
         headerAccessor.getSessionAttributes().put("MemberName", chat.getMemberName());
         headerAccessor.getSessionAttributes().put("roomId", chat.getRoomId());
@@ -107,15 +112,15 @@ public class ChatController {
 //        if (roomMemberid != null) {
 //            log.info("User Disconnected : " + roomMemberid);
 //
-            ChatMessage chat = ChatMessage.builder()
-                    .type(ChatMessage.MessageType.LEAVE)
-                    .memberName(memberName)
-                    .roomId(roomId)
-                    .message(memberName + "님 퇴장하셨습니다.")
-                    .build();
+        ChatMessage chat = ChatMessage.builder()
+                .type(ChatMessage.MessageType.LEAVE)
+                .memberName(memberName)
+                .roomId(roomId)
+                .message(memberName + "님 퇴장하셨습니다.")
+                .build();
 
-            template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
-        }
+        template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
+    }
 }
 
-    //재시도하는 로직 브라우저 닫히면 다시 붙을 수 있는 retry 로직 필요
+//재시도하는 로직 브라우저 닫히면 다시 붙을 수 있는 retry 로직 필요

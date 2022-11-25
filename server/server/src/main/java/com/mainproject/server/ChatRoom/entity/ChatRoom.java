@@ -31,9 +31,6 @@ public class ChatRoom extends Auditable {
     // 1    1       2
     //  1   1       3
 
-//    @OneToMany(mappedBy = "chatRoom")
-//    private List<roomMember> roomMemberList = new ArrayList<>();
-
 //    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
 //    private List<ChatMessage> chatMessage = new ArrayList<>();
 

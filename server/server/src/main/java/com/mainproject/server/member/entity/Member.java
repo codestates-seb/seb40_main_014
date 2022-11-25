@@ -63,11 +63,8 @@ public class Member extends Auditable {
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Follow> follows  = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
-    private List<ChatMessage> messages  = new ArrayList<>();
-
 //    @OneToMany(mappedBy = "member")
-//    private List<roomMember> roomMemberList = new ArrayList<>();
+//    private List<ChatMessage> messages  = new ArrayList<>();
 
 //    public Member update(String name, String picture) {
 //        this.name = name;

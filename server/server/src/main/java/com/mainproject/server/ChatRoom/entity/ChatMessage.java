@@ -21,9 +21,9 @@ import javax.persistence.*;
 
         private MessageType type;
 
-        @ManyToOne
-        @JoinColumn(name = "member_id")
-        private Member member;
+//        @ManyToOne
+//        @JoinColumn(name = "room_id")
+//        private ChatRoom chatRoom;
 
 //        private String memberId;
 
