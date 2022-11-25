@@ -5,7 +5,9 @@ import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.dto.PlaylistPatchDto;
 import com.mainproject.server.playlist.dto.PlaylistPostDto;
 import com.mainproject.server.playlist.entity.Playlist;
+import com.mainproject.server.playlist.entity.PlaylistItem;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
+import com.mainproject.server.playlist.repository.playlistItemRepository;
 import com.mainproject.server.playlist.service.PlaylistService;
 import com.mainproject.server.response.MultiResponseDto;
 import com.mainproject.server.response.SingleResponseDto;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -29,14 +32,30 @@ public class PlaylistController {
     private final PlaylistService playlistService;
     private final MemberService memberService;
     private final PlaylistMapper mapper;
+    private final playlistItemRepository playlistItemRepository;
 
     @NeedMemberId
     @PostMapping
     public ResponseEntity postPlaylist(@Valid @RequestBody PlaylistPostDto playlistPostDto, Long authMemberId) throws Exception {
 
         Member member = memberService.findMember(authMemberId);
-
+        //item을 제외한 playlist생성
         Playlist playlist = mapper.playlistPostDtoToPlaylist(playlistPostDto, member);
+
+        // item 생성 및 playlist에 넣기
+        List<PlaylistItem> playlistItemList = new ArrayList<>();
+        for (int i=0; i<playlistPostDto.getPlaylistItems().size(); i++) {
+            PlaylistItem playlistItem = new PlaylistItem();
+            playlistItem.setUrl(playlistPostDto.getPlaylistItems().get(i).getUrl());
+            playlistItem.setTitle(playlistPostDto.getPlaylistItems().get(i).getTitle());
+            playlistItem.setThumbnail(playlistPostDto.getPlaylistItems().get(i).getThumbnail());
+            playlistItem.setChannelTitle(playlistPostDto.getPlaylistItems().get(i).getChannelTitle());
+            playlistItem.setVideoId(playlistPostDto.getPlaylistItems().get(i).getVideoId());
+            playlistItem.setPlaylist(playlist);
+            playlistItemList.add(playlistItem);
+            playlistItemRepository.save(playlistItem);
+        }
+        playlist.setPlaylistItems(playlistItemList);
         Playlist savedPlaylist = playlistService.createPlaylist(playlist);
 
 

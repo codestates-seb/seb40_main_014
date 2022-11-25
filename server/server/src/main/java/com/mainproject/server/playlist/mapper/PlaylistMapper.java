@@ -22,20 +22,7 @@ public interface PlaylistMapper {
         } else {
             Playlist playlist = new Playlist();
             playlist.setTitle(playlistPostDto.getTitle());
-//            playlist.setVideoId(playlistPostDto.getVideoId());
-            List<PlaylistItem> playlistItems = playlistPostDto.getPlaylistItems().stream()
-                    .map(playlistItemDto -> {
-                        PlaylistItem playlistItem = new PlaylistItem();
-                        playlistItem.setUrl(playlistItemDto.getUrl());
-                        playlistItem.setChannelTitle(playlistItemDto.getChannelTitle());
-                        playlistItem.setTitle(playlistItemDto.getTitle());
-                        playlistItem.setThumbnail(playlistItemDto.getThumbnail());
-                        playlistItem.setVideoId(playlistItemDto.getVideoId());
-//                        playlistItem.addPlaylist(playlist);
-                        return playlistItem;
-                    }).collect(Collectors.toList());
             playlist.setMember(member);
-            playlist.setPlaylistItems(playlistItems);
 
             return playlist;
         }
@@ -48,7 +35,6 @@ public interface PlaylistMapper {
             Playlist playlist = new Playlist();
             playlist.setPlaylistId(playlistPatchDto.getPlaylistId());
             playlist.setTitle(playlistPatchDto.getTitle());
-//            playlist.setVideoId(playlistPatchDto.getVideoId());
             return playlist;
         }
     }
@@ -61,7 +47,6 @@ public interface PlaylistMapper {
             List<PlaylistItem> playlistItems = playlist.getPlaylistItems();
             playlistResponseDto.playlistId(playlist.getPlaylistId());
             playlistResponseDto.title(playlist.getTitle());
-//            playlistResponseDto.videoId(playlist.getVideoId());
             playlistResponseDto.createdAt(playlist.getCreatedAt());
             playlistResponseDto.modifiedAt(playlist.getModifiedAt());
             playlistResponseDto.memberId(playlist.getMember().getMemberId());
