@@ -21,6 +21,8 @@ public class SimplePlaylistResponseDto {
 
     private String thumbnail;
 
+    private boolean status;
+
     private String category;
 
     private LocalDateTime createdAt;

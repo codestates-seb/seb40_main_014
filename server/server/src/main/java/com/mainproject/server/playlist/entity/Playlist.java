@@ -28,6 +28,9 @@ public class Playlist extends Auditable {
     @Column(nullable = false, updatable = true, unique = false)
     private String title;
 
+    @Column(nullable = false)
+    private boolean status;
+
 //    @Column(nullable = false, updatable = true, unique = false)
 //    private String videoId;
 
@@ -50,11 +53,6 @@ public class Playlist extends Auditable {
 //        PLAYLIST_ACTIVE("활성중"),
 //        PLAYLIST_INACTIVE("비활성중");
 //
-//        @Getter
-//        private String status;
-//
-//        PlaylistStatus(String status){
-//            this.status = status;
-//        }
+
 //    }
 }

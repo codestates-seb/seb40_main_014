@@ -77,6 +77,10 @@ public interface PlaylistMapper {
                 .map(playlistItem -> PlaylistItemResponseDto
                         .builder()
                         .url(playlistItem.getUrl())
+                        .channelTitle(playlistItem.getChannelTitle())
+                        .thumbnail(playlistItem.getThumbnail())
+                        .videoId(playlistItem.getVideoId())
+                        .title(playlistItem.getTitle())
                         .build())
                 .collect(Collectors.toList());
     }

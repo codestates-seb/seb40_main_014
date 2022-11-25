@@ -17,5 +17,5 @@ public class PlaylistPostDto {
 
     private String category;
 
-//    private boolean status;
+    private boolean status;
 }

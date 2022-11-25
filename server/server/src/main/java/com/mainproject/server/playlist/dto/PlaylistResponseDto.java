@@ -30,8 +30,7 @@ public class PlaylistResponseDto {
 
     private LocalDateTime modifiedAt;
 
-
-//    private boolean status;
+    private boolean status;
 
 //    private List<PlaylistResponseDto> playlistList;
 
