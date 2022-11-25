@@ -13,7 +13,6 @@ import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.dto.PlaylistResponseDto;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
-import com.mainproject.server.roomMember.entity.roomMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
