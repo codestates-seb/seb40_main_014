@@ -30,7 +30,7 @@ function Playlist({ playList }: PlaylistType) {
 			<Thumbnail>
 				<img src={playlist[0].thumbnail} alt="thumbnail" />
 				<Link to={`/playlistdetail/${playListId}`}>
-					<Backdrop />
+					<ThumbnailBackdrop />
 				</Link>
 			</Thumbnail>
 			<Title>
@@ -82,7 +82,7 @@ export const PlaylistStyle = styled.div`
 	}
 `;
 
-export const Backdrop = styled.div`
+export const ThumbnailBackdrop = styled.div`
 	display: none;
 	width: 100%;
 	height: 100%;
@@ -107,8 +107,8 @@ export const Thumbnail = styled.div`
 	margin-bottom: 15px;
 	cursor: pointer;
 
-	&:hover {
-		${Backdrop} {
+	:hover {
+		${ThumbnailBackdrop} {
 			display: block;
 		}
 	}
@@ -122,11 +122,11 @@ export const Thumbnail = styled.div`
 export const Title = styled.h3`
 	display: inline-block;
 	margin-bottom: 10px;
-	font-weight: 700;
+	font-weight: 600;
 	font-size: 18px;
 	cursor: pointer;
 
-	&:hover {
+	:hover {
 		color: ${(props) => props.theme.colors.gray600};
 	}
 `;

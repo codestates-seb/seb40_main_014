@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { getRooms } from '../api/roomApi';
 import { DefaultButton } from '../components/common/Button';
 import Room from '../components/home/Room';
 import CreateModal from '../components/room/createModal';
@@ -40,15 +41,15 @@ function RoomList() {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
-		// getRooms(currentPage.current, 10).then((res) => {
-		// 	const data = res.data;
-		// 	const { page, totalPages } = res.pageInfo;
-		// 	setRooms((prevRooms) => [...prevRooms, ...data]);
-		// 	// setHasNextPage(data.length === 10);
-		// 	setHasNextPage(page !== totalPages);
-		// 	// if (data.length) currentPage.current += 1;
-		// 	if (hasNextPage) currentPage.current += 1;
-		// });
+		getRooms(currentPage.current, 10).then((res) => {
+			const data = res.data;
+			const { page, totalPages } = res.pageInfo;
+			setRooms((prevRooms) => [...prevRooms, ...data]);
+			// setHasNextPage(data.length === 10);
+			setHasNextPage(page !== totalPages);
+			// if (data.length) currentPage.current += 1;
+			if (hasNextPage) currentPage.current += 1;
+		});
 	}, []);
 
 	useEffect(() => {
@@ -88,18 +89,19 @@ function RoomList() {
 					<CreateModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
 				)}
 			</ButtonWrapper>
-			<H2>방 Top 8</H2>
-			<H2>최신 방</H2>
+			<H2>가장 많은 청취자가 있는 방송</H2>
+			<H2>인기 DJ 방송</H2>
+			<H2>전체</H2>
 			<ListStyle>
 				{/* {rooms.length
 					? rooms.map((room: RoomInfoType) => (
 							<Room room={room} key={room.roomId} />
 					  ))
 					: null} */}
-				{rooms &&
+				{/* {rooms &&
 					rooms.map((room: RoomInfoType) => (
 						<Room room={room} key={room.roomId} />
-					))}
+					))} */}
 				<div ref={observerTargetEl} />
 			</ListStyle>
 		</>
@@ -121,6 +123,7 @@ export const H2 = styled.h2`
 `;
 
 export const ListStyle = styled.div`
+	height: 2000px;
 	display: flex;
 	flex-wrap: wrap;
 	z-index: 1111;
