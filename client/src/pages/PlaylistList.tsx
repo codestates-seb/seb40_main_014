@@ -10,12 +10,13 @@ import { myLogin, myValue } from '../slices/mySlice';
 
 export type PlaylistInfoType = {
 	memberId: string;
+	name?: string;
 	title: string;
-	playlist: Array<musicInfoType>;
-	categoryList: Array<string>;
+	playlistItems: Array<musicInfoType>;
+	categoryList?: Array<string>;
 	status: boolean;
 	like: number;
-	playListId: number;
+	playlistId: number;
 };
 
 function PlaylistList() {
@@ -30,13 +31,12 @@ function PlaylistList() {
 
 	const fetch = useCallback(() => {
 		getPlaylists(memberId, currentPage.current, 10).then((res) => {
+			console.log(res);
 			const data = res.data;
 			const { page, totalPages } = res.pageInfo;
-
 			setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
 			// setHasNextPage(data.length === 10);
 			setHasNextPage(page !== totalPages);
-
 			// if (data.length) currentPage.current += 1;
 			if (hasNextPage) currentPage.current += 1;
 		});
@@ -71,14 +71,9 @@ function PlaylistList() {
 			<H2>인기 DJ 플레이리스트</H2>
 			<H2>전체</H2>
 			<ListStyle>
-				{/* {playlists.length
-					? playlists.map((playlist: PlaylistInfoType) => (
-							<Playlist playList={playlist} key={playlist.playListId} />
-					  ))
-					: null} */}
 				{playlists &&
 					playlists.map((playlist: PlaylistInfoType) => (
-						<Playlist playList={playlist} key={playlist.playListId} />
+						<Playlist playList={playlist} key={playlist.playlistId} />
 					))}
 				<div ref={observerTargetEl} />
 			</ListStyle>

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import {
@@ -9,13 +10,14 @@ import {
 import { DefaultButton } from '../components/common/Button';
 import MusicList from '../components/playlist/MusicList';
 import PlayListSetting from '../components/playlist/PlayListSetting';
+import { myLogin, myValue } from '../slices/mySlice';
 import { PlayListInfoProps, plinfo } from './PlayListDetail';
 
 export type musicInfoType = {
 	channelTitle?: string;
 	title?: string;
 	thumbnail?: string;
-	vedioId?: string;
+	videoId?: string;
 	url?: string;
 };
 const MakePlayList = () => {
@@ -24,21 +26,28 @@ const MakePlayList = () => {
 	const [plList, setPlList] = useState<Array<musicInfoType>>([]);
 	const [categoryList, setCategoryList] = useState<Array<string>>([]);
 	const [status, setStatus] = useState<boolean>(true);
+	const isLogin = useSelector(myLogin);
 	const { type, id } = useParams();
 	const navigate = useNavigate();
+
 	useEffect(() => {
-		if (type === 'modify') {
-			getPlayList(id).then((res) => {
-				if (res.code) {
-					alert(res);
-				} else {
-					setPlId(res.playlistId);
-					setPlTitle(res.title);
-					setPlList(res.playlist);
-					setCategoryList(res.categoryList);
-					setStatus(res.status);
-				}
-			});
+		if (!isLogin) {
+			navigate('/');
+		} else {
+			if (type === 'modify') {
+				getPlayList(id).then((res) => {
+					if (res.data) {
+						const data = res.data;
+						setPlId(data.playlistId);
+						setPlTitle(data.title);
+						setPlList(data.playlistItems);
+						setCategoryList(data.categoryList);
+						setStatus(data.status);
+					} else {
+						alert(res);
+					}
+				});
+			}
 		}
 	}, []);
 
@@ -58,11 +67,11 @@ const MakePlayList = () => {
 		status,
 	};
 	const data: plinfo = {
-		memberId: 'moon',
 		title: plTitle,
-		playlist: plList,
+		playlistItems: plList,
 		categoryList,
-		status,
+		// status: status ? 'public' : 'private',
+		status: status,
 	};
 
 	const validation = (data) => {
@@ -74,21 +83,28 @@ const MakePlayList = () => {
 			alert('카테고리를 선택해 주세요.(1개 이상)');
 			return false;
 		}
-		if (data.playlist.length === 0) {
+		if (data.playlistItems.length === 0) {
 			alert('PlayList를 채워주세요.');
 			return false;
 		}
 		return true;
 	};
+
+	const myvalue = useSelector(myValue);
 	const createPl = () => {
 		if (validation(data)) {
-			createPlayList(data).then((res) => navigate('/playlistdetail'));
+			console.log(data);
+			createPlayList(data).then((res) => {
+				if (res.data) navigate(`/mypage/${myvalue.memberId}`);
+			});
 		}
 	};
 	const modifyPl = () => {
 		if (validation(data)) {
-			data.playListId = plId;
-			modifyPlayList(data).then((res) => navigate('/playlistdetail'));
+			data.playlistId = plId;
+			modifyPlayList(data).then((res) => {
+				if (res.data) navigate(`/mypage/${myvalue.memberId}`);
+			});
 		}
 	};
 	return (
@@ -96,9 +112,9 @@ const MakePlayList = () => {
 			<PlayListSetting {...settingProps} />
 			<MusicList {...props} />
 			{type === 'modify' ? (
-				<DefaultButton onClick={() => modifyPl()}>수정</DefaultButton>
+				<DefaultButton onClick={modifyPl}>수정</DefaultButton>
 			) : (
-				<DefaultButton onClick={() => createPl()}>만들기</DefaultButton>
+				<DefaultButton onClick={createPl}>만들기</DefaultButton>
 			)}
 		</MakePlayListStyle>
 	);

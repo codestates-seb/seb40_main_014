@@ -31,41 +31,49 @@ const PlayListSetting = ({
 	const [url, setUrl] = useState('');
 
 	const addPlList = () => {
-		let vedioId = getVedioId(url);
+		let videoId = getVideoId(url);
 		const musicInfo: musicInfoType = {};
 
 		//중복 체크
 		plList &&
 			plList.map((ele) => {
-				if (ele.vedioId === vedioId) vedioId = 'overlap';
+				if (ele.videoId === videoId) videoId = 'overlap';
 			});
-		if (vedioId !== 'none') {
-			if (vedioId === 'overlap') {
+		if (videoId !== 'none') {
+			if (videoId === 'overlap') {
 				return alert('이미 추가된 동영상 입니다.');
 			}
 			//유튜브 데이터 들고오기
-			getYouTubeMusic(vedioId)
+			let result = false;
+			getYouTubeMusic(videoId)
 				.then((res) => {
-					musicInfo.vedioId = vedioId;
-					musicInfo.url = url;
-					musicInfo.channelTitle = res.channelTitle;
-					musicInfo.title = res.title;
-					musicInfo.thumbnail = res.thumbnails.high.url;
+					if (res.items[0]?.snippet) {
+						result = true;
+						musicInfo.videoId = videoId;
+						musicInfo.url = url;
+						musicInfo.channelTitle = res.items[0].snippet.channelTitle;
+						musicInfo.title = res.items[0].snippet.title;
+						musicInfo.thumbnail = res.items[0].snippet.thumbnails.high.url;
+					} else {
+						return alert('찾으시는 곡의 정보가 없습니다.');
+					}
 				})
 				.then(() => {
-					setPlList((prev) => [...prev, musicInfo]);
-					setUrl('');
+					if (result) {
+						setPlList((prev) => [...prev, musicInfo]);
+						setUrl('');
+					}
 				});
 		}
 	};
 
-	const getVedioId = (url: string) => {
+	const getVideoId = (url: string) => {
 		if (url.indexOf('/watch') > -1 && url.indexOf('&') === -1) {
 			return url.split('?')[1].replace('v=', '');
 		} else if (url.indexOf('/youtu.be') > -1) {
 			return url.split('/youtu.be/')[1];
 		} else {
-			alert('URL형식이 다릅니다.');
+			alert('URL형식이 올바르지 않습니다.');
 			return 'none';
 		}
 	};
@@ -137,7 +145,11 @@ const PlayListSetting = ({
 			</div>
 			<div className="row">
 				<div className="left">
-					<input value={url} onChange={(e) => setUrl(e.target.value)} />
+					<input
+						value={url}
+						onChange={(e) => setUrl(e.target.value)}
+						placeholder="Ex) https://www.youtube.com/watch?v=Er0jdfJZzzk"
+					/>
 				</div>
 				<div className="rigth">
 					<DefaultButton onClick={addPlList}>추가</DefaultButton>

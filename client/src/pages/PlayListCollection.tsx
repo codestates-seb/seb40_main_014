@@ -23,7 +23,7 @@ const UserPlayList = () => {
 			<div className="title">USERNAME의 플레이리스트</div>
 			{playlists &&
 				playlists.map((playlist: PlaylistInfoType) => {
-					return <CplayList key={playlist.playListId} playList={playlist} />;
+					return <CplayList key={playlist.playlistId} playList={playlist} />;
 				})}
 		</UserPlayListStyle>
 	);

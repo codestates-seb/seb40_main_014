@@ -22,28 +22,29 @@ type PlaylistType = {
 };
 
 function Playlist({ playList }: PlaylistType) {
-	const { playListId, title, categoryList, like, memberId, playlist } =
+	const { playlistId, title, categoryList, like, playlistItems, name } =
 		playList;
 
 	return (
 		<PlaylistStyle>
 			<Thumbnail>
-				<img src={playlist[0].thumbnail} alt="thumbnail" />
-				<Link to={`/playlistdetail/${playListId}`}>
+				<img src={playlistItems[0].thumbnail} alt="thumbnail" />
+				<Link to={`/playlistdetail/${playlistId}`}>
 					<ThumbnailBackdrop />
 				</Link>
 			</Thumbnail>
 			<Title>
-				<Link to={`/playlistdetail/${playListId}`}>{title}</Link>
+				<Link to={`/playlistdetail/${playlistId}`}>{title}</Link>
 			</Title>
-			<Name>{memberId}</Name>
+			<Name>{name}</Name>
 			<Detail>
 				<Categorys>
-					{categoryList.map((el, idx) => (
-						<Category category={el} margin="0 4px 0 0" key={idx}>
-							{el}
-						</Category>
-					))}
+					{categoryList &&
+						categoryList.map((el, idx) => (
+							<Category category={el} margin="0 4px 0 0" key={idx}>
+								{el}
+							</Category>
+						))}
 				</Categorys>
 				<Like>
 					<IoMdHeartEmpty />
