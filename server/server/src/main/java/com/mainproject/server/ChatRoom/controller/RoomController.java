@@ -3,7 +3,9 @@ package com.mainproject.server.ChatRoom.controller;
 import com.mainproject.server.ChatRoom.dto.ChatRoomPatchDto;
 import com.mainproject.server.ChatRoom.dto.ChatRoomPostDto;
 import com.mainproject.server.ChatRoom.dto.ResponseChatRoomDto;
+import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.ChatRoom.entity.ChatRoomDto;
 import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
 import com.mainproject.server.ChatRoom.service.ChatService;
 import com.mainproject.server.member.dto.MemberResponseDto;
@@ -41,47 +43,47 @@ public class RoomController {
 
     @NeedMemberId
     @PostMapping
-    public ResponseEntity createRoom(@RequestBody ChatRoomPostDto requestBody, Long authMemberId) {
+    public ResponseEntity createRoom(@RequestBody ChatRoomPostDto requestBody, Long authMemberId, ChatRoomDto chatRoomDto) {
         Member member = memberService.findMember(authMemberId);
 
         ChatRoom chatRoom = chatRoomMapper.chatRoomPostDtoToChatRoom(requestBody, member);
         ChatRoom room = chatService.createRoom(chatRoom);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(chatRoomMapper.chatRoomResponseDtoToChatRoom(room, member)), HttpStatus.OK);
+                new SingleResponseDto<>(chatRoomMapper.chatRoomResponseDtoToChatRoom(room, member, chatRoomDto)), HttpStatus.OK);
     }
 
     @NeedMemberId
     @PatchMapping("/update/{roomId}")
     public ResponseEntity updateRoom(@PathVariable String roomId,
-                                     @Valid @RequestBody ChatRoomPatchDto requestBody, Long authMemberId) {
+                                     @Valid @RequestBody ChatRoomPatchDto requestBody, Long authMemberId, ChatRoomDto chatRoomDto) {
         requestBody.setRoomId(roomId);
         Member member = memberService.findMember(authMemberId);
         ChatRoom chatRoom1 = chatRoomMapper.chatRoomPatchDtoToChatRoom(requestBody, member);
         ChatRoom chatRoom = chatService.updateRoom(chatRoom1);
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(chatRoomMapper.chatRoomResponseDtoToChatRoom(chatRoom, member)), HttpStatus.OK);
+                new SingleResponseDto<>(chatRoomMapper.chatRoomResponseDtoToChatRoom(chatRoom, member, chatRoomDto)), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity findAllRooms(@RequestParam(required = false, defaultValue = "1") int page,
-                                       @RequestParam(required = false, defaultValue = "15") int size, Member member) {
+                                       @RequestParam(required = false, defaultValue = "15") int size, Member member, ChatRoomDto chatRoomDto) {
 
         Page<ChatRoom> chatRoomPage = chatService.findChatRooms(page - 1 , size);
         List<ChatRoom> content = chatRoomPage.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(chatRoomMapper.responseChatRoomDtoList(content, member), chatRoomPage), HttpStatus.OK);
+                new MultiResponseDto<>(chatRoomMapper.responseChatRoomDtoList(content, member, chatRoomDto), chatRoomPage), HttpStatus.OK);
     }
 
     @GetMapping("/{roomId}")
     @ResponseBody
-    public ResponseEntity findRoomById(@PathVariable String roomId, Member member) {
+    public ResponseEntity findRoomById(@PathVariable String roomId, Member member, ChatRoomDto chatRoomDto) {
 
         ChatRoom chatRoom = chatService.findVerifiedRoomId(roomId);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(chatRoomMapper.chatRoomResponseDtoToChatRoom(chatRoom, member)),HttpStatus.OK);
+                new SingleResponseDto<>(chatRoomMapper.chatRoomResponseDtoToChatRoom(chatRoom, member, chatRoomDto)),HttpStatus.OK);
     }
 
 //    @GetMapping("/{roomId}")
@@ -94,8 +96,7 @@ public class RoomController {
 //                new SingleResponseDto<>(chatRoomMapper.chatRoomMemberListResponseDtoToChatRoom(chatRoom, memberList)),HttpStatus.OK);
 //    }
 
-    @NeedMemberId
-    @DeleteMapping("/{roomId}")
+    @DeleteMapping("/delete/{roomId}")
     @ResponseBody
     public String deleteRoom(@PathVariable String roomId) {
 

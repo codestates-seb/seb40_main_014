@@ -57,3 +57,6 @@ spring:
             clientId: 21363260622-4pnht3ff0v1t0h4259ue00rpdr733ub9.apps.googleusercontent.com
             clientSecret: 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
             scope: profile, email
+  redis:
+    host: localhost
+    port: 6379

@@ -59,7 +59,9 @@ public class ChatRoom extends Auditable {
 
     private Long playlistId;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "NAME_LIST",
+                    joinColumns = @JoinColumn(name = "room_id"))
     List<String> nameList;
 
     public enum Onair {

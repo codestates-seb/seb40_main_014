@@ -2,6 +2,7 @@ package com.mainproject.server.ChatRoom.controller;
 
 import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.ChatRoom.entity.ChatRoomDto;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.ChatRoom.service.ChatService;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +14,10 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
+
+import java.util.Collections;
 
 import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.ENTER;
 import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.TALK;
@@ -34,6 +36,7 @@ public class ChatController {
     // 처리가 완료되면 /sub/chat/room/roomId 로 메시지가 전송된다.
     @MessageMapping("/chat/enterUser")
     public void enterUser(@Payload ChatMessage chat,
+                          ChatRoomDto chatRoomDto,
                           SimpMessageHeaderAccessor headerAccessor) {
 
         chat.setMessage(chat.getMessage());
@@ -42,16 +45,16 @@ public class ChatController {
         ChatRoom room = chatService.findVerifiedRoomId(chat.getRoomId());
         room.setRoomId(chat.getRoomId());
         room.setUserCount(room.getUserCount() + 1) ;
+
+//        room.setNameList(Collections.singletonList(chat.getMemberName()));
+//        chatRoomDto.nameList.put(chat.getRoomId(), chat.getMemberName());
         chatRoomRepository.save(room);
-
-        // 채팅방에 유저 추가 및 memberId 반환
-//        room.getuserList().put(chat.getRoomId(), chat.getMemberName());
-
+        chatRoomDto.setUserlist(Collections.singletonList(chat.getMemberName()));
+        log.info("CHAT1 {}", chatRoomDto.getUserlist());
         // 반환 결과를 socket session 에 memName 으로 저장
         headerAccessor.getSessionAttributes().put("MemberName", chat.getMemberName());
         headerAccessor.getSessionAttributes().put("roomId", chat.getRoomId());
 
-        log.info("CHAT2 {}", chat.getMessage()); // Hello World
         log.info("CHAT6 {}", headerAccessor.getSessionAttributes()); // MemberName, roomId가 저장된 sessionAttributes가 찍힘
 
         chat.setMessage(chat.getMemberName() + " 님 입장하셨습니다.");
@@ -113,6 +116,6 @@ public class ChatController {
 
             template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
         }
-    }
+}
 
     //재시도하는 로직 브라우저 닫히면 다시 붙을 수 있는 retry 로직 필요

@@ -1,8 +1,7 @@
 package com.mainproject.server.ChatRoom.dto;
 
-import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
-import com.mainproject.server.member.dto.MemberResponseDto;
+import com.mainproject.server.ChatRoom.entity.ChatRoomDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.playlist.dto.PlaylistResponseDto;
 import lombok.Builder;
@@ -10,8 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Getter
@@ -24,18 +21,19 @@ public class ResponseChatRoomDto {
     private String pwd;
     private boolean secret;
     private int userCount;
-
     SimpleMemberResponseDto memberResponseDto;
     List<PlaylistResponseDto> playlistResponseDtoList;
+    ChatRoomDto chatRoomDto;
 
     @Builder
-    public ResponseChatRoomDto(ChatRoom chatRoom, SimpleMemberResponseDto memberResponseDto, List<PlaylistResponseDto> playlistResponseDtoList) {
+    public ResponseChatRoomDto(ChatRoom chatRoom, ChatRoomDto chatRoomDto, SimpleMemberResponseDto memberResponseDto, List<PlaylistResponseDto> playlistResponseDtoList) {
         this.roomId = chatRoom.getRoomId();
         this.title = chatRoom.getTitle();
         this.maxCount = chatRoom.getMaxCount();
         this.pwd = chatRoom.getPwd();
         this.secret = chatRoom.getPwd() != null;
         this.userCount = chatRoom.getUserCount();
+        this.chatRoomDto = chatRoomDto;
         this.memberResponseDto = memberResponseDto;
         this.playlistResponseDtoList = playlistResponseDtoList;
     }

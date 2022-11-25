@@ -62,7 +62,7 @@ public class MemberController {
         Member findMember = service.findMember(memberId);
 
         Boolean followState = followService.followState(memberId, authMemberId);
-//        Integer rank = followService.findRank(findMember);
+        Integer rank = followService.findRank(findMember);
 
         MemberResponseDto response = mapper.memberToMemberResponseDto(findMember, followState, chatRoomMapper, playlistMapper, playlistPage-1, rank);
         SingleResponseDto<MemberResponseDto> singleResponseDto = new SingleResponseDto<>(response);
