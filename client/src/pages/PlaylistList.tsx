@@ -6,7 +6,7 @@ import { ButtonWrapper, H2, ListStyle, SwiperStyle } from './RoomList';
 import { getPlaylists } from '../api/playlistApi';
 import { useSelector } from 'react-redux';
 import { musicInfoType } from './MakePlayList';
-import { myLogin, myValue } from '../slices/mySlice';
+import { myLogin } from '../slices/mySlice';
 
 // Import Swiper React components
 import { SwiperSlide } from 'swiper/react';

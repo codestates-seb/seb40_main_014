@@ -26,7 +26,7 @@ const MypageContents = ({ title, contents }: MypageContentsType) => {
 				{title === '나의 플레이리스트' ? (
 					<div>
 						<button onClick={() => navigate('/makeplaylist/create')}>
-							플레이리스트 만들기
+							플리 만들기
 						</button>
 						<button onClick={() => navigate('/playlistcollection')}>
 							더보기
@@ -63,7 +63,7 @@ const MypageContentsStyle = styled.div`
 	box-shadow: 1px 1px 10px #4d0bd133;
 `;
 const Roof = styled.div`
-	padding: 1% 2%;
+	padding: 10px 20px;
 	margin-top: 60px;
 	border-top-left-radius: ${(props) => props.theme.radius.largeRadius};
 	border-top-right-radius: ${(props) => props.theme.radius.largeRadius};
@@ -74,8 +74,8 @@ const Roof = styled.div`
 	align-items: center;
 
 	button {
-		padding: 5px;
-		margin-left: 10px;
+		padding: 3px 7px;
+		margin-left: 12px;
 		background-color: ${(props) => props.theme.colors.white};
 		color: ${(props) => props.theme.colors.purple};
 		border-radius: ${(props) => props.theme.radius.smallRadius};
@@ -83,6 +83,11 @@ const Roof = styled.div`
 
 		:hover {
 			background-color: #e8ddff;
+		}
+
+		// Tablet, Mobile
+		@media screen and (max-width: 980px) {
+			font-size: 14px;
 		}
 	}
 `;

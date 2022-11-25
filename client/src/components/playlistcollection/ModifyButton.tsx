@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { deletePlayList } from '../../api/playlistApi';
-import { DefaultBtn, DefaultButton } from '../common/Button';
 
 const ModifyButton = ({ playlistId }) => {
 	const navigate = useNavigate();
@@ -11,10 +10,10 @@ const ModifyButton = ({ playlistId }) => {
 	};
 	return (
 		<ModifyButtonStyle>
-			<DefaultButton
+			<EditButton
 				onClick={() => navigate(`/makeplaylist/modify/${playlistId}`)}>
 				수정
-			</DefaultButton>
+			</EditButton>
 			<Deletebutton onClick={onClickDelete}>삭제</Deletebutton>
 		</ModifyButtonStyle>
 	);
@@ -23,25 +22,43 @@ const ModifyButton = ({ playlistId }) => {
 export default ModifyButton;
 
 const ModifyButtonStyle = styled.div`
-	position: absolute;
-	top: 7%;
-	right: 3%;
 	display: flex;
-	justify-content: flex-end;
-	align-items: center;
 
 	button {
-		margin-left: 16px;
-		@media (max-width: 800px) {
-			height: 20px;
+		padding: 7px 18px;
+		font-size: 14px;
+		border-radius: ${(props) => props.theme.radius.smallRadius};
+	}
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		justify-content: flex-end;
+
+		button {
+			padding: 5px 12px;
+			font-size: 12px;
 		}
 	}
 `;
 
-const Deletebutton = styled(DefaultBtn)`
-	font-size: 16px;
-	background-color: #f93c5fe5;
+const EditButton = styled.button`
+	background-color: ${(props) => props.theme.colors.purple};
+	color: ${(props) => props.theme.colors.white};
 	:hover {
-		background: linear-gradient(0deg, #fa1a2de9 0%, #fa243ddf 100%);
+		background-color: #3f0ba9;
+	}
+`;
+
+const Deletebutton = styled.button`
+	margin-left: 15px;
+	border: 1.3px solid ${(props) => props.theme.colors.purple};
+	color: ${(props) => props.theme.colors.purple};
+	:hover {
+		background-color: ${(props) => props.theme.colors.gray50};
+	}
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		margin-left: 10px;
 	}
 `;
