@@ -3,7 +3,6 @@ package com.mainproject.server.member.entity;
 import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.auditable.Auditable;
-import com.mainproject.server.roomMember.entity.roomMember;
 import com.mainproject.server.playlist.entity.Playlist;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,7 +39,7 @@ public class Member extends Auditable {
 //    private Ranking ranking;
 
     @Column
-    private Integer rank;
+    private Integer ranking;
 
     @Enumerated(EnumType.STRING)
     @Column

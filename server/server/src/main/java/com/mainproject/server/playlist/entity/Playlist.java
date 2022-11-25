@@ -27,17 +27,26 @@ public class Playlist extends Auditable {
     @Column(nullable = false, updatable = true, unique = false)
     private String title;
 
-    @Column(nullable = false, updatable = true, unique = false)
-    private String videoId;
+    @Column(nullable = false)
+    private boolean status;
 
-    @OneToMany(mappedBy = "playlist")
+    @OneToMany(mappedBy = "playlist", fetch = FetchType.LAZY)
+    private List<Likes> likes  = new ArrayList<>();
+
+//    @Column(nullable = false, updatable = true, unique = false)
+//    private String videoId;
+
+    @OneToMany(mappedBy = "playlist", cascade = CascadeType.REMOVE)
     private List<Category> categoryList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "playlist", cascade = CascadeType.REMOVE)
+    private List<PlaylistItem> playlistItems = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "room_id")
     private ChatRoom chatRoom;
 
-    private String thumbnail;
+
 //    @Enumerated(EnumType.STRING)
 //    private PlaylistStatus playlistStatus = PlaylistStatus.PLAYLIST_ACTIVE;
 
@@ -46,11 +55,6 @@ public class Playlist extends Auditable {
 //        PLAYLIST_ACTIVE("활성중"),
 //        PLAYLIST_INACTIVE("비활성중");
 //
-//        @Getter
-//        private String status;
-//
-//        PlaylistStatus(String status){
-//            this.status = status;
-//        }
+
 //    }
 }
