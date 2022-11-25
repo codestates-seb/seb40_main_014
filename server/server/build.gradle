@@ -45,6 +45,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'javax.servlet:jstl'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     //H2 로컬용
     runtimeOnly 'com.h2database:h2'

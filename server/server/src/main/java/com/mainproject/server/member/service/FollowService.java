@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.ZSetOperations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -43,10 +40,10 @@ public class FollowService {
         List<Playlist> membersPlaylist = member.getPlaylists();
         int Score = 0;
 
-//        for (Playlist pl : membersPlaylist){
-//            int like = pl.getLike();
-//            Score += like;
-//        }
+        for (Playlist pl : membersPlaylist){
+            int like = pl.getLike();
+            Score += like;
+        }
 
         Long followCount = followRepository.findByMember(member)// 인플루언서를 follow한 목록 Follow entity
                 .stream()

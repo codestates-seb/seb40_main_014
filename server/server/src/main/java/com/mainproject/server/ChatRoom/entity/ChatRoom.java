@@ -59,7 +59,8 @@ public class ChatRoom extends Auditable {
 
     private Long playlistId;
 
-    public List<String> s;
+    @ElementCollection
+    List<String> nameList;
 
     public enum Onair {
         ON, OFF;

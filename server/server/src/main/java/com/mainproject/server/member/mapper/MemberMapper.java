@@ -13,7 +13,7 @@ import com.mainproject.server.playlist.mapper.PlaylistMapper;
 import com.mainproject.server.response.MultiResponseDto;
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.redis.core.ZSetOperations;
+//import org.springframework.data.redis.core.ZSetOperations;
 
 import java.util.ArrayList;
 import java.util.List;
