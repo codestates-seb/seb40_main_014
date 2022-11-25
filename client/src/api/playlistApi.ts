@@ -7,11 +7,11 @@ export const getPlaylists = async (
 ) => {
 	try {
 		//test
-		// const result = await instance.get('/playlists');
+		const result = await instance.get('/playlists');
 		//real
-		const result = await instance.get(
-			`/api/${memberId}/playlists?page=${page}&size=${size}`,
-		);
+		// const result = await instance.get(
+		// 	`/api/${memberId}/playlists?page=${page}&size=${size}`,
+		// );
 
 		return result.data;
 	} catch (err) {

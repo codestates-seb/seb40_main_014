@@ -9,7 +9,8 @@ import { musicInfoType } from './MakePlayList';
 import { myLogin, myValue } from '../slices/mySlice';
 
 export type PlaylistInfoType = {
-	memberId: string;
+	memberId: number;
+	name: string;
 	title: string;
 	playlist: Array<musicInfoType>;
 	categoryList: Array<string>;
@@ -28,17 +29,26 @@ const PlaylistList = () => {
 	const currentPage = useRef<number>(1);
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
+	// real
 	const fetch = useCallback(() => {
+		// getPlaylists(memberId, currentPage.current, 10).then((res) => {
+		// 	console.log('getPlaylists res', res);
+		// 	const data = res.data;
+		// 	const { page, totalPages } = res.pageInfo;
+		// 	setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
+		// 	// setHasNextPage(data.length === 10);
+		// 	setHasNextPage(page !== totalPages);
+		// 	// if (data.length) currentPage.current += 1;
+		// 	if (hasNextPage) currentPage.current += 1;
+		// });
+	}, []);
+
+	// test
+	useEffect(() => {
 		getPlaylists(memberId, currentPage.current, 10).then((res) => {
-			const data = res.data;
-			const { page, totalPages } = res.pageInfo;
+			console.log('getPlaylists res', res);
 
-			setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
-			// setHasNextPage(data.length === 10);
-			setHasNextPage(page !== totalPages);
-
-			// if (data.length) currentPage.current += 1;
-			if (hasNextPage) currentPage.current += 1;
+			setPlayLists(res);
 		});
 	}, []);
 
@@ -71,15 +81,11 @@ const PlaylistList = () => {
 			<H2>인기 DJ 플레이리스트</H2>
 			<H2>전체</H2>
 			<ListStyle>
-				{/* {playlists.length
+				{playlists.length
 					? playlists.map((playlist: PlaylistInfoType) => (
 							<Playlist playList={playlist} key={playlist.playListId} />
 					  ))
-					: null} */}
-				{playlists &&
-					playlists.map((playlist: PlaylistInfoType) => (
-						<Playlist playList={playlist} key={playlist.playListId} />
-					))}
+					: null}
 				<div ref={observerTargetEl} />
 			</ListStyle>
 		</>
