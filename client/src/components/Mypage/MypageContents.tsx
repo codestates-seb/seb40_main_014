@@ -40,7 +40,15 @@ const MypageContents = ({ title, contents }: MypageContentsType) => {
 					modules={[Pagination, Navigation]}
 					slidesPerView={3}
 					navigation
-					pagination={{ clickable: true }}>
+					pagination={{ clickable: true }}
+					breakpoints={{
+						641: {
+							slidesPerView: 2,
+						},
+						981: {
+							slidesPerView: 3,
+						},
+					}}>
 					{contents.map((ele) => {
 						return (
 							<SwiperSlide key={ele}>

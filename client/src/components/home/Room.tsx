@@ -6,9 +6,14 @@ import { RoomInfoType } from '../../pages/RoomList';
 type RoomType = {
 	room: RoomInfoType;
 	key?: number;
+	swiper?: boolean;
 };
 
-const Room = ({ room }: RoomType) => {
+export type SwiperTrueType = {
+	swiper?: boolean;
+};
+
+const Room = ({ room, swiper }: RoomType) => {
 	const {
 		roomId,
 		title,
@@ -27,23 +32,27 @@ const Room = ({ room }: RoomType) => {
 				<Link to={`/room/${roomId}`}>
 					<ThumbnailBackdrop />
 				</Link>
-				{onair === 'ON' && <Onair>ON AIR</Onair>}
+				{onair === 'ON' && <Onair swiper={swiper}>ON AIR</Onair>}
 			</Thumbnail>
-			<Title>
+			<Title swiper={swiper}>
 				<Link to={`/room/${roomId}`}>{title}</Link>
 			</Title>
-			<Name>
+			<Name swiper={swiper}>
 				<Link to={`/mypage/${member.memberId}`}>{member.name}</Link>
 			</Name>
 			<Detail>
 				<Categorys>
 					{category.map((el, idx) => (
-						<Category category={el} margin="0 4px 0 0" key={idx}>
+						<Category
+							category={el}
+							margin="0 4px 0 0"
+							key={idx}
+							swiper={swiper}>
 							{el}
 						</Category>
 					))}
 				</Categorys>
-				<RoomCount>
+				<RoomCount swiper={swiper}>
 					{userCount} / {maxCount}
 				</RoomCount>
 			</Detail>
@@ -118,7 +127,7 @@ export const Thumbnail = styled.div`
 	}
 `;
 
-export const Title = styled.h3`
+export const Title = styled.h3<SwiperTrueType>`
 	display: inline-block;
 	margin-bottom: 10px;
 	font-weight: 600;
@@ -128,15 +137,29 @@ export const Title = styled.h3`
 	:hover {
 		color: ${(props) => props.theme.colors.gray700};
 	}
+
+	// Tablet
+	@media screen and (max-width: 980px) {
+		font-size: ${(props) => props.swiper && '16px'};
+	}
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: ${(props) => (props.swiper ? '14px' : '16px')};
+	}
 `;
 
-export const Name = styled.h4`
+export const Name = styled.h4<SwiperTrueType>`
 	font-size: ${(props) => props.theme.fontSize.small};
 	color: ${(props) => props.theme.colors.gray600};
 	margin-bottom: 15px;
 
 	a:hover {
 		color: ${(props) => props.theme.colors.gray500};
+	}
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: ${(props) => (props.swiper ? '12px' : '14px')};
 	}
 `;
 
@@ -148,7 +171,7 @@ export const Detail = styled.div`
 
 export const Categorys = styled.div``;
 
-const Onair = styled.div`
+const Onair = styled.div<SwiperTrueType>`
 	position: absolute;
 	top: 15px;
 	left: 15px;
@@ -157,8 +180,30 @@ const Onair = styled.div`
 	color: ${(props) => props.theme.colors.white};
 	font-size: ${(props) => props.theme.fontSize.small};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
+
+	// Tablet
+	@media screen and (max-width: 980px) {
+		top: ${(props) => (props.swiper ? '10px' : '15px')};
+		left: ${(props) => (props.swiper ? '10px' : '15px')};
+	}
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: ${(props) => props.swiper && '10px'};
+		top: ${(props) => (props.swiper ? '7px' : '15px')};
+		left: ${(props) => (props.swiper ? '7px' : '15px')};
+	}
 `;
 
-const RoomCount = styled.div`
+const RoomCount = styled.div<SwiperTrueType>`
 	color: ${(props) => props.theme.colors.gray600};
+
+	// Tablet
+	@media screen and (max-width: 980px) {
+		font-size: ${(props) => props.swiper && '14px'};
+	}
+	// Mobile
+	@media screen and (max-width: 640px) {
+		display: ${(props) => (props.swiper ? 'none' : 'block')};
+		font-size: 14px;
+	}
 `;

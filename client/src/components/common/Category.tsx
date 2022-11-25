@@ -5,6 +5,7 @@ type CategoryProps = {
 	height?: string;
 	children?: any;
 	category?: string;
+	swiper?: boolean;
 };
 
 const Category = (props: CategoryProps) => {
@@ -40,4 +41,9 @@ const CategoryStyle = styled.button<CategoryProps>`
 			? '#ae3ec9'
 			: props.theme.colors.gray300};
 	border-radius: 3px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: ${(props) => props.swiper && '10px'};
+	}
 `;

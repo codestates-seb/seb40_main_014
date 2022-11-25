@@ -2,11 +2,15 @@ import Playlist from '../components/home/Playlist';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { DefaultButton } from '../components/common/Button';
 import { Link } from 'react-router-dom';
-import { ButtonWrapper, H2, ListStyle } from './RoomList';
+import { ButtonWrapper, H2, ListStyle, SwiperStyle } from './RoomList';
 import { getPlaylists } from '../api/playlistApi';
 import { useSelector } from 'react-redux';
 import { musicInfoType } from './MakePlayList';
 import { myLogin, myValue } from '../slices/mySlice';
+
+// Import Swiper React components
+import { SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation, Autoplay } from 'swiper';
 
 export type PlaylistInfoType = {
 	memberId: number;
@@ -66,6 +70,26 @@ const PlaylistList = () => {
 		};
 	}, [fetch, hasNextPage]);
 
+	//* Swiper
+	const settings = {
+		modules: [Pagination, Navigation, Autoplay],
+		slidesPerView: 2,
+		spaceBetween: 1,
+		navigation: true,
+		pagination: { clickable: true },
+		autoplay: { delay: 5000 },
+		breakpoints: {
+			641: {
+				slidesPerView: 3,
+				spaceBetween: 19,
+			},
+			981: {
+				slidesPerView: 3,
+				spaceBetween: 44,
+			},
+		},
+	};
+
 	return (
 		<>
 			{isLogin && (
@@ -78,7 +102,25 @@ const PlaylistList = () => {
 				</ButtonWrapper>
 			)}
 			<H2>가장 많은 좋아요를 받은 플레이리스트</H2>
+			{playlists.length ? (
+				<SwiperStyle {...settings}>
+					{playlists.map((playlist: PlaylistInfoType) => (
+						<SwiperSlide key={playlist.name}>
+							<Playlist playList={playlist} key={playlist.playListId} swiper />
+						</SwiperSlide>
+					))}
+				</SwiperStyle>
+			) : null}
 			<H2>인기 DJ 플레이리스트</H2>
+			{playlists.length ? (
+				<SwiperStyle {...settings}>
+					{playlists.map((playlist: PlaylistInfoType) => (
+						<SwiperSlide key={playlist.name}>
+							<Playlist playList={playlist} key={playlist.playListId} swiper />
+						</SwiperSlide>
+					))}
+				</SwiperStyle>
+			) : null}
 			<H2>전체</H2>
 			<ListStyle>
 				{playlists.length
