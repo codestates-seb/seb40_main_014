@@ -18,19 +18,19 @@ public class PlaylistResponseDto {
 
     private long memberId;
 
-    private List<PlaylistItemResponseDto> playlistItems;
-
     private String name;
 
+    private boolean status;
+
     private String title;
+
+    private List<PlaylistItemResponseDto> playlistItems;
 
     private List<Category> categoryList;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
-
-    private boolean status;
 
 //    private List<PlaylistResponseDto> playlistList;
 
