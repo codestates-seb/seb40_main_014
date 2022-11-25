@@ -1,109 +1,107 @@
-import React, { useEffect, useState } from 'react';
+import * as StompJS from '@stomp/stompjs';
+import { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
 
 const Chattest = () => {
-	// chatting 토클 상태
-	const [live, setLive] = useState(false);
-	// 메세지 유저 및 내용
-	const [message, setMessage] = useState('');
-	//서버 url
-	const [serverUrl, setServerUrl] = useState<any>('');
-	// 서버로 부터 받아온 내용
-	const [chat, setChat] = useState([]);
+	const [content, setContent] = useState([]);
+	const [msg, setMsg] = useState('');
+	const [connectCheck, setConnectCheck] = useState(true);
 
-	const [sockjs, setSockjs] = useState<any>();
-	const [receivedData, setReceivedData] = useState('');
+	const client = new StompJS.Client({
+		brokerURL: `${process.env.REACT_APP_STACK_WS_SERVER}/ws/websocket`,
+		connectHeaders: {
+			login: 'user',
+			passcode: 'password',
+		},
+		debug: function (str) {
+			console.log(str);
+		},
+		reconnectDelay: 5000,
+		heartbeatIncoming: 4000,
+		heartbeatOutgoing: 4000,
+	});
 
-	// useEffect(() => {
-	// 	console.log(chat);
-	// }, [chat]);
+	client.onConnect = function (frame) {
+		console.log('onConnect 함수 : ', frame);
+		wsSubscribe();
+	};
 
-	useEffect(() => {
-		if (receivedData === '') return;
-		setChat([...chat, { name: 'Server', message: receivedData }]);
-	}, [receivedData]);
+	client.onStompError = function (frame) {
+		console.log('Broker reported error: ' + frame.headers['message']);
+		console.log('Additional details: ' + frame.body);
+	};
 
-	const onClickConnectBtn = () => {
-		const sock = new WebSocket(`${process.env.REACT_APP_STACK_WS_SERVER}/chat`);
-		sock.onmessage = function (e) {
-			setReceivedData(e.data);
-			console.log('server로 받은 데이터', e.data);
-		};
-		setSockjs(sock);
-		setChat([...chat, { name: 'testUser', message: '님이 입장하셨습니다.' }]);
-		setLive(true);
-		console.log('sock', sock);
+	const disconnect = () => {
+		client.deactivate();
 	};
-	const onClickDisconnectBtn = () => {
-		setLive(false);
+
+	client.activate();
+	const check = () => {
+		console.log(client.connected);
 	};
-	const inputMessage = (e) => {
-		setMessage(e.target.value);
+
+	const onChange = (e) => {
+		setMsg(e.target.value);
 	};
-	const sendMessage = () => {
-		if (message === '') return;
-		setChat([...chat, { name: 'testUser', message: message }]);
-		console.log('message', message);
-		console.log('sockjs', sockjs);
-		sockjs.send(message);
-		setMessage('');
+
+	const send = () => {
+		client.publish({
+			destination: '/pub/chat/sendMessage/2c9f8a2d84a337290184a337b6300000',
+			body: JSON.stringify({
+				memberName: '송준모',
+				message: msg,
+				type: 'TALK',
+				memberId: 1,
+				roomString: '2c9f8a2d84a337290184a337b6300000',
+				roomId: '2c9f8a2d84a337290184a337b6300000',
+			}),
+		});
+		setConnectCheck(!connectCheck);
+		console.log('연결 상태', client.connected);
 	};
-	const onEnter = (e) => {
-		if (e.keyCode === 13) {
-			sendMessage();
-		}
+
+	const message_callback = function (message) {
+		const newMessage = JSON.parse(message.body).message;
+		const newMessageBody = JSON.parse(message.body);
+		console.log('바디 정보!!!', newMessageBody);
+
+		setContent((prev) => [...prev, newMessage]);
+		console.log('subscribe msg', newMessage);
 	};
-	const renderChat = () => {
-		console.log(chat);
-		return chat.map(({ name, message }, index) => (
-			<div key={index}>
-				<>
-					{name}: <>{message}</>
-				</>
-			</div>
-		));
+
+	const wsSubscribe = () => {
+		client.subscribe(
+			'/sub/chat/room/2c9f8a2d84a337290184a337b6300000',
+			message_callback,
+			{ id: 'user' },
+		);
+		console.log('subscribe 함수 작동!');
+		console.log('연결상태', client.connected);
 	};
 
 	return (
-		<div className="chatting_container">
-			{!live && (
-				<>
-					<>Chrome Extension Chatting Application</>
-					<input
-						className="chatting_urlInput"
-						type="text"
-						placeholder="URL을 입력해주세요"
-						onChange={setServerUrl}
-						value={serverUrl}
-					/>
-					<button className="chatting_connectBtn" onClick={onClickConnectBtn}>
-						연결
-					</button>
-				</>
-			)}
-			{live && (
-				<>
-					<div className="chatting_Room">{renderChat()}</div>
-					<input
-						className="chatting_messageInput"
-						type="text"
-						placeholder="메세지를 입력해주세요"
-						onChange={inputMessage}
-						onKeyDown={onEnter}
-						value={message}
-					/>
-					<button className="chatting_sendMessage" onClick={sendMessage}>
-						전송
-					</button>
-					<br />
-					<button
-						className="chatting_disConnectBtn"
-						onClick={onClickDisconnectBtn}>
-						연결 끊기
-					</button>
-				</>
-			)}
-		</div>
+		<>
+			<h1>채팅 테스트</h1>
+			<div>
+				<button onClick={disconnect}>연결 해제</button>
+			</div>
+			<div>
+				<button onClick={check}>연결 체크</button>
+			</div>
+			<div></div>
+			<Container>
+				<input onChange={onChange}></input>
+				<button onClick={send}> 메세지 전송 </button>
+			</Container>
+			<Container>
+				{content.map((e, i) => {
+					return <div key={i}>{e}</div>;
+				})}
+			</Container>
+		</>
 	);
 };
 
 export default Chattest;
+
+const Container = styled.div``;
