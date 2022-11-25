@@ -106,7 +106,7 @@ const PlaylistList = () => {
 				<SwiperStyle {...settings}>
 					{playlists.map((playlist: PlaylistInfoType) => (
 						<SwiperSlide key={playlist.name}>
-							<Playlist playList={playlist} key={playlist.playListId} swiper />
+							<Playlist playList={playlist} key={playlist.playlistId} swiper />
 						</SwiperSlide>
 					))}
 				</SwiperStyle>
@@ -116,7 +116,7 @@ const PlaylistList = () => {
 				<SwiperStyle {...settings}>
 					{playlists.map((playlist: PlaylistInfoType) => (
 						<SwiperSlide key={playlist.name}>
-							<Playlist playList={playlist} key={playlist.playListId} swiper />
+							<Playlist playList={playlist} key={playlist.playlistId} swiper />
 						</SwiperSlide>
 					))}
 				</SwiperStyle>
@@ -125,7 +125,7 @@ const PlaylistList = () => {
 			<ListStyle>
 				{playlists.length
 					? playlists.map((playlist: PlaylistInfoType) => (
-							<Playlist playList={playlist} key={playlist.playListId} />
+							<Playlist playList={playlist} key={playlist.playlistId} />
 					  ))
 					: null}
 				<div ref={observerTargetEl} />

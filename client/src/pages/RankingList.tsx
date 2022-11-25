@@ -39,10 +39,11 @@ const RankingList = () => {
 						<div>팔로워</div>
 						<div>플리 좋아요</div>
 					</Title>
-					{rankings &&
-						rankings.map((ranking, idx) => (
-							<Ranking ranking={ranking} key={idx} />
-						))}
+					{rankings.length
+						? rankings.map((ranking, idx) => (
+								<Ranking ranking={ranking} key={idx} />
+						  ))
+						: null}
 				</Rankings>
 			</RankingListStyle>
 		</>
