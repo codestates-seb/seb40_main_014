@@ -11,10 +11,12 @@ import 'swiper/css/navigation';
 
 type MypageContentsType = {
 	title?: string;
-	contents?: Array<string>;
+	contents?: any;
+	key?: number;
 };
 
 const MypageContents = ({ title, contents }: MypageContentsType) => {
+	console.log('contents', contents);
 	const navigate = useNavigate();
 	return (
 		<MypageContentsStyle>
@@ -51,8 +53,8 @@ const MypageContents = ({ title, contents }: MypageContentsType) => {
 					}}>
 					{contents.map((ele) => {
 						return (
-							<SwiperSlide key={ele}>
-								<Content name={ele} />
+							<SwiperSlide key={ele.videoId}>
+								<Content videoInfo={ele} />
 							</SwiperSlide>
 						);
 					})}

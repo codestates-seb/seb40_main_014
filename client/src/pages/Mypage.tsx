@@ -10,16 +10,19 @@ import {
 	myValue,
 } from '../slices/mySlice';
 import { useState, useEffect } from 'react';
+import { getPlaylists } from '../api/playlistApi';
 
-const testList = ['1', '2', '3', '4', '5'];
-
+type content = {
+	id: number;
+	title: string;
+	contents: any;
+};
 const Mypage = () => {
-	const contentList = [
-		'나의 플레이리스트',
-		'북마크한 플레이리스트',
-		'팔로우 한 DJ',
-	];
-
+	const [contentList, setContentList] = useState<Array<content>>([
+		{ id: 1, title: '나의 플레이리스트', contents: [] },
+		{ id: 2, title: '북마크한 플레이리스트', contents: [] },
+		{ id: 3, title: '팔로우 한 DJ', contents: [] },
+	]);
 	const { userId } = useParams();
 	const myId = useSelector(myValue).memberId;
 
@@ -28,17 +31,40 @@ const Mypage = () => {
 
 	useEffect(() => {
 		getUserInfo(Number(userId)).then((res) => {
-			console.log('getUserInfo res', res);
+			if (res.data) {
+				console.log('getUserInfo res', res);
 
-			setUserInfo(res.data);
+				setUserInfo(res.data);
+			} else {
+				alert(res);
+			}
+		});
+
+		getPlaylists(myId, 1, 10).then((res) => {
+			if (res.data) {
+				setContentList((prev) => {
+					prev[0].contents = res.data;
+					return prev;
+				});
+			}
 		});
 	}, []);
+
+	console.log('contentList', contentList);
 
 	return (
 		<MypageStyle>
 			<MypageInfo userInfo={userInfo} myId={myId} />
 			{contentList.map((ele) => {
-				return <MypageContents key={ele} title={ele} contents={testList} />;
+				return (
+					ele.contents && (
+						<MypageContents
+							key={ele.id}
+							title={ele.title}
+							contents={ele.contents}
+						/>
+					)
+				);
 			})}
 		</MypageStyle>
 	);

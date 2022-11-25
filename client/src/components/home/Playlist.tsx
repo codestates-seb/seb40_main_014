@@ -21,34 +21,38 @@ type PlaylistType = {
 };
 
 const Playlist = ({ playList, swiper }: PlaylistType) => {
-	const { playListId, title, categoryList, like, memberId, name, playlist } =
-		playList;
+	const {
+		playlistId,
+		title,
+		categoryList,
+		like,
+		memberId,
+		name,
+		playlistItems,
+	} = playList;
 
 	return (
 		<RoomStyle>
 			<Thumbnail>
-				<img src={playlist[0].thumbnail} alt="thumbnail" />
-				<Link to={`/playlistdetail/${playListId}`}>
+				<img src={playlistItems[0].thumbnail} alt="thumbnail" />
+				<Link to={`/playlistdetail/${playlistId}`}>
 					<ThumbnailBackdrop />
 				</Link>
 			</Thumbnail>
-			<Title swiper={swiper}>
-				<Link to={`/playlistdetail/${playListId}`}>{title}</Link>
+			<Title>
+				<Link to={`/playlistdetail/${playlistId}`}>{title}</Link>
 			</Title>
 			<Name swiper={swiper}>
 				<Link to={`/mypage/${memberId}`}>{name}</Link>
 			</Name>
 			<Detail>
 				<Categorys>
-					{categoryList.map((el, idx) => (
-						<Category
-							category={el}
-							margin="0 4px 0 0"
-							key={idx}
-							swiper={swiper}>
-							{el}
-						</Category>
-					))}
+					{categoryList &&
+						categoryList.map((el, idx) => (
+							<Category category={el} margin="0 4px 0 0" key={idx}>
+								{el}
+							</Category>
+						))}
 				</Categorys>
 				<Like swiper={swiper}>
 					<IoMdHeart />

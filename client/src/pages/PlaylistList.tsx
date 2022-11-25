@@ -16,11 +16,11 @@ export type PlaylistInfoType = {
 	memberId: number;
 	name: string;
 	title: string;
-	playlist: Array<musicInfoType>;
+	playlistItems: Array<musicInfoType>;
 	categoryList: Array<string>;
 	status: boolean;
 	like: number;
-	playListId: number;
+	playlistId: number;
 };
 
 const PlaylistList = () => {
