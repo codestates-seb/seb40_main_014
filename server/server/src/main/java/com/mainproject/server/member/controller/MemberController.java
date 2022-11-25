@@ -3,9 +3,11 @@ package com.mainproject.server.member.controller;
 import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
 import com.mainproject.server.member.dto.MemberPatchDto;
 import com.mainproject.server.member.dto.MemberResponseDto;
+import com.mainproject.server.member.dto.RankResponseDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.mapper.MemberMapper;
+import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.member.service.FollowService;
 import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
@@ -23,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.ArrayList;
 import java.util.List;
 
 @Validated
@@ -36,6 +39,7 @@ public class MemberController {
     private final ChatRoomMapper chatRoomMapper;
     private final PlaylistMapper playlistMapper;
     private final FollowService followService;
+    private final MemberRepository memberRepository;
 
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") Long memberId,
@@ -58,8 +62,9 @@ public class MemberController {
         Member findMember = service.findMember(memberId);
 
         Boolean followState = followService.followState(memberId, authMemberId);
+        Integer rank = followService.findRank(findMember);
 
-        MemberResponseDto response = mapper.memberToMemberResponseDto(findMember, followState, chatRoomMapper, playlistMapper, playlistPage-1);
+        MemberResponseDto response = mapper.memberToMemberResponseDto(findMember, followState, chatRoomMapper, playlistMapper, playlistPage-1, rank);
         SingleResponseDto<MemberResponseDto> singleResponseDto = new SingleResponseDto<>(response);
 
         return new ResponseEntity(singleResponseDto, HttpStatus.OK);
@@ -108,5 +113,16 @@ public class MemberController {
     @PostMapping("/refresh")
     public ResponseEntity refreshToken(HttpServletRequest request, HttpServletResponse response) {
         return service.refresh(request, response);
+    }
+    @GetMapping("/ranking")
+    public ResponseEntity ranking() {
+        Page<Member> rankPage = followService.getRankings();
+
+        List<Member> members = rankPage.getContent();
+
+        MultiResponseDto<RankResponseDto> multiResponseDto =
+                new MultiResponseDto<>(mapper.memberListToRankResponseDtoList(members), rankPage);
+
+        return new ResponseEntity(multiResponseDto, HttpStatus.OK);
     }
 }

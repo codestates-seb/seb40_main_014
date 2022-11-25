@@ -17,9 +17,11 @@ public class SimplePlaylistResponseDto {
 
     private String title;
 
-    private String videoId;
+    private List<PlaylistItemResponseDto> playlistItems;
 
     private String thumbnail;
+
+    private boolean status;
 
     private String category;
 

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,10 +13,9 @@ public class PlaylistPostDto {
     @NotBlank(message = "제목을 입력하세요.")
     private String title;
 
-    @NotBlank(message = "영상을 추가하세요.")
-    private String videoId;
+    private List<PlaylistItemDto> playlistItems;
 
     private String category;
 
-//    private boolean status;
+    private boolean status;
 }

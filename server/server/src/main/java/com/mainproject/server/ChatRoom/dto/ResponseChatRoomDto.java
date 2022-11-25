@@ -25,8 +25,6 @@ public class ResponseChatRoomDto {
     private boolean secret;
     private int userCount;
 
-    private HashMap<String, String> userList;
-
     SimpleMemberResponseDto memberResponseDto;
     List<PlaylistResponseDto> playlistResponseDtoList;
 
@@ -38,7 +36,6 @@ public class ResponseChatRoomDto {
         this.pwd = chatRoom.getPwd();
         this.secret = chatRoom.getPwd() != null;
         this.userCount = chatRoom.getUserCount();
-        this.userList = chatRoom.getuserList();
         this.memberResponseDto = memberResponseDto;
         this.playlistResponseDtoList = playlistResponseDtoList;
     }

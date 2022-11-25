@@ -17,7 +17,7 @@ public class Ranking {
     private Long rankId;
 
     @Column
-    private Integer rank = 0;
+    private Integer rank=0;
 
 //    @OneToOne(mappedBy = "ranking", cascade = CascadeType.ALL)
 //    private Member member;

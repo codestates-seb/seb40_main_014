@@ -46,7 +46,10 @@ public class ChatController {
 
 
         // 채팅방에 유저 추가 및 memberId 반환
-        room.getuserList().put(chat.getRoomId(), chat.getMemberName());
+//        room.getuserList().put(chat.getRoomId(), chat.getMemberName());
+
+        // 채팅방에 유저 추가 및 memberId 반환
+//        chatService.addMem(chat.getRoomString());
 
         // 반환 결과를 socket session 에 memName 으로 저장
         headerAccessor.getSessionAttributes().put("MemberName", chat.getMemberName());
