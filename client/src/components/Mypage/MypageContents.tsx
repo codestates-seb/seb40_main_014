@@ -78,7 +78,7 @@ const Roof = styled.div`
 		border-radius: ${(props) => props.theme.radius.smallRadius};
 		transition: 0.1s;
 
-		&:hover {
+		:hover {
 			background-color: #e8ddff;
 		}
 	}

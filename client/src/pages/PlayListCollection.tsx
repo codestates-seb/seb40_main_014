@@ -38,7 +38,7 @@ const UserPlayListStyle = styled.div`
 
 	.title {
 		font-size: ${(props) => props.theme.fontSize.xLarge};
-		font-weight: 700;
+		font-weight: 600;
 		margin: 5% 0;
 	}
 `;

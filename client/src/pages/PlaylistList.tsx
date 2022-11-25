@@ -58,17 +58,18 @@ function PlaylistList() {
 
 	return (
 		<>
-			<ButtonWrapper>
-				<Link to="/makeplaylist/create">
-					{isLogin && (
+			{isLogin && (
+				<ButtonWrapper>
+					<Link to="/makeplaylist/create">
 						<DefaultButton fontSize="16px" width="105px" height="42px">
 							플리 만들기
 						</DefaultButton>
-					)}
-				</Link>
-			</ButtonWrapper>
-			<H2>플레이리스트 Top 8</H2>
-			<H2>최신 플레이리스트</H2>
+					</Link>
+				</ButtonWrapper>
+			)}
+			<H2>가장 많은 좋아요를 받은 플레이리스트</H2>
+			<H2>인기 DJ 플레이리스트</H2>
+			<H2>전체</H2>
 			<ListStyle>
 				{/* {playlists.length
 					? playlists.map((playlist: PlaylistInfoType) => (

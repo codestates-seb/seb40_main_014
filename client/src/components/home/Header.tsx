@@ -103,17 +103,7 @@ function Header() {
 				{isLogin ? (
 					<>
 						<Profile ref={profileRef}>
-							<Img
-								style={{ background: `url(${picture.replace('96', '32')})` }}>
-								{/* <div
-									style={{
-										width: '32px',
-										height: '32px',
-										borderRadius: '32px',
-										background: `url(${picture.replace('96', '32')})`,
-									}}
-								/> */}
-							</Img>
+							<Img src={picture} alt="profile" />
 							<div className="on-pc">{name}</div>
 							<ProfileUl ref={profileUlRef}>
 								<Triangle>
@@ -213,14 +203,14 @@ const Logo = styled.div`
 export const LoginButton = styled.button`
 	color: ${(props) => props.theme.colors.gray400};
 
-	&:hover {
+	:hover {
 		color: ${(props) => props.theme.colors.white};
 	}
 
 	// Mobile
 	@media screen and (max-width: 640px) {
 		color: ${(props) => props.theme.colors.gray800};
-		&:hover {
+		:hover {
 			color: ${(props) => props.theme.colors.purple};
 		}
 	}
@@ -232,7 +222,7 @@ const Hambuger = styled.div`
 	transition: 0.1s;
 	cursor: pointer;
 
-	&:hover {
+	:hover {
 		color: ${(props) => props.theme.colors.white};
 	}
 `;
@@ -252,11 +242,18 @@ const Profile = styled.div`
 	}
 `;
 
-const Img = styled.div`
-	width: 30px;
-	height: 31px;
-	border-radius: 31px;
-	margin-right: 15px;
+const Img = styled.img`
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	margin-right: 16px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		width: 25px;
+		height: 25px;
+		margin-right: 12px;
+	}
 `;
 
 const ProfileUl = styled.ul`
@@ -279,7 +276,7 @@ const ProfileUl = styled.ul`
 			margin-left: 10px;
 		}
 
-		&:hover {
+		:hover {
 			color: ${(props) => props.theme.colors.gray700};
 		}
 	}
@@ -302,7 +299,7 @@ const Triangle = styled.div`
 	color: ${(props) => props.theme.colors.background};
 	font-size: ${(props) => props.theme.fontSize.small};
 
-	&:hover {
+	:hover {
 		color: ${(props) => props.theme.colors.background};
 	}
 

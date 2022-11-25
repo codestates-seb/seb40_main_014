@@ -5,7 +5,7 @@ function Footer() {
 	return (
 		<FooterStyle>
 			<img src={LogoImg} alt="logo" /> 러플리 LUVPLI · 하리보 싱싱 · 40th Code
-			States 임시임
+			States
 		</FooterStyle>
 	);
 }

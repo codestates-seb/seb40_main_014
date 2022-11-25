@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import ThumbnailImg from '../../assets/images/playlist-thumbnail.png';
+import ThumbnailImg from '../../assets/images/thumbnail.png';
 import { Link } from 'react-router-dom';
 import Category from '../common/Category';
 import { RoomInfoType } from '../../pages/RoomList';
 import {
-	Backdrop,
+	ThumbnailBackdrop,
 	Categorys,
 	Detail,
 	Name,
@@ -50,7 +50,7 @@ function Room({ room }: RoomType) {
 			<Thumbnail>
 				<img src={ThumbnailImg} alt="thumbnail" />
 				<Link to={`/room/${roomId}`}>
-					<Backdrop />
+					<ThumbnailBackdrop />
 				</Link>
 				{onair === 'ON' && <Onair>On Air</Onair>}
 			</Thumbnail>

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Footer from '../home/Footer';
 import Header from '../home/Header';
 import HeaderBottom from '../home/HeaderBottom';
+import ScrollToTop from './ScrollToTop';
 
 function Layout() {
 	return (
@@ -13,6 +14,7 @@ function Layout() {
 				<Outlet />
 			</MainWrapper>
 			<Footer />
+			<ScrollToTop />
 		</>
 	);
 }
@@ -20,14 +22,14 @@ function Layout() {
 export default Layout;
 
 const MainWrapper = styled.div`
-	margin: 40px 15vw;
+	margin: 60px 15vw;
 
 	// Tablet
 	@media screen and (max-width: 980px) {
-		margin: 40px 80px;
+		margin: 60px 80px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		margin: 40px;
+		margin: 60px 40px;
 	}
 `;

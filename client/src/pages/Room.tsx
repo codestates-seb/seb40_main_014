@@ -2,15 +2,17 @@ import styled from 'styled-components';
 import { ImExit } from 'react-icons/im';
 import PlaylistPart from '../components/room/Playlist';
 import PeoplePart from '../components/room/PeopleList';
-import Message from '../components/room/Message';
 import Chatting from '../components/room/Chatting';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import UpdateRoomModal from '../components/room/updateModal';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { useForm } from 'react-hook-form';
+import instance from '../api/root';
+import { getRoomById } from '../api/roomApi';
+import * as StompJS from '@stomp/stompjs';
 
 const TotalContainer = styled.div`
 	display: flex;
@@ -159,12 +161,18 @@ export type MessageInfo = {
 };
 
 export type MessageObjectType = {
-	memberId: number;
-	username: string;
+	memberName: string;
 	message: string;
+	type: string;
+	memberId: number;
+	roomString: string;
 	roomId: string;
 };
 
+export type receiveMessageObjectType = {
+	message: string;
+	user: string;
+};
 const MessageForm = styled.form`
 	width: 100%;
 	display: flex;
@@ -187,38 +195,131 @@ const MessageInput = styled.input`
 const Room = () => {
 	const { register, handleSubmit, reset } = useForm<MessageInfo>();
 	const userInfo = useSelector((state: RootState) => state.my.value);
+	const navigate = useNavigate();
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const modalClose = () => {
 		setModalOpen(!modalOpen);
 	};
+
+	const [receiveMessageObject, setReceiveMessageObject] = useState<
+		receiveMessageObjectType[]
+	>([]);
 	const [title, setTitle] = useState<string>('존재하지 않는 방입니다.');
 	const params = useParams();
-	const [messageObject, setMessageObject] = useState<any>([]);
+	const roomId = params.id;
+	const NumberMemberId = Number(userInfo.memberId);
+	const [messageObject, setMessageObject] = useState<MessageObjectType>({
+		memberName: `${userInfo.name}`,
+		message: '님이 입장하셨습니다.',
+		type: 'TALK',
+		memberId: NumberMemberId,
+		roomString: `${roomId}`,
+		roomId: `${roomId}`,
+	});
 
-	const roomInfo = useSelector((state: RootState) => state.room);
-
-	console.log('현재 룸 상태', roomInfo);
-
+	const onChange = (e) => {
+		const MessageObj: MessageObjectType = {
+			memberName: `${userInfo.name}`,
+			message: e.target.value,
+			type: 'TALK',
+			memberId: NumberMemberId,
+			roomString: `${roomId}`,
+			roomId: `${roomId}`,
+		};
+		setMessageObject(MessageObj);
+	};
 	const onValid = (e) => {
 		const MessageObj: MessageObjectType = {
-			roomId: params.id,
-			username: userInfo.name,
-			memberId: userInfo.memberId,
+			memberName: `${userInfo.name}`,
 			message: e.message,
+			type: 'TALK',
+			memberId: NumberMemberId,
+			roomString: `${roomId}`,
+			roomId: `${roomId}`,
 		};
-		setMessageObject((prev) => [...prev, MessageObj]);
+		console.log('e.message!!!!', e.message);
 
+		setMessageObject(MessageObj);
 		reset();
+		send();
 	};
-	console.log('메세지 상태', messageObject);
+
 	useEffect(() => {
-		axios
-			.get(`${process.env.REACT_APP_STACK_SERVER}/rooms/${params.id}`)
+		// instance
+		// 	.get(`${process.env.REACT_APP_STACK_SERVER}/rooms/${params.id}`)
+		// 	.then((res) => {
+		// 		setTitle(res.data.title);
+		// 	})
+		// 	.catch((err) => console.log('방이 없어'));
+		getRoomById(roomId)
 			.then((res) => {
 				setTitle(res.data.title);
 			})
-			.catch((err) => console.log('방이 없어'));
+			.then(
+				() =>
+					(client.onConnect = function (frame) {
+						console.log('서버 연결완료');
+						wsSubscribe();
+					}),
+			)
+			.catch((err) => {
+				navigate('/');
+				alert('해당 방이 존재하지 않습니다!');
+			});
 	}, []);
+	const client = new StompJS.Client({
+		brokerURL: `${process.env.REACT_APP_STACK_WS_SERVER}/ws/websocket`,
+		connectHeaders: {
+			login: 'user',
+			passcode: 'password',
+		},
+		// debug: function (str) {
+		// 	console.log(str);
+		// },
+		reconnectDelay: 100,
+		heartbeatIncoming: 100,
+		heartbeatOutgoing: 100,
+	});
+
+	client.onStompError = function (frame) {
+		console.log('Broker reported error: ' + frame.headers['message']);
+		console.log('Additional details: ' + frame.body);
+	};
+
+	client.activate();
+
+	const send = () => {
+		client.publish({
+			destination: `/pub/chat/sendMessage/${roomId}`,
+			body: JSON.stringify(messageObject),
+		});
+		// client.unsubscribe('user');
+		console.log('연결 상태', client.connected);
+	};
+
+	// useEffect(() => {
+	// 	send();
+	// }, [messageObject]);
+
+	const message_callback = function (message) {
+		console.log('메세지콜백 바디', message.body);
+		const receiveMessage = JSON.parse(message.body).message;
+		const receiveUser = JSON.parse(message.body).memberName;
+		setReceiveMessageObject((prev) => [
+			...prev,
+			{ user: receiveUser, message: receiveMessage },
+		]);
+		// client.unsubscribe('user');
+		console.log('subscribe msg', receiveMessage, receiveUser);
+	};
+
+	const wsSubscribe = () => {
+		client.subscribe(`/sub/chat/room/${roomId}`, message_callback, {
+			id: 'user',
+		});
+		console.log('subscribe 함수 작동!');
+		console.log('연결상태', client.connected);
+	};
 
 	return (
 		<>
@@ -247,7 +348,8 @@ const Room = () => {
 					<ChatRoomContainer>
 						<ChatLeft>
 							<ChatSection>
-								<Chatting messageObject={messageObject}></Chatting>
+								<Chatting
+									receiveMessageObject={receiveMessageObject}></Chatting>
 							</ChatSection>
 						</ChatLeft>
 						<ChatRight>
@@ -258,6 +360,10 @@ const Room = () => {
 					<ChatFooter>
 						<MessageSection>
 							<MessageForm onSubmit={handleSubmit(onValid)}>
+								{/* <MessageInput
+									{...register('message')}
+									placeholder="하고 싶은 말을 입력하세요!"
+									onChange={onChange}></MessageInput> */}
 								<MessageInput
 									{...register('message', { required: true })}
 									placeholder="하고 싶은 말을 입력하세요!"></MessageInput>

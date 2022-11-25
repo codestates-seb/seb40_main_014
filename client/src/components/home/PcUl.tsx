@@ -56,7 +56,7 @@ const Ul = styled.ul`
 		margin: 0 20px;
 		transition: 0.1s;
 
-		&:hover {
+		:hover {
 			color: ${(props) => props.theme.colors.white};
 		}
 

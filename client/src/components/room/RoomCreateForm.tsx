@@ -9,6 +9,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { myLogin } from '../../slices/mySlice';
 import { currentRoomInfo } from '../../slices/roomSlice';
+import instance, { root } from '../../api/root';
+import { createRoom } from '../../api/roomApi';
 
 export type roomInfo = {
 	memberId: number;
@@ -88,21 +90,27 @@ const RoomCreateForm = () => {
 	const [checked, setChecked] = useState<boolean>(false);
 	const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
 
-	const onValid = (e) => {
+	const onValid = async (e) => {
 		const CreateRoomInfo = {
 			memberId: userInfo.memberId,
 			title: e.title,
 			pwd: e.password,
 			playlist: e.playlist,
-			people: e.people,
+			maxCount: e.people,
 		};
 		console.log('생성될 방의 정보', CreateRoomInfo);
 
 		if (!isLogin) {
 			alert('로그인 후 생성하실 수 있습니다.');
 		} else {
-			axios
-				.post(`${process.env.REACT_APP_STACK_SERVER}/rooms`, CreateRoomInfo)
+			// instance
+			// 	.post(`/rooms`, CreateRoomInfo)
+			// 	.then((res) => {
+			// 		console.log(res);
+			// 		navigate(`rooms/${res.data.roomId}`);
+			// 	})
+			// 	.catch((err) => console.log(err));
+			createRoom(CreateRoomInfo)
 				.then((res) => {
 					console.log(res);
 					navigate(`rooms/${res.data.roomId}`);
