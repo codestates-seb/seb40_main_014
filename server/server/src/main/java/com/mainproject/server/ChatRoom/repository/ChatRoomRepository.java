@@ -16,4 +16,5 @@ import java.util.Optional;
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, String> {
     Optional<ChatRoom> findByRoomId(String roomId);
     Page<ChatRoom> findByTitleContaining(String keyword, Pageable pageable);
+
 }
