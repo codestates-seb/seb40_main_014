@@ -34,8 +34,8 @@ public class ChatRoom extends Auditable {
 //    @OneToMany(mappedBy = "chatRoom")
 //    private List<roomMember> roomMemberList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
-    private List<ChatMessage> chatMessage = new ArrayList<>();
+//    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
+//    private List<ChatMessage> chatMessage = new ArrayList<>();
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -59,13 +59,14 @@ public class ChatRoom extends Auditable {
 
     private Long playlistId;
 
+    public List<String> s;
+
     public enum Onair {
         ON, OFF;
 
         @Getter
         private String onair;
     }
-
 
     @Builder
     public ChatRoom(String roomId, String title, int maxCount, String pwd, int userCount) {

@@ -1,5 +1,6 @@
 package com.mainproject.server.ChatRoom.dto;
 
+import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.member.dto.MemberResponseDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
@@ -9,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Getter
@@ -22,6 +25,8 @@ public class ResponseChatRoomDto {
     private boolean secret;
     private int userCount;
 
+    private HashMap<String, String> userList;
+
     SimpleMemberResponseDto memberResponseDto;
     List<PlaylistResponseDto> playlistResponseDtoList;
 
@@ -33,6 +38,7 @@ public class ResponseChatRoomDto {
         this.pwd = chatRoom.getPwd();
         this.secret = chatRoom.getPwd() != null;
         this.userCount = chatRoom.getUserCount();
+        this.userList = chatRoom.getuserList();
         this.memberResponseDto = memberResponseDto;
         this.playlistResponseDtoList = playlistResponseDtoList;
     }

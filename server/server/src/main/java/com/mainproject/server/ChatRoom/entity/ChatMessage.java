@@ -21,10 +21,6 @@ import javax.persistence.*;
 
         private MessageType type;
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "room_id")
-        private ChatRoom chatRoom;
-
         @ManyToOne
         @JoinColumn(name = "member_id")
         private Member member;

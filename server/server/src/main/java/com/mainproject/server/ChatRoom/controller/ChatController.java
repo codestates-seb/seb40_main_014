@@ -44,15 +44,16 @@ public class ChatController {
         room.setUserCount(room.getUserCount() + 1) ;
         chatRoomRepository.save(room);
 
+
         // 채팅방에 유저 추가 및 memberId 반환
-//        chatService.addMem(chat.getRoomString());
+        room.getuserList().put(chat.getRoomId(), chat.getMemberName());
 
         // 반환 결과를 socket session 에 memName 으로 저장
         headerAccessor.getSessionAttributes().put("MemberName", chat.getMemberName());
         headerAccessor.getSessionAttributes().put("roomId", chat.getRoomId());
 
         log.info("CHAT2 {}", chat.getMessage()); // Hello World
-        log.info("CHAT6 {}", headerAccessor.getSessionAttributes()); // roomId
+        log.info("CHAT6 {}", headerAccessor.getSessionAttributes()); // MemberName, roomId가 저장된 sessionAttributes가 찍힘
 
         chat.setMessage(chat.getMemberName() + " 님 입장하셨습니다.");
         if (chat.getType().equals(ENTER)) {
