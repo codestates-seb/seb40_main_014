@@ -9,24 +9,24 @@ type PlaylistType = {
 	key?: number;
 };
 const CplayList = ({ playList }: PlaylistType) => {
-	const { playListId, title, categoryList, playlist } = playList;
+	const { playlistId, title, categoryList, playlistItems } = playList;
 	const navigate = useNavigate();
 
 	const onClickDelete = () => {
-		deletePlayList(playListId).then((res) => console.log(res));
+		deletePlayList(playlistId).then((res) => console.log(res));
 	};
 	return (
 		<CplayListStyle>
 			<div className="top">
 				<DefaultButton
-					onClick={() => navigate(`/makeplaylist/modify/${playListId}`)}>
+					onClick={() => navigate(`/makeplaylist/modify/${playlistId}`)}>
 					수정
 				</DefaultButton>
 				<Deletebutton onClick={onClickDelete}>삭제</Deletebutton>
 			</div>
 			<div className="bottom">
 				<div className="left">
-					<img src={playlist[0].thumbnail} alt="이미지" />
+					<img src={playlistItems[0].thumbnail} alt="이미지" />
 				</div>
 				<div className="right">
 					<div>

@@ -31,25 +31,25 @@ const PlayListSetting = ({
 	const [url, setUrl] = useState('');
 
 	const addPlList = () => {
-		let vedioId = getVedioId(url);
+		let videoId = getVideoId(url);
 		const musicInfo: musicInfoType = {};
 
 		//중복 체크
 		plList &&
 			plList.map((ele) => {
-				if (ele.vedioId === vedioId) vedioId = 'overlap';
+				if (ele.videoId === videoId) videoId = 'overlap';
 			});
-		if (vedioId !== 'none') {
-			if (vedioId === 'overlap') {
+		if (videoId !== 'none') {
+			if (videoId === 'overlap') {
 				return alert('이미 추가된 동영상 입니다.');
 			}
 			//유튜브 데이터 들고오기
 			let result = false;
-			getYouTubeMusic(vedioId)
+			getYouTubeMusic(videoId)
 				.then((res) => {
 					if (res.items[0]?.snippet) {
 						result = true;
-						musicInfo.vedioId = vedioId;
+						musicInfo.videoId = videoId;
 						musicInfo.url = url;
 						musicInfo.channelTitle = res.items[0].snippet.channelTitle;
 						musicInfo.title = res.items[0].snippet.title;
@@ -67,7 +67,7 @@ const PlayListSetting = ({
 		}
 	};
 
-	const getVedioId = (url: string) => {
+	const getVideoId = (url: string) => {
 		if (url.indexOf('/watch') > -1 && url.indexOf('&') === -1) {
 			return url.split('?')[1].replace('v=', '');
 		} else if (url.indexOf('/youtu.be') > -1) {
@@ -145,7 +145,11 @@ const PlayListSetting = ({
 			</div>
 			<div className="row">
 				<div className="left">
-					<input value={url} onChange={(e) => setUrl(e.target.value)} />
+					<input
+						value={url}
+						onChange={(e) => setUrl(e.target.value)}
+						placeholder="Ex) https://www.youtube.com/watch?v=Er0jdfJZzzk"
+					/>
 				</div>
 				<div className="rigth">
 					<DefaultButton onClick={addPlList}>추가</DefaultButton>

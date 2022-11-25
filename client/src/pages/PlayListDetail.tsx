@@ -7,13 +7,15 @@ import PlayListInfo from '../components/playlist/PlayListInfo';
 import { musicInfoType } from './MakePlayList';
 
 export type plinfo = {
-	memberId: string;
-	playListId?: number;
+	memberId?: string;
+	playlistId?: number;
 	title: string;
-	playlist: Array<musicInfoType>;
+	playlistItems: Array<musicInfoType>;
 	categoryList: Array<string>;
+	// status: string;
 	status: boolean;
 	like?: number;
+	likeCheck?: boolean;
 };
 
 export type PlayListInfoProps = {
@@ -28,10 +30,11 @@ const PlayListDetail = () => {
 	const { id } = useParams();
 	useEffect(() => {
 		getPlayList(id).then((res) => {
-			if (res.code) {
-				alert(res);
+			console.log(res);
+			if (res.data) {
+				setPlayListInfo(res.data);
 			} else {
-				setPlayListInfo(res);
+				alert(res);
 			}
 		});
 	}, []);

@@ -2,19 +2,16 @@ import styled from 'styled-components';
 import { PlayListInfoProps } from '../../pages/PlayListDetail';
 import Category from '../common/Category';
 import BookMark from '../common/BookMark';
-import { useSelector } from 'react-redux';
-import { selectBookMarkList, selectLikeList } from '../../slices/mySlice';
 import Like from '../common/Like';
 
 const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
-	const likeList = useSelector(selectLikeList);
-	const bookMarkList = useSelector(selectBookMarkList);
+	console.log(playListInfo);
 	return (
 		<PlayListInfoStyle>
 			<div className="info">
 				<Img>
 					<img
-						src={playListInfo.playlist[0].thumbnail}
+						src={playListInfo.playlistItems[0].thumbnail}
 						alt="플레이리스트 이미지"
 					/>
 				</Img>
@@ -37,21 +34,15 @@ const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
 						/>
 						<div>{playListInfo.memberId}</div>
 						<Like
-							likeList={likeList}
-							playListId={playListInfo.playListId}
-							memberId={playListInfo.memberId}
+							playlistId={playListInfo.playlistId}
 							setPlayListInfo={setPlayListInfo}
 						/>
 						<div>{playListInfo.like}</div>
-						<BookMark
-							bookMarkList={bookMarkList}
-							playListId={playListInfo.playListId}
-							memberId={playListInfo.memberId}
-						/>
+						<BookMark playlistId={playListInfo.playlistId} />
 					</div>
 				</Info>
 			</div>
-			<div className="total">{playListInfo.playlist.length} 곡</div>
+			<div className="total">{playListInfo.playlistItems.length} 곡</div>
 		</PlayListInfoStyle>
 	);
 };

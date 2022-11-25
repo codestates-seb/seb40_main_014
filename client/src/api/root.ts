@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { myLogout } from '../slices/mySlice';
 
-export const root: string | undefined = process.env.REACT_APP_STACK_SERVER_TEST;
-// export const root = process.env.REACT_APP_STACK_SERVER;
+// export const root: string | undefined = process.env.REACT_APP_STACK_SERVER_TEST;
+export const root = process.env.REACT_APP_STACK_SERVER;
 
 type config = {
 	headers: object;
@@ -77,6 +77,4 @@ instance.interceptors.response.use(
 
 export default instance;
 
-export const isTest = () => {
-	return !(root === process.env.REACT_APP_STACK_SERVER);
-};
+export const isTest = !(root === process.env.REACT_APP_STACK_SERVER);

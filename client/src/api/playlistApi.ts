@@ -10,9 +10,7 @@ export const getPlaylists = async (
 		if (isTest) {
 			result = await instance.get('/playlists');
 		} else {
-			result = await instance.get(
-				`/api/${memberId}/playlists?page=${page}&size=${size}`,
-			);
+			result = await instance.get(`/api/playlists?page=${page}&size=${size}`);
 		}
 
 		return result.data;
@@ -21,11 +19,11 @@ export const getPlaylists = async (
 	}
 };
 
-export const getPlayList = async (data) => {
+export const getPlayList = async (data?) => {
 	try {
 		let result;
 		if (isTest) {
-			result = await instance.get('/playlists');
+			result = await instance.get('/playlist');
 		} else {
 			result = await instance.get(`/api/playlists/${data}`);
 		}
@@ -39,13 +37,13 @@ export const createPlayList = async (data) => {
 	try {
 		let result;
 		if (isTest) {
+			console.log(isTest);
 			data.like = 0;
 			data.playListId = 1;
 			result = await instance.post('/playlist', data);
 		} else {
 			result = await instance.post(`/api/playlists`, data);
 		}
-
 		return result.data;
 	} catch (err) {
 		return err;

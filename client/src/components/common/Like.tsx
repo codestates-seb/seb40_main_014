@@ -1,51 +1,31 @@
 import { Dispatch, SetStateAction } from 'react';
 import { HiHeart, HiOutlineHeart } from 'react-icons/hi';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { patchLike } from '../../api/playlistApi';
 import { plinfo } from '../../pages/PlayListDetail';
-import { changeLikeList } from '../../slices/mySlice';
+import { myLogin } from '../../slices/mySlice';
 
 type LikeType = {
-	likeList: Array<number>;
-	playListId: number;
-	memberId: string;
+	playlistId: number;
 	setPlayListInfo?: Dispatch<SetStateAction<plinfo>>;
 };
 
-const Like = ({
-	likeList,
-	playListId,
-	memberId,
-	setPlayListInfo,
-}: LikeType) => {
-	const dispatch = useDispatch();
-	const data: any = {
-		memberId,
-		playListId,
-	};
-	const updateLikeList = () => {
-		patchLike(data).then((res) => {
-			dispatch(changeLikeList(res.likelist));
-			setPlayListInfo((prev) => {
-				prev.like = res.likelist.length;
-				return prev;
-			});
-		});
-	};
+const Like = ({ playlistId, setPlayListInfo }: LikeType) => {
+	const check = false;
+	const isLogin = useSelector(myLogin);
 	const onClickLike = () => {
-		data.type = 'like';
-		updateLikeList();
-	};
-	const onClickUnLike = () => {
-		data.type = 'unlike';
-		updateLikeList();
+		console.log('like');
 	};
 	return (
 		<>
-			{likeList.includes(playListId) ? (
-				<HiHeart color="#f783ac" size="24" onClick={onClickUnLike} />
+			{isLogin ? (
+				check ? (
+					<HiHeart color="#f783ac" size="24" onClick={onClickLike} />
+				) : (
+					<HiOutlineHeart color="#f783ac" size="24" onClick={onClickLike} />
+				)
 			) : (
-				<HiOutlineHeart color="#f783ac" size="24" onClick={onClickLike} />
+				<HiHeart color="#f783ac" size="24" />
 			)}
 		</>
 	);
