@@ -6,7 +6,6 @@ import { DefaultButton } from '../components/common/Button';
 import Room from '../components/home/Room';
 import CreateModal from '../components/room/createModal';
 import { myLogin } from '../slices/mySlice';
-import { musicInfoType } from './MakePlayList';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 // Import Swiper React components
@@ -16,28 +15,30 @@ import { Pagination, Navigation, Autoplay } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { PlaylistInfoType } from './PlaylistList';
 
 export type RoomInfoType = {
-	roomId: number;
-	member: HostType;
-	title: string;
-	onair: string;
-	pwd: string;
 	maxCount: number;
+	memberResponseDto: HostType;
+	playlistResponseDtoList: Array<PlaylistInfoType>;
+	pwd: string;
+	roomId: string;
+	secreat: boolean;
+	title: string;
 	userCount: number;
-	secret: boolean;
-	category: Array<string>;
-	createdAt: string;
-	modifiedAt: string;
-	playlist: Array<musicInfoType>;
 };
 
 export type HostType = {
-	memberId: number;
-	playlistId: number;
-	name: string;
-	roles: string;
+	createdAt: string;
+	email: string;
+	follow: number;
 	grade: string;
+	memberId: number;
+	modifiedAt: string;
+	name: string;
+	picture: string;
+	rank: number;
+	role: string;
 };
 
 const RoomList = () => {
@@ -55,26 +56,26 @@ const RoomList = () => {
 
 	// real
 	const fetch = useCallback(() => {
-		// getRooms(currentPage.current, 10).then((res) => {
-		// 	console.log('getRooms res', res);
-		// 	const data = res.data;
-		// 	const { page, totalPages } = res.pageInfo;
-		// 	setRooms((prevRooms) => [...prevRooms, ...data]);
-		// 	// setHasNextPage(data.length === 10);
-		// 	setHasNextPage(page !== totalPages);
-		// 	// if (data.length) currentPage.current += 1;
-		// 	if (hasNextPage) currentPage.current += 1;
-		// });
+		getRooms(currentPage.current, 10).then((res) => {
+			console.log('getRooms res', res);
+			const data = res.data;
+			const { page, totalPages } = res.pageInfo;
+			setRooms((prevRooms) => [...prevRooms, ...data]);
+			// setHasNextPage(data.length === 10);
+			setHasNextPage(page !== totalPages);
+			// if (data.length) currentPage.current += 1;
+			if (hasNextPage) currentPage.current += 1;
+		});
 	}, []);
 
 	// test
-	useEffect(() => {
-		getRooms(currentPage.current, 10).then((res) => {
-			console.log('getRooms res', res);
+	// useEffect(() => {
+	// 	getRooms(currentPage.current, 10).then((res) => {
+	// 		console.log('getRooms res', res);
 
-			setRooms(res);
-		});
-	}, []);
+	// 		setRooms(res);
+	// 	});
+	// }, []);
 
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;

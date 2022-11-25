@@ -5,7 +5,7 @@ import { RoomInfoType } from '../../pages/RoomList';
 
 type RoomType = {
 	room: RoomInfoType;
-	key?: number;
+	key?: string;
 	swiper?: boolean;
 };
 
@@ -14,43 +14,37 @@ export type SwiperTrueType = {
 };
 
 const Room = ({ room, swiper }: RoomType) => {
-	const {
-		roomId,
-		title,
-		category,
-		member,
-		onair,
-		userCount,
-		maxCount,
-		playlist,
-	} = room;
+	const { roomId, title, userCount, maxCount } = room;
+	const { memberId, name } = room.memberResponseDto;
+	const { categoryList, playlistItems } = room.playlistResponseDtoList[0];
 
 	return (
 		<RoomStyle>
 			<Thumbnail>
-				<img src={playlist[0].thumbnail} alt="thumbnail" />
+				<img src={playlistItems[0].thumbnail} alt="thumbnail" />
 				<Link to={`/room/${roomId}`}>
 					<ThumbnailBackdrop />
 				</Link>
-				{onair === 'ON' && <Onair swiper={swiper}>ON AIR</Onair>}
+				<Onair swiper={swiper}>ON AIR</Onair>
 			</Thumbnail>
 			<Title swiper={swiper}>
 				<Link to={`/room/${roomId}`}>{title}</Link>
 			</Title>
 			<Name swiper={swiper}>
-				<Link to={`/mypage/${member.memberId}`}>{member.name}</Link>
+				<Link to={`/mypage/${memberId}`}>{name}</Link>
 			</Name>
 			<Detail>
 				<Categorys>
-					{category.map((el, idx) => (
-						<Category
-							category={el}
-							margin="0 4px 0 0"
-							key={idx}
-							swiper={swiper}>
-							{el}
-						</Category>
-					))}
+					{categoryList &&
+						categoryList.map((el, idx) => (
+							<Category
+								category={el}
+								margin="0 4px 0 0"
+								key={idx}
+								swiper={swiper}>
+								{el}
+							</Category>
+						))}
 				</Categorys>
 				<RoomCount swiper={swiper}>
 					{userCount} / {maxCount}

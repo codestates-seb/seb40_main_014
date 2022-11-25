@@ -24,7 +24,6 @@ export type PlaylistInfoType = {
 };
 
 const PlaylistList = () => {
-	const { memberId } = useSelector(myValue);
 	const isLogin = useSelector(myLogin);
 
 	//* 무한 스크롤
@@ -35,26 +34,26 @@ const PlaylistList = () => {
 
 	// real
 	const fetch = useCallback(() => {
-		// getPlaylists(memberId, currentPage.current, 10).then((res) => {
-		// 	console.log('getPlaylists res', res);
-		// 	const data = res.data;
-		// 	const { page, totalPages } = res.pageInfo;
-		// 	setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
-		// 	// setHasNextPage(data.length === 10);
-		// 	setHasNextPage(page !== totalPages);
-		// 	// if (data.length) currentPage.current += 1;
-		// 	if (hasNextPage) currentPage.current += 1;
-		// });
+		getPlaylists(currentPage.current, 10).then((res) => {
+			console.log('getPlaylists res', res);
+			const data = res.data;
+			const { page, totalPages } = res.pageInfo;
+			setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
+			// setHasNextPage(data.length === 10);
+			setHasNextPage(page !== totalPages);
+			// if (data.length) currentPage.current += 1;
+			if (hasNextPage) currentPage.current += 1;
+		});
 	}, []);
 
 	// test
-	useEffect(() => {
-		getPlaylists(memberId, currentPage.current, 10).then((res) => {
-			console.log('getPlaylists res', res);
+	// useEffect(() => {
+	// 	getPlaylists(memberId, currentPage.current, 10).then((res) => {
+	// 		console.log('getPlaylists res', res);
 
-			setPlayLists(res);
-		});
-	}, []);
+	// 		setPlayLists(res);
+	// 	});
+	// }, []);
 
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;
@@ -105,7 +104,7 @@ const PlaylistList = () => {
 			{playlists.length ? (
 				<SwiperStyle {...settings}>
 					{playlists.map((playlist: PlaylistInfoType) => (
-						<SwiperSlide key={playlist.name}>
+						<SwiperSlide key={playlist.playlistId}>
 							<Playlist playList={playlist} key={playlist.playlistId} swiper />
 						</SwiperSlide>
 					))}
@@ -115,7 +114,7 @@ const PlaylistList = () => {
 			{playlists.length ? (
 				<SwiperStyle {...settings}>
 					{playlists.map((playlist: PlaylistInfoType) => (
-						<SwiperSlide key={playlist.name}>
+						<SwiperSlide key={playlist.playlistId}>
 							<Playlist playList={playlist} key={playlist.playlistId} swiper />
 						</SwiperSlide>
 					))}
