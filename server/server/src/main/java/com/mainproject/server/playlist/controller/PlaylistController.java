@@ -44,7 +44,7 @@ public class PlaylistController {
                 new SingleResponseDto<>(mapper.playlistToPlaylistResponseDto(savedPlaylist)), HttpStatus.CREATED);
     }
 
-
+    @NeedMemberId
     @PatchMapping("/{playlist-id}")
     public ResponseEntity patchPlaylist(@PathVariable("playlist-id") @Positive long playlistId,
                                         @Valid @RequestBody PlaylistPatchDto playlistPatchDto, Long authMemberId) {
