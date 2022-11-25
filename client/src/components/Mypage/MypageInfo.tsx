@@ -5,7 +5,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { followUser } from '../../api/userApi';
 import Badge from '../../components/common/Badge';
 import EditProfileModal from './EditProfileModal';
-import { Backdrop } from '../home/LoginModal';
+import { ModalBackdrop } from '../home/LoginModal';
 import { useSelector } from 'react-redux';
 
 type MypageInfoType = {
@@ -88,7 +88,7 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 				/>
 			)}
 			{isOpenSide && (
-				<Backdrop
+				<ModalBackdrop
 					onClick={(e) => {
 						e.preventDefault();
 						handleOpenSide();

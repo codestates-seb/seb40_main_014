@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Backdrop, H2, ModalStyle, WhiteBox } from '../home/LoginModal';
+import { ModalBackdrop, H2, ModalStyle, WhiteBox } from '../home/LoginModal';
 import { useEffect, useState } from 'react';
 import { editUserInfo } from '../../api/userApi';
 import { useDispatch } from 'react-redux';
@@ -78,7 +78,7 @@ const EditProfileModal = ({
 					</CancelButton>
 				</ButtonWrapper>
 			</EPWhiteBox>
-			<Backdrop
+			<ModalBackdrop
 				onClick={(e) => {
 					e.preventDefault();
 					handleOpenModal();

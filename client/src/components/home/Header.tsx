@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImg from '../../assets/images/header-logo.png';
 import { useCallback, useState, useEffect, useRef } from 'react';
-import LoginModal, { Backdrop } from './LoginModal';
+import LoginModal, { ModalBackdrop } from './LoginModal';
 import PcUl from './PcUl';
 import MobileUl from './MobileUl';
 import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
@@ -141,7 +141,7 @@ const Header = () => {
 			</HeaderStyle>
 			{isOpenModal && <LoginModal handleOpenModal={handleOpenModal} />}
 			{isOpenSide && (
-				<Backdrop
+				<ModalBackdrop
 					onClick={(e) => {
 						e.preventDefault();
 						handleOpenSide();
