@@ -53,7 +53,9 @@ public interface PlaylistMapper {
             playlistResponseDto.modifiedAt(playlist.getModifiedAt());
             playlistResponseDto.memberId(playlist.getMember().getMemberId());
             playlistResponseDto.name(playlist.getMember().getName());
+
             playlistResponseDto.like(playlist.getLikes().size());
+
             playlistResponseDto.playlistItems(playlistItemsToPlaylistItemResponseDto(playlistItems));
             return playlistResponseDto.build();
         }

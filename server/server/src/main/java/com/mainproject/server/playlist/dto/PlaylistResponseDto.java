@@ -25,7 +25,7 @@ public class PlaylistResponseDto {
     private String title;
 
     private int like;
-
+    
     private List<PlaylistItemResponseDto> playlistItems;
 
     private List<Category> categoryList;

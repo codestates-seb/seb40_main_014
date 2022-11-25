@@ -12,7 +12,6 @@ public enum ExceptionCode {
     BAD_REQUEST(400, "잘못된 요청입니다."),
     ROOM_NOT_EXISTS(404, "채팅방이 존재하지 않습니다.");
 
-
     @Getter
     private int status;
     @Getter

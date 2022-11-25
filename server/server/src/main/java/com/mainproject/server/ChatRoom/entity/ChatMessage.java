@@ -30,13 +30,12 @@ import javax.persistence.*;
         private Member member;
 
 //        private String memberId;
-//        private String channelId;
 
         private String message;
 
         private String memberName;
 
-        private String roomString;
+        private String roomId;
 
         public void newConnect() {
             this.type = MessageType.ENTER;
