@@ -98,7 +98,7 @@ const RoomCreateForm = () => {
 			playlist: e.playlist,
 			maxCount: e.people,
 		};
-		console.log('생성될 방의 정보', CreateRoomInfo);
+		// console.log('생성될 방의 정보', CreateRoomInfo);
 
 		if (!isLogin) {
 			alert('로그인 후 생성하실 수 있습니다.');
@@ -112,7 +112,7 @@ const RoomCreateForm = () => {
 			// 	.catch((err) => console.log(err));
 			createRoom(CreateRoomInfo)
 				.then((res) => {
-					console.log(res);
+					// console.log(res);
 					navigate(`rooms/${res.data.roomId}`);
 				})
 				.catch((err) => console.log(err));

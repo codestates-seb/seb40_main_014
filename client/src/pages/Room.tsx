@@ -173,6 +173,11 @@ export type receiveMessageObjectType = {
 	message: string;
 	user: string;
 };
+
+export type peopleType = {
+	name: string;
+	id: number;
+};
 const MessageForm = styled.form`
 	width: 100%;
 	display: flex;
@@ -197,6 +202,7 @@ const Room = () => {
 	const userInfo = useSelector((state: RootState) => state.my.value);
 	const navigate = useNavigate();
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
+	const [people, setPeople] = useState<peopleType[]>([]);
 	const modalClose = () => {
 		setModalOpen(!modalOpen);
 	};
@@ -217,7 +223,7 @@ const Room = () => {
 		roomId: `${roomId}`,
 	});
 
-	const onChange = (e) => {
+	const onChange = useCallback((e) => {
 		const MessageObj: MessageObjectType = {
 			memberName: `${userInfo.name}`,
 			message: e.target.value,
@@ -227,19 +233,19 @@ const Room = () => {
 			roomId: `${roomId}`,
 		};
 		setMessageObject(MessageObj);
-	};
+	}, []);
 	const onValid = (e) => {
-		const MessageObj: MessageObjectType = {
-			memberName: `${userInfo.name}`,
-			message: e.message,
-			type: 'TALK',
-			memberId: NumberMemberId,
-			roomString: `${roomId}`,
-			roomId: `${roomId}`,
-		};
-		console.log('e.message!!!!', e.message);
+		// const MessageObj: MessageObjectType = {
+		// 	memberName: `${userInfo.name}`,
+		// 	message: e.message,
+		// 	type: 'TALK',
+		// 	memberId: NumberMemberId,
+		// 	roomString: `${roomId}`,
+		// 	roomId: `${roomId}`,
+		// };
+		// console.log('e.message!!!!', e.message);
 
-		setMessageObject(MessageObj);
+		// setMessageObject(MessageObj);
 		reset();
 		send();
 	};
@@ -254,6 +260,10 @@ const Room = () => {
 		getRoomById(roomId)
 			.then((res) => {
 				setTitle(res.data.title);
+				setPeople((prev) => [
+					...prev,
+					{ name: userInfo.name, id: NumberMemberId },
+				]);
 			})
 			.then(
 				() =>
@@ -276,23 +286,29 @@ const Room = () => {
 		// debug: function (str) {
 		// 	console.log(str);
 		// },
-		reconnectDelay: 100,
-		heartbeatIncoming: 100,
-		heartbeatOutgoing: 100,
+		reconnectDelay: 5000,
+		heartbeatIncoming: 4000,
+		heartbeatOutgoing: 4000,
 	});
 
 	client.onStompError = function (frame) {
 		console.log('Broker reported error: ' + frame.headers['message']);
 		console.log('Additional details: ' + frame.body);
 	};
-
-	client.activate();
+	if (!client.connected) {
+		client.activate();
+	}
 
 	const send = () => {
-		client.publish({
-			destination: `/pub/chat/sendMessage/${roomId}`,
-			body: JSON.stringify(messageObject),
-		});
+		setTimeout(
+			() =>
+				client.publish({
+					destination: `/pub/chat/sendMessage/${roomId}`,
+					body: JSON.stringify(messageObject),
+				}),
+			300,
+		);
+
 		// client.unsubscribe('user');
 		console.log('연결 상태', client.connected);
 	};
@@ -354,19 +370,19 @@ const Room = () => {
 						</ChatLeft>
 						<ChatRight>
 							<PlaylistPart />
-							<PeoplePart />
+							<PeoplePart people={people} />
 						</ChatRight>
 					</ChatRoomContainer>
 					<ChatFooter>
 						<MessageSection>
 							<MessageForm onSubmit={handleSubmit(onValid)}>
-								{/* <MessageInput
+								<MessageInput
 									{...register('message')}
 									placeholder="하고 싶은 말을 입력하세요!"
-									onChange={onChange}></MessageInput> */}
-								<MessageInput
+									onChange={onChange}></MessageInput>
+								{/* <MessageInput
 									{...register('message', { required: true })}
-									placeholder="하고 싶은 말을 입력하세요!"></MessageInput>
+									placeholder="하고 싶은 말을 입력하세요!"></MessageInput> */}
 							</MessageForm>
 						</MessageSection>
 					</ChatFooter>

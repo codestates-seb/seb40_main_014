@@ -45,16 +45,13 @@ const Person = styled.div`
 	border-bottom: solid 1px ${(props) => props.theme.colors.gray400};
 `;
 
-const PeoplePart = () => {
+const PeoplePart = ({ people }) => {
 	return (
 		<PeopleSetcion>
 			<PeopleContainer>
-				<Person>문지훈</Person>
-				<Person>송준모</Person>
-				<Person>홍유진</Person>
-				<Person>김아리</Person>
-				<Person>노영석</Person>
-				<Person>정경은</Person>
+				{people.map((e) => {
+					return <Person key={e.id}>{e.name}</Person>;
+				})}
 			</PeopleContainer>
 		</PeopleSetcion>
 	);
