@@ -1,20 +1,23 @@
 import { BsBookmarksFill, BsBookmarks } from 'react-icons/bs';
 import { useSelector, useDispatch } from 'react-redux';
-import { myLogin } from '../../slices/mySlice';
+import { myLogin, myValue } from '../../slices/mySlice';
 
 type BookMarkType = {
 	playlistId: number;
+	memberId: number;
 };
 
-const BookMark = ({ playlistId }: BookMarkType) => {
+const BookMark = ({ playlistId, memberId }: BookMarkType) => {
 	const check = false;
 	const isLogin = useSelector(myLogin);
 	const onClickBookMark = () => {
 		console.log('bookmark');
 	};
+	const myvalue = useSelector(myValue);
 	return (
 		<>
-			{isLogin &&
+			{myvalue.memberId !== memberId &&
+				isLogin &&
 				(check ? (
 					<BsBookmarksFill
 						color="#40c057"

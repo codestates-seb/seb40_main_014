@@ -7,7 +7,8 @@ import PlayListInfo from '../components/playlist/PlayListInfo';
 import { musicInfoType } from './MakePlayList';
 
 export type plinfo = {
-	memberId?: string;
+	memberId?: number;
+	name?: string;
 	playlistId?: number;
 	title: string;
 	playlistItems: Array<musicInfoType>;

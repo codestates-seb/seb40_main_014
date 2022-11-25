@@ -3,11 +3,13 @@ import { PlayListInfoProps } from '../../pages/PlayListDetail';
 import Category from '../common/Category';
 import BookMark from '../common/BookMark';
 import Like from '../common/Like';
+import ModifyButton from '../playlistcollection/ModifyButton';
 
 const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
 	console.log(playListInfo);
 	return (
 		<PlayListInfoStyle>
+			<ModifyButton playlistId={playListInfo.playlistId} />
 			<div className="info">
 				<Img>
 					<img
@@ -30,15 +32,18 @@ const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
 					<div className="options">
 						<img
 							src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
-							alt={playListInfo.memberId}
+							alt={playListInfo.name}
 						/>
-						<div>{playListInfo.memberId}</div>
+						<div>{playListInfo.name}</div>
 						<Like
 							playlistId={playListInfo.playlistId}
 							setPlayListInfo={setPlayListInfo}
 						/>
 						<div>{playListInfo.like}</div>
-						<BookMark playlistId={playListInfo.playlistId} />
+						<BookMark
+							playlistId={playListInfo.playlistId}
+							memberId={playListInfo.memberId}
+						/>
 					</div>
 				</Info>
 			</div>
@@ -50,6 +55,7 @@ const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
 export default PlayListInfo;
 
 const PlayListInfoStyle = styled.div`
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	.info {

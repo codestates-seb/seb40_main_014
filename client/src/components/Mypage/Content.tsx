@@ -1,17 +1,17 @@
 import styled from 'styled-components';
-import { musicInfoType } from '../../pages/MakePlayList';
+import { PlaylistInfoType } from '../../pages/PlaylistList';
 
 type ContentType = {
-	videoInfo?: any;
+	playlist: PlaylistInfoType;
 };
 
-const Content = ({ videoInfo }: ContentType) => {
+const Content = ({ playlist }: ContentType) => {
 	return (
 		<ContentStyle>
 			<div className="imageBox">
-				<img src={videoInfo.thumbnail} alt="이미지" />
+				<img src={playlist.playlistItems[0].thumbnail} alt="이미지" />
 			</div>
-			<Name>{videoInfo.title}</Name>
+			<Name>{playlist.title}</Name>
 		</ContentStyle>
 	);
 };
