@@ -1,10 +1,6 @@
 import instance, { isTest } from './root';
 
-export const getPlaylists = async (
-	memberId: number,
-	page?: number,
-	size?: number,
-) => {
+export const getPlaylists = async (page?: number, size?: number) => {
 	try {
 		let result;
 		if (isTest) {

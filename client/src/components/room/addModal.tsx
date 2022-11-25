@@ -7,7 +7,7 @@ const ModalContainer = styled.div`
 	width: 200px;
 	height: 400px;
 	background-color: ${(props) => props.theme.colors.white};
-	box-shadow: #babfc4 0px 5px 12px;
+	box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	overflow: hidden;
 

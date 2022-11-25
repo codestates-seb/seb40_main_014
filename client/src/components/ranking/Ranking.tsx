@@ -14,7 +14,10 @@ const Ranking = ({ ranking }: RankingType) => {
 		<RankingStyle ref={rankingRef}>
 			<div>{ranking.rank}</div>
 			<div>
-				<Link to={`/mypage/${ranking.memberId}`}>{ranking.name}</Link>
+				<Link to={`/mypage/${ranking.memberId}`}>
+					<Img src={ranking.picture} alt="profile" />
+					{ranking.name}
+				</Link>
 			</div>
 			<div>{ranking.follow}</div>
 			<div>{ranking.like}</div>
@@ -26,6 +29,7 @@ export default Ranking;
 
 const RankingStyle = styled.div`
 	display: flex;
+	align-items: center;
 	padding: 16px 0;
 	text-align: center;
 	font-size: 18px;
@@ -37,6 +41,12 @@ const RankingStyle = styled.div`
 	// 닉네임
 	> div:nth-of-type(2) {
 		width: 40%;
+
+		> a {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 
 		a:hover {
 			color: ${(props) => props.theme.colors.gray700};
@@ -54,5 +64,17 @@ const RankingStyle = styled.div`
 	// Mobile
 	@media screen and (max-width: 640px) {
 		font-size: ${(props) => props.theme.fontSize.medium};
+	}
+`;
+
+const Img = styled.img`
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	margin-right: 18px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		display: none;
 	}
 `;

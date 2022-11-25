@@ -7,7 +7,7 @@ type LoginModalType = {
 	handleOpenModal: () => void;
 };
 
-function LoginModal({ handleOpenModal }: LoginModalType) {
+const LoginModal = ({ handleOpenModal }: LoginModalType) => {
 	useEffect(() => {
 		document.body.style.cssText = `
       position: fixed; 
@@ -31,7 +31,7 @@ function LoginModal({ handleOpenModal }: LoginModalType) {
 					</a>
 				</GoogleLogin>
 			</WhiteBox>
-			<Backdrop
+			<ModalBackdrop
 				onClick={(e) => {
 					e.preventDefault();
 					handleOpenModal();
@@ -39,7 +39,7 @@ function LoginModal({ handleOpenModal }: LoginModalType) {
 			/>
 		</ModalStyle>
 	);
-}
+};
 
 export default LoginModal;
 
@@ -137,11 +137,12 @@ const GoogleLogin = styled.button`
 	}
 `;
 
-export const Backdrop = styled.div`
+export const ModalBackdrop = styled.div`
 	width: 100vw;
 	height: 100vh;
 	position: fixed;
 	top: 0;
+	left: 0;
 	background-color: rgba(0, 0, 0, 0.4);
 	z-index: 4444;
 `;

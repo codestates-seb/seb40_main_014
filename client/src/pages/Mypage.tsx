@@ -40,7 +40,7 @@ const Mypage = () => {
 			}
 		});
 
-		getPlaylists(myId, 1, 10).then((res) => {
+		getPlaylists(1, 10).then((res) => {
 			if (res.data) {
 				setContentList((prev) => {
 					prev[0].contents = res.data;
