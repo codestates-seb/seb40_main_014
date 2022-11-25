@@ -1,29 +1,17 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { deletePlayList } from '../../api/playlistApi';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
-import { DefaultBtn, DefaultButton } from '../common/Button';
 import Category from '../common/Category';
+import ModifyButton from './ModifyButton';
 type PlaylistType = {
 	playList: PlaylistInfoType;
 	key?: number;
 };
 const CplayList = ({ playList }: PlaylistType) => {
 	const { playlistId, title, categoryList, playlistItems } = playList;
-	const navigate = useNavigate();
 
-	const onClickDelete = () => {
-		deletePlayList(playlistId).then((res) => console.log(res));
-	};
 	return (
 		<CplayListStyle>
-			<div className="top">
-				<DefaultButton
-					onClick={() => navigate(`/makeplaylist/modify/${playlistId}`)}>
-					수정
-				</DefaultButton>
-				<Deletebutton onClick={onClickDelete}>삭제</Deletebutton>
-			</div>
+			<ModifyButton playlistId={playlistId} />
 			<div className="bottom">
 				<div className="left">
 					<img src={playlistItems[0].thumbnail} alt="이미지" />
@@ -53,22 +41,6 @@ const CplayListStyle = styled.div`
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	box-shadow: 1px 1px 10px #4d0bd133;
 	position: relative;
-
-	.top {
-		position: absolute;
-		top: 7%;
-		right: 3%;
-		display: flex;
-		justify-content: flex-end;
-		align-items: center;
-
-		button {
-			margin-left: 16px;
-			@media (max-width: 800px) {
-				height: 20px;
-			}
-		}
-	}
 
 	.bottom {
 		display: flex;
@@ -102,13 +74,5 @@ const CplayListStyle = styled.div`
 				border-radius: 50%;
 			}
 		}
-	}
-`;
-
-const Deletebutton = styled(DefaultBtn)`
-	font-size: 16px;
-	background-color: #f93c5fe5;
-	:hover {
-		background: linear-gradient(0deg, #fa1a2de9 0%, #fa243ddf 100%);
 	}
 `;

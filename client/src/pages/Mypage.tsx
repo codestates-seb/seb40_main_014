@@ -10,12 +10,12 @@ import {
 	myValue,
 } from '../slices/mySlice';
 import { useState, useEffect } from 'react';
-import { getPlaylists } from '../api/playlistApi';
+import { PlaylistInfoType } from './PlaylistList';
 
 type content = {
 	id: number;
 	title: string;
-	contents: any;
+	contents: Array<PlaylistInfoType>;
 };
 const Mypage = () => {
 	const [contentList, setContentList] = useState<Array<content>>([
@@ -35,35 +35,26 @@ const Mypage = () => {
 				console.log('getUserInfo res', res);
 
 				setUserInfo(res.data);
+				setContentList((prev) => {
+					prev[0].contents = res.data.playlist.data;
+					return prev;
+				});
 			} else {
 				alert(res);
 			}
 		});
-
-		getPlaylists(1, 10).then((res) => {
-			if (res.data) {
-				setContentList((prev) => {
-					prev[0].contents = res.data;
-					return prev;
-				});
-			}
-		});
 	}, []);
-
-	console.log('contentList', contentList);
 
 	return (
 		<MypageStyle>
 			<MypageInfo userInfo={userInfo} myId={myId} />
 			{contentList.map((ele) => {
 				return (
-					ele.contents && (
-						<MypageContents
-							key={ele.id}
-							title={ele.title}
-							contents={ele.contents}
-						/>
-					)
+					<MypageContents
+						key={ele.id}
+						title={ele.title}
+						contents={ele.contents}
+					/>
 				);
 			})}
 		</MypageStyle>

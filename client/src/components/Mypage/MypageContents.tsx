@@ -8,16 +8,17 @@ import { Pagination, Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { PlaylistInfoType } from '../../pages/PlaylistList';
 
 type MypageContentsType = {
 	title?: string;
-	contents?: any;
+	contents?: Array<PlaylistInfoType>;
 	key?: number;
 };
 
 const MypageContents = ({ title, contents }: MypageContentsType) => {
-	console.log('contents', contents);
 	const navigate = useNavigate();
+	const slidesPerView = contents.length < 3 ? contents.length : 3;
 	return (
 		<MypageContentsStyle>
 			<Roof>
@@ -40,13 +41,13 @@ const MypageContents = ({ title, contents }: MypageContentsType) => {
 			<Body>
 				<Swiper
 					modules={[Pagination, Navigation]}
-					slidesPerView={3}
+					slidesPerView={slidesPerView}
 					navigation
 					pagination={{ clickable: true }}>
-					{contents.map((ele) => {
+					{contents.map((playlist) => {
 						return (
-							<SwiperSlide key={ele.videoId}>
-								<Content videoInfo={ele} />
+							<SwiperSlide key={playlist.playlistId}>
+								<Content playlist={playlist} />
 							</SwiperSlide>
 						);
 					})}
