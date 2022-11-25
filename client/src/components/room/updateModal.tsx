@@ -4,6 +4,7 @@ import RoomCreateForm from './RoomCreateForm';
 import RoomUpdateForm from './RoomUpdateForm';
 import { ModalBackdrop } from '../home/LoginModal';
 import { useEffect } from 'react';
+import { IoClose } from 'react-icons/io5';
 
 export type roomInfo = {
 	title: string;
@@ -23,7 +24,7 @@ const ModalContaincer = styled.div`
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	z-index: 2;
+	z-index: 8888;
 `;
 
 const ModalHeader = styled.div`
@@ -84,7 +85,7 @@ const UpdateRoomModal = ({ modalOpen, setModalOpen }) => {
 					</HeaderContent>
 					<HeaderContent>
 						<ExitBtn onClick={onClick}>
-							<ImExit />
+							<IoClose />
 						</ExitBtn>
 					</HeaderContent>
 				</ModalHeader>

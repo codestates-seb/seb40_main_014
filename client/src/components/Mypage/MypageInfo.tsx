@@ -102,7 +102,11 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 export default MypageInfo;
 
 const Wrapper = styled.div`
-	padding: 40px 0;
+	padding: 40px 0 80px;
+	// Mobile
+	@media screen and (max-width: 640px) {
+		padding: 20px 0 60px;
+	}
 `;
 
 const Top = styled.div`
