@@ -25,6 +25,8 @@ public interface PlaylistMapper {
             Playlist playlist = new Playlist();
             playlist.setTitle(playlistPostDto.getTitle());
             playlist.setMember(member);
+            playlist.setCategory(playlistPostDto.getCategory());
+            playlist.setStatus(playlistPostDto.isStatus());
 
             return playlist;
         }
@@ -37,6 +39,9 @@ public interface PlaylistMapper {
             Playlist playlist = new Playlist();
             playlist.setPlaylistId(playlistPatchDto.getPlaylistId());
             playlist.setTitle(playlistPatchDto.getTitle());
+            playlist.setCategory(playlistPatchDto.getCategory());
+            playlist.setStatus(playlistPatchDto.isStatus());
+
             return playlist;
         }
     }
@@ -55,6 +60,8 @@ public interface PlaylistMapper {
             playlistResponseDto.name(playlist.getMember().getName());
 
             playlistResponseDto.like(playlist.getLikes().size());
+            playlistResponseDto.category(playlist.getCategory());
+            playlistResponseDto.status(playlist.isStatus());
 
             playlistResponseDto.playlistItems(playlistItemsToPlaylistItemResponseDto(playlistItems));
             return playlistResponseDto.build();
@@ -75,7 +82,7 @@ public interface PlaylistMapper {
                 .collect(Collectors.toList());
     }
 
-    default LikePlaylistResponseDto playlistToDetailPlaylistResponseDto(Playlist playlist, Boolean likeState) {
+    default LikePlaylistResponseDto playlistToDetailPlaylistResponseDto(Playlist playlist, Boolean likeState, Boolean bookmarkState) {
         if (playlist == null) {
             return null;
         } else {
@@ -86,14 +93,16 @@ public interface PlaylistMapper {
             likePlaylistResponseDto.memberId(playlist.getMember().getMemberId());
             likePlaylistResponseDto.name(playlist.getMember().getName());
             likePlaylistResponseDto.like(playlist.getLikes().size());
-            likePlaylistResponseDto.like(playlist.getLikes().size());
+            likePlaylistResponseDto.category(playlist.getCategory());
+            likePlaylistResponseDto.status(playlist.isStatus());
             likePlaylistResponseDto.likeState(likeState);
+            likePlaylistResponseDto.bookmarkState(bookmarkState);
             likePlaylistResponseDto.playlistItems(playlistItemsToPlaylistItemResponseDto(playlistItems));
             return likePlaylistResponseDto.build();
         }
     }
 
-    default LikePlaylistResponseDto playlistToLikePlaylistResponseDto(Playlist playlist, Boolean likeState) {
+    default LikePlaylistResponseDto playlistToLikePlaylistResponseDto(Playlist playlist, Boolean likeState, Boolean bookmarkState) {
         if (playlist == null) {
             return null;
         } else {
@@ -103,9 +112,12 @@ public interface PlaylistMapper {
             likePlaylistResponseDto.title(playlist.getTitle());
             likePlaylistResponseDto.memberId(playlist.getMember().getMemberId());
             likePlaylistResponseDto.name(playlist.getMember().getName());
+            likePlaylistResponseDto.category(playlist.getCategory());
+            likePlaylistResponseDto.status(playlist.isStatus());
             if (likeState == true){likePlaylistResponseDto.like(playlist.getLikes().size()+1);}
             if (likeState == false){likePlaylistResponseDto.like(playlist.getLikes().size()-1);}
             likePlaylistResponseDto.likeState(likeState);
+            likePlaylistResponseDto.bookmarkState(bookmarkState);
             likePlaylistResponseDto.playlistItems(playlistItemsToPlaylistItemResponseDto(playlistItems));
             return likePlaylistResponseDto.build();
         }

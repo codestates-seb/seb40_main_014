@@ -16,8 +16,11 @@ public class Follow {
     @Id
     private Long followId;
 
-    @Column // 팔로우 버튼을 누르는 Member
+    @Column // 팔로우 버튼을 누르는 MemberId
     private Long followerId;
+
+    @Column // 팔로우를 당하는 MemberId
+    private Long followingId;
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;

@@ -22,6 +22,7 @@ import java.util.*;
 public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final String KEY = "Ranking";
     @Value("${spring.redis.host}")
     private String redisHost;
@@ -61,10 +62,10 @@ public class FollowService {
         else {
             Follow followMember = new Follow();
             followMember.setFollowerId(authMemberId);
-            followMember.setMember(member);
+            followMember.setFollowingId(memberId);
+            followMember.setMember(member); // follow 당하는 멤버를 저장
 
             followRepository.save(followMember);
-            System.out.println("followMember = " + member.getFollows().size());
             zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size()+Score)+1);
         }
     }
@@ -92,9 +93,15 @@ public class FollowService {
 
     public Integer findRank(Member member) {
 
+        Long ranking = Long.valueOf(0);
+
         // index가 0부터 시작하니까 +1
-        Long ranking = zSetOperations.reverseRank(KEY, member.getEmail())+1;
-        if ( ranking>7 ){ return 0; }
+        if (zSetOperations.reverseRank(KEY, member.getEmail()) != null) {
+            ranking = zSetOperations.reverseRank(KEY, member.getEmail())+1;
+            if (ranking > 6) {
+                return 0;
+            }
+        }
         return ranking.intValue();
     }
 
@@ -107,6 +114,22 @@ public class FollowService {
                 .count(); // 0, 1, []
         if (followCount == 1) { return true; }
         return false; // [], 0
+    }
+
+    public Page<Member> followingMembers(Long memberId) {
+
+        List<Member> memberList = new ArrayList<>();
+
+        // 해당 멤버가 행한 follow
+        List<Follow> follwerList = followRepository.findByFollowerId(memberId);
+
+        for (Follow follow : follwerList){
+            Member member = memberRepository.findById(follow.getFollowingId()).get();
+            memberList.add(member);
+        }
+
+        Page<Member> memberPage = new PageImpl<>(memberList);
+        return memberPage;
     }
 
     private Member verifyExistsMember(Long memberId) {

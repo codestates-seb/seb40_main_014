@@ -18,7 +18,7 @@ public class Category {
     @Column
     private String category;
 
-    @ManyToOne
-    @JoinColumn(name = "playlist_id")
-    private Playlist playlist;
+//    @ManyToOne
+//    @JoinColumn(name = "playlist_id")
+//    private Playlist playlist;
 }
