@@ -72,8 +72,8 @@ public class PlaylistService {
 
         Optional.ofNullable(playlist.getTitle()) //제목수정
                 .ifPresent(title -> findPlaylist.setTitle(title));
-        Optional.ofNullable(playlist.getCategory()) //카테고리 수정
-                .ifPresent(categories -> findPlaylist.setCategory(categories));
+        Optional.ofNullable(playlist.getCategoryList()) //카테고리 수정
+                .ifPresent(categories -> findPlaylist.setCategoryList(categories));
         Optional.ofNullable(playlist.isStatus()) //카테고리 수정
                 .ifPresent(status -> findPlaylist.setStatus(status));
 

@@ -14,7 +14,7 @@ public class PlaylistPatchDto {
 
     private List<PlaylistItemDto> playlistItems;
 
-    private List<String> category;
+    private List<String> categoryList;
 
     private boolean status;
 

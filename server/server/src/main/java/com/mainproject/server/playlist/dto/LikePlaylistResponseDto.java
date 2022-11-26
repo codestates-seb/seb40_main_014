@@ -33,7 +33,7 @@ public class LikePlaylistResponseDto {
 
     private List<PlaylistItemResponseDto> playlistItems;
 
-    private List<String> category;
+    private List<String> categoryList;
 
     private LocalDateTime createdAt;
 

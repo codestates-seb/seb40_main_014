@@ -33,7 +33,7 @@ public class Playlist extends Auditable {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Column
-    private List<String> category;
+    private List<String> categoryList;
 
     @OneToMany(mappedBy = "playlist", fetch = FetchType.LAZY)
     private List<Likes> likes  = new ArrayList<>();
