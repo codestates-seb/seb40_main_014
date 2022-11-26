@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImg from '../../assets/images/header-logo.png';
 import { useCallback, useState, useEffect, useRef } from 'react';
-import LoginModal, { Backdrop } from './LoginModal';
+import LoginModal, { ModalBackdrop } from './LoginModal';
 import PcUl from './PcUl';
 import MobileUl from './MobileUl';
 import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
@@ -13,11 +13,11 @@ import { BiUser } from 'react-icons/bi';
 import { MdLogout } from 'react-icons/md';
 import { BsFillTriangleFill } from 'react-icons/bs';
 
-function Header() {
+const Header = () => {
 	const dispatch = useDispatch();
 	const { pathname } = useLocation();
 
-	const { name, picture } = useSelector(myValue);
+	const { memberId, name, picture } = useSelector(myValue);
 	const isLogin = useSelector(myLogin);
 
 	useEffect(() => {
@@ -103,29 +103,27 @@ function Header() {
 				{isLogin ? (
 					<>
 						<Profile ref={profileRef}>
-							<Img
-								style={{ background: `url(${picture.replace('96', '32')})` }}>
-								{/* <div
-									style={{
-										width: '32px',
-										height: '32px',
-										borderRadius: '32px',
-										background: `url(${picture.replace('96', '32')})`,
-									}}
-								/> */}
-							</Img>
+							<Img src={picture} alt="profile" />
 							<div className="on-pc">{name}</div>
 							<ProfileUl ref={profileUlRef}>
 								<Triangle>
 									<BsFillTriangleFill />
 								</Triangle>
 								<MyPageLink>
-									<Link to="/mypage">
+									<Link
+										to={`/mypage/${memberId}`}
+										onClick={() => {
+											profileUlRef.current.style.display = 'none';
+										}}>
 										<BiUser />
 										<span>마이페이지</span>
 									</Link>
 								</MyPageLink>
-								<LogoutButton onClick={handleLogout}>
+								<LogoutButton
+									onClick={() => {
+										handleLogout();
+										profileUlRef.current.style.display = 'none';
+									}}>
 									<MdLogout />
 									<span>로그아웃</span>
 								</LogoutButton>
@@ -143,7 +141,7 @@ function Header() {
 			</HeaderStyle>
 			{isOpenModal && <LoginModal handleOpenModal={handleOpenModal} />}
 			{isOpenSide && (
-				<Backdrop
+				<ModalBackdrop
 					onClick={(e) => {
 						e.preventDefault();
 						handleOpenSide();
@@ -152,7 +150,7 @@ function Header() {
 			)}
 		</>
 	);
-}
+};
 
 export default Header;
 
@@ -167,7 +165,7 @@ const HeaderStyle = styled.div<{ position: string }>`
 	padding: 17px 15vw;
 	background-color: ${(props) => props.theme.colors.headerBackground};
 	font-size: 18px;
-	z-index: 6666;
+	z-index: 3333;
 
 	.on-pc {
 		display: block;
@@ -184,7 +182,7 @@ const HeaderStyle = styled.div<{ position: string }>`
 	@media screen and (max-width: 640px) {
 		padding: 20px 40px;
 		font-size: ${(props) => props.theme.fontSize.medium};
-		z-index: 9999;
+		z-index: 6666;
 
 		.on-pc {
 			display: none;
@@ -205,14 +203,14 @@ const Logo = styled.div`
 export const LoginButton = styled.button`
 	color: ${(props) => props.theme.colors.gray400};
 
-	&:hover {
+	:hover {
 		color: ${(props) => props.theme.colors.white};
 	}
 
 	// Mobile
 	@media screen and (max-width: 640px) {
 		color: ${(props) => props.theme.colors.gray800};
-		&:hover {
+		:hover {
 			color: ${(props) => props.theme.colors.purple};
 		}
 	}
@@ -224,7 +222,7 @@ const Hambuger = styled.div`
 	transition: 0.1s;
 	cursor: pointer;
 
-	&:hover {
+	:hover {
 		color: ${(props) => props.theme.colors.white};
 	}
 `;
@@ -244,17 +242,24 @@ const Profile = styled.div`
 	}
 `;
 
-const Img = styled.div`
-	width: 30px;
-	height: 31px;
-	border-radius: 31px;
-	margin-right: 15px;
+const Img = styled.img`
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	margin-right: 16px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		width: 25px;
+		height: 25px;
+		margin-right: 12px;
+	}
 `;
 
 const ProfileUl = styled.ul`
 	display: none;
 	position: absolute;
-	top: 50px;
+	top: 45px;
 	left: -11px;
 	padding: 20px;
 	width: 150px;
@@ -262,7 +267,7 @@ const ProfileUl = styled.ul`
 	color: ${(props) => props.theme.colors.gray900};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
 	box-shadow: 1px 1px 10px 2px rgba(30, 30, 30, 0.185);
-	z-index: 9999;
+	z-index: 6666;
 
 	> * {
 		padding: 5px;
@@ -271,7 +276,7 @@ const ProfileUl = styled.ul`
 			margin-left: 10px;
 		}
 
-		&:hover {
+		:hover {
 			color: ${(props) => props.theme.colors.gray700};
 		}
 	}
@@ -294,7 +299,7 @@ const Triangle = styled.div`
 	color: ${(props) => props.theme.colors.background};
 	font-size: ${(props) => props.theme.fontSize.small};
 
-	&:hover {
+	:hover {
 		color: ${(props) => props.theme.colors.background};
 	}
 

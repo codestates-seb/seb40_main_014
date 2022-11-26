@@ -76,3 +76,5 @@ instance.interceptors.response.use(
 );
 
 export default instance;
+
+export const isTest = !(root === process.env.REACT_APP_STACK_SERVER);

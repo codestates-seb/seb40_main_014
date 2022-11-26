@@ -7,7 +7,7 @@ export type PcUlType = {
 	currentMenu: string;
 };
 
-function PcUl({ currentMenu }: PcUlType) {
+const PcUl = ({ currentMenu }: PcUlType) => {
 	const [isOpenSearch, setOpenSearch] = useState(false);
 
 	const handleOpenSearch = useCallback(() => {
@@ -42,7 +42,7 @@ function PcUl({ currentMenu }: PcUlType) {
 			</li>
 		</Ul>
 	);
-}
+};
 
 export default PcUl;
 
@@ -56,7 +56,7 @@ const Ul = styled.ul`
 		margin: 0 20px;
 		transition: 0.1s;
 
-		&:hover {
+		:hover {
 			color: ${(props) => props.theme.colors.white};
 		}
 

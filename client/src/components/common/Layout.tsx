@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import Footer from '../home/Footer';
 import Header from '../home/Header';
 import HeaderBottom from '../home/HeaderBottom';
+import ScrollToTopButton from './ScrollToTopButton';
 
-function Layout() {
+const Layout = () => {
 	return (
 		<>
 			<Header />
@@ -13,22 +14,22 @@ function Layout() {
 				<Outlet />
 			</MainWrapper>
 			<Footer />
+			<ScrollToTopButton />
 		</>
 	);
-}
+};
 
 export default Layout;
 
 const MainWrapper = styled.div`
-	/* margin: 40px 300px !important; */
-	margin: 40px 15vw;
+	margin: 60px 15vw;
 
 	// Tablet
 	@media screen and (max-width: 980px) {
-		margin: 40px 80px;
+		margin: 60px 80px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		margin: 40px;
+		margin: 60px 40px;
 	}
 `;

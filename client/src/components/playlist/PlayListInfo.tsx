@@ -2,19 +2,18 @@ import styled from 'styled-components';
 import { PlayListInfoProps } from '../../pages/PlayListDetail';
 import Category from '../common/Category';
 import BookMark from '../common/BookMark';
-import { useSelector } from 'react-redux';
-import { selectBookMarkList, selectLikeList } from '../../slices/mySlice';
 import Like from '../common/Like';
+import ModifyButton from '../playlistcollection/ModifyButton';
 
 const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
-	const likeList = useSelector(selectLikeList);
-	const bookMarkList = useSelector(selectBookMarkList);
+	console.log(playListInfo);
 	return (
 		<PlayListInfoStyle>
+			<ModifyButton playlistId={playListInfo.playlistId} />
 			<div className="info">
 				<Img>
 					<img
-						src={playListInfo.playlist[0].thumbnail}
+						src={playListInfo.playlistItems[0].thumbnail}
 						alt="플레이리스트 이미지"
 					/>
 				</Img>
@@ -33,25 +32,22 @@ const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
 					<div className="options">
 						<img
 							src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
-							alt={playListInfo.memberId}
+							alt={playListInfo.name}
 						/>
-						<div>{playListInfo.memberId}</div>
+						<div>{playListInfo.name}</div>
 						<Like
-							likeList={likeList}
-							playListId={playListInfo.playListId}
-							memberId={playListInfo.memberId}
+							playlistId={playListInfo.playlistId}
 							setPlayListInfo={setPlayListInfo}
 						/>
 						<div>{playListInfo.like}</div>
 						<BookMark
-							bookMarkList={bookMarkList}
-							playListId={playListInfo.playListId}
+							playlistId={playListInfo.playlistId}
 							memberId={playListInfo.memberId}
 						/>
 					</div>
 				</Info>
 			</div>
-			<div className="total">{playListInfo.playlist.length} 곡</div>
+			<div className="total">{playListInfo.playlistItems.length} 곡</div>
 		</PlayListInfoStyle>
 	);
 };
@@ -59,6 +55,7 @@ const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
 export default PlayListInfo;
 
 const PlayListInfoStyle = styled.div`
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	.info {

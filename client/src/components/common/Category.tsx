@@ -5,6 +5,7 @@ type CategoryProps = {
 	height?: string;
 	children?: any;
 	category?: string;
+	swiper?: boolean;
 };
 
 const Category = (props: CategoryProps) => {
@@ -19,15 +20,30 @@ const CategoryStyle = styled.button<CategoryProps>`
 	font-size: ${(props) => props.theme.fontSize.xSmall};
 	height: ${(props) => (props.height ? props.height : `20px`)};
 	color: white;
-	/* bgcolor 임시로 해놨습니다. */
 	background-color: ${(props) =>
 		props.category === '발라드'
-			? props.theme.colors.orange
+			? '#74b816'
+			: props.category === '댄스'
+			? '#f03e3e'
 			: props.category === '힙합'
-			? props.theme.colors.purple
+			? '#f76707'
+			: props.category === 'R&B'
+			? '#1c7ed6'
+			: props.category === '인디'
+			? '#37b24d'
+			: props.category === '록'
+			? '#e64980'
+			: props.category === '트로트'
+			? '#f59f00'
+			: props.category === 'POP'
+			? '#7048e8'
 			: props.category === 'OST'
-			? props.theme.colors.pink
+			? '#ae3ec9'
 			: props.theme.colors.gray300};
-	/* border-radius: ${(props) => props.theme.radius.smallRadius}; */
 	border-radius: 3px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: ${(props) => props.swiper && '10px'};
+	}
 `;

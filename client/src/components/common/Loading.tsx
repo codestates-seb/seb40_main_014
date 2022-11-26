@@ -21,7 +21,7 @@ const Background = styled.div`
 	top: 0;
 	left: 0;
 	background: #ffffffb7;
-	z-index: 999;
+	z-index: 9998;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -33,5 +33,5 @@ const LottieContainer = styled.div`
 	height: 140px;
 	margin: 0 auto;
 	position: absolute;
-	z-index: 1000;
+	z-index: 9999;
 `;

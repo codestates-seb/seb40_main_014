@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-function HeaderBottom() {
+const HeaderBottom = () => {
 	return <HeaderBottomStyle />;
-}
+};
 
 export default HeaderBottom;
 

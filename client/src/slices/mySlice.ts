@@ -1,42 +1,42 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store/store';
 
-type InitialStateValue = {
+export type MyInitialStateValue = {
 	memberId: number;
-	follow: number;
-	like: number;
+	email: string;
 	name: string;
+	picture: string;
+	grade: string;
+	follow: number;
+	followState: boolean;
+	rank: number;
+	role: string;
 	createdAt: string;
 	modifiedAt: string;
-	grade: string;
-	rank: number;
-	picture: string;
-	likeList?: Array<number>;
-	bookMarkList?: Array<number>;
 };
 
-type InitialState = {
+type MyInitialState = {
 	isLogin: boolean;
-	value: InitialStateValue;
+	value: MyInitialStateValue;
 };
 
-const initialStateValue: InitialStateValue = {
+export const myInitialStateValue: MyInitialStateValue = {
 	memberId: 0,
-	follow: 0,
-	like: 0,
+	email: '',
 	name: '',
+	picture: '',
+	grade: '',
+	follow: 0,
+	followState: false,
+	rank: 0,
+	role: '',
 	createdAt: '',
 	modifiedAt: '',
-	grade: '',
-	rank: 0,
-	picture: '',
-	likeList: [],
-	bookMarkList: [],
 };
 
-const initialState: InitialState = {
+const initialState: MyInitialState = {
 	isLogin: false,
-	value: initialStateValue,
+	value: myInitialStateValue,
 };
 
 const mySlice = createSlice({
@@ -49,22 +49,12 @@ const mySlice = createSlice({
 		},
 		myLogout: (state) => {
 			state.isLogin = false;
-			state.value = initialStateValue;
-		},
-		changeLikeList: (state, action) => {
-			state.value.likeList = action.payload;
-		},
-		changeBookMarkList: (state, action) => {
-			state.value.bookMarkList = action.payload;
+			state.value = myInitialStateValue;
 		},
 	},
 });
 
 export default mySlice.reducer;
-export const { myInfo, myLogout, changeLikeList, changeBookMarkList } =
-	mySlice.actions;
+export const { myInfo, myLogout } = mySlice.actions;
 export const myValue = (state: RootState) => state.my.value;
 export const myLogin = (state: RootState) => state.my.isLogin;
-export const selectLikeList = (state: RootState) => state.my.value.likeList;
-export const selectBookMarkList = (state: RootState) =>
-	state.my.value.bookMarkList;

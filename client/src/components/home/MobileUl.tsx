@@ -10,7 +10,11 @@ export type MobileUlType = {
 	handleOpenSide: () => void;
 };
 
-function MobileUl({ currentMenu, setOpenModal, handleOpenSide }: MobileUlType) {
+const MobileUl = ({
+	currentMenu,
+	setOpenModal,
+	handleOpenSide,
+}: MobileUlType) => {
 	const { name } = useSelector(myValue);
 
 	return (
@@ -67,7 +71,7 @@ function MobileUl({ currentMenu, setOpenModal, handleOpenSide }: MobileUlType) {
 			</li>
 		</Ul>
 	);
-}
+};
 
 export default MobileUl;
 
@@ -84,14 +88,14 @@ const Ul = styled.ul`
 	color: ${(props) => props.theme.colors.gray800};
 	animation: open-slide 0.5s ease-in-out;
 
-	z-index: 8888;
+	z-index: 5555;
 
 	li {
 		padding: 5px 0;
 		margin: 10px 0;
 		transition: 0.1s;
 
-		&:hover {
+		:hover {
 			color: ${(props) => props.theme.colors.purple};
 		}
 

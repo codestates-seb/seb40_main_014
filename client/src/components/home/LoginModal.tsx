@@ -1,14 +1,28 @@
 import styled from 'styled-components';
 import { FcGoogle } from 'react-icons/fc';
 import { root } from '../../api/root';
+import { useEffect } from 'react';
 
 type LoginModalType = {
 	handleOpenModal: () => void;
 };
 
-function LoginModal({ handleOpenModal }: LoginModalType) {
+const LoginModal = ({ handleOpenModal }: LoginModalType) => {
+	useEffect(() => {
+		document.body.style.cssText = `
+      position: fixed; 
+      top: -${window.scrollY}px;
+      overflow-y: scroll;
+      width: 100%;`;
+		return () => {
+			const scrollY = document.body.style.top;
+			document.body.style.cssText = '';
+			window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+		};
+	}, []);
+
 	return (
-		<LoginModalStyle>
+		<ModalStyle>
 			<WhiteBox>
 				<H2>로그인</H2>
 				<GoogleLogin>
@@ -17,19 +31,19 @@ function LoginModal({ handleOpenModal }: LoginModalType) {
 					</a>
 				</GoogleLogin>
 			</WhiteBox>
-			<Backdrop
+			<ModalBackdrop
 				onClick={(e) => {
 					e.preventDefault();
 					handleOpenModal();
 				}}
 			/>
-		</LoginModalStyle>
+		</ModalStyle>
 	);
-}
+};
 
 export default LoginModal;
 
-const LoginModalStyle = styled.div`
+export const ModalStyle = styled.div`
 	width: 100vw;
 	height: 100vh;
 	display: flex;
@@ -37,10 +51,11 @@ const LoginModalStyle = styled.div`
 	align-items: center;
 	position: fixed;
 	top: 0;
-	z-index: 8888;
+	left: 0;
+	z-index: 5555;
 `;
 
-const WhiteBox = styled.div`
+export const WhiteBox = styled.div`
 	width: 500px;
 	height: 300px;
 	padding: 46px 70px;
@@ -50,7 +65,7 @@ const WhiteBox = styled.div`
 	box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
 	background-color: ${(props) => props.theme.colors.white};
 	border-radius: ${(props) => props.theme.radius.largeRadius};
-	z-index: 8888;
+	z-index: 5555;
 
 	// Tablet
 	@media screen and (max-width: 980px) {
@@ -65,9 +80,9 @@ const WhiteBox = styled.div`
 	}
 `;
 
-const H2 = styled.h2`
+export const H2 = styled.h2`
 	font-size: ${(props) => props.theme.fontSize.xLarge};
-	font-weight: 700;
+	font-weight: 600;
 	margin-bottom: 46px;
 
 	// Mobile
@@ -84,7 +99,7 @@ const GoogleLogin = styled.button`
 	font-size: 18px;
 	transition: 0.2s;
 
-	&:hover {
+	:hover {
 		background-color: ${(props) => props.theme.colors.gray50};
 	}
 
@@ -122,11 +137,12 @@ const GoogleLogin = styled.button`
 	}
 `;
 
-export const Backdrop = styled.div`
+export const ModalBackdrop = styled.div`
 	width: 100vw;
 	height: 100vh;
 	position: fixed;
 	top: 0;
+	left: 0;
 	background-color: rgba(0, 0, 0, 0.4);
-	z-index: 7777;
+	z-index: 4444;
 `;

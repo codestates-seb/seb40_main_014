@@ -1,42 +1,35 @@
 import styled from 'styled-components';
+import { PlaylistInfoType } from '../../pages/PlaylistList';
 
 type ContentType = {
-	name?: string;
+	playlist: PlaylistInfoType;
 };
 
-const Content = ({ name }: ContentType) => {
+const Content = ({ playlist }: ContentType) => {
 	return (
 		<ContentStyle>
-			<div className="imageBox">
-				<img
-					src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
-					alt="이미지"
-				/>
-			</div>
-			<Name>{name}</Name>
+			<Img src={playlist.playlistItems[0].thumbnail} alt="thumbnail" />
+			<Name>{playlist.title}</Name>
 		</ContentStyle>
 	);
 };
 
 export default Content;
 
-const ContentStyle = styled.div`
-	.imageBox {
-		padding: 5%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		img {
-			width: 60%;
-			object-fit: cover;
-			border-radius: 50%;
-		}
-	}
+const ContentStyle = styled.div``;
+
+const Img = styled.img`
+	width: 100%;
+	margin-bottom: 15px;
+	border-radius: ${(props) => props.theme.radius.smallRadius};
 `;
+
 const Name = styled.div`
-	margin-bottom: 20px;
-	padding-bottom: 20px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	text-align: center;
+	margin-bottom: 45px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 14px;
+	}
 `;

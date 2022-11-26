@@ -21,10 +21,11 @@ const MusicList = ({ playListInfo, plList, setPlList }: PlayListInfoProps) => {
 		items.splice(result.destination.index, 0, reorderedItem);
 		setPlList(items);
 	};
+
 	return (
 		<MusicListStyle>
-			{pathname.split('/')[1] === '/playlistdetail' ? (
-				playListInfo.playlist.map((ele, idx) => (
+			{pathname.split('/')[1] === 'playlistdetail' ? (
+				playListInfo.playlistItems.map((ele, idx) => (
 					<a key={idx} href={ele.url} target="_blank" rel="noreferrer">
 						<Music pathname={pathname}>
 							<div className="left">
@@ -48,8 +49,8 @@ const MusicList = ({ playListInfo, plList, setPlList }: PlayListInfoProps) => {
 								ref={provided.innerRef}>
 								{plList &&
 									plList.map(
-										({ vedioId, thumbnail, title, channelTitle }, idx) => (
-											<Draggable key={vedioId} draggableId={title} index={idx}>
+										({ videoId, thumbnail, title, channelTitle }, idx) => (
+											<Draggable key={videoId} draggableId={title} index={idx}>
 												{(provided) => (
 													<Music
 														pathname={pathname}
@@ -99,9 +100,9 @@ const Music = styled.div<{ pathname: string }>`
 	background-color: ${(props) => props.theme.colors.white};
 	border-bottom: 1px solid ${(props) => props.theme.colors.gray400};
 
-	&:hover {
+	:hover {
 		cursor: ${(props) =>
-			props.pathname === '/playlistdetail'
+			props.pathname.split('/')[1] === 'playlistdetail'
 				? `pointer`
 				: `url(${arrowCursor}) 15 15, grab`};
 		background-color: ${(props) => props.theme.colors.lightPurple};
@@ -154,7 +155,7 @@ const Music = styled.div<{ pathname: string }>`
 
 	.deleteBtn {
 		color: gray;
-		&:hover {
+		:hover {
 			cursor: pointer;
 			color: ${(props) => props.theme.colors.purple};
 		}
