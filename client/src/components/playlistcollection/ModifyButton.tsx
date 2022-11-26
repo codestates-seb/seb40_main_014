@@ -1,12 +1,19 @@
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { deletePlayList } from '../../api/playlistApi';
+import { myValue } from '../../slices/mySlice';
 
 const ModifyButton = ({ playlistId }) => {
 	const navigate = useNavigate();
+	const loginId = useSelector(myValue).memberId;
 
 	const onClickDelete = () => {
-		deletePlayList(playlistId).then((res) => console.log(res));
+		deletePlayList(playlistId).then((res) => {
+			if (res === 'success playlist deleted') {
+				navigate(`/mypage/${loginId}`);
+			}
+		});
 	};
 	return (
 		<ModifyButtonStyle>

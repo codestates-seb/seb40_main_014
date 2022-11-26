@@ -16,7 +16,8 @@ export type plinfo = {
 	// status: string;
 	status: boolean;
 	like?: number;
-	likeCheck?: boolean;
+	likeState?: boolean;
+	bookmarkState?: boolean;
 };
 
 export type PlayListInfoProps = {

@@ -1,28 +1,53 @@
 import { Dispatch, SetStateAction } from 'react';
 import { HiHeart, HiOutlineHeart } from 'react-icons/hi';
-import { useSelector, useDispatch } from 'react-redux';
-import { patchLike } from '../../api/playlistApi';
+import { postLike } from '../../api/playlistApi';
 import { plinfo } from '../../pages/PlayListDetail';
-import { myLogin } from '../../slices/mySlice';
 
-type LikeType = {
+export type LikebookmarkType = {
 	playlistId: number;
-	setPlayListInfo?: Dispatch<SetStateAction<plinfo>>;
+	setPlayListInfo: Dispatch<SetStateAction<plinfo>>;
+	isLogin: boolean;
+	loginId: number;
+	memberId: number;
+	likeState?: boolean;
+	bookmarkState?: boolean;
 };
 
-const Like = ({ playlistId, setPlayListInfo }: LikeType) => {
-	const check = false;
-	const isLogin = useSelector(myLogin);
+const Like = ({
+	playlistId,
+	setPlayListInfo,
+	isLogin,
+	loginId,
+	memberId,
+	likeState,
+}: LikebookmarkType) => {
 	const onClickLike = () => {
-		console.log('like');
+		postLike(playlistId).then((res) =>
+			setPlayListInfo((prev) => {
+				const copy = { ...prev };
+				copy.like = res.data.like;
+				copy.likeState = res.data.likeState;
+				return copy;
+			}),
+		);
 	};
 	return (
 		<>
-			{isLogin ? (
-				check ? (
-					<HiHeart color="#f783ac" size="24" onClick={onClickLike} />
+			{loginId !== memberId && isLogin ? (
+				likeState ? (
+					<HiHeart
+						color="#f783ac"
+						size="24"
+						onClick={onClickLike}
+						cursor={'pointer'}
+					/>
 				) : (
-					<HiOutlineHeart color="#f783ac" size="24" onClick={onClickLike} />
+					<HiOutlineHeart
+						color="#f783ac"
+						size="24"
+						onClick={onClickLike}
+						cursor={'pointer'}
+					/>
 				)
 			) : (
 				<HiHeart color="#f783ac" size="24" />

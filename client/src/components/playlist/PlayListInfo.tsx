@@ -4,12 +4,29 @@ import Category from '../common/Category';
 import BookMark from '../common/BookMark';
 import Like from '../common/Like';
 import ModifyButton from '../playlistcollection/ModifyButton';
+import { useSelector } from 'react-redux';
+import { myLogin, myValue } from '../../slices/mySlice';
+import { useNavigate } from 'react-router-dom';
 
 const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
-	console.log(playListInfo);
+	const isLogin = useSelector(myLogin);
+	const loginId = useSelector(myValue).memberId;
+	const navigate = useNavigate();
+
+	const likeBookmarkProps = {
+		setPlayListInfo,
+		isLogin,
+		loginId,
+		memberId: playListInfo.memberId,
+		playlistId: playListInfo.playlistId,
+		likeState: playListInfo.likeState,
+		bookmarkState: playListInfo.bookmarkState,
+	};
 	return (
 		<PlayListInfoStyle>
-			<ModifyButton playlistId={playListInfo.playlistId} />
+			{loginId === playListInfo.memberId && (
+				<ModifyButton playlistId={playListInfo.playlistId} />
+			)}
 			<div className="info">
 				<Img>
 					<img
@@ -17,6 +34,7 @@ const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
 						alt="플레이리스트 이미지"
 					/>
 				</Img>
+
 				<Info>
 					<div className="title">
 						{playListInfo.title}
@@ -34,16 +52,13 @@ const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
 							src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
 							alt={playListInfo.name}
 						/>
-						<div>{playListInfo.name}</div>
-						<Like
-							playlistId={playListInfo.playlistId}
-							setPlayListInfo={setPlayListInfo}
-						/>
+						<button
+							onClick={() => navigate(`/mypage/${playListInfo.memberId}`)}>
+							{playListInfo.name}
+						</button>
+						<Like {...likeBookmarkProps} />
 						<div>{playListInfo.like}</div>
-						<BookMark
-							playlistId={playListInfo.playlistId}
-							memberId={playListInfo.memberId}
-						/>
+						<BookMark {...likeBookmarkProps} />
 					</div>
 				</Info>
 			</div>
@@ -123,6 +138,10 @@ const Info = styled.div`
 			object-fit: cover;
 		}
 		div {
+			margin-left: 5px;
+			margin-right: 20px;
+		}
+		button {
 			margin-left: 5px;
 			margin-right: 20px;
 		}

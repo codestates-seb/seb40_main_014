@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImg from '../../assets/images/header-logo.png';
 import { useCallback, useState, useEffect, useRef } from 'react';
@@ -16,6 +16,7 @@ import { BsFillTriangleFill } from 'react-icons/bs';
 const Header = () => {
 	const dispatch = useDispatch();
 	const { pathname } = useLocation();
+	const navigate = useNavigate();
 
 	const { memberId, name, picture } = useSelector(myValue);
 	const isLogin = useSelector(myLogin);
@@ -40,6 +41,13 @@ const Header = () => {
 			localStorage.removeItem('refreshToken');
 			dispatch(myLogout());
 		});
+	};
+
+	//마이페이지 이동
+	const handleMypage = () => {
+		navigate(`/mypage/${memberId}`);
+		profileUlRef.current.style.display = 'none';
+		window.location.reload();
 	};
 
 	const handleOpenModal = useCallback(() => {
@@ -110,14 +118,10 @@ const Header = () => {
 									<BsFillTriangleFill />
 								</Triangle>
 								<MyPageLink>
-									<Link
-										to={`/mypage/${memberId}`}
-										onClick={() => {
-											profileUlRef.current.style.display = 'none';
-										}}>
-										<BiUser />
-										<span>마이페이지</span>
-									</Link>
+									<BiUser />
+									<span role="presentation" onClick={handleMypage}>
+										마이페이지
+									</span>
 								</MyPageLink>
 								<LogoutButton
 									onClick={() => {

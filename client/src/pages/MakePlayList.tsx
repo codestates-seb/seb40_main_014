@@ -70,7 +70,6 @@ const MakePlayList = () => {
 		title: plTitle,
 		playlistItems: plList,
 		categoryList,
-		// status: status ? 'public' : 'private',
 		status: status,
 	};
 
