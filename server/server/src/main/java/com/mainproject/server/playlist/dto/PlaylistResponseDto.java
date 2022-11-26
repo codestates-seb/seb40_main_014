@@ -28,7 +28,7 @@ public class PlaylistResponseDto {
     
     private List<PlaylistItemResponseDto> playlistItems;
 
-    private List<Category> categoryList;
+    private List<String> category;
 
     private LocalDateTime createdAt;
 

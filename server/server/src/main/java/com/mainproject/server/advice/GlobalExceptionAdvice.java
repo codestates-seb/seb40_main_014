@@ -17,7 +17,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import javax.validation.ConstraintViolationException;
 
 @Slf4j
-@RestControllerAdvice
+//@RestControllerAdvice // 에러 로그 확인이 어려워서 주석처리
 public class GlobalExceptionAdvice {
 
     @ExceptionHandler

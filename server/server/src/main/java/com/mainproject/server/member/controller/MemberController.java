@@ -124,4 +124,16 @@ public class MemberController {
 
         return new ResponseEntity(multiResponseDto, HttpStatus.OK);
     }
+    @GetMapping("/following/{member-id}")
+    public ResponseEntity followingMembers(@PathVariable("member-id") Long memberId) {
+
+        Page<Member> followingMembers = followService.followingMembers(memberId);
+
+        List<Member> members = followingMembers.getContent();
+
+        MultiResponseDto<SimpleMemberResponseDto> multiResponseDto =
+                new MultiResponseDto<>(mapper.memberListToSimpleMemberResponseDtoList(members), followingMembers);
+
+        return new ResponseEntity(multiResponseDto, HttpStatus.OK);
+    }
 }

@@ -27,13 +27,15 @@ public class LikePlaylistResponseDto {
 
     private int like;
 
+    private Boolean likeState;
+
+    private Boolean bookmarkState;
+
     private List<PlaylistItemResponseDto> playlistItems;
 
-    private List<Category> categoryList;
+    private List<String> category;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
-
-    private Boolean likeState;
 }

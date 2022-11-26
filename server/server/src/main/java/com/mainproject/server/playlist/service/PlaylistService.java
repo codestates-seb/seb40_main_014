@@ -3,18 +3,19 @@ package com.mainproject.server.playlist.service;
 import com.mainproject.server.exception.BusinessException;
 import com.mainproject.server.exception.ExceptionCode;
 import com.mainproject.server.member.entity.Member;
-import com.mainproject.server.member.repository.MemberRepository;
-import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.dto.PlaylistPatchDto;
 import com.mainproject.server.playlist.dto.PlaylistPostDto;
+import com.mainproject.server.playlist.entity.Bookmark;
 import com.mainproject.server.playlist.entity.Likes;
 import com.mainproject.server.playlist.entity.Playlist;
 import com.mainproject.server.playlist.entity.PlaylistItem;
+import com.mainproject.server.playlist.repository.BookmarkRepository;
 import com.mainproject.server.playlist.repository.LikesRepository;
 import com.mainproject.server.playlist.repository.PlaylistItemRepository;
 import com.mainproject.server.playlist.repository.PlaylistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -31,10 +32,9 @@ import java.util.Optional;
 public class PlaylistService {
 
     private final PlaylistRepository playlistRepository;
-    private final MemberRepository memberRepository;
-    private final MemberService memberService;
     private final PlaylistItemRepository playlistItemRepository;
     private final LikesRepository likeRepository;
+    private final BookmarkRepository bookmarkRepository;
     private final String KEY = "Ranking";
 
     @Resource(name = "redisTemplate")
@@ -72,10 +72,14 @@ public class PlaylistService {
 
         Optional.ofNullable(playlist.getTitle()) //제목수정
                 .ifPresent(title -> findPlaylist.setTitle(title));
-//        Optional.ofNullable(playlist.getVideoId()) //영상수정
-//                .ifPresent(videoId -> findPlaylist.setVideoId(videoId));
-        Optional.ofNullable(playlist.getCategoryList()) //카테고리 수정
-                .ifPresent(categories -> findPlaylist.setCategoryList(categories));
+        Optional.ofNullable(playlist.getCategory()) //카테고리 수정
+                .ifPresent(categories -> findPlaylist.setCategory(categories));
+        Optional.ofNullable(playlist.isStatus()) //카테고리 수정
+                .ifPresent(status -> findPlaylist.setStatus(status));
+
+        for (int i=0; i<findPlaylist.getPlaylistItems().size(); i++) {
+            playlistItemRepository.delete(findPlaylist.getPlaylistItems().get(i));
+        }
 
         List<PlaylistItem> playlistItemList = new ArrayList<>();
         for (int i=0; i<playlistPatchDto.getPlaylistItems().size(); i++) {
@@ -127,7 +131,7 @@ public class PlaylistService {
         Member member = playlist.getMember();
 
         // 본인 플레이리스트에 좋아요 누르는 경우
-        if (member.getMemberId() == authMemberId){ throw new BusinessException(ExceptionCode.BAD_REQUEST);}
+        //if (member.getMemberId() == authMemberId){ throw new BusinessException(ExceptionCode.BAD_REQUEST);}
 
         // 플레이리스트 like의 합
         List<Playlist> membersPlaylist = member.getPlaylists();
@@ -155,7 +159,6 @@ public class PlaylistService {
             likeRepository.delete(LikePlaylist);
             // 랭킹합산에서 점수 - 1
             zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size()+Score-1));
-            member.getFollows().size();
         }
         // Like 처리 LikeCount != 1
         else {
@@ -180,6 +183,73 @@ public class PlaylistService {
                 .count(); // 0, 1
         if (LikeCount == 1) { return true; }
         return false; // [], 0
+    }
+
+    public void bookmarkPlaylist(Long playlistId, Long authMemberId) {
+
+        // bookmark 해줄 플레이리스트
+        Playlist playlist = verifiedPlaylist(playlistId);
+
+        // 플레이리스트의 주인인 회원
+//        Member member = playlist.getMember();
+
+        // 본인 플레이리스트를 북마크 누르는 경우
+        //if (member.getMemberId() == authMemberId){ throw new BusinessException(ExceptionCode.BAD_REQUEST);}
+
+        Long BookmarkCount = bookmarkRepository.findByPlaylist(playlist)// 해당 Playlist를 Bookmark한 entity
+                .stream()
+                .filter(f -> f.getBookmarkMemberId().equals(authMemberId)) // 그안에 내가 있는 경우
+                .count(); // 0, 1
+
+        // Bookmark 해제
+        if (BookmarkCount == 1){
+            // 내가 Bookmark한 경우를 찾기
+            Bookmark bookmarkPlaylist = bookmarkRepository.findByPlaylist(playlist)
+                    .stream()
+                    .filter(f -> f.getBookmarkMemberId().equals(authMemberId))
+                    .findAny().get();
+
+            // Repository에서 삭제
+            bookmarkRepository.delete(bookmarkPlaylist);
+        }
+        // Bookmark 처리 Count != 1
+        else {
+            // Like
+            Bookmark bookmarkPlaylist = new Bookmark();
+            bookmarkPlaylist.setBookmarkMemberId(authMemberId);
+            bookmarkPlaylist.setPlaylist(playlist);
+
+            // Repository에 저장
+            bookmarkRepository.save(bookmarkPlaylist);
+        }
+    }
+
+    public Boolean BookmarkState(Long playlistId, Long authMemberId){
+        Playlist playlist = verifiedPlaylist(playlistId);
+
+        Long BookmarkCount = bookmarkRepository.findByPlaylist(playlist)// 해당 Playlist를 Bookmark한 entity
+                .stream()
+                .filter(f -> f.getBookmarkMemberId().equals(authMemberId)) // 그안에 내가 있는 경우
+                .count(); // 0, 1
+        if (BookmarkCount == 1) { return true; }
+        return false; // [], 0
+    }
+
+    public Page<Playlist> getBookmarkPlaylists(Long memberId) {
+
+        List<Playlist> playlists = new ArrayList<>();
+
+        // 해당 멤버가 행한 Bookmark
+        List<Bookmark> bookmarkList = bookmarkRepository.findByBookmarkMemberId(memberId);
+
+        // 북마크에 있는 플레이리스트를 List에 저장
+        for (Bookmark bookmark : bookmarkList){
+            Playlist playlist = playlistRepository.findById(bookmark.getPlaylist().getPlaylistId()).get();
+            playlists.add(playlist);
+        }
+        Page<Playlist> playlistPage = new PageImpl<>(playlists);
+
+        return playlistPage;
     }
 
     //존재하는 플리인지 검증
