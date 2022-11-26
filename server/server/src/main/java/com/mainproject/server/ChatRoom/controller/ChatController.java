@@ -121,13 +121,6 @@ public class ChatController {
 
         template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
     }
-
-    @GetMapping("/chat/userList")
-    @ResponseBody
-    public List<String> userList(ChatRoom chatRoom) {
-
-        return chatRoom.getUserlist();
-    }
 }
 
 //재시도하는 로직 브라우저 닫히면 다시 붙을 수 있는 retry 로직 필요
