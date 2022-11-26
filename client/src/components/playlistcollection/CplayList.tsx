@@ -3,22 +3,46 @@ import styled from 'styled-components';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import ModifyButton from './ModifyButton';
 type PlaylistType = {
-	playList: PlaylistInfoType;
-	key?: number;
+	playList?: PlaylistInfoType;
+	followList?: any;
+	id: number;
+	userId: number;
+	memberId: number;
 };
-const CplayList = ({ playList }: PlaylistType) => {
-	const { playlistId, title, playlistItems } = playList;
-
+const CplayList = ({
+	playList,
+	followList,
+	id,
+	userId,
+	memberId,
+}: PlaylistType) => {
 	return (
 		<CplayListStyle>
 			<div>
-				<Img src={playlistItems[0].thumbnail} alt="thumbnail" />
-				<Title>
-					<Link to={`/playlistdetail/${playlistId}`}>{title}</Link>
-				</Title>
+				{id === 3 ? (
+					<>
+						<Img src={followList.picture} alt="userPicture" />
+						<Title>
+							<Link to={`/mypage/${followList.memberId}`}>
+								{followList.name}
+							</Link>
+						</Title>
+					</>
+				) : (
+					<>
+						<Img src={playList.playlistItems[0].thumbnail} alt="thumbnail" />
+						<Title>
+							<Link to={`/playlistdetail/${playList.playlistId}`}>
+								{playList.title}
+							</Link>
+						</Title>
+					</>
+				)}
 			</div>
 			<div>
-				<ModifyButton playlistId={playlistId} />
+				{id === 1 && userId === memberId && (
+					<ModifyButton playlistId={playList.playlistId} />
+				)}
 			</div>
 		</CplayListStyle>
 	);

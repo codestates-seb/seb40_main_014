@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
-import { IoMdHeart } from 'react-icons/io';
+import { HiHeart } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import Category from '../common/Category';
 import {
@@ -55,7 +55,7 @@ const Playlist = ({ playList, swiper }: PlaylistType) => {
 						))}
 				</Categorys>
 				<Like swiper={swiper}>
-					<IoMdHeart />
+					<HiHeart color="#f783ac" />
 					{like}
 				</Like>
 			</Detail>

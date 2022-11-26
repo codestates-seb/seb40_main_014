@@ -1,0 +1,98 @@
+{
+	"mypage": {
+		"data": {
+			"createdAt": "2022-11-25T07:32:03",
+			"email": "moonjh9392@gmail.com",
+			"follow": 0,
+			"followState": false,
+			"grade": "silver",
+			"modifiedAt": "2022-11-25T07:32:02",
+			"name": "j moon",
+			"picture": "https://lh3.googleusercontent.com/a/ALm5wu2tKTI-kxKlJlT1OBD8ZuEwTTTSvd-1wvdPFdofuQ=s96-c",
+			"playlist": {
+				"data": [
+					{
+						"category": null,
+						"createdAt": "2022-11-25T07:32:23",
+						"modifiedAt": "2022-11-25T07:32:23",
+						"playlistId": 1,
+						"playlistItems": [
+							{
+								"channelTitle": "김진짜 Real KIM",
+								"thumbnail": "https://i.ytimg.com/vi/Er0jdfJZzzk/hqdefault.jpg",
+								"title": "우리가 역대급 경기력을 보일 수 있었던 이유",
+								"url": "https://www.youtube.com/watch?v=Er0jdfJZzzk",
+								"videoId": "Er0jdfJZzzk"
+							}
+						],
+						"status": false,
+						"thumbnail": null,
+						"title": "ㄴㅇㄹ"
+					},
+					{
+						"category": null,
+						"createdAt": "2022-11-25T07:32:23",
+						"modifiedAt": "2022-11-25T07:32:23",
+						"playlistId": 2,
+						"playlistItems": [
+							{
+								"channelTitle": "김진짜 Real KIM",
+								"thumbnail": "https://i.ytimg.com/vi/Er0jdfJZzzk/hqdefault.jpg",
+								"title": "우리가 역대급 경기력을 보일 수 있었던 이유",
+								"url": "https://www.youtube.com/watch?v=Er0jdfJZzzk",
+								"videoId": "Er0jdfJZzzk"
+							}
+						],
+						"status": false,
+						"thumbnail": null,
+						"title": "ㄴㅇㄹ"
+					},
+					{
+						"category": null,
+						"createdAt": "2022-11-25T07:32:23",
+						"modifiedAt": "2022-11-25T07:32:23",
+						"playlistId": 3,
+						"playlistItems": [
+							{
+								"channelTitle": "김진짜 Real KIM",
+								"thumbnail": "https://i.ytimg.com/vi/Er0jdfJZzzk/hqdefault.jpg",
+								"title": "우리가 역대급 경기력을 보일 수 있었던 이유",
+								"url": "https://www.youtube.com/watch?v=Er0jdfJZzzk",
+								"videoId": "Er0jdfJZzzk"
+							}
+						],
+						"status": false,
+						"thumbnail": null,
+						"title": "ㄴㅇㄹ"
+					},
+					{
+						"category": null,
+						"createdAt": "2022-11-25T07:32:23",
+						"modifiedAt": "2022-11-25T07:32:23",
+						"playlistId": 4,
+						"playlistItems": [
+							{
+								"channelTitle": "김진짜 Real KIM",
+								"thumbnail": "https://i.ytimg.com/vi/Er0jdfJZzzk/hqdefault.jpg",
+								"title": "우리가 역대급 경기력을 보일 수 있었던 이유",
+								"url": "https://www.youtube.com/watch?v=Er0jdfJZzzk",
+								"videoId": "Er0jdfJZzzk"
+							}
+						],
+						"status": false,
+						"thumbnail": null,
+						"title": "ㄴㅇㄹ"
+					}
+				],
+				"pageInfo": {
+					"page": 1,
+					"size": 4,
+					"totalElements": 4,
+					"totalPages": 1
+				}
+			},
+			"rank": null,
+			"role": "USER"
+		}
+	}
+}

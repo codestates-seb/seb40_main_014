@@ -37,7 +37,7 @@ const AppRouter = () => {
 						<Route path="/makeplaylist/:type" element={<MakePlayList />} />
 						<Route path="/makeplaylist/:type/:id" element={<MakePlayList />} />
 						<Route
-							path="/playlistcollection"
+							path="/playlistcollection/:id/:userId"
 							element={<PlayListCollection />}
 						/>
 						{/* 방 */}

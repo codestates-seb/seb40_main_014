@@ -1,46 +1,72 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { getPlaylists } from '../api/playlistApi';
-import { getUserInfo } from '../api/userApi';
+import { getBookmarkList, getFollowList, getUserInfo } from '../api/userApi';
 import CplayList from '../components/playlistcollection/CplayList';
 import { myValue } from '../slices/mySlice';
 import { PlaylistInfoType } from './PlaylistList';
 
 const UserPlayList = () => {
 	const [playlists, setPlayLists] = useState([]);
+	const [followList, setFollowList] = useState([]);
+	const [title, setTitle] = useState('');
 
-	const { memberId } = useSelector(myValue);
+	const { id, userId } = useParams();
+	const myId = useSelector(myValue).memberId;
 
-	// useEffect(() => {
-	// 	getPlaylists(memberId).then((res) => {
-	// 		console.log('getPlaylists res', res);
-
-	// 		setPlayLists(res);
-	// 	});
-	// }, []);
-
-	// 유진 test
 	useEffect(() => {
-		getUserInfo(memberId).then((res) => {
-			if (res.data) {
-				console.log('getUserInfo res', res);
-
-				setPlayLists(res.data.playlist.data);
-			} else {
-				alert(res);
-			}
-		});
+		if (Number(id) === 1) {
+			getUserInfo(Number(userId)).then((res) => {
+				if (res.data) {
+					setTitle(`${res.data.name}의 플레이리스트`);
+					setPlayLists(res.data.playlist.data);
+				} else {
+					alert(res);
+				}
+			});
+		}
+		if (Number(id) === 2) {
+			setTitle('북마크한 플레이리스트');
+			getBookmarkList(Number(userId)).then((res) => {
+				if (res.data) {
+					setPlayLists(res.data);
+				} else {
+					alert(res);
+				}
+			});
+		}
+		if (Number(id) === 3) {
+			setTitle('팔로우 한 DJ');
+			getFollowList(Number(userId)).then((res) => setFollowList(res.data));
+		}
 	}, []);
-
+	const props = {
+		id: Number(id),
+		userId: Number(userId),
+		memberId: myId,
+	};
 	return (
 		<UserPlayListStyle>
-			<div className="title">USERNAME의 플레이리스트</div>
+			<div className="title">{title}</div>
 			<PlayListsWrapper>
-				{playlists &&
-					playlists.map((playlist: PlaylistInfoType) => {
-						return <CplayList key={playlist.playlistId} playList={playlist} />;
-					})}
+				{Number(id) === 3
+					? followList &&
+					  followList.map((ele) => {
+							return (
+								<CplayList key={ele.memberId} followList={ele} {...props} />
+							);
+					  })
+					: playlists &&
+					  playlists.map((playlist: PlaylistInfoType) => {
+							return (
+								<CplayList
+									key={playlist.playlistId}
+									playList={playlist}
+									{...props}
+								/>
+							);
+					  })}
 			</PlayListsWrapper>
 		</UserPlayListStyle>
 	);

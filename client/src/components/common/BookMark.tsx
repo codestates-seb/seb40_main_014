@@ -1,31 +1,43 @@
 import { BsBookmarksFill, BsBookmarks } from 'react-icons/bs';
-import { useSelector, useDispatch } from 'react-redux';
-import { myLogin, myValue } from '../../slices/mySlice';
+import { postBookMark } from '../../api/playlistApi';
+import { LikebookmarkType } from './Like';
 
-type BookMarkType = {
-	playlistId: number;
-	memberId: number;
-};
-
-const BookMark = ({ playlistId, memberId }: BookMarkType) => {
-	const check = false;
-	const isLogin = useSelector(myLogin);
+const BookMark = ({
+	playlistId,
+	memberId,
+	isLogin,
+	loginId,
+	setPlayListInfo,
+	bookmarkState,
+}: LikebookmarkType) => {
 	const onClickBookMark = () => {
-		console.log('bookmark');
+		postBookMark(playlistId).then((res) =>
+			setPlayListInfo((prev) => {
+				const copy = { ...prev };
+				copy.bookmarkState = res.data.bookmarkState;
+				return copy;
+			}),
+		);
 	};
-	const myvalue = useSelector(myValue);
+
 	return (
 		<>
-			{myvalue.memberId !== memberId &&
+			{loginId !== memberId &&
 				isLogin &&
-				(check ? (
+				(bookmarkState ? (
 					<BsBookmarksFill
 						color="#40c057"
 						size="24"
 						onClick={onClickBookMark}
+						cursor={'pointer'}
 					/>
 				) : (
-					<BsBookmarks color="#40c057" size="24" onClick={onClickBookMark} />
+					<BsBookmarks
+						color="#40c057"
+						size="24"
+						onClick={onClickBookMark}
+						cursor={'pointer'}
+					/>
 				))}
 		</>
 	);
