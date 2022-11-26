@@ -1,9 +1,7 @@
 package com.mainproject.server.ChatRoom.mapper;
 
 import com.mainproject.server.ChatRoom.dto.*;
-import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
-import com.mainproject.server.ChatRoom.entity.ChatRoomDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.mapper.MemberMapper;
@@ -11,15 +9,11 @@ import com.mainproject.server.playlist.dto.PlaylistResponseDto;
 import com.mainproject.server.playlist.entity.Playlist;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ChatRoomMapper {
@@ -47,12 +41,7 @@ public class ChatRoomMapper {
         return chatRoom;
     }
 
-    public ResponseChatRoomDto chatRoomResponseDtoToChatRoom(ChatRoom chatRoom, Member member, ChatMessage chatMessage) {
-
-//        ChatMessage chatMessage = new ChatMessage();
-//        chatRoomDto.setUserlist(Collections.singletonList(chatMessage.getMemberName()));
-//        chatRoomMap.put(chatMessage.getRoomId(), chatRoomDto);
-//        log.info("why not {}", chatRoomMap.values());
+    public ResponseChatRoomDto chatRoomResponseDtoToChatRoom(ChatRoom chatRoom, Member member) {
 
         SimpleMemberResponseDto memberResponseDto = memberMapper.memberToSimpleMemberResponseDto(chatRoom.getMember());
 
@@ -62,16 +51,13 @@ public class ChatRoomMapper {
 
         ResponseChatRoomDto responseChatRoomDto = ResponseChatRoomDto.builder()
                 .chatRoom(chatRoom)
-                .chatMessage(chatMessage)
                 .memberResponseDto(memberResponseDto)
                 .playlistResponseDtoList(playlistResponseDtos)
                 .build();
         return responseChatRoomDto;
     }
 
-    private List<ChatRoomDto> chatRoomMap;
-
-    public MemRoomResponseDto chatRoomMemberNameResponseDtoToChatRoom(ChatRoom chatRoom, Member member, ChatMessage chatMessage, Playlist playlist) {
+    public MemRoomResponseDto chatRoomMemberNameResponseDtoToChatRoom(ChatRoom chatRoom, Member member, Playlist playlist) {
 
         PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playlist);
 
@@ -79,17 +65,16 @@ public class ChatRoomMapper {
 
         MemRoomResponseDto memRoomResponseDto = MemRoomResponseDto.builder()
                 .chatRoom(chatRoom)
-                .chatMessage(chatMessage)
                 .memberResponseDto(memberResponseDto)
                 .playlistResponseDto(playlistResponseDto)
                 .build();
         return memRoomResponseDto;
     }
 
-    public List<ResponseChatRoomDto> responseChatRoomDtoList(List<ChatRoom> chatRooms, Member member, ChatMessage chatMessage) {
+    public List<ResponseChatRoomDto> responseChatRoomDtoList(List<ChatRoom> chatRooms, Member member) {
 
         List<ResponseChatRoomDto> roomDtoList = chatRooms.stream()
-                .map(chatRoom -> chatRoomResponseDtoToChatRoom(chatRoom, member, chatMessage))
+                .map(chatRoom -> chatRoomResponseDtoToChatRoom(chatRoom, member))
                 .collect(Collectors.toList());
 
 

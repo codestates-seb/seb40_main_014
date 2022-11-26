@@ -3,7 +3,6 @@ package com.mainproject.server.ChatRoom.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mainproject.server.ChatRoom.config.WebSocketTest;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
-import com.mainproject.server.ChatRoom.entity.ChatRoomDto;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.exception.BusinessException;
 import com.mainproject.server.exception.ExceptionCode;
@@ -65,10 +64,6 @@ public class ChatService {
         return chatRoomRepository.findAll();
     }
 
-    public ChatRoom findChatRoom(String roomId) {
-        return findVerifiedRoomId(roomId);
-    }
-
     //MessageType : ENTER
     public void plusMemCount(String roomId) {
 //        List<Member> members = chatRoom.getRoomMemberlist().stream()
@@ -85,18 +80,6 @@ public class ChatService {
         ChatRoom room = findVerifiedRoomId(roomId);
         room.setUserCount(room.getUserCount() - 1);
     }
-
-//    private Map<String, ChatRoomDto> chatRoomMap;
-//    public ArrayList<String> getNameList(String roomId){
-//        ArrayList<String> list = new ArrayList<>();
-//
-//        ChatRoomDto room = chatRoomMap.get(roomId);
-//
-//        // hashmap 을 for 문을 돌린 후
-//        // value 값만 뽑아내서 list 에 저장 후 reutrn
-//        room.getUserlist().forEach((key, value) -> list.add(value));
-//        return list;
-//}
 
     public Page<ChatRoom> findChatRooms(int page, int size) {
         Page<ChatRoom> findAllRooms = chatRoomRepository.findAll(
@@ -123,12 +106,6 @@ public class ChatService {
 //        ChatRoom findChatRoom =
 //                optionalChatRoom.orElseThrow(() -> new NoSuchMessageException("채팅방을 찾을 수 없습니다."));
         return chatRoom;
-    }
-
-    private final Map<String, ChatRoom> chatRooms;
-
-    public ChatRoom findRoomById(String roomId) {
-        return chatRooms.get(roomId);
     }
 
     public Page<ChatRoom> searchChatRooms(int page, int size, String tab, String q) {

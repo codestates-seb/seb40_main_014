@@ -6,6 +6,7 @@ import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.playlist.entity.Playlist;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.WebSocketSession;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.util.*;
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor
+@Transactional
 public class ChatRoom extends Auditable {
 
     @OneToMany(mappedBy = "chatRoom")
@@ -57,9 +59,9 @@ public class ChatRoom extends Auditable {
     private Long playlistId;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "NAME_LIST",
-                    joinColumns = @JoinColumn(name = "room_id"))
-    List<String> nameList;
+    @CollectionTable(name = "USER_LIST",
+            joinColumns = @JoinColumn(name = "room_id"))
+    List<String> userlist = new ArrayList<>();
 
     public enum Onair {
         ON, OFF;

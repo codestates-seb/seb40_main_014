@@ -1,7 +1,5 @@
 package com.mainproject.server.ChatRoom.dto;
 
-import com.mainproject.server.member.dto.MemberResponseDto;
-import com.mainproject.server.response.MultiResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 
