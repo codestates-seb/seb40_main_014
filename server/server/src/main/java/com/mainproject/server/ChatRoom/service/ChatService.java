@@ -3,6 +3,7 @@ package com.mainproject.server.ChatRoom.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mainproject.server.ChatRoom.config.WebSocketTest;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.ChatRoom.entity.ChatRoomDto;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.exception.BusinessException;
 import com.mainproject.server.exception.ExceptionCode;
@@ -82,17 +83,20 @@ public class ChatService {
 //        ChatRoom room = chatRoomMap.get(roomId);
 //        room.setUserCount(room.getUserCount() - 1);
         ChatRoom room = findVerifiedRoomId(roomId);
-        room.setUserCount(room.getUserCount() + 1);
+        room.setUserCount(room.getUserCount() - 1);
     }
 
-//    public String getUserName(String roomId, String memberName){
-//        ChatRoom room = chatRoomMap.get(roomId);
-//        return room.getMember().getName(memberName);
-//    }
-//    public void addMem(String roomId, String memberName) {
-//        ChatRoom chatRoom = chatRoomMap.get(roomId);
-//        verifiedRoom.setRoomMemberList((List<roomMember>) verifiedRoom.getMember());
-//    }
+//    private Map<String, ChatRoomDto> chatRoomMap;
+//    public ArrayList<String> getNameList(String roomId){
+//        ArrayList<String> list = new ArrayList<>();
+//
+//        ChatRoomDto room = chatRoomMap.get(roomId);
+//
+//        // hashmap 을 for 문을 돌린 후
+//        // value 값만 뽑아내서 list 에 저장 후 reutrn
+//        room.getUserlist().forEach((key, value) -> list.add(value));
+//        return list;
+//}
 
     public Page<ChatRoom> findChatRooms(int page, int size) {
         Page<ChatRoom> findAllRooms = chatRoomRepository.findAll(
@@ -134,6 +138,7 @@ public class ChatService {
     }
 
     public void deleteChatRoom(String roomId) {
-        chatRoomRepository.deleteById(roomId);
+        ChatRoom room = findVerifiedRoomId(roomId);
+        chatRoomRepository.delete(room);
     }
 }
