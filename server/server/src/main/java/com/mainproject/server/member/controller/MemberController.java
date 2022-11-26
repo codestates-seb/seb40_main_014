@@ -88,7 +88,7 @@ public class MemberController {
     @PostMapping("/follow/{member-id}") // member-id = 팔로우 대상
     public ResponseEntity followMember(@PathVariable("member-id") Long memberId, Long authMemberId,
                                        @Positive @RequestParam(defaultValue = "1") int playlistPage) {
-//        followService.followMember(memberId, authMemberId);
+        followService.followMember(memberId, authMemberId);
 
         // 이 아래는 get과 동일
         Member findMember = service.findMember(memberId);

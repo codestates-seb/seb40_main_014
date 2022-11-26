@@ -2,8 +2,6 @@ package com.mainproject.server.ChatRoom.controller;
 
 import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
-import com.mainproject.server.ChatRoom.entity.ChatRoomDto;
-import com.mainproject.server.ChatRoom.repository.ChatMessageRepository;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.ChatRoom.service.ChatService;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +13,14 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.ENTER;
 import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.TALK;
@@ -26,20 +28,18 @@ import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.TAL
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class ChatController {
 
     private final SimpMessagingTemplate template;
     private final ChatService chatService;
     private final ChatRoomRepository chatRoomRepository;
-    private final ChatMessageRepository chatMessageRepository;
-
 
     // MessageMapping 을 통해 webSocket 로 들어오는 메시지를 발신 처리한다.
     // 이때 클라이언트에서는 /pub/chat/~ 로 요청하게 되고 이것을 controller 가 받아서 처리한다.
     // 처리가 완료되면 /sub/chat/room/roomId 로 메시지가 전송된다.
     @MessageMapping("/chat/enterUser")
     public void enterUser(@Payload ChatMessage chat,
-                          ChatRoomDto chatRoomDto,
                           SimpMessageHeaderAccessor headerAccessor) {
 
         chat.setMessage(chat.getMessage());
@@ -48,13 +48,12 @@ public class ChatController {
         ChatRoom room = chatService.findVerifiedRoomId(chat.getRoomId());
         room.setRoomId(chat.getRoomId());
         room.setUserCount(room.getUserCount() + 1) ;
-//        chatRoomDto.nameList.put(chat.getRoomId(), chat.getMemberName());
+        room.getUserlist().add(chat.getMemberName());
+        room.setUserlist(room.getUserlist());
         chatRoomRepository.save(room);
-        chatRoomDto.setUserlist(Collections.singletonList(chat.getMemberName()));
 
-        log.info("CHAT1 {}", chatRoomDto.getUserlist());
-
-        chatMessageRepository.save(chat);
+//        chatRoomDto.setUserlist(Collections.singletonList(chat.getMemberName()));
+//        chatRoomDto.getUserlist().put(chat.getRoomId(), chat.getMemberName());
 
         // 반환 결과를 socket session 에 memName 으로 저장
         headerAccessor.getSessionAttributes().put("MemberName", chat.getMemberName());
@@ -66,6 +65,7 @@ public class ChatController {
         if (chat.getType().equals(ENTER)) {
             template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
         }
+        log.info("chatcontroller enterUser{}", room.getUserlist());
     }
 
     // 해당 유저 채팅 보내기
@@ -120,6 +120,13 @@ public class ChatController {
                 .build();
 
         template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
+    }
+
+    @GetMapping("/chat/userList")
+    @ResponseBody
+    public List<String> userList(ChatRoom chatRoom) {
+
+        return chatRoom.getUserlist();
     }
 }
 
