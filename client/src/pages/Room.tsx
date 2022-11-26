@@ -177,9 +177,12 @@ export type receiveMessageObjectType = {
 	user: string;
 };
 
-export type peopleType = {
-	name: string;
-	id: number;
+type PlayListInfoProps = {
+	channelTitle?: string;
+	thumbnail: string;
+	title: string;
+	url: string;
+	videoId: string;
 };
 const MessageForm = styled.form`
 	width: 100%;
@@ -205,7 +208,8 @@ const Room = () => {
 	const userInfo = useSelector((state: RootState) => state.my.value);
 	const navigate = useNavigate();
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
-	const [people, setPeople] = useState<peopleType[]>([]);
+	const [playlist, setPlaylist] = useState<PlayListInfoProps[]>([]);
+	const [connect, setConnect] = useState(true);
 	const modalClose = () => {
 		setModalOpen(!modalOpen);
 	};
@@ -215,8 +219,8 @@ const Room = () => {
 	const [title, setTitle] = useState<string>('존재하지 않는 방입니다.');
 	const params = useParams();
 	const roomId = params.id;
-	const [leaveRoom, setLeaveRoom] = useState<string>(roomId);
 	const NumberMemberId = Number(userInfo.memberId);
+
 	const [messageObject, setMessageObject] = useState<MessageObjectType>({
 		memberName: `${userInfo.name}`,
 		message: '님이 입장하셨습니다.',
@@ -248,17 +252,6 @@ const Room = () => {
 	}, []);
 
 	const onValid = (e) => {
-		// const MessageObj: MessageObjectType = {
-		// 	memberName: `${userInfo.name}`,
-		// 	message: e.message,
-		// 	type: 'TALK',
-		// 	memberId: NumberMemberId,
-		// 	roomString: `${roomId}`,
-		// 	roomId: `${roomId}`,
-		// };
-		// console.log('e.message!!!!', e.message);
-
-		// setMessageObject(MessageObj);
 		reset();
 		send();
 	};
@@ -275,16 +268,19 @@ const Room = () => {
 		getRoomById(roomId)
 			.then((res) => {
 				setTitle(res.data.title);
-				setPeople((prev) => [
-					...prev,
-					{ name: userInfo.name, id: NumberMemberId },
-				]);
-				// if (!client.connected) {
-				// 	client.activate();
-				// }
+				setPlaylist(res.data.playlistResponseDtoList[0].playlistItems);
+				if (!client.connected) {
+					client.activate();
+				}
+				if (!client.connected) {
+					setConnect(false);
+				}
 				wsSubscribe();
+
+				return res;
 			})
-			.then(() => {
+			.then((res) => {
+				console.log('플레이리스트', playlist);
 				console.log('클라 커넥', client.connected);
 				// client.onConnect = function () {
 				// 	console.log('서버 연결완료');
@@ -299,16 +295,16 @@ const Room = () => {
 							destination: `/pub/chat/enterUser`,
 							body: JSON.stringify(enterMessage),
 						}),
-					300,
+					500,
 				);
 			})
 			.catch((err) => {
 				// console.log('hi');
-				navigate('/');
-				alert('해당 방이 존재하지 않습니다!');
+				// navigate('/');
+				// alert('해당 방이 존재하지 않습니다!');
+				console.log(err);
 			});
 	}, []);
-
 	const client = new StompJS.Client({
 		brokerURL: `${process.env.REACT_APP_STACK_WS_SERVER}/ws/websocket`,
 		connectHeaders: {
@@ -318,7 +314,7 @@ const Room = () => {
 		// debug: function (str) {
 		// 	console.log(str);
 		// },
-		reconnectDelay: 5000,
+		reconnectDelay: 200,
 		heartbeatIncoming: 4000,
 		heartbeatOutgoing: 4000,
 	});
@@ -401,8 +397,8 @@ const Room = () => {
 							</ChatSection>
 						</ChatLeft>
 						<ChatRight>
-							<PlaylistPart />
-							<PeoplePart people={people} />
+							<PlaylistPart playlist={playlist} />
+							<PeoplePart />
 						</ChatRight>
 					</ChatRoomContainer>
 					<ChatFooter>

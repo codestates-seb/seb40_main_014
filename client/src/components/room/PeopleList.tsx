@@ -1,4 +1,7 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { getRoomById } from '../../api/roomApi';
 
 const PeopleSetcion = styled.div`
 	margin-top: 80px;
@@ -45,12 +48,22 @@ const Person = styled.div`
 	border-bottom: solid 1px ${(props) => props.theme.colors.gray400};
 `;
 
-const PeoplePart = ({ people }) => {
+const PeoplePart = () => {
+	const [people, setPeople] = useState([]);
+	const params = useParams();
+	const roomId = params.id;
+	useEffect(() => {
+		getRoomById(roomId)
+			.then((res) => setPeople(res.data.userlist))
+			.catch((err) => console.log(err));
+	}, []);
+
+	// 사람이 들어올때 어떻게 할것인가..
 	return (
 		<PeopleSetcion>
 			<PeopleContainer>
-				{people.map((e) => {
-					return <Person key={e.id}>{e.name}</Person>;
+				{people.map((e, index) => {
+					return <Person key={index}>{e}</Person>;
 				})}
 			</PeopleContainer>
 		</PeopleSetcion>

@@ -82,7 +82,6 @@ const CreateRoomBtn = styled.button`
 
 const RoomCreateForm = () => {
 	const dispatch = useDispatch();
-	const selectPl = useSelector((state: RootState) => state.playlist);
 	const navigate = useNavigate();
 	const userInfo = useSelector((state: RootState) => state.my.value);
 	const roomInfo = useSelector((state: RootState) => state.room);
@@ -93,22 +92,24 @@ const RoomCreateForm = () => {
 	const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
 	const [playlist, setPlaylist] = useState([]);
 	const accessToken = localStorage.getItem('accessToken');
-	console.log('selectpl title', selectPl.title);
+	const [selectedPlaylist, setSelectedPlaylist] = useState({
+		title: '',
+		playlistId: 0,
+	});
 	useEffect(() => {
 		getMyInfo(userInfo.memberId, accessToken).then((res) => {
-			console.log('res', res);
 			setPlaylist(res.data.playlist.data);
 		});
 	}, []);
+
 	const onValid = (e) => {
 		const CreateRoomInfo = {
 			memberId: userInfo.memberId,
 			title: e.title,
 			pwd: e.password,
-			playlistId: selectPl.playlistId,
+			playlistId: selectedPlaylist.playlistId,
 			maxCount: e.people,
 		};
-		console.log('생성할때', selectPl);
 		console.log('생성될 방의 정보', CreateRoomInfo);
 
 		if (!isLogin) {
@@ -176,13 +177,21 @@ const RoomCreateForm = () => {
 						onClick={handleAdd}>
 						추가
 					</DefaultButton>
-					{addModalOpen && <AddModal playlist={playlist}></AddModal>}
+					{addModalOpen && (
+						<AddModal
+							playlist={playlist}
+							setSelectedPlaylist={setSelectedPlaylist}></AddModal>
+					)}
 				</InputInfo>
 				<PlaylistInput
 					{...register('playlist', { required: true })}
 					placeholder="플레이리스트를 추가해주세요!"
 					type="text"
-					value={selectPl.title}></PlaylistInput>
+					value={
+						selectedPlaylist.title
+							? selectedPlaylist.title
+							: '플레이리스트를 추가해주세요'
+					}></PlaylistInput>
 			</InputContainer>
 			<InputContainer>
 				<InputInfo>최대 인원 수</InputInfo>
