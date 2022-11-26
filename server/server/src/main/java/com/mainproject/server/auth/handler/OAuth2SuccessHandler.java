@@ -2,7 +2,6 @@ package com.mainproject.server.auth.handler;
 
 import com.google.gson.Gson;
 import com.mainproject.server.auth.utils.CustomAuthorityUtil;
-import com.mainproject.server.member.dto.MemberResponseDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.jwt.JwtTokenizer;

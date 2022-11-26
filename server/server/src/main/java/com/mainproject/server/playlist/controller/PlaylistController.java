@@ -5,9 +5,8 @@ import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.dto.PlaylistPatchDto;
 import com.mainproject.server.playlist.dto.PlaylistPostDto;
 import com.mainproject.server.playlist.entity.Playlist;
-import com.mainproject.server.playlist.entity.PlaylistItem;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
-import com.mainproject.server.playlist.repository.playlistItemRepository;
+import com.mainproject.server.playlist.repository.PlaylistItemRepository;
 import com.mainproject.server.playlist.service.PlaylistService;
 import com.mainproject.server.response.MultiResponseDto;
 import com.mainproject.server.response.SingleResponseDto;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -32,7 +30,6 @@ public class PlaylistController {
     private final PlaylistService playlistService;
     private final MemberService memberService;
     private final PlaylistMapper mapper;
-    private final playlistItemRepository playlistItemRepository;
 
     @NeedMemberId
     @PostMapping
@@ -42,21 +39,7 @@ public class PlaylistController {
         //item을 제외한 playlist생성
         Playlist playlist = mapper.playlistPostDtoToPlaylist(playlistPostDto, member);
 
-        // item 생성 및 playlist에 넣기
-        List<PlaylistItem> playlistItemList = new ArrayList<>();
-        for (int i=0; i<playlistPostDto.getPlaylistItems().size(); i++) {
-            PlaylistItem playlistItem = new PlaylistItem();
-            playlistItem.setUrl(playlistPostDto.getPlaylistItems().get(i).getUrl());
-            playlistItem.setTitle(playlistPostDto.getPlaylistItems().get(i).getTitle());
-            playlistItem.setThumbnail(playlistPostDto.getPlaylistItems().get(i).getThumbnail());
-            playlistItem.setChannelTitle(playlistPostDto.getPlaylistItems().get(i).getChannelTitle());
-            playlistItem.setVideoId(playlistPostDto.getPlaylistItems().get(i).getVideoId());
-            playlistItem.setPlaylist(playlist);
-            playlistItemList.add(playlistItem);
-            playlistItemRepository.save(playlistItem);
-        }
-        playlist.setPlaylistItems(playlistItemList);
-        Playlist savedPlaylist = playlistService.createPlaylist(playlist);
+        Playlist savedPlaylist = playlistService.createPlaylist(playlist, playlistPostDto);
 
 
         return new ResponseEntity<>(
@@ -72,19 +55,24 @@ public class PlaylistController {
         Member member = memberService.findMember(authMemberId);
 
         Playlist playlist = mapper.playlistPatchDtoToPlaylist(playlistPatchDto);
-        Playlist savedPlaylist = playlistService.updatePlaylist(playlist);
+        Playlist savedPlaylist = playlistService.updatePlaylist(playlist, playlistPatchDto, authMemberId);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.playlistToPlaylistResponseDto(savedPlaylist)), HttpStatus.OK);
     }
 
     //단일 플레이리스트 조회
+    @NeedMemberId
     @GetMapping("/{playlist-id}")
-    public ResponseEntity getPlaylist(@PathVariable("playlist-id") @Positive long playlistId) {
+    public ResponseEntity getPlaylist(@PathVariable("playlist-id") @Positive long playlistId,
+                                      Long authMemberId) {
         Playlist playlist = playlistService.findPlaylist(playlistId);
 
+        Boolean likeState = playlistService.likeState(playlistId, authMemberId);
+        Boolean bookmarkState = playlistService.BookmarkState(playlistId, authMemberId);
+
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.playlistToPlaylistResponseDto(playlist)),HttpStatus.OK);
+                new SingleResponseDto<>(mapper.playlistToDetailPlaylistResponseDto(playlist, likeState, bookmarkState)),HttpStatus.OK);
     }
 
     //전체 플레이리스트 조회
@@ -106,5 +94,53 @@ public class PlaylistController {
         playlistService.deletePlaylist(playlistId);
 
         return "success playlist deleted";
+    }
+
+    /** Like 구현 **/
+    @NeedMemberId
+    @PostMapping("/{playlist-id}/likes") // playlist-id = like 대상
+    public ResponseEntity postLike(@PathVariable("playlist-id") Long playlistId, Long authMemberId) {
+        playlistService.likePlaylist(playlistId, authMemberId);
+
+        Playlist playlist = playlistService.findPlaylist(playlistId);
+
+        Boolean likeState = playlistService.likeState(playlistId, authMemberId);
+        Boolean bookmarkState = playlistService.BookmarkState(playlistId, authMemberId);
+
+        // Like했을 때, likecount가 반대로 되는 현상이 있어서 memberToFollowMemberResponseDto 추가로 만듦
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.playlistToLikePlaylistResponseDto(playlist, likeState, bookmarkState)),HttpStatus.OK);
+
+    }
+
+    /** Bookmark 구현 **/
+    @NeedMemberId
+    @PostMapping("/{playlist-id}/bookmark") // playlist-id = bookmark 대상
+    public ResponseEntity postBookmark(@PathVariable("playlist-id") Long playlistId, Long authMemberId) {
+        playlistService.bookmarkPlaylist(playlistId, authMemberId);
+
+        Playlist playlist = playlistService.findPlaylist(playlistId);
+
+        Boolean likeState = playlistService.likeState(playlistId, authMemberId);
+        Boolean bookmarkState = playlistService.BookmarkState(playlistId, authMemberId);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(mapper.playlistToDetailPlaylistResponseDto(playlist, likeState, bookmarkState)),HttpStatus.OK);
+
+    }
+
+    @GetMapping("/bookmark/{member-id}")
+    public ResponseEntity getBookmarkPlaylists(@PathVariable("member-id") Long memberId) {
+
+        Page<Playlist> bookmarkPlaylists = playlistService.getBookmarkPlaylists(memberId);
+
+        List<Playlist> playlists = bookmarkPlaylists.getContent();
+
+//        MultiResponseDto<PlaylistResponseDto> multiResponseDto =
+//                new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists), bookmarkPlaylists);
+//
+//        return new ResponseEntity(multiResponseDto, HttpStatus.OK);
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists), bookmarkPlaylists), HttpStatus.OK);
     }
 }

@@ -60,7 +60,7 @@ public class ChatRoom extends Auditable {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "USER_LIST",
-                    joinColumns = @JoinColumn(name = "room_id"))
+            joinColumns = @JoinColumn(name = "room_id"))
     List<String> userlist = new ArrayList<>();
 
     public enum Onair {

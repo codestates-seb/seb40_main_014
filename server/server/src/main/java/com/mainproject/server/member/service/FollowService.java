@@ -2,20 +2,16 @@ package com.mainproject.server.member.service;
 
 import com.mainproject.server.exception.BusinessException;
 import com.mainproject.server.exception.ExceptionCode;
+import com.mainproject.server.member.repository.FollowRepository;
 import com.mainproject.server.member.entity.Follow;
 import com.mainproject.server.member.entity.Member;
-import com.mainproject.server.member.repository.FollowRepository;
 import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.playlist.entity.Playlist;
-import jdk.swing.interop.LightweightContentWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.ZSetOperations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,6 +22,7 @@ import java.util.*;
 public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final String KEY = "Ranking";
     @Value("${spring.redis.host}")
     private String redisHost;
@@ -43,10 +40,10 @@ public class FollowService {
         List<Playlist> membersPlaylist = member.getPlaylists();
         int Score = 0;
 
-//        for (Playlist pl : membersPlaylist){
-//            int like = pl.getLike();
-//            Score += like;
-//        }
+        for (Playlist pl : membersPlaylist){
+            int like = pl.getLikes().size();
+            Score += like;
+        }
 
         Long followCount = followRepository.findByMember(member)// 인플루언서를 follow한 목록 Follow entity
                 .stream()
@@ -60,15 +57,16 @@ public class FollowService {
                     .findAny().get();
 
             followRepository.delete(followMember);
-            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size()+Score));
+            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size()+Score)-1);
         }
         else {
             Follow followMember = new Follow();
             followMember.setFollowerId(authMemberId);
-            followMember.setMember(member);
+            followMember.setFollowingId(memberId);
+            followMember.setMember(member); // follow 당하는 멤버를 저장
 
             followRepository.save(followMember);
-            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size()+Score));
+            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size()+Score)+1);
         }
     }
     public Page<Member> getRankings() {
@@ -79,15 +77,14 @@ public class FollowService {
 
         List<Member> memberList = new ArrayList<>();
 
-        int index = rankList.size();
+        int index = 1;
         for (String email : rankList){
             Member member = memberRepository.findByEmail(email).get();
-            member.setRank(index);
+            member.setRanking(index);
             memberRepository.save(member);
             memberList.add(member);
-            index--;
+            index++;
         }
-        Collections.reverse(memberList);
 
         Page<Member> memberPage = new PageImpl<>(memberList);
         return memberPage;
@@ -95,19 +92,17 @@ public class FollowService {
     }
 
     public Integer findRank(Member member) {
-        Set<String> range = zSetOperations.reverseRange(KEY, 0, 7);
-        List<String> rankList = new ArrayList<>(range);
 
-        List<Member> memberList = new ArrayList<>();
+        Long ranking = Long.valueOf(0);
 
-        int index = rankList.size();
-        for (String email : rankList) {
-            if (email.equals(member.getEmail())) {
-                return index;
+        // index가 0부터 시작하니까 +1
+        if (zSetOperations.reverseRank(KEY, member.getEmail()) != null) {
+            ranking = zSetOperations.reverseRank(KEY, member.getEmail())+1;
+            if (ranking > 6) {
+                return 0;
             }
-            index--;
         }
-        return null;
+        return ranking.intValue();
     }
 
     public Boolean followState(Long memberId, Long authMemberId){
@@ -119,6 +114,22 @@ public class FollowService {
                 .count(); // 0, 1, []
         if (followCount == 1) { return true; }
         return false; // [], 0
+    }
+
+    public Page<Member> followingMembers(Long memberId) {
+
+        List<Member> memberList = new ArrayList<>();
+
+        // 해당 멤버가 행한 follow
+        List<Follow> follwerList = followRepository.findByFollowerId(memberId);
+
+        for (Follow follow : follwerList){
+            Member member = memberRepository.findById(follow.getFollowingId()).get();
+            memberList.add(member);
+        }
+
+        Page<Member> memberPage = new PageImpl<>(memberList);
+        return memberPage;
     }
 
     private Member verifyExistsMember(Long memberId) {

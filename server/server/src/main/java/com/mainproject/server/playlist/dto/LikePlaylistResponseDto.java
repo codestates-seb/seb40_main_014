@@ -1,5 +1,6 @@
 package com.mainproject.server.playlist.dto;
 
+import com.mainproject.server.playlist.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,21 +13,29 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class SimplePlaylistResponseDto {
+public class LikePlaylistResponseDto {
+
     private long playlistId;
+
+    private long memberId;
+
+    private String name;
+
+    private boolean status;
 
     private String title;
 
+    private int like;
+
+    private Boolean likeState;
+
+    private Boolean bookmarkState;
+
     private List<PlaylistItemResponseDto> playlistItems;
-
-    private String thumbnail;
-
-    private boolean status;
 
     private List<String> category;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
-    
 }

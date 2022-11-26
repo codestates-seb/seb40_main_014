@@ -31,13 +31,21 @@ public class Playlist extends Auditable {
     @Column(nullable = false)
     private boolean status;
 
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Column
+    private List<String> category;
+
+    @OneToMany(mappedBy = "playlist", fetch = FetchType.LAZY)
+    private List<Likes> likes  = new ArrayList<>();
+
+
 //    @Column(nullable = false, updatable = true, unique = false)
 //    private String videoId;
 
-    @OneToMany(mappedBy = "playlist")
-    private List<Category> categoryList = new ArrayList<>();
+//    @OneToMany(mappedBy = "playlist", cascade = CascadeType.REMOVE)
+//    private List<Category> categoryList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "playlist")
+    @OneToMany(mappedBy = "playlist", cascade = CascadeType.REMOVE)
     private List<PlaylistItem> playlistItems = new ArrayList<>();
 
     @ManyToOne

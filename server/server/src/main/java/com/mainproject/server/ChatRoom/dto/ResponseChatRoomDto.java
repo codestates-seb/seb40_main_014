@@ -1,6 +1,5 @@
 package com.mainproject.server.ChatRoom.dto;
 
-import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.playlist.dto.PlaylistResponseDto;

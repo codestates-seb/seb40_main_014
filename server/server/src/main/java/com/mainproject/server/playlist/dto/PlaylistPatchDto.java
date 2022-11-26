@@ -12,7 +12,9 @@ public class PlaylistPatchDto {
 
     private String title;
 
-    private String category;
+    private List<PlaylistItemDto> playlistItems;
+
+    private List<String> category;
 
     private boolean status;
 
