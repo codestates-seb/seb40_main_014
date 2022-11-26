@@ -19,6 +19,9 @@ const TotalContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	margin-top: -80px;
+	@media screen and (max-width: 640px) {
+		width: 300px;
+	}
 `;
 
 const Container = styled.div`
@@ -105,6 +108,9 @@ const ChatSection = styled.div`
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	box-shadow: 0px 5px 5px 0px ${(props) => props.theme.colors.gray500};
 	overflow-y: scroll;
+	::-webkit-scrollbar {
+		display: none;
+	}
 	:hover {
 		::-webkit-scrollbar {
 			width: 8px;
@@ -119,6 +125,7 @@ const ChatSection = styled.div`
 
 		::-webkit-scrollbar-track {
 			background: rgba(33, 122, 244, 0.1);
+			border-radius: 10px;
 		}
 	}
 	@media screen and (max-width: 980px) {
@@ -150,10 +157,6 @@ const UpdateRoomBtn = styled.button`
 	padding: 5px;
 	border: 1px solid ${(props) => props.theme.colors.gray200};
 `;
-
-const onClick = (e) => {
-	console.log(e);
-};
 
 export type MessageInfo = {
 	memberId?: string;
@@ -206,13 +209,13 @@ const Room = () => {
 	const modalClose = () => {
 		setModalOpen(!modalOpen);
 	};
-
 	const [receiveMessageObject, setReceiveMessageObject] = useState<
 		receiveMessageObjectType[]
 	>([]);
 	const [title, setTitle] = useState<string>('존재하지 않는 방입니다.');
 	const params = useParams();
 	const roomId = params.id;
+	const [leaveRoom, setLeaveRoom] = useState<string>(roomId);
 	const NumberMemberId = Number(userInfo.memberId);
 	const [messageObject, setMessageObject] = useState<MessageObjectType>({
 		memberName: `${userInfo.name}`,
@@ -222,6 +225,15 @@ const Room = () => {
 		roomString: `${roomId}`,
 		roomId: `${roomId}`,
 	});
+
+	const enterMessage: MessageObjectType = {
+		memberName: `${userInfo.name}`,
+		message: '님이 입장하셨습니다.',
+		type: 'ENTER',
+		memberId: NumberMemberId,
+		roomString: `${roomId}`,
+		roomId: `${roomId}`,
+	};
 
 	const onChange = useCallback((e) => {
 		const MessageObj: MessageObjectType = {
@@ -234,6 +246,7 @@ const Room = () => {
 		};
 		setMessageObject(MessageObj);
 	}, []);
+
 	const onValid = (e) => {
 		// const MessageObj: MessageObjectType = {
 		// 	memberName: `${userInfo.name}`,
@@ -249,14 +262,16 @@ const Room = () => {
 		reset();
 		send();
 	};
-
+	// useEffect(() => {
+	// 	getRoomById(roomId).then((res) => {
+	// 		setTitle(res.data.title);
+	// 		setPeople((prev) => [
+	// 			...prev,
+	// 			{ name: userInfo.name, id: NumberMemberId },
+	// 		]);
+	// 	});
+	// }, []);
 	useEffect(() => {
-		// instance
-		// 	.get(`${process.env.REACT_APP_STACK_SERVER}/rooms/${params.id}`)
-		// 	.then((res) => {
-		// 		setTitle(res.data.title);
-		// 	})
-		// 	.catch((err) => console.log('방이 없어'));
 		getRoomById(roomId)
 			.then((res) => {
 				setTitle(res.data.title);
@@ -264,19 +279,36 @@ const Room = () => {
 					...prev,
 					{ name: userInfo.name, id: NumberMemberId },
 				]);
+				// if (!client.connected) {
+				// 	client.activate();
+				// }
+				wsSubscribe();
 			})
-			.then(
-				() =>
-					(client.onConnect = function (frame) {
-						console.log('서버 연결완료');
-						wsSubscribe();
-					}),
-			)
+			.then(() => {
+				console.log('클라 커넥', client.connected);
+				// client.onConnect = function () {
+				// 	console.log('서버 연결완료');
+				// 	wsSubscribe();
+				// 	console.log('구독 된듯?');
+				// };
+			})
+			.then(() => {
+				setTimeout(
+					() =>
+						client.publish({
+							destination: `/pub/chat/enterUser`,
+							body: JSON.stringify(enterMessage),
+						}),
+					300,
+				);
+			})
 			.catch((err) => {
+				// console.log('hi');
 				navigate('/');
 				alert('해당 방이 존재하지 않습니다!');
 			});
 	}, []);
+
 	const client = new StompJS.Client({
 		brokerURL: `${process.env.REACT_APP_STACK_WS_SERVER}/ws/websocket`,
 		connectHeaders: {
@@ -309,13 +341,8 @@ const Room = () => {
 			300,
 		);
 
-		// client.unsubscribe('user');
 		console.log('연결 상태', client.connected);
 	};
-
-	// useEffect(() => {
-	// 	send();
-	// }, [messageObject]);
 
 	const message_callback = function (message) {
 		console.log('메세지콜백 바디', message.body);
@@ -325,7 +352,6 @@ const Room = () => {
 			...prev,
 			{ user: receiveUser, message: receiveMessage },
 		]);
-		// client.unsubscribe('user');
 		console.log('subscribe msg', receiveMessage, receiveUser);
 	};
 
@@ -335,6 +361,12 @@ const Room = () => {
 		});
 		console.log('subscribe 함수 작동!');
 		console.log('연결상태', client.connected);
+	};
+
+	const onClick = (e) => {
+		console.log('leave');
+		client.deactivate();
+		console.log(client.connected);
 	};
 
 	return (

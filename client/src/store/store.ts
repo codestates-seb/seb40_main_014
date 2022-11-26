@@ -4,6 +4,7 @@ import mySlice from '../slices/mySlice';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import roomSlice from '../slices/roomSlice';
+import playlistSlice from '../slices/playlistSlice';
 
 const persistConfig = {
 	key: 'root',
@@ -12,11 +13,14 @@ const persistConfig = {
 
 const persistedMySlice = persistReducer(persistConfig, mySlice);
 
+const pesistedPlaylistSlice = persistReducer(persistConfig, playlistSlice);
+
 const store = configureStore({
 	reducer: {
 		counter: counterSlice,
 		my: persistedMySlice,
 		room: roomSlice,
+		playlist: pesistedPlaylistSlice,
 	},
 	middleware: getDefaultMiddleware({
 		serializableCheck: false,

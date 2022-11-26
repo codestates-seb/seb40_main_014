@@ -9,7 +9,7 @@ type ButtonProps = {
 };
 
 export const DefaultButton = (props: ButtonProps) => {
-	return <DefaultBtn {...props} />;
+	return <DefaultBtn {...props} type="button" />;
 };
 
 export const DefaultBtn = styled.button<ButtonProps>`

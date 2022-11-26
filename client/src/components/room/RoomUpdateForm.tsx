@@ -11,12 +11,14 @@ type updateRoomInfo = {
 };
 
 const UpdateForm = styled.form`
+	font-size: ${(props) => props.theme.fontSize.small};
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	.top {
 		margin-top: 15px;
 	}
+	z-index: 9999;
 `;
 const DefaultInput = styled.input`
 	width: 300px;
@@ -24,6 +26,7 @@ const DefaultInput = styled.input`
 	border: 1px solid ${(props) => props.theme.colors.gray500};
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	padding: 0px 10px 0px 10px;
+	margin: 5px;
 	:focus {
 		outline: 0.1px solid ${(props) => props.theme.colors.purple};
 		box-shadow: ${(props) => props.theme.colors.purple} 0px 0px 0px 1px;
@@ -32,15 +35,18 @@ const DefaultInput = styled.input`
 `;
 
 const InputContainer = styled.div`
+	color: ${(props) => props.theme.colors.gray700};
 	margin: 10px;
 	.add {
 		justify-content: space-between;
 	}
+	z-index: 9999;
 `;
 const InputInfo = styled.div`
 	margin: 5px;
 	display: flex;
 	align-items: center;
+	color: ${(props) => props.theme.colors.black};
 `;
 const TitleInput = styled(DefaultInput)``;
 const PasswordInput = styled(DefaultInput)``;
@@ -107,7 +113,8 @@ const RoomUpdateForm = () => {
 					비밀번호
 					<PasswordCheckInput
 						type="checkbox"
-						onChange={onCheck}></PasswordCheckInput>
+						onChange={onCheck}
+						disabled></PasswordCheckInput>
 				</InputInfo>
 				<PasswordInput
 					{...register('password')}
@@ -127,7 +134,8 @@ const RoomUpdateForm = () => {
 				<PeopleInput
 					{...register('people')}
 					placeholder="최대 인원 수"
-					type="number"></PeopleInput>
+					type="number"
+					disabled></PeopleInput>
 			</InputContainer>
 			{/* <Link to="/room"> */}
 			<CreateRoomBtn as="input" type="submit" value="방 수정"></CreateRoomBtn>
