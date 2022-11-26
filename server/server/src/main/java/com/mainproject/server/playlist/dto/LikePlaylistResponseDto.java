@@ -13,7 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class PlaylistResponseDto {
+public class LikePlaylistResponseDto {
+
     private long playlistId;
 
     private long memberId;
@@ -25,7 +26,7 @@ public class PlaylistResponseDto {
     private String title;
 
     private int like;
-    
+
     private List<PlaylistItemResponseDto> playlistItems;
 
     private List<Category> categoryList;
@@ -34,6 +35,5 @@ public class PlaylistResponseDto {
 
     private LocalDateTime modifiedAt;
 
-//    private List<PlaylistResponseDto> playlistList;
-
+    private Boolean likeState;
 }

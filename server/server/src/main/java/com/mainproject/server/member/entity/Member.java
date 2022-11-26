@@ -39,7 +39,7 @@ public class Member extends Auditable {
 //    private Ranking ranking;
 
     @Column
-    private Integer rank;
+    private Integer ranking;
 
     @Enumerated(EnumType.STRING)
     @Column

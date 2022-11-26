@@ -5,15 +5,25 @@ import com.mainproject.server.exception.ExceptionCode;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.member.service.MemberService;
+import com.mainproject.server.playlist.dto.PlaylistPatchDto;
+import com.mainproject.server.playlist.dto.PlaylistPostDto;
+import com.mainproject.server.playlist.entity.Likes;
 import com.mainproject.server.playlist.entity.Playlist;
+import com.mainproject.server.playlist.entity.PlaylistItem;
+import com.mainproject.server.playlist.repository.LikesRepository;
+import com.mainproject.server.playlist.repository.PlaylistItemRepository;
 import com.mainproject.server.playlist.repository.PlaylistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,18 +33,42 @@ public class PlaylistService {
     private final PlaylistRepository playlistRepository;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+    private final PlaylistItemRepository playlistItemRepository;
+    private final LikesRepository likeRepository;
+    private final String KEY = "Ranking";
+
+    @Resource(name = "redisTemplate")
+    private ZSetOperations<String, String> zSetOperations;
 
     // 플리 생성
-    public Playlist createPlaylist(Playlist playlist) {
+    public Playlist createPlaylist(Playlist playlist, PlaylistPostDto playlistPostDto) {
 //        verifyMember(member);
 //        playlist.setMember(member);
+        List<PlaylistItem> playlistItemList = new ArrayList<>();
+        for (int i=0; i<playlistPostDto.getPlaylistItems().size(); i++) {
+            PlaylistItem playlistItem = new PlaylistItem();
+            playlistItem.setUrl(playlistPostDto.getPlaylistItems().get(i).getUrl());
+            playlistItem.setTitle(playlistPostDto.getPlaylistItems().get(i).getTitle());
+            playlistItem.setThumbnail(playlistPostDto.getPlaylistItems().get(i).getThumbnail());
+            playlistItem.setChannelTitle(playlistPostDto.getPlaylistItems().get(i).getChannelTitle());
+            playlistItem.setVideoId(playlistPostDto.getPlaylistItems().get(i).getVideoId());
+            playlistItem.setPlaylist(playlist);
+            playlistItemList.add(playlistItem);
+            playlistItemRepository.save(playlistItem);
+        }
+        playlist.setPlaylistItems(playlistItemList);
+        Playlist savedPlaylist = playlistRepository.save(playlist);
 
-        return playlistRepository.save(playlist);
+        return savedPlaylist;
     }
 
     //플리 수정
-    public Playlist updatePlaylist(Playlist playlist) {
+    public Playlist updatePlaylist(Playlist playlist, PlaylistPatchDto playlistPatchDto, Long authMemberId) {
         Playlist findPlaylist = verifiedPlaylist(playlist.getPlaylistId()); //수정할 플리가 있는지 검증
+
+        if(findPlaylist.getMember().getMemberId() != authMemberId){
+            throw new BusinessException(ExceptionCode.BAD_REQUEST);
+        }
 
         Optional.ofNullable(playlist.getTitle()) //제목수정
                 .ifPresent(title -> findPlaylist.setTitle(title));
@@ -42,6 +76,20 @@ public class PlaylistService {
 //                .ifPresent(videoId -> findPlaylist.setVideoId(videoId));
         Optional.ofNullable(playlist.getCategoryList()) //카테고리 수정
                 .ifPresent(categories -> findPlaylist.setCategoryList(categories));
+
+        List<PlaylistItem> playlistItemList = new ArrayList<>();
+        for (int i=0; i<playlistPatchDto.getPlaylistItems().size(); i++) {
+            PlaylistItem playlistItem = new PlaylistItem();
+            playlistItem.setUrl(playlistPatchDto.getPlaylistItems().get(i).getUrl());
+            playlistItem.setTitle(playlistPatchDto.getPlaylistItems().get(i).getTitle());
+            playlistItem.setThumbnail(playlistPatchDto.getPlaylistItems().get(i).getThumbnail());
+            playlistItem.setChannelTitle(playlistPatchDto.getPlaylistItems().get(i).getChannelTitle());
+            playlistItem.setVideoId(playlistPatchDto.getPlaylistItems().get(i).getVideoId());
+            playlistItem.setPlaylist(playlist);
+            playlistItemList.add(playlistItem);
+            playlistItemRepository.save(playlistItem);
+        }
+        findPlaylist.setPlaylistItems(playlistItemList);
 
         findPlaylist.setModifiedAt(LocalDateTime.now());
 
@@ -63,14 +111,75 @@ public class PlaylistService {
         return findAllPlaylist;
     }
 
-
-
-
     //플리 삭제
     public void deletePlaylist(long playlistId) {
         Playlist findPlaylist = verifiedPlaylist(playlistId);
 
         playlistRepository.delete(findPlaylist);
+    }
+
+    public void likePlaylist(Long playlistId, Long authMemberId) {
+
+        // Like 해줄 플레이리스트
+        Playlist playlist = verifiedPlaylist(playlistId);
+
+        // 플레이리스트의 주인인 회원
+        Member member = playlist.getMember();
+
+        // 본인 플레이리스트에 좋아요 누르는 경우
+        if (member.getMemberId() == authMemberId){ throw new BusinessException(ExceptionCode.BAD_REQUEST);}
+
+        // 플레이리스트 like의 합
+        List<Playlist> membersPlaylist = member.getPlaylists();
+        int Score = 0;
+
+        for (Playlist pl : membersPlaylist){
+            int like = pl.getLikes().size();
+            Score += like;
+        }
+
+        Long LikeCount = likeRepository.findByPlaylist(playlist)// 해당 Playlist를 Like한 entity
+                .stream()
+                .filter(f -> f.getLikeMemberId().equals(authMemberId)) // 그안에 내가 있는 경우
+                .count(); // 0, 1
+
+        // Unlike 처리
+        if (LikeCount == 1){
+            // 내가 Like한 경우를 찾기
+            Likes LikePlaylist = likeRepository.findByPlaylist(playlist)
+                    .stream()
+                    .filter(f -> f.getLikeMemberId().equals(authMemberId))
+                    .findAny().get();
+
+            // Repository에서 삭제
+            likeRepository.delete(LikePlaylist);
+            // 랭킹합산에서 점수 - 1
+            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size()+Score-1));
+            member.getFollows().size();
+        }
+        // Like 처리 LikeCount != 1
+        else {
+            // Like
+            Likes LikePlaylist = new Likes();
+            LikePlaylist.setLikeMemberId(authMemberId);
+            LikePlaylist.setPlaylist(playlist);
+
+            // Repository에 저장
+            likeRepository.save(LikePlaylist);
+
+            // 랭킹합산에서도 점수 + 1
+            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size()+Score+1));
+        }
+    }
+    public Boolean likeState(Long playlistId, Long authMemberId){
+        Playlist playlist = verifiedPlaylist(playlistId);
+
+        Long LikeCount = likeRepository.findByPlaylist(playlist)// 해당 Playlist를 Like한 entity
+                .stream()
+                .filter(f -> f.getLikeMemberId().equals(authMemberId)) // 그안에 내가 있는 경우
+                .count(); // 0, 1
+        if (LikeCount == 1) { return true; }
+        return false; // [], 0
     }
 
     //존재하는 플리인지 검증

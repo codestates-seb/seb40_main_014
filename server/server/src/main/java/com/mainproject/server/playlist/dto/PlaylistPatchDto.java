@@ -12,6 +12,8 @@ public class PlaylistPatchDto {
 
     private String title;
 
+    private List<PlaylistItemDto> playlistItems;
+
     private String category;
 
     private boolean status;

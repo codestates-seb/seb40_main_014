@@ -28,11 +28,11 @@ public class ErrorResponse {
         this.violationErrors = violationErrors;
     }
 
-    public static ErrorResponse of(BindingResult bindingResult) {
+    public static ErrorResponse of(BindingResult bindingResult, HttpStatus httpStatus) {
         return new ErrorResponse(FieldError.of(bindingResult), null);
     }
 
-    public static ErrorResponse of(Set<ConstraintViolation<?>> violations) {
+    public static ErrorResponse of(Set<ConstraintViolation<?>> violations, HttpStatus httpStatus) {
         return new ErrorResponse(null, ConstraintViolationError.of(violations));
     }
 

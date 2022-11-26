@@ -1,9 +1,6 @@
 package com.mainproject.server.member.dto;
 
-import com.mainproject.server.member.entity.Role;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Builder
 @NoArgsConstructor
@@ -11,6 +8,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class RankResponseDto {
+
+    private Long memberId;
 
     private String name;
 
@@ -21,4 +20,6 @@ public class RankResponseDto {
     private Integer rank;
 
     private Integer like;
+
+    private Integer score;
 }

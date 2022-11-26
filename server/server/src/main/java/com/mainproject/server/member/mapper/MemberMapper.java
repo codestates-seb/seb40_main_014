@@ -6,16 +6,13 @@ import com.mainproject.server.member.dto.MemberResponseDto;
 import com.mainproject.server.member.dto.RankResponseDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Member;
-import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.playlist.dto.SimplePlaylistResponseDto;
 import com.mainproject.server.playlist.entity.Playlist;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
 import com.mainproject.server.response.MultiResponseDto;
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.redis.core.ZSetOperations;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -136,20 +133,22 @@ public interface MemberMapper {
 
         RankResponseDto.RankResponseDtoBuilder rankResponseDto = RankResponseDto.builder();
 
+        rankResponseDto.memberId(member.getMemberId());
         rankResponseDto.name(member.getName());
         rankResponseDto.picture(member.getPicture());
-        rankResponseDto.rank( member.getRank() );
+        rankResponseDto.rank( member.getRanking() );
         rankResponseDto.follow(member.getFollows().size());
 
         List<Playlist> membersPlaylist = member.getPlaylists();
         int Score = 0;
 
-//        for (Playlist pl : membersPlaylist){
-//            int like = pl.getLike();
-//            Score += like;
-//        }
+        for (Playlist pl : membersPlaylist){
+            int like = pl.getLikes().size();
+            Score += like;
+        }
 
         rankResponseDto.like(Score);
+        rankResponseDto.score(Score+member.getFollows().size());
 
         return rankResponseDto.build();
     }
