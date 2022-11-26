@@ -3,8 +3,6 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { RootState } from '../../store/store';
-import playlistSlice, { currentPlaylistInfo } from '../../slices/playlistSlice';
 
 const ModalContainer = styled.div`
 	position: fixed;
@@ -72,11 +70,7 @@ const PlaylistDiv = styled.div`
 	}
 `;
 
-const AddModal = ({ playlist }) => {
-	const [selectedPlaylist, setSelectedPlaylist] = useState<object>({});
-	const selectPl = useSelector((state: RootState) => state.playlist);
-
-	const dispatch = useDispatch();
+const AddModal = ({ playlist, setSelectedPlaylist }) => {
 	const handlePlaylist = (e) => {
 		const choice = playlist.filter(
 			(el) => String(el.playlistId) === e.target.id,
@@ -84,8 +78,6 @@ const AddModal = ({ playlist }) => {
 		setSelectedPlaylist(choice[0]);
 	};
 
-	dispatch(currentPlaylistInfo(selectedPlaylist));
-	// console.log('셀렉트피엘', selectPl);
 	const navigate = useNavigate();
 	const linkToCreatePlaylist = () => {
 		navigate('/makeplaylist/create');

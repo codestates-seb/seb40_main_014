@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import thumbnail from '../../assets/images/thumbnail.png';
 import { FcMusic } from 'react-icons/fc';
 import { BsPlayCircle, BsVolumeDownFill } from 'react-icons/bs';
 import { IoPlayForward, IoPlayBack } from 'react-icons/io5';
+import YouTube from 'react-youtube';
+import Loading from '../common/Loading';
 
 const PlaylistSection = styled.div`
 	width: 230px;
@@ -19,16 +20,27 @@ const PlaylistSection = styled.div`
 		display: flex;
 		flex-direction: column;
 		margin-left: 20px;
+		border-radius: ${(props) => props.theme.radius.largeRadius};
+		box-shadow: none;
 	}
 `;
 
 const ThumbnailContainer = styled.div`
-	background-image: url(${thumbnail});
 	background-size: 230px 180px;
 	overflow: hidden;
 	border-radius: ${(props) => props.theme.radius.largeRadius}
 		${(props) => props.theme.radius.largeRadius} 0px 0px;
 	height: 180px;
+	/* img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	} */
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: none;
+	}
 	@media screen and (max-width: 640px) {
 		height: 120px;
 	}
@@ -92,62 +104,56 @@ const OptionBtn = styled.button`
 		:hover {
 			transform: scale(1.1);
 		}
+		margin-left: 20px;
 	}
 `;
 
-const PlaylistPart = () => {
+const PlaylistPart = ({ playlist }) => {
+	// const [playlist, setPlaylist] = useState<PlayListInfoProps[]>([]);
+	// const [videoId, setVideoId] = useState<string>('');
+	// const [play, setPlay] = useState(false);
+	// const params = useParams();
+	// const roomId = params.id;
+
+	// useEffect(() => {
+	// 	getRoomById(roomId)
+	// 		.then((res) =>
+	// 			setPlaylist(res.data.playlistResponseDtoList[0].playlistItems),
+	// 		)
+	// 		.then(() => {
+	// 			setThumbnail(playlist[0].thumbnail);
+	// 			setVideoId(playlist[0].videoId);
+	// 		})
+	// 		.catch((err) => console.log(err));
+	// }, []);
+
+	const opts = {
+		height: '0',
+		width: '0',
+		playerVars: {
+			autoplay: 1,
+		},
+	};
 	return (
 		<PlaylistSection>
-			<ThumbnailContainer></ThumbnailContainer>
+			<ThumbnailContainer>
+				{playlist.length === 0 ? (
+					<Loading />
+				) : (
+					<img src={playlist[0].thumbnail} alt="thumbnail"></img>
+				)}
+			</ThumbnailContainer>
 			<MusicContainer>
-				<MusicElement>
-					<span>
-						<FcMusic className="music_logo" />
-					</span>
-					사건의 지평선 - 윤하
-				</MusicElement>
-				<MusicElement>
-					<span>
-						<FcMusic className="music_logo" />
-					</span>
-					Antifreeze - 검정치마
-				</MusicElement>
-				<MusicElement>
-					<span>
-						<FcMusic className="music_logo" />
-					</span>
-					나무 - 카더가든
-				</MusicElement>
-				<MusicElement>
-					<span>
-						<FcMusic className="music_logo" />
-					</span>
-					거절할거야 - 장기하와 얼굴들
-				</MusicElement>
-				<MusicElement>
-					<span>
-						<FcMusic className="music_logo" />
-					</span>
-					곳에 따라 비 - 가을방학
-				</MusicElement>
-				<MusicElement>
-					<span>
-						<FcMusic className="music_logo" />
-					</span>
-					Trip - 릴러말즈
-				</MusicElement>
-				<MusicElement>
-					<span>
-						<FcMusic className="music_logo" />
-					</span>
-					<div>Love Never Felt So Good - Michael Jackson</div>
-				</MusicElement>
-				<MusicElement>
-					<span>
-						<FcMusic className="music_logo" />
-					</span>
-					<span>The Kiss Of Venus - PAUL McCARTNEY</span>
-				</MusicElement>
+				{playlist.map((e, index) => {
+					return (
+						<MusicElement key={index}>
+							<span>
+								<FcMusic className="music_logo" />
+							</span>
+							{e.title}
+						</MusicElement>
+					);
+				})}
 			</MusicContainer>
 			<OptionContainer>
 				<OptionBtn>
@@ -156,12 +162,18 @@ const PlaylistPart = () => {
 				<OptionBtn>
 					<BsPlayCircle className="option_btn"></BsPlayCircle>
 				</OptionBtn>
+
 				<OptionBtn>
 					<IoPlayForward className="option_btn"></IoPlayForward>
 				</OptionBtn>
 				<OptionBtn>
 					<BsVolumeDownFill className="option_btn"></BsVolumeDownFill>
 				</OptionBtn>
+				{playlist.length === 0 ? (
+					<Loading />
+				) : (
+					<YouTube videoId={playlist[0].videoId} opts={opts} />
+				)}
 			</OptionContainer>
 		</PlaylistSection>
 	);
