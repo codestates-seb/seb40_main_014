@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import AddModal from './addModal';
@@ -11,6 +11,7 @@ import { myLogin } from '../../slices/mySlice';
 import { currentRoomInfo } from '../../slices/roomSlice';
 import instance, { root } from '../../api/root';
 import { createRoom } from '../../api/roomApi';
+import { getMyInfo } from '../../api/userApi';
 
 export type roomInfo = {
 	memberId: number;
@@ -81,41 +82,58 @@ const CreateRoomBtn = styled.button`
 
 const RoomCreateForm = () => {
 	const dispatch = useDispatch();
+	const selectPl = useSelector((state: RootState) => state.playlist);
 	const navigate = useNavigate();
 	const userInfo = useSelector((state: RootState) => state.my.value);
 	const roomInfo = useSelector((state: RootState) => state.room);
-	console.log('roomInfo', roomInfo);
+
 	const isLogin = useSelector(myLogin);
 	const { register, handleSubmit } = useForm<roomInfo>();
 	const [checked, setChecked] = useState<boolean>(false);
 	const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
-
-	const onValid = async (e) => {
+	const [playlist, setPlaylist] = useState([]);
+	const accessToken = localStorage.getItem('accessToken');
+	console.log('selectpl title', selectPl.title);
+	useEffect(() => {
+		getMyInfo(userInfo.memberId, accessToken).then((res) => {
+			console.log('res', res);
+			setPlaylist(res.data.playlist.data);
+		});
+	}, []);
+	const onValid = (e) => {
 		const CreateRoomInfo = {
 			memberId: userInfo.memberId,
 			title: e.title,
 			pwd: e.password,
-			playlist: e.playlist,
+			playlistId: selectPl.playlistId,
 			maxCount: e.people,
 		};
-		// console.log('생성될 방의 정보', CreateRoomInfo);
+		console.log('생성할때', selectPl);
+		console.log('생성될 방의 정보', CreateRoomInfo);
 
 		if (!isLogin) {
 			alert('로그인 후 생성하실 수 있습니다.');
 		} else {
-			// instance
-			// 	.post(`/rooms`, CreateRoomInfo)
-			// 	.then((res) => {
-			// 		console.log(res);
+			// createRoom(CreateRoomInfo).then((res) => {
+			// 	if (res.data) {
 			// 		navigate(`rooms/${res.data.roomId}`);
-			// 	})
-			// 	.catch((err) => console.log(err));
+			// 	} else {
+			// 		alert(res);
+			// 	}
+			// });
 			createRoom(CreateRoomInfo)
 				.then((res) => {
-					// console.log(res);
 					navigate(`rooms/${res.data.roomId}`);
+					console.log('테스트', res);
 				})
-				.catch((err) => console.log(err));
+				.catch(
+					(err) => console.log(err),
+					// (err) =>
+					// 	String(err) ===
+					// 	"TypeError: Cannot read properties of undefined (reading 'roomId')"
+					// 		? alert('로그인이 만료되었습니다. 로그인을 다시 해주세요!')
+					// 		: console.log(err),
+				);
 		}
 	};
 
@@ -158,12 +176,13 @@ const RoomCreateForm = () => {
 						onClick={handleAdd}>
 						추가
 					</DefaultButton>
-					{addModalOpen && <AddModal></AddModal>}
+					{addModalOpen && <AddModal playlist={playlist}></AddModal>}
 				</InputInfo>
 				<PlaylistInput
 					{...register('playlist', { required: true })}
 					placeholder="플레이리스트를 추가해주세요!"
-					type="text"></PlaylistInput>
+					type="text"
+					value={selectPl.title}></PlaylistInput>
 			</InputContainer>
 			<InputContainer>
 				<InputInfo>최대 인원 수</InputInfo>

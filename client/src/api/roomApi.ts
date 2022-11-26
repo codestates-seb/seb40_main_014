@@ -14,7 +14,16 @@ export const getRooms = async (page: number, size: number) => {
 
 export const createRoom = async (data) => {
 	try {
-		const result = await instance.post(`/rooms`, data);
+		const result = await instance.post(`/rooms/`, data);
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
+
+export const updateRoom = async (data, roomId) => {
+	try {
+		const result = await instance.patch(`/rooms/${roomId}`, data);
 		return result.data;
 	} catch (err) {
 		return err;
