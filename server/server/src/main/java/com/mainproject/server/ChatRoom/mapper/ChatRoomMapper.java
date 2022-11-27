@@ -61,22 +61,18 @@ public class ChatRoomMapper {
         return responseChatRoomDto;
     }
 
-<<<<<<< HEAD
     public ResponseChatRoomDto chatRoomMemberNameResponseDtoToChatRoom(ChatRoom chatRoom, Member member, Playlist playlist) {
-=======
-    public MemRoomResponseDto chatRoomMemberNameResponseDtoToChatRoom(ChatRoom chatRoom, Member member, Playlist playlist) {
->>>>>>> 455c4caa67156f2613a6f06c070665311919b08c
 
         PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playlist);
 
         SimpleMemberResponseDto memberResponseDto = memberMapper.memberToSimpleMemberResponseDto(chatRoom.getMember());
 
-        ResponseChatRoomDto memRoomResponseDto = ResponseChatRoomDto.builder()
+        ResponseChatRoomDto responseChatRoomDto = ResponseChatRoomDto.builder()
                 .chatRoom(chatRoom)
                 .memberResponseDto(memberResponseDto)
                 .playlistResponseDto(playlistResponseDto)
                 .build();
-        return memRoomResponseDto;
+        return responseChatRoomDto;
     }
 
     public List<ResponseChatRoomDto> responseChatRoomDtoList(List<ChatRoom> chatRooms, Member member) {
