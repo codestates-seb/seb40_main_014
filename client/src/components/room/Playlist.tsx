@@ -2,8 +2,13 @@ import styled from 'styled-components';
 import { FcMusic } from 'react-icons/fc';
 import { BsPlayCircle, BsVolumeDownFill } from 'react-icons/bs';
 import { IoPlayForward, IoPlayBack } from 'react-icons/io5';
-import YouTube from 'react-youtube';
+import { TbPlayerPause } from 'react-icons/tb';
+import { GoMute } from 'react-icons/go';
+import YouTube, { YouTubeProps } from 'react-youtube';
 import Loading from '../common/Loading';
+import { useEffect, useRef, useState } from 'react';
+
+import ReactPlayer from 'react-player/youtube';
 
 const PlaylistSection = styled.div`
 	width: 230px;
@@ -126,14 +131,86 @@ const PlaylistPart = ({ playlist }) => {
 	// 		})
 	// 		.catch((err) => console.log(err));
 	// }, []);
+	const [player, setPlayer] = useState<any>(null);
+	const [play, setPlay] = useState<boolean>(true);
+	const [playlistIdList, setPlaylistIdList] = useState<string[]>([]);
+	const [isMute, setIsMute] = useState<boolean>(false);
 
-	const opts = {
+	const opts: YouTubeProps['opts'] = {
 		height: '0',
 		width: '0',
 		playerVars: {
 			autoplay: 1,
 		},
 	};
+	const onReady = (event) => {
+		// access to player in all event handlers via event.target
+		setPlayer(event.target);
+		event.target.playVideo();
+		event.target.loadPlaylist(playlistIdList);
+	};
+
+	const pause = () => {
+		if (player) {
+			player.pauseVideo();
+			setPlay(false);
+		}
+	};
+
+	const start = () => {
+		if (player) {
+			player.playVideo();
+			// player.cuePlaylist(playlistIdList);
+			setPlay(true);
+		}
+	};
+
+	const next = () => {
+		if (player) {
+			player.nextVideo();
+			setPlay(true);
+		}
+	};
+
+	const previous = () => {
+		if (player) {
+			player.previousVideo();
+			setPlay(true);
+		}
+	};
+
+	const mute = () => {
+		if (player) {
+			player.mute();
+			setIsMute(true);
+		}
+	};
+
+	const unMute = () => {
+		if (player) {
+			player.unMute();
+			setIsMute(false);
+		}
+	};
+
+	useEffect(() => {
+		playlist.map((e) => setPlaylistIdList((prev) => [...prev, e.videoId]));
+	}, [playlist]);
+
+	// if (player) {
+	// 	player.loadPlaylist(playlistIdList);
+	// 	console.log('렌더링 되고있음');
+	// }
+
+	// useEffect(() => {
+	// 	if (playlistIdList.length !== 0) {
+	// 		player.loadPlaylist(playlistIdList);
+	// 		console.log('h');
+	// 	} else {
+	// 		return;
+	// 	}
+	// }, playlistIdList);
+
 	return (
 		<PlaylistSection>
 			<ThumbnailContainer>
@@ -157,22 +234,40 @@ const PlaylistPart = ({ playlist }) => {
 			</MusicContainer>
 			<OptionContainer>
 				<OptionBtn>
-					<IoPlayBack className="option_btn"></IoPlayBack>
+					<IoPlayBack className="option_btn" onClick={previous}></IoPlayBack>
 				</OptionBtn>
 				<OptionBtn>
-					<BsPlayCircle className="option_btn"></BsPlayCircle>
+					{play ? (
+						<TbPlayerPause
+							className="option_btn"
+							onClick={pause}></TbPlayerPause>
+					) : (
+						<BsPlayCircle className="option_btn" onClick={start}></BsPlayCircle>
+					)}
 				</OptionBtn>
 
 				<OptionBtn>
-					<IoPlayForward className="option_btn"></IoPlayForward>
+					<IoPlayForward className="option_btn" onClick={next}></IoPlayForward>
 				</OptionBtn>
 				<OptionBtn>
-					<BsVolumeDownFill className="option_btn"></BsVolumeDownFill>
+					{isMute ? (
+						<GoMute className="option_btn" onClick={unMute}></GoMute>
+					) : (
+						<BsVolumeDownFill
+							className="option_btn"
+							onClick={mute}></BsVolumeDownFill>
+					)}
 				</OptionBtn>
 				{playlist.length === 0 ? (
 					<Loading />
 				) : (
-					<YouTube videoId={playlist[0].videoId} opts={opts} />
+					<>
+						<YouTube
+							videoId={playlist[0].videoId}
+							opts={opts}
+							onReady={onReady}
+						/>
+					</>
 				)}
 			</OptionContainer>
 		</PlaylistSection>
