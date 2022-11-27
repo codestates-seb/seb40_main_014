@@ -44,6 +44,7 @@ const UserPlayList = () => {
 	}, []);
 
 	const props = {
+		setPlayLists,
 		id: Number(id),
 		userId: Number(userId),
 		memberId: myId,
