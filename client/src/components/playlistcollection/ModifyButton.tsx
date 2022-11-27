@@ -1,17 +1,33 @@
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Dispatch, SetStateAction } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { deletePlayList } from '../../api/playlistApi';
-import { myValue } from '../../slices/mySlice';
+import { getUserInfo } from '../../api/userApi';
+type ModifyButtonType = {
+	playlistId: number;
+	setPlayLists?: Dispatch<SetStateAction<Array<object>>>;
+};
 
-const ModifyButton = ({ playlistId }) => {
+const ModifyButton = ({ playlistId, setPlayLists }: ModifyButtonType) => {
 	const navigate = useNavigate();
-	const loginId = useSelector(myValue).memberId;
+	const pathname = useLocation().pathname.split('/')[1];
+	const { userId } = useParams();
 
 	const onClickDelete = () => {
 		deletePlayList(playlistId).then((res) => {
 			if (res === 'success playlist deleted') {
-				navigate(`/mypage/${loginId}`);
+				if (pathname === 'playlistdetail') {
+					navigate(-1);
+				}
+				if (pathname === 'playlistcollection') {
+					getUserInfo(Number(userId)).then((res) => {
+						if (res.data) {
+							setPlayLists(res.data.playlist.data);
+						} else {
+							alert(res);
+						}
+					});
+				}
 			}
 		});
 	};

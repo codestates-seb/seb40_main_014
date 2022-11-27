@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
@@ -8,6 +9,7 @@ type PlaylistType = {
 	id: number;
 	userId: number;
 	memberId: number;
+	setPlayLists?: Dispatch<SetStateAction<Array<object>>>;
 };
 const CplayList = ({
 	playList,
@@ -15,6 +17,7 @@ const CplayList = ({
 	id,
 	userId,
 	memberId,
+	setPlayLists,
 }: PlaylistType) => {
 	return (
 		<CplayListStyle>
@@ -41,7 +44,10 @@ const CplayList = ({
 			</div>
 			<div>
 				{id === 1 && userId === memberId && (
-					<ModifyButton playlistId={playList.playlistId} />
+					<ModifyButton
+						playlistId={playList.playlistId}
+						setPlayLists={setPlayLists}
+					/>
 				)}
 			</div>
 		</CplayListStyle>
