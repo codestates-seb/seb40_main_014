@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -22,12 +21,14 @@ public class ResponseChatRoomDto {
     private String pwd;
     private boolean secret;
     private int userCount;
+    private Long playlistId;
     SimpleMemberResponseDto memberResponseDto;
-    List<PlaylistResponseDto> playlistResponseDtoList;
+
+    PlaylistResponseDto playlistResponseDto;
     List<String> userlist = new ArrayList<>();
 
     @Builder
-    public ResponseChatRoomDto(ChatRoom chatRoom, SimpleMemberResponseDto memberResponseDto, List<PlaylistResponseDto> playlistResponseDtoList) {
+    public ResponseChatRoomDto(ChatRoom chatRoom, SimpleMemberResponseDto memberResponseDto, PlaylistResponseDto playlistResponseDto) {
         this.roomId = chatRoom.getRoomId();
         this.title = chatRoom.getTitle();
         this.maxCount = chatRoom.getMaxCount();
@@ -35,7 +36,8 @@ public class ResponseChatRoomDto {
         this.secret = chatRoom.getPwd() != null;
         this.userCount = chatRoom.getUserCount();
         this.userlist = chatRoom.getUserlist();
+        this.playlistId = chatRoom.getPlaylistId();
         this.memberResponseDto = memberResponseDto;
-        this.playlistResponseDtoList = playlistResponseDtoList;
+        this.playlistResponseDto = playlistResponseDto;
     }
 }
