@@ -106,14 +106,17 @@ const Music = styled.div<{ pathname: string }>`
 			props.pathname.split('/')[1] === 'playlistdetail'
 				? `pointer`
 				: `url(${arrowCursor}) 15 15, grab`};
-		background-color: ${(props) =>
+		/* background-color: ${(props) =>
 			props.pathname.split('/')[1] === 'playlistdetail'
 				? '#f0f0f0'
 				: '#f1eaff'};
 		.title {
 			color: ${(props) =>
-				props.pathname.split('/')[1] === 'playlistdetail' &&
-				props.theme.colors.purple};
+			props.pathname.split('/')[1] === 'playlistdetail' &&
+			props.theme.colors.purple}; */
+		background-color: ${(props) => props.theme.colors.gray100};
+		.title {
+			color: ${(props) => props.theme.colors.purple};
 		}
 	}
 	img {

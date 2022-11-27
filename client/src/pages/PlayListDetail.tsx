@@ -5,7 +5,7 @@ import { getPlayList } from '../api/playlistApi';
 import { getUserInfo } from '../api/userApi';
 import MusicList from '../components/playlist/MusicList';
 import PlayListInfo from '../components/playlist/PlayListInfo';
-import { musicInfoType } from './MakePlayList';
+import { MinHeightWrapper, musicInfoType } from './MakePlayList';
 
 export type plinfo = {
 	memberId?: number;
@@ -52,20 +52,15 @@ const PlayListDetail = () => {
 		setPlayListInfo,
 	};
 	return (
-		<PlayListDetailStyle>
+		<MinHeightWrapper>
 			{playListInfo && (
 				<>
 					<PlayListInfo {...props} />
 					<MusicList {...props} />
 				</>
 			)}
-		</PlayListDetailStyle>
+		</MinHeightWrapper>
 	);
 };
 
 export default PlayListDetail;
-
-const PlayListDetailStyle = styled.div`
-	display: flex;
-	flex-direction: column;
-`;

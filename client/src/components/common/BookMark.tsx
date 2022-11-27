@@ -1,6 +1,8 @@
 import { BsBookmarksFill, BsBookmarks } from 'react-icons/bs';
 import { postBookMark } from '../../api/playlistApi';
 import { LikebookmarkType } from './Like';
+import { RiFolderAddLine, RiFolderReduceFill } from 'react-icons/ri';
+import styled from 'styled-components';
 
 const BookMark = ({
 	playlistId,
@@ -25,22 +27,33 @@ const BookMark = ({
 			{loginId !== memberId &&
 				isLogin &&
 				(bookmarkState ? (
-					<BsBookmarksFill
-						color="#40c057"
-						size="24"
-						onClick={onClickBookMark}
-						cursor={'pointer'}
-					/>
+					<BookmarkStyle onClick={onClickBookMark}>
+						<RiFolderReduceFill size="22" color="#333333" />
+						<span> 보관함에서 삭제</span>
+					</BookmarkStyle>
 				) : (
-					<BsBookmarks
-						color="#40c057"
-						size="24"
-						onClick={onClickBookMark}
-						cursor={'pointer'}
-					/>
+					<BookmarkStyle onClick={onClickBookMark}>
+						<RiFolderAddLine size="22" color="#333333" />
+						<span>보관함에 저장</span>
+					</BookmarkStyle>
 				))}
 		</>
 	);
 };
 
 export default BookMark;
+
+const BookmarkStyle = styled.div`
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+
+	span {
+		margin-left: 5px;
+	}
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 14px !important;
+	}
+`;

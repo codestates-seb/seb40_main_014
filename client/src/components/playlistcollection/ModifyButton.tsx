@@ -6,9 +6,18 @@ import { getUserInfo } from '../../api/userApi';
 type ModifyButtonType = {
 	playlistId: number;
 	setPlayLists?: Dispatch<SetStateAction<Array<object>>>;
+	fontSize?: string;
 };
 
-const ModifyButton = ({ playlistId, setPlayLists }: ModifyButtonType) => {
+type ModifyButtonProps = {
+	fontSize?: string;
+};
+
+const ModifyButton = ({
+	playlistId,
+	setPlayLists,
+	fontSize,
+}: ModifyButtonType) => {
 	const navigate = useNavigate();
 	const pathname = useLocation().pathname.split('/')[1];
 	const { userId } = useParams();
@@ -34,7 +43,7 @@ const ModifyButton = ({ playlistId, setPlayLists }: ModifyButtonType) => {
 	};
 
 	return (
-		<ModifyButtonStyle>
+		<ModifyButtonStyle fontSize={fontSize}>
 			<EditButton
 				onClick={() => navigate(`/makeplaylist/modify/${playlistId}`)}>
 				수정
@@ -46,12 +55,12 @@ const ModifyButton = ({ playlistId, setPlayLists }: ModifyButtonType) => {
 
 export default ModifyButton;
 
-const ModifyButtonStyle = styled.div`
+const ModifyButtonStyle = styled.div<ModifyButtonProps>`
 	display: flex;
 
 	button {
-		padding: 7px 18px;
-		font-size: 14px;
+		padding: 6px 18px;
+		font-size: ${(props) => (props.fontSize ? props.fontSize : '14px')};
 		border-radius: ${(props) => props.theme.radius.smallRadius};
 	}
 
@@ -61,7 +70,7 @@ const ModifyButtonStyle = styled.div`
 
 		button {
 			padding: 5px 12px;
-			font-size: 12px;
+			font-size: ${(props) => (props.fontSize ? '14px' : '12px')};
 		}
 	}
 `;

@@ -113,7 +113,7 @@ const MakePlayList = () => {
 	};
 
 	return (
-		<MakePlayListStyle>
+		<MinHeightWrapper>
 			<PlayListSetting {...settingProps} />
 			<MusicList {...props} />
 			{type === 'modify' ? (
@@ -130,13 +130,13 @@ const MakePlayList = () => {
 					만들기
 				</DefaultButton>
 			)}
-		</MakePlayListStyle>
+		</MinHeightWrapper>
 	);
 };
 
 export default MakePlayList;
 
-const MakePlayListStyle = styled.div`
+export const MinHeightWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	min-height: calc(100vh - 80px - 120px - 234px);
