@@ -41,6 +41,7 @@ public class RoomController {
         Member member = memberService.findMember(authMemberId);
         Playlist playlist = playlistService.findPlaylist(requestBody.getPlaylistId());
         ChatRoom chatRoom = chatRoomMapper.chatRoomPostDtoToChatRoom(requestBody, member);
+        chatRoom.setPlaylistId(requestBody.getPlaylistId());
         ChatRoom room = chatService.createRoom(chatRoom);
 
         return new ResponseEntity<>(

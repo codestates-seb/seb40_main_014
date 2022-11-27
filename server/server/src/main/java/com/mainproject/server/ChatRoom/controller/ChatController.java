@@ -14,13 +14,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
-
-import java.util.HashMap;
-import java.util.List;
 
 import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.ENTER;
 import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.TALK;
@@ -51,9 +46,6 @@ public class ChatController {
         room.getUserlist().add(chat.getMemberName());
         room.setUserlist(room.getUserlist());
         chatRoomRepository.save(room);
-
-//        chatRoomDto.setUserlist(Collections.singletonList(chat.getMemberName()));
-//        chatRoomDto.getUserlist().put(chat.getRoomId(), chat.getMemberName());
 
         // 반환 결과를 socket session 에 memName 으로 저장
         headerAccessor.getSessionAttributes().put("MemberName", chat.getMemberName());
@@ -105,13 +97,6 @@ public class ChatController {
 
         log.info("headAccessor {}", headerAccessor);
 
-        // 채팅방 유저 리스트에서 memberId 멤버 닉네임 조회 및 리스트에서 memberId 삭제
-//        roomMember roomMember = new roomMember();
-//        String roomMemberid = roomMember.getRoomMemberid();
-
-//        if (roomMemberid != null) {
-//            log.info("User Disconnected : " + roomMemberid);
-//
         ChatMessage chat = ChatMessage.builder()
                 .type(ChatMessage.MessageType.LEAVE)
                 .memberName(memberName)
@@ -120,13 +105,6 @@ public class ChatController {
                 .build();
 
         template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
-    }
-
-    @GetMapping("/chat/userList")
-    @ResponseBody
-    public List<String> userList(ChatRoom chatRoom) {
-
-        return chatRoom.getUserlist();
     }
 }
 
