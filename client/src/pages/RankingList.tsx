@@ -60,8 +60,13 @@ export const RankingListStyle = styled.div`
 	height: calc(100vh - 80px - 120px);
 	padding: 60px 0;
 
+	// Tablet
+	@media screen and (max-width: 980px) {
+		height: calc(100vh - 76px - 120px);
+	}
 	// Mobile
 	@media screen and (max-width: 640px) {
+		height: calc(100vh - 72.406px - 120px);
 		padding: 0;
 	}
 `;

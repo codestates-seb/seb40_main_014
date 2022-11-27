@@ -84,7 +84,7 @@ const PlayListInfoStyle = styled.div`
 	}
 	.total {
 		font-size: ${(props) => props.theme.fontSize.large};
-		color: ${(props) => props.theme.colors.purple};
+		/* color: ${(props) => props.theme.colors.purple}; */
 		margin-top: 20px;
 		margin-bottom: 20px;
 	}

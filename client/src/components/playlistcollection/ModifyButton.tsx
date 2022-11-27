@@ -76,6 +76,7 @@ const EditButton = styled.button`
 
 const Deletebutton = styled.button`
 	margin-left: 15px;
+	background-color: ${(props) => props.theme.colors.white};
 	border: 1.3px solid ${(props) => props.theme.colors.purple};
 	color: ${(props) => props.theme.colors.purple};
 	:hover {
