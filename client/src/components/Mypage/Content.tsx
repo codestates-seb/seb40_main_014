@@ -15,7 +15,7 @@ const Content = ({ id, playlist, followlist }: ContentType) => {
 	};
 	const moveUserPage = () => {
 		navigate(`/mypage/${followlist.memberId}`);
-		window.location.reload();
+		// window.location.reload();
 	};
 	return (
 		<ContentStyle>
