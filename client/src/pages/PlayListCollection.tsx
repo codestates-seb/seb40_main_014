@@ -6,6 +6,7 @@ import { getBookmarkList, getFollowList, getUserInfo } from '../api/userApi';
 import CplayList from '../components/playlistcollection/CplayList';
 import { myValue } from '../slices/mySlice';
 import { PlaylistInfoType } from './PlaylistList';
+import { H2, RankingListStyle } from './RankingList';
 
 const UserPlayList = () => {
 	const [playlists, setPlayLists] = useState([]);
@@ -41,14 +42,16 @@ const UserPlayList = () => {
 			getFollowList(Number(userId)).then((res) => setFollowList(res.data));
 		}
 	}, []);
+
 	const props = {
 		id: Number(id),
 		userId: Number(userId),
 		memberId: myId,
 	};
+
 	return (
-		<UserPlayListStyle>
-			<div className="title">{title}</div>
+		<RankingListStyle>
+			<H2 className="title">{title}</H2>
 			<PlayListsWrapper>
 				{Number(id) === 3
 					? followList &&
@@ -68,34 +71,18 @@ const UserPlayList = () => {
 							);
 					  })}
 			</PlayListsWrapper>
-		</UserPlayListStyle>
+		</RankingListStyle>
 	);
 };
 
 export default UserPlayList;
-
-const UserPlayListStyle = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-
-	.title {
-		font-size: ${(props) => props.theme.fontSize.xLarge};
-		font-weight: 600;
-		margin-bottom: 60px;
-
-		// Mobile
-		@media screen and (max-width: 640px) {
-			font-size: 24px;
-		}
-	}
-`;
 
 const PlayListsWrapper = styled.div`
 	width: 100%;
 	max-width: 700px;
 	box-shadow: 0 0 10px #00000013;
 	border-radius: 10px;
+	overflow-y: scroll;
 
 	> div:first-of-type {
 		border-radius: 10px 10px 0 0;

@@ -268,7 +268,7 @@ const Room = () => {
 		getRoomById(roomId)
 			.then((res) => {
 				setTitle(res.data.title);
-				setPlaylist(res.data.playlistResponseDtoList[0].playlistItems);
+				setPlaylist(res.data.playlistResponseDto.playlistItems);
 				if (!client.connected) {
 					client.activate();
 				}

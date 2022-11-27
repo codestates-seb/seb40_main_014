@@ -16,19 +16,19 @@ export type SwiperTrueType = {
 const Room = ({ room, swiper }: RoomType) => {
 	const { roomId, title, userCount, maxCount } = room;
 	const { memberId, name } = room.memberResponseDto;
-	const { categoryList, playlistItems } = room.playlistResponseDtoList[0];
+	const { categoryList, playlistItems } = room.playlistResponseDto;
 
 	return (
 		<RoomStyle>
 			<Thumbnail>
 				<img src={playlistItems[0].thumbnail} alt="thumbnail" />
-				<Link to={`/room/${roomId}`}>
+				<Link to={`/rooms/${roomId}`}>
 					<ThumbnailBackdrop />
 				</Link>
 				<Onair swiper={swiper}>ON AIR</Onair>
 			</Thumbnail>
 			<Title swiper={swiper}>
-				<Link to={`/room/${roomId}`}>{title}</Link>
+				<Link to={`/rooms/${roomId}`}>{title}</Link>
 			</Title>
 			<Name swiper={swiper}>
 				<Link to={`/mypage/${memberId}`}>{name}</Link>

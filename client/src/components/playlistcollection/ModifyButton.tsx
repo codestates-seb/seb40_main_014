@@ -10,11 +10,13 @@ const ModifyButton = ({ playlistId }) => {
 
 	const onClickDelete = () => {
 		deletePlayList(playlistId).then((res) => {
-			if (res === 'success playlist deleted') {
-				navigate(`/mypage/${loginId}`);
-			}
+			console.log();
+			// if (res === 'success playlist deleted') {
+			// 	navigate(`/mypage/${loginId}`);
+			// }
 		});
 	};
+
 	return (
 		<ModifyButtonStyle>
 			<EditButton

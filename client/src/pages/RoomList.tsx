@@ -20,7 +20,7 @@ import { PlaylistInfoType } from './PlaylistList';
 export type RoomInfoType = {
 	maxCount: number;
 	memberResponseDto: HostType;
-	playlistResponseDtoList: Array<PlaylistInfoType>;
+	playlistResponseDto: PlaylistInfoType;
 	pwd: string;
 	roomId: string;
 	secreat: boolean;

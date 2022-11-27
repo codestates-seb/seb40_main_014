@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import ModifyButton from './ModifyButton';
+
 type PlaylistType = {
 	playList?: PlaylistInfoType;
 	followList?: any;
@@ -9,6 +10,11 @@ type PlaylistType = {
 	userId: number;
 	memberId: number;
 };
+
+type ImgProps = {
+	follow?: boolean;
+};
+
 const CplayList = ({
 	playList,
 	followList,
@@ -21,7 +27,7 @@ const CplayList = ({
 			<div>
 				{id === 3 ? (
 					<>
-						<Img src={followList.picture} alt="userPicture" />
+						<Img src={followList.picture} alt="userPicture" follow />
 						<Title>
 							<Link to={`/mypage/${followList.memberId}`}>
 								{followList.name}
@@ -76,9 +82,9 @@ const CplayListStyle = styled.div`
 	}
 `;
 
-const Img = styled.img`
-	width: 80px;
-	border-radius: 3px;
+const Img = styled.img<ImgProps>`
+	width: 60px;
+	border-radius: ${(props) => (props.follow ? '50%' : '3px')};
 	margin-right: 20px;
 
 	// Mobile

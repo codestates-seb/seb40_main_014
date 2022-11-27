@@ -102,7 +102,7 @@ const MakePlayList = () => {
 		if (validation(data)) {
 			data.playlistId = plId;
 			modifyPlayList(data).then((res) => {
-				if (res.data) navigate(`/mypage/${myvalue.memberId}`);
+				if (res.data) navigate(-1);
 			});
 		}
 	};

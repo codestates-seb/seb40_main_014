@@ -118,7 +118,7 @@ const PlaylistPart = ({ playlist }) => {
 	// useEffect(() => {
 	// 	getRoomById(roomId)
 	// 		.then((res) =>
-	// 			setPlaylist(res.data.playlistResponseDtoList[0].playlistItems),
+	// 			setPlaylist(res.data.playlistResponseDto.playlistItems),
 	// 		)
 	// 		.then(() => {
 	// 			setThumbnail(playlist[0].thumbnail);
