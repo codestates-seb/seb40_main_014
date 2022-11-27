@@ -118,7 +118,7 @@ const Roof = styled.div`
 		transition: 0.1s;
 
 		:hover {
-			background-color: #e8ddff;
+			background-color: #f1eaff;
 		}
 	}
 

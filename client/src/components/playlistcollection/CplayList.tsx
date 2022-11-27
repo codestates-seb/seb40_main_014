@@ -68,6 +68,10 @@ const CplayListStyle = styled.div`
 		align-items: center;
 	}
 
+	:hover {
+		background-color: ${(props) => props.theme.colors.gray100};
+	}
+
 	// Mobile
 	@media screen and (max-width: 640px) {
 		flex-direction: column;
@@ -83,20 +87,20 @@ const CplayListStyle = styled.div`
 `;
 
 const Img = styled.img<ImgProps>`
-	width: 60px;
+	width: ${(props) => (props.follow ? '35px' : '60px')};
 	border-radius: ${(props) => (props.follow ? '50%' : '3px')};
 	margin-right: 20px;
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		width: 50px;
+		width: ${(props) => (props.follow ? '30px' : '50px')};
 		margin-right: 10px;
 	}
 `;
 
 const Title = styled.h4`
 	:hover {
-		color: ${(props) => props.theme.colors.gray600};
+		color: ${(props) => props.theme.colors.purple};
 	}
 
 	// Mobile

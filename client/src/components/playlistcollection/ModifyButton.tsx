@@ -11,9 +11,9 @@ const ModifyButton = ({ playlistId }) => {
 	const onClickDelete = () => {
 		deletePlayList(playlistId).then((res) => {
 			console.log();
-			// if (res === 'success playlist deleted') {
-			// 	navigate(`/mypage/${loginId}`);
-			// }
+			if (res === 'success playlist deleted') {
+				navigate(`/mypage/${loginId}`);
+			}
 		});
 	};
 
@@ -63,7 +63,7 @@ const Deletebutton = styled.button`
 	border: 1.3px solid ${(props) => props.theme.colors.purple};
 	color: ${(props) => props.theme.colors.purple};
 	:hover {
-		background-color: ${(props) => props.theme.colors.gray50};
+		background-color: #f1eaff;
 	}
 
 	// Mobile

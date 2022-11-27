@@ -156,6 +156,6 @@ const CancelButton = styled.button`
 	color: ${(props) => props.theme.colors.purple};
 
 	:hover {
-		background-color: #f0e9ff;
+		background-color: #f1eaff;
 	}
 `;
