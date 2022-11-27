@@ -11,7 +11,7 @@ import { myLogin } from '../../slices/mySlice';
 import { currentRoomInfo } from '../../slices/roomSlice';
 import instance, { root } from '../../api/root';
 import { createRoom } from '../../api/roomApi';
-import { getMyInfo } from '../../api/userApi';
+import { getMyInfo, getBookmarkList } from '../../api/userApi';
 
 export type roomInfo = {
 	memberId: number;
@@ -91,6 +91,7 @@ const RoomCreateForm = () => {
 	const [checked, setChecked] = useState<boolean>(false);
 	const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
 	const [playlist, setPlaylist] = useState([]);
+	const [bookMarkPlaylist, setBookMarkPlaylist] = useState([]);
 	const accessToken = localStorage.getItem('accessToken');
 	const [selectedPlaylist, setSelectedPlaylist] = useState({
 		title: '',
@@ -99,6 +100,11 @@ const RoomCreateForm = () => {
 	useEffect(() => {
 		getMyInfo(userInfo.memberId, accessToken).then((res) => {
 			setPlaylist(res.data.playlist.data);
+		});
+	}, []);
+	useEffect(() => {
+		getBookmarkList(userInfo.memberId).then((res) => {
+			setBookMarkPlaylist(res.data);
 		});
 	}, []);
 
@@ -145,7 +151,7 @@ const RoomCreateForm = () => {
 	const handleAdd = () => {
 		return setAddModalOpen(!addModalOpen);
 	};
-
+	console.log(selectedPlaylist);
 	return (
 		<CreateForm onSubmit={handleSubmit(onValid)}>
 			<InputContainer className="top">
@@ -179,6 +185,7 @@ const RoomCreateForm = () => {
 					</DefaultButton>
 					{addModalOpen && (
 						<AddModal
+							bookMarkPlaylist={bookMarkPlaylist}
 							playlist={playlist}
 							setSelectedPlaylist={setSelectedPlaylist}></AddModal>
 					)}

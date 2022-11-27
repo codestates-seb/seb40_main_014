@@ -70,9 +70,16 @@ const PlaylistDiv = styled.div`
 	}
 `;
 
-const AddModal = ({ playlist, setSelectedPlaylist }) => {
+const AddModal = ({ playlist, setSelectedPlaylist, bookMarkPlaylist }) => {
 	const handlePlaylist = (e) => {
 		const choice = playlist.filter(
+			(el) => String(el.playlistId) === e.target.id,
+		);
+		setSelectedPlaylist(choice[0]);
+	};
+
+	const handleBookMarkPlaylist = (e) => {
+		const choice = bookMarkPlaylist.filter(
 			(el) => String(el.playlistId) === e.target.id,
 		);
 		setSelectedPlaylist(choice[0]);
@@ -110,22 +117,22 @@ const AddModal = ({ playlist, setSelectedPlaylist }) => {
 				<div>북마크한 플레이리스트</div>
 			</BookmarkPlaylistHeader>
 			<BookmarkPlaylist>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
+				{bookMarkPlaylist.length === 0 ? (
+					<PlaylistDiv onClick={linkToCreatePlaylist}>
+						상대방의 플레이리스트를 북마크해보세요!
+					</PlaylistDiv>
+				) : (
+					bookMarkPlaylist.map((e) => {
+						return (
+							<PlaylistDiv
+								onClick={handleBookMarkPlaylist}
+								key={e.playlistId}
+								id={e.playlistId}>
+								{e.title}
+							</PlaylistDiv>
+						);
+					})
+				)}
 			</BookmarkPlaylist>
 		</ModalContainer>
 	);

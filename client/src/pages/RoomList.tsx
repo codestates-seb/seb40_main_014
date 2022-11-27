@@ -20,7 +20,7 @@ import { PlaylistInfoType } from './PlaylistList';
 export type RoomInfoType = {
 	maxCount: number;
 	memberResponseDto: HostType;
-	playlistResponseDtoList: Array<PlaylistInfoType>;
+	playlistResponseDto: PlaylistInfoType;
 	pwd: string;
 	roomId: string;
 	secreat: boolean;
@@ -57,14 +57,14 @@ const RoomList = () => {
 	// real
 	const fetch = useCallback(() => {
 		getRooms(currentPage.current, 6).then((res) => {
-			// console.log('getRooms res', res);
-			// const data = res.data;
-			// const { page, totalPages } = res.pageInfo;
-			// setRooms((prevRooms) => [...prevRooms, ...data]);
-			// // setHasNextPage(data.length === 10);
-			// setHasNextPage(page !== totalPages);
-			// // if (data.length) currentPage.current += 1;
-			// if (hasNextPage) currentPage.current += 1;
+			console.log('getRooms res', res);
+			const data = res.data;
+			const { page, totalPages } = res.pageInfo;
+			setRooms((prevRooms) => [...prevRooms, ...data]);
+			// setHasNextPage(data.length === 10);
+			setHasNextPage(page !== totalPages);
+			// if (data.length) currentPage.current += 1;
+			if (hasNextPage) currentPage.current += 1;
 		});
 	}, []);
 

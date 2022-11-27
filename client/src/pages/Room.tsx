@@ -209,7 +209,7 @@ const Room = () => {
 	const navigate = useNavigate();
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [playlist, setPlaylist] = useState<PlayListInfoProps[]>([]);
-	const [connect, setConnect] = useState(true);
+	const [isConnect, setIsConnect] = useState(true);
 	const modalClose = () => {
 		setModalOpen(!modalOpen);
 	};
@@ -268,25 +268,13 @@ const Room = () => {
 		getRoomById(roomId)
 			.then((res) => {
 				setTitle(res.data.title);
-				setPlaylist(res.data.playlistResponseDtoList[0].playlistItems);
+				setPlaylist(res.data.playlistResponseDto.playlistItems);
 				if (!client.connected) {
 					client.activate();
-				}
-				if (!client.connected) {
-					setConnect(false);
 				}
 				wsSubscribe();
 
 				return res;
-			})
-			.then((res) => {
-				console.log('플레이리스트', playlist);
-				console.log('클라 커넥', client.connected);
-				// client.onConnect = function () {
-				// 	console.log('서버 연결완료');
-				// 	wsSubscribe();
-				// 	console.log('구독 된듯?');
-				// };
 			})
 			.then(() => {
 				setTimeout(
@@ -299,7 +287,6 @@ const Room = () => {
 				);
 			})
 			.catch((err) => {
-				// console.log('hi');
 				// navigate('/');
 				// alert('해당 방이 존재하지 않습니다!');
 				console.log(err);
@@ -323,7 +310,7 @@ const Room = () => {
 		console.log('Broker reported error: ' + frame.headers['message']);
 		console.log('Additional details: ' + frame.body);
 	};
-	if (!client.connected) {
+	if (!client.connected && isConnect) {
 		client.activate();
 	}
 
@@ -337,11 +324,10 @@ const Room = () => {
 			300,
 		);
 
-		console.log('연결 상태', client.connected);
+		// console.log('연결 상태', client.connected);
 	};
 
 	const message_callback = function (message) {
-		console.log('메세지콜백 바디', message.body);
 		const receiveMessage = JSON.parse(message.body).message;
 		const receiveUser = JSON.parse(message.body).memberName;
 		setReceiveMessageObject((prev) => [
@@ -349,6 +335,9 @@ const Room = () => {
 			{ user: receiveUser, message: receiveMessage },
 		]);
 		console.log('subscribe msg', receiveMessage, receiveUser);
+		if (receiveMessage.slice(-8) === '입장하셨습니다.') {
+			console.log('ho');
+		}
 	};
 
 	const wsSubscribe = () => {
@@ -362,6 +351,7 @@ const Room = () => {
 	const onClick = (e) => {
 		console.log('leave');
 		client.deactivate();
+		setIsConnect(false);
 		console.log(client.connected);
 	};
 
