@@ -113,6 +113,7 @@ const ChatSection = styled.div`
 	}
 	:hover {
 		::-webkit-scrollbar {
+			display: block;
 			width: 8px;
 		}
 

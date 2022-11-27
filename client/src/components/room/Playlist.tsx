@@ -57,22 +57,27 @@ const MusicContainer = styled.div`
 	padding: 10px;
 	overflow-y: scroll;
 
+	::-webkit-scrollbar {
+		display: none;
+	}
 	:hover {
 		::-webkit-scrollbar {
+			display: block;
 			width: 8px;
 		}
 
 		::-webkit-scrollbar-thumb {
 			height: 30%;
-			background: ${(props) => props.theme.colors.gray300};
+			background-color: ${(props) => props.theme.colors.gray300};
+
 			border-radius: 10px;
 		}
 
 		::-webkit-scrollbar-track {
 			background: rgba(33, 122, 244, 0.1);
+			border-radius: 10px;
 		}
 	}
-
 	.music_logo {
 		margin-right: 5px;
 	}
