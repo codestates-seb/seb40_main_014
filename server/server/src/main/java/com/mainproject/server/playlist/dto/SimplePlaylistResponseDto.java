@@ -23,7 +23,7 @@ public class SimplePlaylistResponseDto {
 
     private boolean status;
 
-    private List<String> category;
+    private List<String> categoryList;
 
     private LocalDateTime createdAt;
 

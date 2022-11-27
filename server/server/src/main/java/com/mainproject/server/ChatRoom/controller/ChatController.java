@@ -14,9 +14,20 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+<<<<<<< HEAD
+=======
+import org.springframework.web.bind.annotation.GetMapping;
+>>>>>>> 455c4caa67156f2613a6f06c070665311919b08c
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+<<<<<<< HEAD
+=======
+import java.util.HashMap;
+import java.util.List;
+
+>>>>>>> 455c4caa67156f2613a6f06c070665311919b08c
 import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.ENTER;
 import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.TALK;
 
@@ -46,6 +57,12 @@ public class ChatController {
         room.getUserlist().add(chat.getMemberName());
         room.setUserlist(room.getUserlist());
         chatRoomRepository.save(room);
+<<<<<<< HEAD
+=======
+
+//        chatRoomDto.setUserlist(Collections.singletonList(chat.getMemberName()));
+//        chatRoomDto.getUserlist().put(chat.getRoomId(), chat.getMemberName());
+>>>>>>> 455c4caa67156f2613a6f06c070665311919b08c
 
         // 반환 결과를 socket session 에 memName 으로 저장
         headerAccessor.getSessionAttributes().put("MemberName", chat.getMemberName());

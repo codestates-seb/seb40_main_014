@@ -61,7 +61,11 @@ public class ChatRoomMapper {
         return responseChatRoomDto;
     }
 
+<<<<<<< HEAD
     public ResponseChatRoomDto chatRoomMemberNameResponseDtoToChatRoom(ChatRoom chatRoom, Member member, Playlist playlist) {
+=======
+    public MemRoomResponseDto chatRoomMemberNameResponseDtoToChatRoom(ChatRoom chatRoom, Member member, Playlist playlist) {
+>>>>>>> 455c4caa67156f2613a6f06c070665311919b08c
 
         PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playlist);
 
