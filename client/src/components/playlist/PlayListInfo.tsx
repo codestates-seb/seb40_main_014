@@ -119,8 +119,8 @@ const Info = styled.div`
 	width: 40%;
 	margin-left: 5%;
 	@media (max-width: 850px) {
-		width: 50%;
-		margin-left: 30px;
+		width: 52%;
+		margin-left: 8%;
 	}
 	@media (max-width: 550px) {
 		width: 100%;
@@ -133,11 +133,17 @@ const Info = styled.div`
 		font-size: ${(props) => props.theme.fontSize.medium};
 	}
 	.title {
-		font-size: ${(props) => props.theme.fontSize.large};
+		font-size: 22px;
+		/* font-size: ${(props) => props.theme.fontSize.large}; */
 		line-height: 1.5;
+		font-weight: 600;
 
 		.categoryBox {
 			margin: 10px 0;
+		}
+		// Tablet
+		@media screen and (max-width: 980px) {
+			font-size: 18px;
 		}
 		// Mobile
 		@media screen and (max-width: 640px) {

@@ -59,7 +59,9 @@ const ModifyButtonStyle = styled.div<ModifyButtonProps>`
 	display: flex;
 
 	button {
-		padding: 6px 18px;
+		margin-left: 15px;
+		width: 60px;
+		height: 35px;
 		font-size: ${(props) => (props.fontSize ? props.fontSize : '14px')};
 		border-radius: ${(props) => props.theme.radius.smallRadius};
 	}
@@ -69,7 +71,9 @@ const ModifyButtonStyle = styled.div<ModifyButtonProps>`
 		justify-content: flex-end;
 
 		button {
-			padding: 5px 12px;
+			margin-left: 10px;
+			width: 52px;
+			height: 30px;
 			font-size: ${(props) => (props.fontSize ? '14px' : '12px')};
 		}
 	}
@@ -84,16 +88,10 @@ const EditButton = styled.button`
 `;
 
 const Deletebutton = styled.button`
-	margin-left: 15px;
 	background-color: ${(props) => props.theme.colors.white};
 	border: 1.3px solid ${(props) => props.theme.colors.purple};
 	color: ${(props) => props.theme.colors.purple};
 	:hover {
 		background-color: #f1eaff;
-	}
-
-	// Mobile
-	@media screen and (max-width: 640px) {
-		margin-left: 10px;
 	}
 `;
