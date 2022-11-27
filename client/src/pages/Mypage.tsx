@@ -69,7 +69,7 @@ const Mypage = () => {
 	}, [userId]);
 
 	return (
-		<MypageStyle>
+		<>
 			<MypageInfo userInfo={userInfo} myId={myId} />
 			{contentList.map((ele) => {
 				return (
@@ -81,10 +81,8 @@ const Mypage = () => {
 					/>
 				);
 			})}
-		</MypageStyle>
+		</>
 	);
 };
 
 export default Mypage;
-
-const MypageStyle = styled.div``;
