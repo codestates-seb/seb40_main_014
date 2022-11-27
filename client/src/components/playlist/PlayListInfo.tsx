@@ -8,7 +8,11 @@ import { useSelector } from 'react-redux';
 import { myLogin, myValue } from '../../slices/mySlice';
 import { useNavigate } from 'react-router-dom';
 
-const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
+const PlayListInfo = ({
+	playListInfo,
+	setPlayListInfo,
+	picture,
+}: PlayListInfoProps) => {
 	const isLogin = useSelector(myLogin);
 	const loginId = useSelector(myValue).memberId;
 	const navigate = useNavigate();
@@ -48,10 +52,7 @@ const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
 						</div>
 					</div>
 					<div className="options">
-						<img
-							src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
-							alt={playListInfo.name}
-						/>
+						<img src={picture} alt={playListInfo.name} />
 						<button
 							onClick={() => navigate(`/mypage/${playListInfo.memberId}`)}>
 							{playListInfo.name}
