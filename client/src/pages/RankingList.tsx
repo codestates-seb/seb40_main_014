@@ -52,15 +52,26 @@ const RankingList = () => {
 
 export default RankingList;
 
-const RankingListStyle = styled.div`
+export const RankingListStyle = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	/* justify-content: center; */
 	align-items: center;
 	height: calc(100vh - 80px - 120px);
+	padding: 60px 0;
+
+	// Tablet
+	@media screen and (max-width: 980px) {
+		height: calc(100vh - 76px - 120px);
+	}
+	// Mobile
+	@media screen and (max-width: 640px) {
+		height: calc(100vh - 72.406px - 120px);
+		padding: 0;
+	}
 `;
 
-const H2 = styled.h2`
+export const H2 = styled.h2`
 	font-size: ${(props) => props.theme.fontSize.xLarge};
 	font-weight: 600;
 	margin-bottom: 60px;

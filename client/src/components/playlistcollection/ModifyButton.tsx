@@ -6,15 +6,25 @@ import { getUserInfo } from '../../api/userApi';
 type ModifyButtonType = {
 	playlistId: number;
 	setPlayLists?: Dispatch<SetStateAction<Array<object>>>;
+	fontSize?: string;
 };
 
-const ModifyButton = ({ playlistId, setPlayLists }: ModifyButtonType) => {
+type ModifyButtonProps = {
+	fontSize?: string;
+};
+
+const ModifyButton = ({
+	playlistId,
+	setPlayLists,
+	fontSize,
+}: ModifyButtonType) => {
 	const navigate = useNavigate();
 	const pathname = useLocation().pathname.split('/')[1];
 	const { userId } = useParams();
 
 	const onClickDelete = () => {
 		deletePlayList(playlistId).then((res) => {
+			console.log();
 			if (res === 'success playlist deleted') {
 				if (pathname === 'playlistdetail') {
 					navigate(-1);
@@ -31,8 +41,9 @@ const ModifyButton = ({ playlistId, setPlayLists }: ModifyButtonType) => {
 			}
 		});
 	};
+
 	return (
-		<ModifyButtonStyle>
+		<ModifyButtonStyle fontSize={fontSize}>
 			<EditButton
 				onClick={() => navigate(`/makeplaylist/modify/${playlistId}`)}>
 				수정
@@ -44,12 +55,14 @@ const ModifyButton = ({ playlistId, setPlayLists }: ModifyButtonType) => {
 
 export default ModifyButton;
 
-const ModifyButtonStyle = styled.div`
+const ModifyButtonStyle = styled.div<ModifyButtonProps>`
 	display: flex;
 
 	button {
-		padding: 7px 18px;
-		font-size: 14px;
+		margin-left: 15px;
+		width: 60px;
+		height: 35px;
+		font-size: ${(props) => (props.fontSize ? props.fontSize : '14px')};
 		border-radius: ${(props) => props.theme.radius.smallRadius};
 	}
 
@@ -58,8 +71,10 @@ const ModifyButtonStyle = styled.div`
 		justify-content: flex-end;
 
 		button {
-			padding: 5px 12px;
-			font-size: 12px;
+			margin-left: 10px;
+			width: 52px;
+			height: 30px;
+			font-size: ${(props) => (props.fontSize ? '14px' : '12px')};
 		}
 	}
 `;
@@ -73,15 +88,10 @@ const EditButton = styled.button`
 `;
 
 const Deletebutton = styled.button`
-	margin-left: 15px;
+	background-color: ${(props) => props.theme.colors.white};
 	border: 1.3px solid ${(props) => props.theme.colors.purple};
 	color: ${(props) => props.theme.colors.purple};
 	:hover {
-		background-color: ${(props) => props.theme.colors.gray50};
-	}
-
-	// Mobile
-	@media screen and (max-width: 640px) {
-		margin-left: 10px;
+		background-color: #f1eaff;
 	}
 `;

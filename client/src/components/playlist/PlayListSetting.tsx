@@ -81,7 +81,7 @@ const PlayListSetting = ({
 	const addCategory = (value: string) => {
 		if (value !== '') {
 			const category = value;
-			if (categoryList.length <= 5 && !categoryList.includes(category)) {
+			if (categoryList.length <= 2 && !categoryList.includes(category)) {
 				setCategoryList((prev) => [...prev, category]);
 			}
 		}
@@ -95,38 +95,46 @@ const PlayListSetting = ({
 
 	return (
 		<PlayListSettingStyle>
-			<div>플레이리스트 제목</div>
+			<Title>플레이리스트 제목</Title>
 			<div className="row">
 				<div className="left">
 					<input
 						value={plTitle}
 						onChange={(e) => setPlTitle(e.target.value)}
 						maxLength={70}
+						// eslint-disable-next-line jsx-a11y/no-autofocus
+						autoFocus
 					/>
 				</div>
-				<div className="rigth">
-					비공개
-					<Toggle setState={setStatus} state={status} />
+				<div className="rigth toggle">
 					공개
+					<Toggle setState={setStatus} state={status} />
+					비공개
 				</div>
 			</div>
-			<div>카테고리 (최대 5개)</div>
+			<Title>카테고리 (최대 3개)</Title>
 			<div className="row">
 				<div className="left">
 					<select onChange={(e) => addCategory(e.target.value)}>
 						<option value="">선택</option>
 						<option value="발라드">발라드</option>
-						<option value="힙합"> 힙합</option>
-						<option value="OST">OST</option>
-						<option value="재즈">재즈</option>
 						<option value="댄스">댄스</option>
+						<option value="힙합">힙합</option>
+						<option value="R&B">R&B</option>
+						<option value="인디">인디</option>
+						<option value="록">록</option>
+						<option value="트로트">트로트</option>
+						<option value="POP">POP</option>
+						<option value="OST">OST</option>
 					</select>
 					<div className="categorybtn">
 						{categoryList &&
 							categoryList.map((ele, idx) => {
 								return (
 									<div key={idx}>
-										<Category category={ele}>{ele}</Category>
+										<Category category={ele} margin="0 5px 0 0">
+											{ele}
+										</Category>
 										<button
 											className="deleteCategory"
 											onClick={() => deleteCategory(idx)}>
@@ -139,10 +147,12 @@ const PlayListSetting = ({
 				</div>
 				<div className="rigth"></div>
 			</div>
-			<div className="youtube">
-				<AiFillYoutube color="red" size="30" />
-				<span>YOUTUBE</span> URL입력
-			</div>
+			<Title>
+				<a href="https://www.youtube.com/">
+					<AiFillYoutube color="red" size="30" />
+				</a>
+				URL 입력
+			</Title>
 			<div className="row">
 				<div className="left">
 					<input
@@ -152,7 +162,9 @@ const PlayListSetting = ({
 					/>
 				</div>
 				<div className="rigth">
-					<DefaultButton onClick={addPlList}>추가</DefaultButton>
+					<DefaultButton height="38px" mobileWidth onClick={addPlList}>
+						추가
+					</DefaultButton>
 				</div>
 			</div>
 		</PlayListSettingStyle>
@@ -162,17 +174,15 @@ const PlayListSetting = ({
 export default PlayListSetting;
 
 const PlayListSettingStyle = styled.div`
-	div {
-		font-size: ${(props) => props.theme.fontSize.medium};
-		font-weight: 600;
-		margin: 10px 0;
-	}
 	.row {
 		display: flex;
+		margin-bottom: 40px;
+
 		@media (max-width: 800px) {
 			flex-direction: column;
 		}
 	}
+
 	.left {
 		flex: 7;
 		input {
@@ -181,40 +191,47 @@ const PlayListSettingStyle = styled.div`
 			height: 40px;
 			border: 1px solid ${(props) => props.theme.colors.gray400};
 			border-radius: ${(props) => props.theme.radius.smallRadius};
+			// Mobile
+			@media screen and (max-width: 640px) {
+				width: 100%;
+				margin-bottom: 20px;
+			}
 		}
 		select {
 			padding: 10px;
+			width: 200px;
 			font-size: ${(props) => props.theme.fontSize.medium};
 			border: 1px solid ${(props) => props.theme.colors.gray400};
 			border-radius: ${(props) => props.theme.radius.smallRadius};
+			margin-bottom: 10px;
 		}
 	}
+
 	.rigth {
 		flex: 3;
 		display: flex;
 		align-items: center;
-		font-weight: 400;
 	}
+	.toggle {
+		// Mobile
+		@media screen and (max-width: 640px) {
+			justify-content: flex-end;
+		}
+	}
+
 	input {
-		&:focus-within {
+		:focus-within {
 			outline: none;
 			border-color: ${(props) => props.theme.colors.lightPurple};
 			box-shadow: 0 0 10px ${(props) => props.theme.colors.lightPurple};
 		}
 	}
+
 	select {
-		&:focus-within {
+		:focus-within {
 			outline: none;
 			border-color: ${(props) => props.theme.colors.lightPurple};
 			box-shadow: 0 0 10px ${(props) => props.theme.colors.lightPurple};
-		}
-	}
-	.youtube {
-		display: flex;
-		align-items: center;
-		span {
-			color: red;
-			margin: 0 0.5%;
 		}
 	}
 
@@ -224,5 +241,24 @@ const PlayListSettingStyle = styled.div`
 	}
 	.deleteCategory {
 		cursor: pointer;
+		margin-right: 10px;
+	}
+`;
+
+const Title = styled.h3`
+	display: block;
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+	font-size: 18px;
+	font-weight: 600;
+
+	a {
+		margin-right: 8px;
+	}
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 16px;
 	}
 `;

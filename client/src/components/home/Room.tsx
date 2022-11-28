@@ -17,6 +17,7 @@ const Room = ({ room, swiper }: RoomType) => {
 	const { roomId, title, userCount, maxCount } = room;
 	const { memberId, name } = room.memberResponseDto;
 	const { categoryList, playlistItems } = room.playlistResponseDto;
+
 	return (
 		<RoomStyle>
 			<Thumbnail>

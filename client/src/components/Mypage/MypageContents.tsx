@@ -65,13 +65,13 @@ const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 						)}
 						<button
 							onClick={() => navigate(`/playlistcollection/${id}/${userId}`)}>
-							더보기
+							전체보기
 						</button>
 					</div>
 				) : (
 					<button
 						onClick={() => navigate(`/playlistcollection/${id}/${userId}`)}>
-						더보기
+						전체보기
 					</button>
 				)}
 			</Roof>
@@ -118,7 +118,7 @@ const Roof = styled.div`
 		transition: 0.1s;
 
 		:hover {
-			background-color: #e8ddff;
+			background-color: #f1eaff;
 		}
 	}
 

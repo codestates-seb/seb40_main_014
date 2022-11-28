@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -20,15 +20,19 @@ export type musicInfoType = {
 	videoId?: string;
 	url?: string;
 };
+
 const MakePlayList = () => {
+	const navigate = useNavigate();
+	const { type, id } = useParams();
+
 	const [plTitle, setPlTitle] = useState<string>('');
 	const [plId, setPlId] = useState<number>();
 	const [plList, setPlList] = useState<Array<musicInfoType>>([]);
 	const [categoryList, setCategoryList] = useState<Array<string>>([]);
-	const [status, setStatus] = useState<boolean>(true);
+	const [status, setStatus] = useState<boolean>(false);
+
 	const isLogin = useSelector(myLogin);
-	const { type, id } = useParams();
-	const navigate = useNavigate();
+	const myvalue = useSelector(myValue);
 
 	useEffect(() => {
 		if (!isLogin) {
@@ -42,7 +46,7 @@ const MakePlayList = () => {
 						setPlTitle(data.title);
 						setPlList(data.playlistItems);
 						setCategoryList(data.categoryList);
-						setStatus(data.status);
+						setStatus(!data.status);
 					} else {
 						alert(res);
 					}
@@ -66,11 +70,12 @@ const MakePlayList = () => {
 		setStatus,
 		status,
 	};
+
 	const data: plinfo = {
 		title: plTitle,
 		playlistItems: plList,
 		categoryList,
-		status: status,
+		status: !status,
 	};
 
 	const validation = (data) => {
@@ -89,7 +94,6 @@ const MakePlayList = () => {
 		return true;
 	};
 
-	const myvalue = useSelector(myValue);
 	const createPl = () => {
 		if (validation(data)) {
 			console.log(data);
@@ -98,30 +102,51 @@ const MakePlayList = () => {
 			});
 		}
 	};
+
 	const modifyPl = () => {
 		if (validation(data)) {
 			data.playlistId = plId;
 			modifyPlayList(data).then((res) => {
-				if (res.data) navigate(`/mypage/${myvalue.memberId}`);
+				if (res.data) navigate(-1);
 			});
 		}
 	};
+
 	return (
-		<MakePlayListStyle>
+		<MinHeightWrapper>
 			<PlayListSetting {...settingProps} />
 			<MusicList {...props} />
 			{type === 'modify' ? (
-				<DefaultButton onClick={modifyPl}>수정</DefaultButton>
+				<DefaultButton width="150px" height="45px" onClick={modifyPl}>
+					수정
+				</DefaultButton>
 			) : (
-				<DefaultButton onClick={createPl}>만들기</DefaultButton>
+				<DefaultButton
+					width="200px"
+					height="50px"
+					mobileWidth
+					onClick={createPl}
+					margin="0 auto">
+					만들기
+				</DefaultButton>
 			)}
-		</MakePlayListStyle>
+		</MinHeightWrapper>
 	);
 };
 
 export default MakePlayList;
 
-const MakePlayListStyle = styled.div`
+export const MinHeightWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
+	min-height: calc(100vh - 80px - 120px - 234px);
+
+	// Tablet
+	@media screen and (max-width: 980px) {
+		min-height: calc(100vh - 76px - 120px - 234px);
+	}
+	// Mobile
+	@media screen and (max-width: 640px) {
+		min-height: calc(100vh - 72.406px - 120px - 234px);
+	}
 `;

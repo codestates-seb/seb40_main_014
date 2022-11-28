@@ -16,15 +16,17 @@ type content = {
 	title: string;
 	contents: Array<any>;
 };
+
 const Mypage = () => {
+	const { userId } = useParams();
+
+	const myId = useSelector(myValue).memberId;
+
 	const [contentList, setContentList] = useState<Array<content>>([
 		{ id: 1, title: '나의 플레이리스트', contents: [] },
 		{ id: 2, title: '북마크한 플레이리스트', contents: [] },
 		{ id: 3, title: '팔로우 한 DJ', contents: [] },
 	]);
-	const { userId } = useParams();
-	const myId = useSelector(myValue).memberId;
-
 	const [userInfo, setUserInfo] =
 		useState<MyInitialStateValue>(myInitialStateValue);
 
@@ -64,10 +66,10 @@ const Mypage = () => {
 				});
 			}
 		});
-	}, []);
+	}, [userId]);
 
 	return (
-		<MypageStyle>
+		<>
 			<MypageInfo userInfo={userInfo} myId={myId} />
 			{contentList.map((ele) => {
 				return (
@@ -79,10 +81,8 @@ const Mypage = () => {
 					/>
 				);
 			})}
-		</MypageStyle>
+		</>
 	);
 };
 
 export default Mypage;
-
-const MypageStyle = styled.div``;

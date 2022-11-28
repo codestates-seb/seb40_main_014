@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import ModifyButton from './ModifyButton';
+
 type PlaylistType = {
 	playList?: PlaylistInfoType;
 	followList?: any;
@@ -11,6 +12,11 @@ type PlaylistType = {
 	memberId: number;
 	setPlayLists?: Dispatch<SetStateAction<Array<object>>>;
 };
+
+type ImgProps = {
+	follow?: boolean;
+};
+
 const CplayList = ({
 	playList,
 	followList,
@@ -24,7 +30,7 @@ const CplayList = ({
 			<div>
 				{id === 3 ? (
 					<>
-						<Img src={followList.picture} alt="userPicture" />
+						<Img src={followList.picture} alt="userPicture" follow />
 						<Title>
 							<Link to={`/mypage/${followList.memberId}`}>
 								{followList.name}
@@ -68,6 +74,10 @@ const CplayListStyle = styled.div`
 		align-items: center;
 	}
 
+	:hover {
+		background-color: ${(props) => props.theme.colors.gray100};
+	}
+
 	// Mobile
 	@media screen and (max-width: 640px) {
 		flex-direction: column;
@@ -82,21 +92,21 @@ const CplayListStyle = styled.div`
 	}
 `;
 
-const Img = styled.img`
-	width: 80px;
-	border-radius: 3px;
+const Img = styled.img<ImgProps>`
+	width: ${(props) => (props.follow ? '35px' : '60px')};
+	border-radius: ${(props) => (props.follow ? '50%' : '3px')};
 	margin-right: 20px;
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		width: 50px;
+		width: ${(props) => (props.follow ? '30px' : '50px')};
 		margin-right: 10px;
 	}
 `;
 
 const Title = styled.h4`
 	:hover {
-		color: ${(props) => props.theme.colors.gray600};
+		color: ${(props) => props.theme.colors.purple};
 	}
 
 	// Mobile

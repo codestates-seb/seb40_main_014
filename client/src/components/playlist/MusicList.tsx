@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { PlayListInfoProps } from '../../pages/PlayListDetail';
-import { RiDeleteBinLine } from 'react-icons/ri';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import arrowCursor from '../../assets/images/arrowCursor.png';
 import { useLocation } from 'react-router-dom';
+import { MdOutlineDeleteForever } from 'react-icons/md';
 
 const MusicList = ({ playListInfo, plList, setPlList }: PlayListInfoProps) => {
 	const { pathname } = useLocation();
@@ -71,7 +71,8 @@ const MusicList = ({ playListInfo, plList, setPlList }: PlayListInfoProps) => {
 															<button
 																onClick={() => deletePlayList(idx)}
 																className="deleteBtn">
-																<RiDeleteBinLine size="24" />
+																{/* <RiDeleteBinLine size="24" /> */}
+																<MdOutlineDeleteForever />
 															</button>
 														</div>
 													</Music>
@@ -105,7 +106,18 @@ const Music = styled.div<{ pathname: string }>`
 			props.pathname.split('/')[1] === 'playlistdetail'
 				? `pointer`
 				: `url(${arrowCursor}) 15 15, grab`};
-		background-color: ${(props) => props.theme.colors.lightPurple};
+		/* background-color: ${(props) =>
+			props.pathname.split('/')[1] === 'playlistdetail'
+				? '#f0f0f0'
+				: '#f1eaff'};
+		.title {
+			color: ${(props) =>
+			props.pathname.split('/')[1] === 'playlistdetail' &&
+			props.theme.colors.purple}; */
+		background-color: ${(props) => props.theme.colors.gray100};
+		.title {
+			color: ${(props) => props.theme.colors.purple};
+		}
 	}
 	img {
 		width: 100%;
@@ -150,11 +162,13 @@ const Music = styled.div<{ pathname: string }>`
 		line-height: 1.3;
 		height: 1.3em;
 		font-size: ${(props) => props.theme.fontSize.small};
-		color: ${(props) => props.theme.colors.gray700};
+		color: ${(props) => props.theme.colors.gray600};
 	}
 
 	.deleteBtn {
-		color: gray;
+		color: ${(props) => props.theme.colors.gray500};
+		font-weight: 100;
+		font-size: 24px;
 		:hover {
 			cursor: pointer;
 			color: ${(props) => props.theme.colors.purple};
@@ -166,8 +180,7 @@ const MusicListStyle = styled.div`
 	display: flex;
 	flex-direction: column;
 	box-shadow: 1px 1px 10px #4d0bd133;
-	margin-top: 2%;
-	margin-bottom: 5%;
+	margin-bottom: 80px;
 	border-radius: ${(props) => props.theme.radius.smallRadius};
 
 	${Music}:nth-of-type(1) {

@@ -6,7 +6,7 @@ import { ButtonWrapper, H2, ListStyle, SwiperStyle } from './RoomList';
 import { getPlaylists } from '../api/playlistApi';
 import { useSelector } from 'react-redux';
 import { musicInfoType } from './MakePlayList';
-import { myLogin } from '../slices/mySlice';
+import { myLogin, myValue } from '../slices/mySlice';
 
 // Import Swiper React components
 import { SwiperSlide } from 'swiper/react';
@@ -25,6 +25,7 @@ export type PlaylistInfoType = {
 
 const PlaylistList = () => {
 	const isLogin = useSelector(myLogin);
+	const { memberId } = useSelector(myValue);
 
 	//* 무한 스크롤
 	const [playlists, setPlayLists] = useState<PlaylistInfoType[]>([]);
@@ -103,44 +104,90 @@ const PlaylistList = () => {
 			<H2>가장 많은 좋아요를 받은 플레이리스트</H2>
 			{playlists.length ? (
 				<SwiperStyle {...settings}>
-					{playlists.map((playlist: PlaylistInfoType) => (
-						<SwiperSlide key={playlist.playlistId}>
-							{playlist.status && (
-								<Playlist
-									playList={playlist}
-									key={playlist.playlistId}
-									swiper
-								/>
-							)}
-						</SwiperSlide>
-					))}
+					{playlists.map((playlist: PlaylistInfoType) => {
+						// 본인이 쓴 글
+						if (playlist.memberId === memberId) {
+							return (
+								<SwiperSlide key={playlist.playlistId}>
+									<Playlist
+										playList={playlist}
+										key={playlist.playlistId}
+										swiper
+									/>
+								</SwiperSlide>
+							);
+						}
+						//  남이 쓴 글
+						else {
+							// 비공개는 보여주지 않는다.
+							if (playlist.status) {
+								return (
+									<SwiperSlide key={playlist.playlistId}>
+										<Playlist
+											playList={playlist}
+											key={playlist.playlistId}
+											swiper
+										/>
+									</SwiperSlide>
+								);
+							}
+						}
+					})}
 				</SwiperStyle>
 			) : null}
 			<H2>인기 DJ 플레이리스트</H2>
 			{playlists.length ? (
 				<SwiperStyle {...settings}>
-					{playlists.map((playlist: PlaylistInfoType) => (
-						<SwiperSlide key={playlist.playlistId}>
-							{playlist.status && (
-								<Playlist
-									playList={playlist}
-									key={playlist.playlistId}
-									swiper
-								/>
-							)}
-						</SwiperSlide>
-					))}
+					{playlists.map((playlist: PlaylistInfoType) => {
+						// 본인이 쓴 글
+						if (playlist.memberId === memberId) {
+							return (
+								<SwiperSlide key={playlist.playlistId}>
+									<Playlist
+										playList={playlist}
+										key={playlist.playlistId}
+										swiper
+									/>
+								</SwiperSlide>
+							);
+						}
+						//  남이 쓴 글
+						else {
+							// 비공개는 보여주지 않는다.
+							if (playlist.status) {
+								return (
+									<SwiperSlide key={playlist.playlistId}>
+										<Playlist
+											playList={playlist}
+											key={playlist.playlistId}
+											swiper
+										/>
+									</SwiperSlide>
+								);
+							}
+						}
+					})}
 				</SwiperStyle>
 			) : null}
 			<H2>전체</H2>
 			<ListStyle>
 				{playlists.length
 					? playlists.map((playlist: PlaylistInfoType) => {
-							return (
-								playlist.status && (
+							// 본인이 쓴 글
+							if (playlist.memberId === memberId) {
+								return (
 									<Playlist playList={playlist} key={playlist.playlistId} />
-								)
-							);
+								);
+							}
+							//  남이 쓴 글
+							else {
+								// 비공개는 보여주지 않는다.
+								if (playlist.status) {
+									return (
+										<Playlist playList={playlist} key={playlist.playlistId} />
+									);
+								}
+							}
 					  })
 					: null}
 				<div ref={observerTargetEl} />

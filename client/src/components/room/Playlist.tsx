@@ -8,7 +8,7 @@ import YouTube, { YouTubeProps } from 'react-youtube';
 import Loading from '../common/Loading';
 import { useEffect, useRef, useState } from 'react';
 
-import ReactPlayer from 'react-player/youtube';
+// import ReactPlayer from 'react-player/youtube';
 
 const PlaylistSection = styled.div`
 	width: 230px;
@@ -128,7 +128,7 @@ const PlaylistPart = ({ playlist }) => {
 	// useEffect(() => {
 	// 	getRoomById(roomId)
 	// 		.then((res) =>
-	// 			setPlaylist(res.data.playlistResponseDtoList[0].playlistItems),
+	// 			setPlaylist(res.data.playlistResponseDto.playlistItems),
 	// 		)
 	// 		.then(() => {
 	// 			setThumbnail(playlist[0].thumbnail);
