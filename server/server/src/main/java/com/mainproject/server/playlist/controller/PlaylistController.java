@@ -1,5 +1,6 @@
 package com.mainproject.server.playlist.controller;
 
+import com.mainproject.server.member.dto.MemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.dto.PlaylistPatchDto;
@@ -86,6 +87,19 @@ public class PlaylistController {
                 new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists), pagePlList), HttpStatus.OK);
 
     }
+    // 플레이리스트 검색
+    @GetMapping("/search")
+    public ResponseEntity searchMembers(@Positive @RequestParam(defaultValue = "1") int page,
+                                        @Positive @RequestParam(defaultValue = "15") int size,
+                                        @RequestParam String type, @RequestParam String name) {
+
+        Page<Playlist> pagePlaylists = playlistService.searchPlaylists(type, name);
+        List<Playlist> playlists = pagePlaylists.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists), pagePlaylists), HttpStatus.OK);
+
+    }
 
 
     @DeleteMapping("/{playlist-id}")
@@ -130,17 +144,15 @@ public class PlaylistController {
     }
 
     @GetMapping("/bookmark/{member-id}")
-    public ResponseEntity getBookmarkPlaylists(@PathVariable("member-id") Long memberId) {
+    public ResponseEntity getBookmarkPlaylists(@PathVariable("member-id") Long memberId, Long authMemberId) {
 
         Page<Playlist> bookmarkPlaylists = playlistService.getBookmarkPlaylists(memberId);
 
         List<Playlist> playlists = bookmarkPlaylists.getContent();
 
-//        MultiResponseDto<PlaylistResponseDto> multiResponseDto =
-//                new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists), bookmarkPlaylists);
-//
-//        return new ResponseEntity(multiResponseDto, HttpStatus.OK);
+        List<Boolean> bookmarkStates = playlistService.BookmarkStates(memberId, authMemberId);
+
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists), bookmarkPlaylists), HttpStatus.OK);
+                new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists, bookmarkStates), bookmarkPlaylists), HttpStatus.OK);
     }
 }

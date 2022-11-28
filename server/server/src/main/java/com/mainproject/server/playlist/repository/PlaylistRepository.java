@@ -9,6 +9,8 @@ import java.util.List;
 public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
 
 
-    List<Playlist> getPlaylistsByMember(Member member);
+    List<Playlist> findByMember(Member member);
+    List<Playlist> findByTitleContaining(String title);
+//    List<Playlist> findByCategoryListContaining(List<String> categoryList);
 
 }
