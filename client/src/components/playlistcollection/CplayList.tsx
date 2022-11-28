@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { followUser } from '../../api/userApi';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { myLogin } from '../../slices/mySlice';
+import BookMark from '../common/BookMark';
 import { Follower } from '../Mypage/MypageInfo';
 import ModifyButton from './ModifyButton';
 
@@ -81,6 +82,15 @@ const CplayList = ({
 						playlistId={playList.playlistId}
 						setPlayLists={setPlayLists}
 						playlistName={playList.title}
+					/>
+				)}
+				{id === 2 && userId === memberId && (
+					<BookMark
+						playlistId={playList.playlistId}
+						memberId={playList.memberId}
+						isLogin={isLogin}
+						loginId={memberId}
+						bookmarkState={playList.bookmarkState}
 					/>
 				)}
 			</div>

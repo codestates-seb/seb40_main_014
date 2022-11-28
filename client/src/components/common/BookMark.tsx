@@ -1,32 +1,29 @@
-import { BsBookmarksFill, BsBookmarks } from 'react-icons/bs';
 import { postBookMark } from '../../api/playlistApi';
 import { LikebookmarkType } from './Like';
 import { RiFolderAddLine, RiFolderReduceFill } from 'react-icons/ri';
 import styled from 'styled-components';
+import { useState } from 'react';
 
 const BookMark = ({
 	playlistId,
 	memberId,
 	isLogin,
 	loginId,
-	setPlayListInfo,
 	bookmarkState,
 }: LikebookmarkType) => {
+	console.log(bookmarkState);
+	const [state, setState] = useState(bookmarkState);
 	const onClickBookMark = () => {
-		postBookMark(playlistId).then((res) =>
-			setPlayListInfo((prev) => {
-				const copy = { ...prev };
-				copy.bookmarkState = res.data.bookmarkState;
-				return copy;
-			}),
-		);
+		postBookMark(playlistId).then(() => {
+			setState((prev) => !prev);
+		});
 	};
 
 	return (
 		<>
 			{loginId !== memberId &&
 				isLogin &&
-				(bookmarkState ? (
+				(state ? (
 					<BookmarkStyle onClick={onClickBookMark}>
 						<RiFolderReduceFill size="22" color="#333333" />
 						<span>보관함에서 삭제</span>

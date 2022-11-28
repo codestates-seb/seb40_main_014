@@ -10,7 +10,7 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation, Autoplay } from 'swiper';
+import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -106,7 +106,7 @@ const RoomList = () => {
 		navigation: true,
 		// navigation: { prevEl: prevRef.current, newtEl: nextRef.current },
 		pagination: { clickable: true },
-		autoplay: { delay: 5000 },
+		autoplay: { delay: 5000, disableOnInteraction: false },
 		breakpoints: {
 			641: {
 				slidesPerView: 3,
@@ -123,7 +123,22 @@ const RoomList = () => {
 		// 	swiper.navigation.update();
 		// },
 	};
-
+	const swiperRef1 = useRef<SwiperCore>();
+	const onInit1 = (Swiper: SwiperCore): void => {
+		swiperRef1.current = Swiper;
+	};
+	const swiperRef2 = useRef<SwiperCore>();
+	const onInit2 = (Swiper: SwiperCore): void => {
+		swiperRef2.current = Swiper;
+	};
+	const handleMouseEnter = (ref) => {
+		if (ref) {
+			if (ref.current) ref.current.autoplay.stop();
+		}
+	};
+	const handleMouseLeave = (ref) => {
+		if (ref.current) ref.current.autoplay.start();
+	};
 	return (
 		<>
 			{isLogin && (
@@ -142,9 +157,12 @@ const RoomList = () => {
 			)}
 			<H2>가장 많은 청취자가 있는 방송</H2>
 			{rooms.length ? (
-				<SwiperStyle {...settings}>
+				<SwiperStyle {...settings} onInit={onInit1}>
 					{rooms.map((room: RoomInfoType) => (
-						<SwiperSlide key={room.roomId}>
+						<SwiperSlide
+							key={room.roomId}
+							onMouseEnter={() => handleMouseEnter(swiperRef1)}
+							onMouseLeave={() => handleMouseLeave(swiperRef1)}>
 							<Room room={room} key={room.roomId} swiper />
 						</SwiperSlide>
 					))}
@@ -158,9 +176,12 @@ const RoomList = () => {
 			) : null}
 			<H2>인기 DJ 방송</H2>
 			{rooms.length ? (
-				<SwiperStyle {...settings}>
+				<SwiperStyle {...settings} onInit={onInit2}>
 					{rooms.map((room: RoomInfoType) => (
-						<SwiperSlide key={room.roomId}>
+						<SwiperSlide
+							key={room.roomId}
+							onMouseEnter={() => handleMouseEnter(swiperRef2)}
+							onMouseLeave={() => handleMouseLeave(swiperRef2)}>
 							<Room room={room} key={room.roomId} swiper />
 						</SwiperSlide>
 					))}

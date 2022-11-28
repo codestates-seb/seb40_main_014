@@ -1,5 +1,5 @@
 import Playlist from '../components/home/Playlist';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, Ref } from 'react';
 import { DefaultButton } from '../components/common/Button';
 import { Link } from 'react-router-dom';
 import { ButtonWrapper, H2, ListStyle, SwiperStyle } from './RoomList';
@@ -10,7 +10,7 @@ import { myLogin, myValue } from '../slices/mySlice';
 
 // Import Swiper React components
 import { SwiperSlide } from 'swiper/react';
-import { Pagination, Navigation, Autoplay } from 'swiper';
+import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
 
 export type PlaylistInfoType = {
 	memberId: number;
@@ -21,6 +21,8 @@ export type PlaylistInfoType = {
 	status: boolean;
 	like: number;
 	playlistId: number;
+	likeState?: boolean;
+	bookmarkState?: boolean;
 };
 
 const PlaylistList = () => {
@@ -77,7 +79,7 @@ const PlaylistList = () => {
 		spaceBetween: 1,
 		navigation: true,
 		pagination: { clickable: true },
-		autoplay: { delay: 5000 },
+		autoplay: { delay: 5000, disableOnInteraction: false },
 		breakpoints: {
 			641: {
 				slidesPerView: 3,
@@ -88,6 +90,23 @@ const PlaylistList = () => {
 				spaceBetween: 44,
 			},
 		},
+	};
+
+	const swiperRef1 = useRef<SwiperCore>();
+	const onInit1 = (Swiper: SwiperCore): void => {
+		swiperRef1.current = Swiper;
+	};
+	const swiperRef2 = useRef<SwiperCore>();
+	const onInit2 = (Swiper: SwiperCore): void => {
+		swiperRef2.current = Swiper;
+	};
+	const handleMouseEnter = (ref) => {
+		if (ref) {
+			if (ref.current) ref.current.autoplay.stop();
+		}
+	};
+	const handleMouseLeave = (ref) => {
+		if (ref.current) ref.current.autoplay.start();
 	};
 
 	return (
@@ -103,12 +122,15 @@ const PlaylistList = () => {
 			)}
 			<H2>가장 많은 좋아요를 받은 플레이리스트</H2>
 			{playlists.length ? (
-				<SwiperStyle {...settings}>
+				<SwiperStyle {...settings} onInit={onInit1}>
 					{playlists.map((playlist: PlaylistInfoType) => {
 						// 본인이 쓴 글
 						if (playlist.memberId === memberId) {
 							return (
-								<SwiperSlide key={playlist.playlistId}>
+								<SwiperSlide
+									key={playlist.playlistId}
+									onMouseEnter={() => handleMouseEnter(swiperRef1)}
+									onMouseLeave={() => handleMouseLeave(swiperRef1)}>
 									<Playlist
 										playList={playlist}
 										key={playlist.playlistId}
@@ -122,7 +144,10 @@ const PlaylistList = () => {
 							// 비공개는 보여주지 않는다.
 							if (playlist.status) {
 								return (
-									<SwiperSlide key={playlist.playlistId}>
+									<SwiperSlide
+										key={playlist.playlistId}
+										onMouseEnter={() => handleMouseEnter(swiperRef1)}
+										onMouseLeave={() => handleMouseLeave(swiperRef1)}>
 										<Playlist
 											playList={playlist}
 											key={playlist.playlistId}
@@ -137,12 +162,15 @@ const PlaylistList = () => {
 			) : null}
 			<H2>인기 DJ 플레이리스트</H2>
 			{playlists.length ? (
-				<SwiperStyle {...settings}>
+				<SwiperStyle {...settings} onInit={onInit2}>
 					{playlists.map((playlist: PlaylistInfoType) => {
 						// 본인이 쓴 글
 						if (playlist.memberId === memberId) {
 							return (
-								<SwiperSlide key={playlist.playlistId}>
+								<SwiperSlide
+									key={playlist.playlistId}
+									onMouseEnter={() => handleMouseEnter(swiperRef2)}
+									onMouseLeave={() => handleMouseLeave(swiperRef2)}>
 									<Playlist
 										playList={playlist}
 										key={playlist.playlistId}
@@ -156,7 +184,10 @@ const PlaylistList = () => {
 							// 비공개는 보여주지 않는다.
 							if (playlist.status) {
 								return (
-									<SwiperSlide key={playlist.playlistId}>
+									<SwiperSlide
+										key={playlist.playlistId}
+										onMouseEnter={() => handleMouseEnter(swiperRef2)}
+										onMouseLeave={() => handleMouseLeave(swiperRef2)}>
 										<Playlist
 											playList={playlist}
 											key={playlist.playlistId}
