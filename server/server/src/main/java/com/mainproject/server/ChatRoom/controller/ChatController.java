@@ -17,8 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.ENTER;
-import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.TALK;
+import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,9 +41,14 @@ public class ChatController {
         // 채팅방 유저+1
         ChatRoom room = chatService.findVerifiedRoomId(chat.getRoomId());
         room.setRoomId(chat.getRoomId());
-        room.setUserCount(room.getUserCount() + 1) ;
-        room.getUserlist().add(chat.getMemberName());
-        room.setUserlist(room.getUserlist());
+
+        boolean isContains = room.getUserlist().contains(chat.getMemberName());
+        if (!isContains) {
+            room.getUserlist().add(chat.getMemberName());
+            room.setUserlist(room.getUserlist());
+            room.setUserCount(room.getUserCount() + 1);
+            chatRoomRepository.save(room);
+        }
         chatRoomRepository.save(room);
 
         // 반환 결과를 socket session 에 memName 으로 저장
@@ -57,7 +61,7 @@ public class ChatController {
         if (chat.getType().equals(ENTER)) {
             template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
         }
-        log.info("chatcontroller enterUser{}", room.getUserlist());
+        log.info("chatcontroller UserList{}", room.getUserlist());
     }
 
     // 해당 유저 채팅 보내기
@@ -93,18 +97,37 @@ public class ChatController {
         ChatRoom room = chatService.findVerifiedRoomId(roomId);
         room.setRoomId(roomId);
         room.setUserCount(room.getUserCount() - 1);
+        room.getUserlist().remove(memberName);
         chatRoomRepository.save(room);
 
         log.info("headAccessor {}", headerAccessor);
 
-        ChatMessage chat = ChatMessage.builder()
+        ChatMessage chatMessage = ChatMessage.builder()
                 .type(ChatMessage.MessageType.LEAVE)
                 .memberName(memberName)
                 .roomId(roomId)
                 .message(memberName + "님 퇴장하셨습니다.")
                 .build();
 
-        template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
+        template.convertAndSend("/sub/chat/room/" + chatMessage.getRoomId(), chatMessage);
+    }
+
+    @MessageMapping("/chat/leave")
+    public void leaveRoom(@Payload ChatMessage chat,
+                          @PathVariable String roomId) {
+        if (chat.getType().equals(LEAVE)) {
+            chat.setMemberName(chat.getMemberName());
+            chat.setMessage(chat.getMemberName() + "님 퇴장하셨습니다.");
+            log.info("loggigingin {}", chat.getRoomId());
+            ChatRoom room = chatService.findVerifiedRoomId(chat.getRoomId());
+            room.setRoomId(chat.getRoomId());
+
+            room.setUserCount(room.getUserCount() - 1);
+            room.getUserlist().remove(chat.getMemberName());
+            chatRoomRepository.save(room);
+
+            template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
+        }
     }
 }
 
