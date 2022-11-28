@@ -42,8 +42,6 @@ const Mypage = () => {
 					copy[0].contents = res.data.playlist.data;
 					return copy;
 				});
-			} else {
-				alert(res);
 			}
 		});
 		//유저가 북마크 플레이리스트

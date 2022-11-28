@@ -24,7 +24,7 @@ export default Toggle;
 
 const ToggleBtn = styled.button<{ toggle: boolean }>`
 	margin: 0 10px;
-	width: 50px;
+	width: 45px;
 	height: 20px;
 	border-radius: 30px;
 	cursor: pointer;
@@ -43,6 +43,6 @@ const Circle = styled.div<{ toggle: boolean }>`
 	height: 16px;
 	border-radius: 50%;
 	position: absolute;
-	left: ${(props) => (props.toggle ? '31px' : '3px')};
+	left: ${(props) => (props.toggle ? '26px' : '3px')};
 	transition: all 0.5s ease-in-out;
 `;
