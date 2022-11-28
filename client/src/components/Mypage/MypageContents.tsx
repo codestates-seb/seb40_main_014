@@ -106,13 +106,13 @@ const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 				) : (
 					<NoSwiperStyle>
 						{contents.map((ele, idx) => (
-							<>
+							<div key={idx}>
 								{id === 3 ? (
 									<Content id={id} followlist={ele} />
 								) : (
 									<Content id={id} playlist={ele} />
 								)}
-							</>
+							</div>
 						))}
 					</NoSwiperStyle>
 				)}
