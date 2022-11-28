@@ -36,16 +36,16 @@ const ThumbnailContainer = styled.div`
 	border-radius: ${(props) => props.theme.radius.largeRadius}
 		${(props) => props.theme.radius.largeRadius} 0px 0px;
 	height: 180px;
-	/* img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	} */
 	img {
 		width: 100%;
 		height: 100%;
-		object-fit: none;
+		object-fit: cover;
 	}
+	/* img {
+		width: 100%;
+		height: 100%;
+		object-fit: none;
+	} */
 	@media screen and (max-width: 640px) {
 		height: 120px;
 	}
@@ -151,8 +151,10 @@ const PlaylistPart = ({ playlist }) => {
 	const onReady = (event) => {
 		// access to player in all event handlers via event.target
 		setPlayer(event.target);
+
+		event.target.loadPlaylist({ playlist: playlistIdList, startSeconds: 1 });
 		event.target.playVideo();
-		event.target.loadPlaylist(playlistIdList);
+		// console.log('플리 리스트', playlistIdList);
 	};
 
 	const pause = () => {
@@ -268,7 +270,7 @@ const PlaylistPart = ({ playlist }) => {
 				) : (
 					<>
 						<YouTube
-							videoId={playlist[0].videoId}
+							// videoId={playlist[0].videoId}
 							opts={opts}
 							onReady={onReady}
 						/>
