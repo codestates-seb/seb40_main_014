@@ -13,6 +13,7 @@ import com.mainproject.server.response.MultiResponseDto;
 import org.mapstruct.Mapper;
 import org.springframework.data.domain.PageImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +26,8 @@ public interface MemberMapper {
 
     List<SimpleMemberResponseDto> memberListToSimpleMemberResponseDtoList(List<Member> memberList);
 
-    default MemberResponseDto memberToMemberResponseDto(Member member, Boolean followState, ChatRoomMapper chatRoomMapper,
-                                                        PlaylistMapper playlistMapper, int playlistPage, Integer rank) {
+    default MemberResponseDto memberToMemberResponseDto(Member member, Boolean followState,
+                                                        PlaylistMapper playlistMapper, Integer rank) {
         if (member == null) {
             return null;
         }
@@ -59,6 +60,20 @@ public interface MemberMapper {
         memberResponseDto.followState(followState);
 
         return memberResponseDto.build();
+    }
+
+    default List<MemberResponseDto> memberListToMemberResponseDtoList(List<Member> memberList, List<Boolean> followStates,
+                                                                      PlaylistMapper playlistMapper, Integer rank) {
+        if ( memberList == null ) {
+            return null;
+        }
+
+        List<MemberResponseDto> list = new ArrayList<MemberResponseDto>( memberList.size() );
+        for ( int i=0; i<memberList.size(); i++ ) {
+            list.add( memberToMemberResponseDto( memberList.get(i), followStates.get(i), playlistMapper, 0 ) );
+        }
+
+        return list;
     }
 
     /**

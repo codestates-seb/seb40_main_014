@@ -40,7 +40,7 @@ public class FollowService {
         List<Playlist> membersPlaylist = member.getPlaylists();
         int Score = 0;
 
-        for (Playlist pl : membersPlaylist){
+        for (Playlist pl : membersPlaylist) {
             int like = pl.getLikes().size();
             Score += like;
         }
@@ -50,25 +50,25 @@ public class FollowService {
                 .filter(f -> f.getFollowerId().equals(authMemberId)) // 그안에 내가 있는 경우
                 .count(); // 0, 1
 
-        if (followCount == 1){
+        if (followCount == 1) {
             Follow followMember = followRepository.findByMember(member)
                     .stream()
                     .filter(f -> f.getFollowerId().equals(authMemberId))
                     .findAny().get();
 
             followRepository.delete(followMember);
-            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size()+Score)-1);
-        }
-        else {
+            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size() + Score) - 1);
+        } else {
             Follow followMember = new Follow();
             followMember.setFollowerId(authMemberId);
             followMember.setFollowingId(memberId);
             followMember.setMember(member); // follow 당하는 멤버를 저장
 
             followRepository.save(followMember);
-            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size()+Score)+1);
+            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size() + Score) + 1);
         }
     }
+
     public Page<Member> getRankings() {
 
         Set<String> range = zSetOperations.reverseRange(KEY, 0, 7);
@@ -78,7 +78,7 @@ public class FollowService {
         List<Member> memberList = new ArrayList<>();
 
         int index = 1;
-        for (String email : rankList){
+        for (String email : rankList) {
             Member member = memberRepository.findByEmail(email).get();
             member.setRanking(index);
             memberRepository.save(member);
@@ -97,7 +97,7 @@ public class FollowService {
 
         // index가 0부터 시작하니까 +1
         if (zSetOperations.reverseRank(KEY, member.getEmail()) != null) {
-            ranking = zSetOperations.reverseRank(KEY, member.getEmail())+1;
+            ranking = zSetOperations.reverseRank(KEY, member.getEmail()) + 1;
             if (ranking > 6) {
                 return 0;
             }
@@ -105,14 +105,16 @@ public class FollowService {
         return ranking.intValue();
     }
 
-    public Boolean followState(Long memberId, Long authMemberId){
+    public Boolean followState(Long memberId, Long authMemberId) {
         Member member = verifyExistsMember(memberId);
 
         Long followCount = followRepository.findByMember(member)
                 .stream()
                 .filter(f -> f.getFollowerId().equals(authMemberId))
                 .count(); // 0, 1, []
-        if (followCount == 1) { return true; }
+        if (followCount == 1) {
+            return true;
+        }
         return false; // [], 0
     }
 
@@ -123,7 +125,7 @@ public class FollowService {
         // 해당 멤버가 행한 follow
         List<Follow> follwerList = followRepository.findByFollowerId(memberId);
 
-        for (Follow follow : follwerList){
+        for (Follow follow : follwerList) {
             Member member = memberRepository.findById(follow.getFollowingId()).get();
             memberList.add(member);
         }
@@ -135,7 +137,29 @@ public class FollowService {
     private Member verifyExistsMember(Long memberId) {
 
         return memberRepository.findById(memberId).orElseThrow(
-                () -> {throw new BusinessException(ExceptionCode.MEMBER_NOT_EXISTS);
+                () -> {
+                    throw new BusinessException(ExceptionCode.MEMBER_NOT_EXISTS);
                 });
+    }
+
+    public List<Boolean> followStates(Long memberId, Long authMemberId) {
+
+        List<Boolean> followStates = new ArrayList<>();
+
+        // 해당 멤버가 행한 follow
+        List<Follow> follwerList = followRepository.findByFollowerId(memberId);
+
+        for (Follow follow : follwerList) {
+            Member member = memberRepository.findById(follow.getFollowingId()).get();
+
+            Long followCount = followRepository.findByMember(member)
+                    .stream()
+                    .filter(f -> f.getFollowerId().equals(authMemberId))
+                    .count(); // 0, 1, []
+
+            if (followCount == 1) { followStates.add(true);}
+            else {followStates.add(false);}
+        }
+        return followStates;
     }
 }

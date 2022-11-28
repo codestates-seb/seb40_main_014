@@ -10,6 +10,7 @@ import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.member.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -68,6 +69,13 @@ public class MemberService {
                 memberRepository.findAll(PageRequest.of(page, size, Sort.by("memberId").descending()));
 
         return findMembers;
+    }
+
+    public Page<Member> searchMembers(String name){
+
+        List<Member> searchMembers = memberRepository.findByNameContaining(name);
+        Page<Member> memberPage = new PageImpl<>(searchMembers);
+        return memberPage;
     }
 
     public void logoutMember(HttpServletRequest request){
