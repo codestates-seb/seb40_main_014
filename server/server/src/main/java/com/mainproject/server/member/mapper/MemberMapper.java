@@ -44,11 +44,11 @@ public interface MemberMapper {
         memberResponseDto.createdAt(member.getCreatedAt());
         memberResponseDto.modifiedAt(member.getModifiedAt());
 
-        List<Playlist> playlistList = member.getPlaylists()
-                .stream()
-                .skip(5 * playlistPage)
-                .limit(5)
-                .collect(Collectors.toList());
+        List<Playlist> playlistList = member.getPlaylists();
+//                .stream()
+//                .skip(5 * playlistPage)
+//                .limit(5)
+//                .collect(Collectors.toList());
 
         PageImpl page = new PageImpl<>(playlistList);
         MultiResponseDto<SimplePlaylistResponseDto> multiResponseDto =
@@ -89,11 +89,11 @@ public interface MemberMapper {
         memberResponseDto.createdAt(member.getCreatedAt());
         memberResponseDto.modifiedAt(member.getModifiedAt());
 
-        List<Playlist> playlistList = member.getPlaylists()
-                .stream()
-                .skip(5 * playlistPage)
-                .limit(5)
-                .collect(Collectors.toList());
+        List<Playlist> playlistList = member.getPlaylists();
+//                .stream()
+//                .skip(5 * playlistPage)
+//                .limit(5)
+//                .collect(Collectors.toList());
 
         PageImpl page = new PageImpl<>(playlistList);
         MultiResponseDto<SimplePlaylistResponseDto> multiResponseDto =

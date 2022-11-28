@@ -17,7 +17,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import javax.validation.ConstraintViolationException;
 
 @Slf4j
-//@RestControllerAdvice // 에러 로그 확인이 어려워서 주석처리
+@RestControllerAdvice // 에러 로그 확인이 어려워서 주석처리
 public class GlobalExceptionAdvice {
 
     @ExceptionHandler
@@ -38,13 +38,13 @@ public class GlobalExceptionAdvice {
         return response;
     }
 
-    @ExceptionHandler
-    public ResponseEntity handleBusinessLogicException(BusinessException e) {
-        final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
-
-        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode()
-                .getStatus()));
-    }
+//    @ExceptionHandler
+//    public ResponseEntity handleBusinessLogicException(BusinessException e) {
+//        final ErrorResponse response = ErrorResponse.of(e.getExceptionCode());
+//
+//        return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode()
+//                .getStatus()));
+//    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)

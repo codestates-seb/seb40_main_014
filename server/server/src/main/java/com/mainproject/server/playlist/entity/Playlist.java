@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,9 @@ public class Playlist extends Auditable {
 
     @OneToMany(mappedBy = "playlist", cascade = CascadeType.REMOVE)
     private List<PlaylistItem> playlistItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "playlist", cascade = CascadeType.REMOVE)
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "room_id")
