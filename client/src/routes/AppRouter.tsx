@@ -43,6 +43,7 @@ const AppRouter = () => {
 						{/* 방 */}
 						<Route path="/rooms/:id" element={<Room />} />
 					</Route>
+
 					<Route path="/chat" element={<Chat />} />
 					<Route path="/chattest" element={<Chattest />} />
 					<Route path="/chatstomp" element={<StompChat />} />

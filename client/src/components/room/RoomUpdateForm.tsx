@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import axios from 'axios';
+import { updateRoom } from '../../api/roomApi';
+import { useParams } from 'react-router-dom';
 
 type updateRoomInfo = {
 	title: string;
@@ -74,26 +76,31 @@ const CreateRoomBtn = styled.button`
 	}
 `;
 
-const RoomUpdateForm = () => {
+const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen }) => {
 	const { register, handleSubmit } = useForm<updateRoomInfo>();
 	const [checked, setChecked] = useState(false);
-
+	const params = useParams();
+	const roomId = params.id;
+	console.log(roomId);
 	const onValid = (e) => {
 		const UpdateRoomInfo = {
 			title: e.title,
-			password: e.password,
-			people: e.people,
 		};
 
 		console.log('수정될 방의 정보', UpdateRoomInfo);
-
-		axios
-			.post(
-				`${process.env.REACT_APP_STACK_SERVER_TEST}/rooms/update`,
-				UpdateRoomInfo,
-			)
-			.then((res) => console.log(res))
+		updateRoom(UpdateRoomInfo, roomId)
+			.then((res) => {
+				setTitle(res.data.title);
+			})
+			.then(() => setModalOpen(!modalOpen))
 			.catch((err) => console.log(err));
+		// axios
+		// 	.post(
+		// 		`${process.env.REACT_APP_STACK_SERVER_TEST}/rooms/update`,
+		// 		UpdateRoomInfo,
+		// 	)
+		// 	.then((res) => console.log(res))
+		// 	.catch((err) => console.log(err));
 	};
 
 	const onCheck = () => {
@@ -118,7 +125,7 @@ const RoomUpdateForm = () => {
 				</InputInfo>
 				<PasswordInput
 					{...register('password')}
-					placeholder="비밀번호"
+					placeholder="비밀번호는 수정할 수 없습니다!"
 					disabled={!checked}></PasswordInput>
 			</InputContainer>
 			<InputContainer>
@@ -133,7 +140,7 @@ const RoomUpdateForm = () => {
 				<InputInfo>최대 인원 수</InputInfo>
 				<PeopleInput
 					{...register('people')}
-					placeholder="최대 인원 수"
+					placeholder="최대 인원 수는 수정할 수 없습니다!"
 					type="number"
 					disabled></PeopleInput>
 			</InputContainer>

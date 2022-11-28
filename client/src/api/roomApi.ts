@@ -23,7 +23,7 @@ export const createRoom = async (data) => {
 
 export const updateRoom = async (data, roomId) => {
 	try {
-		const result = await instance.patch(`/rooms/${roomId}`, data);
+		const result = await instance.patch(`/rooms/update/${roomId}`, data);
 		return result.data;
 	} catch (err) {
 		return err;

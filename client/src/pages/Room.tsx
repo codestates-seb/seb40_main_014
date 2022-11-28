@@ -4,7 +4,7 @@ import PlaylistPart from '../components/room/Playlist';
 import PeoplePart from '../components/room/PeopleList';
 import Chatting from '../components/room/Chatting';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import UpdateRoomModal from '../components/room/updateModal';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
@@ -18,7 +18,7 @@ const TotalContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: -80px;
+	margin-top: -100px;
 	@media screen and (max-width: 640px) {
 		width: 300px;
 	}
@@ -31,6 +31,7 @@ const Container = styled.div`
 	box-shadow: 0px 5px 5px 0px ${(props) => props.theme.colors.gray500};
 	border: 1px solid ${(props) => props.theme.colors.gray300};
 	background-color: ${(props) => props.theme.colors.background};
+	margin-bottom: 40px;
 	@media screen and (max-width: 980px) {
 		width: 500px;
 	}
@@ -113,6 +114,7 @@ const ChatSection = styled.div`
 	}
 	:hover {
 		::-webkit-scrollbar {
+			display: block;
 			width: 8px;
 		}
 
@@ -206,13 +208,18 @@ const MessageInput = styled.input`
 const Room = () => {
 	const { register, handleSubmit, reset } = useForm<MessageInfo>();
 	const userInfo = useSelector((state: RootState) => state.my.value);
-	const navigate = useNavigate();
+	const [isAdmin, setIsAdmin] = useState<boolean>(false);
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [playlist, setPlaylist] = useState<PlayListInfoProps[]>([]);
 	const [isConnect, setIsConnect] = useState(true);
 	const modalClose = () => {
-		setModalOpen(!modalOpen);
+		if (isAdmin) {
+			setModalOpen(!modalOpen);
+		} else {
+			alert('방 수정은 방장만 가능합니다!');
+		}
 	};
+	const [people, setPeople] = useState<string[]>([]);
 	const [receiveMessageObject, setReceiveMessageObject] = useState<
 		receiveMessageObjectType[]
 	>([]);
@@ -276,7 +283,7 @@ const Room = () => {
 
 				return res;
 			})
-			.then(() => {
+			.then((res) => {
 				setTimeout(
 					() =>
 						client.publish({
@@ -285,6 +292,18 @@ const Room = () => {
 						}),
 					500,
 				);
+				return res;
+			})
+			.then((res) => {
+				// 유저리스트에 추가, 방장인지 확인
+				getRoomById(roomId)
+					.then(() => {
+						setPeople(res.data.userlist);
+						NumberMemberId === res.data.memberResponseDto.memberId
+							? setIsAdmin(true)
+							: setIsAdmin(false);
+					})
+					.catch((err) => console.log(err));
 			})
 			.catch((err) => {
 				// navigate('/');
@@ -349,10 +368,8 @@ const Room = () => {
 	};
 
 	const onClick = (e) => {
-		console.log('leave');
 		client.deactivate();
 		setIsConnect(false);
-		console.log(client.connected);
 	};
 
 	return (
@@ -368,6 +385,7 @@ const Room = () => {
 							<UpdateRoomBtn onClick={modalClose}>Edit</UpdateRoomBtn>
 							{modalOpen && (
 								<UpdateRoomModal
+									setTitle={setTitle}
 									modalOpen={modalOpen}
 									setModalOpen={setModalOpen}
 								/>
@@ -388,7 +406,7 @@ const Room = () => {
 						</ChatLeft>
 						<ChatRight>
 							<PlaylistPart playlist={playlist} />
-							<PeoplePart />
+							<PeoplePart people={people} isAdmin={isAdmin} />
 						</ChatRight>
 					</ChatRoomContainer>
 					<ChatFooter>
