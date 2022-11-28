@@ -22,13 +22,14 @@ const Mypage = () => {
 
 	const myId = useSelector(myValue).memberId;
 
-	const [contentList, setContentList] = useState<Array<content>>([
-		{ id: 1, title: '나의 플레이리스트', contents: [] },
-		{ id: 2, title: '북마크한 플레이리스트', contents: [] },
-		{ id: 3, title: '팔로우 한 DJ', contents: [] },
-	]);
 	const [userInfo, setUserInfo] =
 		useState<MyInitialStateValue>(myInitialStateValue);
+
+	const [contentList, setContentList] = useState<Array<content>>([
+		{ id: 1, title: `${userInfo.name}의 플레이리스트`, contents: [] },
+		{ id: 2, title: '보관한 플레이리스트', contents: [] },
+		{ id: 3, title: '팔로우 한 DJ', contents: [] },
+	]);
 
 	useEffect(() => {
 		//유저 정보 + 유저 플레이 리스트
@@ -39,12 +40,13 @@ const Mypage = () => {
 				setUserInfo(res.data);
 				setContentList((prev) => {
 					const copy = [...prev];
+					copy[0].title = `${res.data.name}의 플레이리스트`;
 					copy[0].contents = res.data.playlist.data;
 					return copy;
 				});
 			}
 		});
-		//유저가 북마크 플레이리스트
+		//유저가 보관한 플레이리스트
 		getBookmarkList(Number(userId)).then((res) => {
 			if (res.data) {
 				setContentList((prev) => {

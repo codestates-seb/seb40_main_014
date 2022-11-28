@@ -26,7 +26,7 @@ const UserPlayList = () => {
 			});
 		}
 		if (Number(id) === 2) {
-			setTitle('북마크한 플레이리스트');
+			setTitle('보관한 플레이리스트');
 			getBookmarkList(Number(userId)).then((res) => {
 				if (res.data) {
 					setPlayLists(res.data);
