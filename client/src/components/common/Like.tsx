@@ -33,7 +33,7 @@ const Like = ({
 	};
 	return (
 		<>
-			{loginId !== memberId && isLogin ? (
+			{isLogin ? (
 				likeState ? (
 					<HiHeart
 						color="#f783ac"
