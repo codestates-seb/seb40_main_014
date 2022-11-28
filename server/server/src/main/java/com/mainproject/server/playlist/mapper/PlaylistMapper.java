@@ -6,6 +6,7 @@ import com.mainproject.server.playlist.entity.Playlist;
 import com.mainproject.server.playlist.entity.PlaylistItem;
 import org.mapstruct.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -121,5 +122,17 @@ public interface PlaylistMapper {
             likePlaylistResponseDto.playlistItems(playlistItemsToPlaylistItemResponseDto(playlistItems));
             return likePlaylistResponseDto.build();
         }
+    }
+    default List<LikePlaylistResponseDto> playlistToPlaylistResponseDtoList(List<Playlist> playlistList, List<Boolean> bookmarkStates) {
+        if ( playlistList == null ) {
+            return null;
+        }
+
+        List<LikePlaylistResponseDto> list = new ArrayList<>( playlistList.size() );
+        for ( int i = 0; i<playlistList.size(); i++ ) {
+            list.add( playlistToDetailPlaylistResponseDto(playlistList.get(i), true ,bookmarkStates.get(i) ) );
+        }
+
+        return list;
     }
 }

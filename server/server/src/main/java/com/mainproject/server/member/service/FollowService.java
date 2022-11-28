@@ -149,6 +149,7 @@ public class FollowService {
         // 해당 멤버가 행한 follow
         List<Follow> follwerList = followRepository.findByFollowerId(memberId);
 
+        // Follow 여부를 List에 저장
         for (Follow follow : follwerList) {
             Member member = memberRepository.findById(follow.getFollowingId()).get();
 
