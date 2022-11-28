@@ -49,7 +49,7 @@ public class ChatController {
             room.setUserCount(room.getUserCount() + 1);
             chat.setMessage(chat.getMemberName() + " 님 입장하셨습니다.");
             if (chat.getType().equals(ENTER)) {
-                template.convertAndSend("/sub/chat/room/"g + chat.getRoomId(), chat);
+                template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
             }
             chatRoomRepository.save(room);
         } else {
