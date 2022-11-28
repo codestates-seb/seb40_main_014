@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { getRoomById } from '../../api/roomApi';
 import { GiChessKing } from 'react-icons/gi';
 import UserModal from './userModal';
+import { AiTwotoneHome } from 'react-icons/ai';
 
 const PeopleSetcion = styled.div`
 	margin-top: 80px;
@@ -53,6 +54,8 @@ const Person = styled.div`
 	margin: 5px;
 	padding-bottom: 5px;
 	border-bottom: solid 1px ${(props) => props.theme.colors.gray400};
+	display: flex;
+	justify-content: space-between;
 
 	:hover {
 		cursor: pointer;
@@ -66,38 +69,72 @@ const Person = styled.div`
 	}
 `;
 
-const PeoplePart = ({ people, isAdmin }) => {
+const FollowBtn = styled.button`
+	margin-right: 12px;
+	width: 40px;
+	font-size: 10px;
+	background-color: ${(props) => props.theme.colors.white};
+	color: ${(props) => props.theme.colors.purple};
+	border-radius: ${(props) => props.theme.radius.smallRadius};
+	transition: 0.1s;
+	border: 1px solid ${(props) => props.theme.colors.purple};
+	padding: 2px;
+`;
+
+const PeoplePart = ({ people, isAdmin, roomId }) => {
 	// const [people, setPeople] = useState([]);
 	// const params = useParams();
 	// const roomId = params.id;
 	const userRef = useRef(null);
+	const [peopleList, setPeopleList] = useState([]);
 	const filtered = people.reduce((acc, v) => {
 		return acc.includes(v) ? acc : [...acc, v];
 	}, []);
-	const [modalOpen, setModalOpen] = useState(false);
+
 	const onClick = (e) => {
-		setModalOpen(!modalOpen);
+		console.log(userRef.current.innerText);
 	};
+
+	const linkMyPage = (e) => {
+		console.log(e);
+	};
+	useEffect(() => {
+		getRoomById(roomId)
+			.then((res) => {
+				setPeopleList(res.data.userlist);
+				console.log('피플때매 렌더링', res.data.userlist);
+			})
+			.catch((err) => console.log(err));
+	}, []);
 
 	return (
 		<PeopleSetcion>
 			<PeopleContainer>
-				{filtered.map((e, index) => {
+				{peopleList.map((e, index) => {
 					return (
 						<>
-							<Person ref={userRef} onClick={onClick} key={index}>
-								{isAdmin ? (
-									<GiChessKing className="option_btn"></GiChessKing>
-								) : null}
-								{e}
+							<Person onClick={onClick} key={index}>
+								<div ref={userRef}>
+									{isAdmin ? (
+										<GiChessKing className="option_btn"></GiChessKing>
+									) : null}
+									{e}
+								</div>
+								<div>
+									<FollowBtn className="follow">팔로우</FollowBtn>
+									<AiTwotoneHome
+										className="option_btn home"
+										onClick={linkMyPage}></AiTwotoneHome>
+								</div>
 							</Person>
-							{modalOpen && (
+
+							{/* {modalOpen && (
 								<UserModal
 									userRef={userRef}
 									modalOpen={modalOpen}
 									setModalOpen={setModalOpen}
 								/>
-							)}
+							)} */}
 						</>
 					);
 				})}
