@@ -19,7 +19,7 @@ public class SimplePlaylistResponseDto {
 
     private List<PlaylistItemResponseDto> playlistItems;
 
-    private String thumbnail;
+//    private String thumbnail;
 
     private boolean status;
 

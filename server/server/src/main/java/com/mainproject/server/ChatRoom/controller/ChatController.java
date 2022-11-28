@@ -17,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import javax.validation.constraints.NotNull;
-
 import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.*;
 
 @Controller
