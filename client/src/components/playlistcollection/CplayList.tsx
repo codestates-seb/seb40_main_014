@@ -53,6 +53,7 @@ const CplayList = ({
 					<ModifyButton
 						playlistId={playList.playlistId}
 						setPlayLists={setPlayLists}
+						playlistName={playList.title}
 					/>
 				)}
 			</div>

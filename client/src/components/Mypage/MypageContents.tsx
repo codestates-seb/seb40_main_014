@@ -66,10 +66,12 @@ const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 			<Roof>
 				<div className="title">{title}</div>
 				{id === 1 ? (
-					<div>
+					<div className="button-wrapper">
 						{Number(userId) === myId && (
 							<>
-								<button onClick={() => navigate('/makeplaylist/create')}>
+								<button
+									className="create-btn"
+									onClick={() => navigate('/makeplaylist/create')}>
 									플리 만들기
 								</button>
 							</>
@@ -165,9 +167,16 @@ const Roof = styled.div`
 		.title {
 			font-size: 14px;
 		}
+		.button-wrapper {
+			display: flex;
+			flex-direction: column;
+		}
 		button {
 			margin-left: 10px;
 			font-size: 12px;
+		}
+		.create-btn {
+			margin-bottom: 5px;
 		}
 	}
 `;

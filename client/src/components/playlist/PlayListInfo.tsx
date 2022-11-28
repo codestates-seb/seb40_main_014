@@ -63,6 +63,7 @@ const PlayListInfo = ({
 								<ModifyButton
 									playlistId={playListInfo.playlistId}
 									fontSize="16px"
+									playlistName={playListInfo.title}
 								/>
 							)}
 						</div>
