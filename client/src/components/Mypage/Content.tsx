@@ -92,11 +92,26 @@ const Img = styled.img<ImgProps>`
 	@media screen and (max-width: 550) {
 		width: 70px;
 	}
+
 	border-radius: ${(props) =>
 		props.follow ? '50%' : props.theme.radius.smallRadius};
 `;
 
 const Name = styled.div`
+	width: 230px;
+	@media screen and (max-width: 1350px) {
+		width: 170px;
+	}
+	@media screen and (max-width: 1034px) {
+		width: 140px;
+	}
+	@media screen and (max-width: 668px) {
+		width: 110px;
+	}
+	@media screen and (max-width: 550) {
+		width: 70px;
+	}
+
 	text-align: center;
 	margin-bottom: 45px;
 	cursor: pointer;

@@ -111,7 +111,6 @@ const EPH2 = styled(H2)`
 `;
 
 const Input = styled.input`
-	margin-bottom: 15px;
 	padding: 8px 15px;
 	width: 100%;
 	border: 1px solid ${(props) => props.theme.colors.gray400};
@@ -124,7 +123,8 @@ const Input = styled.input`
 	}
 `;
 
-const Error = styled.div`
+export const Error = styled.div`
+	margin-top: 15px;
 	text-align: center;
 	font-size: ${(props) => props.theme.fontSize.small};
 	color: #ff3838;

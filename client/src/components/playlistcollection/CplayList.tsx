@@ -1,7 +1,11 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { followUser } from '../../api/userApi';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
+import { myLogin } from '../../slices/mySlice';
+import { Follower } from '../Mypage/MypageInfo';
 import ModifyButton from './ModifyButton';
 
 type PlaylistType = {
@@ -25,6 +29,20 @@ const CplayList = ({
 	memberId,
 	setPlayLists,
 }: PlaylistType) => {
+	const isLogin = useSelector(myLogin);
+
+	const [followCheck, setFollowCheck] = useState(true);
+
+	const handleFollow = () => {
+		followUser(followList.memberId).then((res) => {
+			console.log('follow res', res);
+
+			const { followState } = res.data;
+
+			setFollowCheck(followState);
+		});
+	};
+
 	return (
 		<CplayListStyle>
 			<div>
@@ -36,6 +54,15 @@ const CplayList = ({
 								{followList.name}
 							</Link>
 						</Title>
+						<Follower>
+							{isLogin &&
+								userId === memberId &&
+								followList.memberId !== memberId && (
+									<button onClick={handleFollow}>
+										{followCheck ? '언팔로우' : '팔로우'}
+									</button>
+								)}
+						</Follower>
 					</>
 				) : (
 					<>
