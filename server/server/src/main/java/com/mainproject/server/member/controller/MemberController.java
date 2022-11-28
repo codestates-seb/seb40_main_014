@@ -63,7 +63,7 @@ public class MemberController {
         Boolean followState = followService.followState(memberId, authMemberId);
         Integer rank = followService.findRank(findMember);
 
-        MemberResponseDto response = mapper.memberToMemberResponseDto(findMember, followState, chatRoomMapper, playlistMapper, playlistPage-1, rank);
+        MemberResponseDto response = mapper.memberToMemberResponseDto(findMember, followState, playlistMapper, rank);
         SingleResponseDto<MemberResponseDto> singleResponseDto = new SingleResponseDto<>(response);
 
         return new ResponseEntity(singleResponseDto, HttpStatus.OK);
@@ -71,9 +71,24 @@ public class MemberController {
 
     @GetMapping
     public ResponseEntity getMembers(@Positive @RequestParam(defaultValue = "1") int page,
-                                     @Positive @RequestParam(defaultValue = "1") int size) {
+                                     @Positive @RequestParam(defaultValue = "15") int size) {
 
         Page<Member> pageMembers = service.findMembers(page-1, size);
+        List<Member> members = pageMembers.getContent();
+
+        MultiResponseDto<MemberResponseDto> multiResponseDto =
+                new MultiResponseDto<>(mapper.memberListToMemberResponseDtoList(members), pageMembers);
+
+        return new ResponseEntity(multiResponseDto, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity searchMembers(@Positive @RequestParam(defaultValue = "1") int page,
+                                        @Positive @RequestParam(defaultValue = "15") int size,
+                                        @RequestParam String name) {
+
+        Page<Member> pageMembers = service.searchMembers(name);
         List<Member> members = pageMembers.getContent();
 
         MultiResponseDto<MemberResponseDto> multiResponseDto =
@@ -125,14 +140,15 @@ public class MemberController {
         return new ResponseEntity(multiResponseDto, HttpStatus.OK);
     }
     @GetMapping("/following/{member-id}")
-    public ResponseEntity followingMembers(@PathVariable("member-id") Long memberId) {
+    public ResponseEntity followingMembers(@PathVariable("member-id") Long memberId, Long authMemberId) {
 
         Page<Member> followingMembers = followService.followingMembers(memberId);
 
         List<Member> members = followingMembers.getContent();
+        List<Boolean> followStates = followService.followStates(memberId, authMemberId);
 
-        MultiResponseDto<SimpleMemberResponseDto> multiResponseDto =
-                new MultiResponseDto<>(mapper.memberListToSimpleMemberResponseDtoList(members), followingMembers);
+        MultiResponseDto<MemberResponseDto> multiResponseDto =
+                new MultiResponseDto<>(mapper.memberListToMemberResponseDtoList(members, followStates, playlistMapper, 0), followingMembers);
 
         return new ResponseEntity(multiResponseDto, HttpStatus.OK);
     }
