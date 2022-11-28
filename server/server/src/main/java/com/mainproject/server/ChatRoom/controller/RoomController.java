@@ -2,8 +2,10 @@ package com.mainproject.server.ChatRoom.controller;
 
 import com.mainproject.server.ChatRoom.dto.ChatRoomPatchDto;
 import com.mainproject.server.ChatRoom.dto.ChatRoomPostDto;
+import com.mainproject.server.ChatRoom.dto.ResponseChatRoomDto;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
+import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.ChatRoom.service.ChatService;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.service.MemberService;
@@ -15,6 +17,8 @@ import com.mainproject.server.tx.NeedMemberId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,6 +38,7 @@ public class RoomController {
     private final MemberService memberService;
     private final ChatRoomMapper chatRoomMapper;
     private final PlaylistService playlistService;
+    private final ChatRoomRepository chatRoomRepository;
 
     @NeedMemberId
     @PostMapping
@@ -90,4 +96,25 @@ public class RoomController {
         return "room deleted success";
     }
 
+    @GetMapping("/users")
+    public ResponseEntity findRoomsUserList(@RequestParam(required = false, defaultValue = "1") int page,
+                                            @RequestParam(required = false, defaultValue = "10") int size, Member member) {
+
+        Page<ChatRoom> chatRoomPage = chatService.findRoomsUserCount(page - 1 , size);
+        List<ChatRoom> content = chatRoomPage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(chatRoomMapper.responseChatRoomDtoList(content, member), chatRoomPage), HttpStatus.OK);
+    }
+
+    @GetMapping("/rank")
+    public ResponseEntity findRoomsRank(@RequestParam(required = false, defaultValue = "1") int page,
+                                        @RequestParam(required = false, defaultValue = "10") int size, Member member) {
+
+        Page<ChatRoom> chatRoomPage = chatService.findRoomsRank(page - 1 , size);
+        List<ChatRoom> content = chatRoomPage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(chatRoomMapper.responseChatRoomDtoList(content, member), chatRoomPage), HttpStatus.OK);
+    }
 }

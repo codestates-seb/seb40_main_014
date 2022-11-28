@@ -4,6 +4,7 @@ import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.ChatRoom.service.ChatService;
+import com.mainproject.server.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -41,14 +42,21 @@ public class ChatController {
         // 채팅방 유저+1
         ChatRoom room = chatService.findVerifiedRoomId(chat.getRoomId());
         room.setRoomId(chat.getRoomId());
-
         boolean isContains = room.getUserlist().contains(chat.getMemberName());
         if (!isContains) {
             room.getUserlist().add(chat.getMemberName());
             room.setUserlist(room.getUserlist());
             room.setUserCount(room.getUserCount() + 1);
+            chat.setMessage(chat.getMemberName() + " 님 입장하셨습니다.");
+            if (chat.getType().equals(ENTER)) {
+                template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
+            }
             chatRoomRepository.save(room);
+        } else {
+            chat.setMessage((ExceptionCode.MEMBER_NAME_ALREADY_EXISTS.getStatus()) + ExceptionCode.MEMBER_NAME_ALREADY_EXISTS.getMessage());
+            template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
         }
+
         chatRoomRepository.save(room);
 
         // 반환 결과를 socket session 에 memName 으로 저장
@@ -57,11 +65,7 @@ public class ChatController {
 
         log.info("CHAT6 {}", headerAccessor.getSessionAttributes()); // MemberName, roomId가 저장된 sessionAttributes가 찍힘
 
-        chat.setMessage(chat.getMemberName() + " 님 입장하셨습니다.");
-        if (chat.getType().equals(ENTER)) {
-            template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
-        }
-        log.info("chatcontroller UserList{}", room.getUserlist());
+
     }
 
     // 해당 유저 채팅 보내기
@@ -118,7 +122,6 @@ public class ChatController {
         if (chat.getType().equals(LEAVE)) {
             chat.setMemberName(chat.getMemberName());
             chat.setMessage(chat.getMemberName() + "님 퇴장하셨습니다.");
-            log.info("loggigingin {}", chat.getRoomId());
             ChatRoom room = chatService.findVerifiedRoomId(chat.getRoomId());
             room.setRoomId(chat.getRoomId());
 
