@@ -3,6 +3,7 @@ import { LoginButton } from './Header';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { myValue } from '../../slices/mySlice';
+import { FaSearch } from 'react-icons/fa';
 
 export type MobileUlType = {
 	currentMenu: string;
@@ -65,10 +66,16 @@ const MobileUl = ({
 					랭킹
 				</Link>
 			</li>
-			<Hr />
+			<li className={currentMenu === 'search' ? 'active' : ''}>
+				<Link to="/search" id="search">
+					<FaSearch className="search-icon" />
+					<span>검색</span>
+				</Link>
+			</li>
+			{/* <Hr />
 			<li>
 				<SearchInput type="text" placeholder="검색어를 입력하세요" />
-			</li>
+			</li> */}
 		</Ul>
 	);
 };
@@ -101,6 +108,16 @@ const Ul = styled.ul`
 
 		&.active {
 			color: ${(props) => props.theme.colors.purple};
+		}
+	}
+
+	li:last-of-type {
+		a {
+			display: flex;
+			align-items: center;
+			span {
+				margin-left: 10px;
+			}
 		}
 	}
 

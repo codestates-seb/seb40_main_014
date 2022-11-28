@@ -114,12 +114,12 @@ const AddModal = ({ playlist, setSelectedPlaylist, bookMarkPlaylist }) => {
 				)}
 			</MyPlaylist>
 			<BookmarkPlaylistHeader>
-				<div>북마크한 플레이리스트</div>
+				<div>보관한 플레이리스트</div>
 			</BookmarkPlaylistHeader>
 			<BookmarkPlaylist>
 				{bookMarkPlaylist.length === 0 ? (
 					<PlaylistDiv onClick={linkToCreatePlaylist}>
-						상대방의 플레이리스트를 북마크해보세요!
+						상대방의 플레이리스트를 보관해보세요!
 					</PlaylistDiv>
 				) : (
 					bookMarkPlaylist.map((e) => {

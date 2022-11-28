@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { editUserInfo } from '../../api/userApi';
 import { useDispatch } from 'react-redux';
 import { myInfo } from '../../slices/mySlice';
+import ErrorMessage from '../common/ErrorMessage';
 
 type EditProfileModalType = {
 	handleOpenModal: () => void;
@@ -65,7 +66,13 @@ const EditProfileModal = ({
 						}}
 						autoFocus
 					/>
-					{isError && <Error>기존 닉네임과 동일합니다.</Error>}
+					{isError && (
+						<ErrorMessage
+							margin="15px 0 0 0"
+							center
+							text="기존 닉네임과 동일합니다."
+						/>
+					)}
 				</div>
 				<ButtonWrapper>
 					<SaveButton onClick={onSubmit}>저장</SaveButton>
@@ -111,7 +118,6 @@ const EPH2 = styled(H2)`
 `;
 
 const Input = styled.input`
-	margin-bottom: 15px;
 	padding: 8px 15px;
 	width: 100%;
 	border: 1px solid ${(props) => props.theme.colors.gray400};
@@ -124,7 +130,8 @@ const Input = styled.input`
 	}
 `;
 
-const Error = styled.div`
+export const Error = styled.div`
+	margin-top: 15px;
 	text-align: center;
 	font-size: ${(props) => props.theme.fontSize.small};
 	color: #ff3838;

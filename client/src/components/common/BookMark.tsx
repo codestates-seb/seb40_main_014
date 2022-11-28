@@ -29,7 +29,7 @@ const BookMark = ({
 				(bookmarkState ? (
 					<BookmarkStyle onClick={onClickBookMark}>
 						<RiFolderReduceFill size="22" color="#333333" />
-						<span> 보관함에서 삭제</span>
+						<span>보관함에서 삭제</span>
 					</BookmarkStyle>
 				) : (
 					<BookmarkStyle onClick={onClickBookMark}>
