@@ -1,10 +1,7 @@
 import styled from 'styled-components';
-import { ImExit } from 'react-icons/im';
-import RoomCreateForm from './RoomCreateForm';
-import RoomUpdateForm from './RoomUpdateForm';
+import { IoClose } from 'react-icons/io5';
 import { ModalBackdrop } from '../home/LoginModal';
 import { useEffect } from 'react';
-import { IoClose } from 'react-icons/io5';
 
 export type roomInfo = {
 	title: string;
@@ -14,21 +11,25 @@ export type roomInfo = {
 };
 
 const ModalContaincer = styled.div`
-	font-size: ${(props) => props.theme.fontSize.xSmall};
-	background-color: ${(props) => props.theme.colors.background};
-	width: 550px;
-	height: 500px;
-	box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
+	font-size: ${(props) => props.theme.fontSize.small};
+	background-color: ${(props) => props.theme.colors.white};
+	width: 150px;
+	height: 50px;
+	box-shadow: 10px 10px 30px rgba(30, 30, 30, 0.185);
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	position: fixed;
-	top: 50%;
-	left: 50%;
+	top: 75%;
+	left: 75%;
 	transform: translate(-50%, -50%);
 	z-index: 8888;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	border: 1px solid gray;
 `;
-
 const ModalHeader = styled.div`
 	display: flex;
+	flex-direction: column;
 	justify-content: space-between;
 	background-color: ${(props) => props.theme.colors.purple};
 	color: ${(props) => props.theme.colors.white};
@@ -39,10 +40,9 @@ const ModalHeader = styled.div`
 
 const HeaderContent = styled.div`
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
-	margin: 15px;
-	font-size: ${(props) => props.theme.fontSize.small};
+	font-size: ${(props) => props.theme.fontSize.xSmall};
 `;
 // const ModalOverlay = styled.div`
 // 	top: 0;
@@ -50,19 +50,17 @@ const HeaderContent = styled.div`
 // 	width: 100vw;
 // 	height: 100vh;
 // 	backdrop-filter: blur(2px);
-// 	z-index: 1;
+// 	z-index: 7777;
 // 	position: fixed;
 // `;
 
-export const ExitBtn = styled.button`
-	font-size: ${(props) => props.theme.fontSize.medium};
-`;
-
-const UpdateRoomModal = ({ modalOpen, setModalOpen, setTitle }) => {
+const UserModal = ({ userRef, modalOpen, setModalOpen }) => {
 	const onClick = () => {
 		setModalOpen(!modalOpen);
+		console.log('유저REF', userRef.current);
 	};
 
+	// 모달 오픈시 스크롤 막기
 	useEffect(() => {
 		document.body.style.cssText = `
       position: fixed; 
@@ -79,23 +77,16 @@ const UpdateRoomModal = ({ modalOpen, setModalOpen, setTitle }) => {
 	return (
 		<>
 			<ModalContaincer>
-				<ModalHeader>
-					<HeaderContent>
-						<div>방 수정하기</div>
-					</HeaderContent>
-					<HeaderContent>
-						<ExitBtn onClick={onClick}>
-							<IoClose />
-						</ExitBtn>
-					</HeaderContent>
-				</ModalHeader>
-				<RoomUpdateForm
-					setTitle={setTitle}
-					modalOpen={modalOpen}
-					setModalOpen={setModalOpen}
-				/>
+				<HeaderContent>
+					<button>페이지 가기</button>
+				</HeaderContent>
+				<HeaderContent>
+					<button>팔로우 하기</button>
+				</HeaderContent>
 			</ModalContaincer>
+			{/* <ModalOverlay /> */}
 			<ModalBackdrop
+				// 여기
 				onClick={(e) => {
 					e.preventDefault();
 					onClick();
@@ -105,4 +96,4 @@ const UpdateRoomModal = ({ modalOpen, setModalOpen, setTitle }) => {
 	);
 };
 
-export default UpdateRoomModal;
+export default UserModal;
