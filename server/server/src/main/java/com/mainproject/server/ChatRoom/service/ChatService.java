@@ -8,15 +8,19 @@ import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.exception.BusinessException;
 import com.mainproject.server.exception.ExceptionCode;
+import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.mapper.MemberMapper;
+import com.mainproject.server.member.repository.MemberRepository;
+import com.mainproject.server.playlist.entity.Playlist;
+import com.mainproject.server.playlist.repository.PlaylistRepository;
 import com.mainproject.server.playlist.dto.PlaylistResponseDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.data.domain.Page;
-
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Getter
@@ -37,6 +42,8 @@ public class ChatService {
     private final ChatRoomRepository chatRoomRepository;
     private final MemberMapper memberMapper;
     private final WebSocketTest webSocketTest;
+    private final MemberRepository memberRepository;
+    private final PlaylistRepository playlistRepository;
 
     public ChatRoom createRoom(ChatRoom chatRoom) {
 
@@ -136,5 +143,64 @@ public class ChatService {
                 PageRequest.of(page, size, Sort.by("rank").descending()));
 
         return findAllRooms;
+    }
+
+    public Page<ChatRoom> searchChatRooms(String type, String name) {
+
+        List<ChatRoom> searchChatRooms = new ArrayList<>();
+
+        if (type.equals("title")) {
+            //해당 타이틀을 포함하는 플레이리스트 목록
+            List<ChatRoom> chatRooms = chatRoomRepository.findByTitleContaining(name);
+            for (ChatRoom chatRoom : chatRooms) {
+                // 방이 온에어 상태라면 추가
+//                    if (chatRoom.getOnair().equals(ChatRoom.Onair.ON))
+                searchChatRooms.add(chatRoom);
+            }
+        }
+        else if (type.equals("name")) {
+            // 멤버 이름이 포함된 member 검색
+            List<Member> searchMembers = memberRepository.findByNameContaining(name);
+            for (Member member : searchMembers) {
+                // 해당 member들이 포함된 방 검색
+                List<ChatRoom> chatRooms = chatRoomRepository.findByMember(member);
+                for (ChatRoom chatRoom : chatRooms) {
+                    // 방이 온에어 상태라면 추가
+//                    if (chatRoom.getOnair().equals(ChatRoom.Onair.ON))
+                    searchChatRooms.add(chatRoom);
+                }
+            }
+        }
+        else if (type.equals("category")) {
+            // 해당 카테고리를 포함하는 플레이리스트 목록
+//            List<String> search = new ArrayList<>();
+//            search.add(name);
+//            searchPlaylists = playlistRepository.findByCategoryListContaining(search);
+
+            // 모든 플레이리스트를 조회해서 카테고리랑 일치하면 리스트에 넣기
+            // 플레이리스트를 전부 조회하기 때문에 플레이리스트가 많아지면 문제가 있음
+            List<Playlist> allPlaylists = playlistRepository.findAll();
+            List<ChatRoom> chatRooms = new ArrayList<>();
+            ChatRoom findChatRoom = new ChatRoom();
+            for (Playlist playlist : allPlaylists){
+                for (int i=0; i<playlist.getCategoryList().size(); i++){
+                    for (int j=0; j<chatRoomRepository.findByPlaylistId(playlist.getPlaylistId()).size(); j++) {
+                        findChatRoom = chatRoomRepository.findByPlaylistId(playlist.getPlaylistId()).get(0);
+                    }
+                    if (playlist.getCategoryList().get(i).equals(name)
+//                    && findChatRoom.getOnair().equals(ChatRoom.Onair.ON)
+                    ){
+                        chatRooms.add(findChatRoom);
+                    }
+                }
+            }
+            // 중복 제거
+            searchChatRooms = chatRooms.stream().distinct().collect(Collectors.toList());
+        }
+        else {throw new BusinessException(ExceptionCode.BAD_REQUEST);
+        }
+
+        Page<ChatRoom> chatRoomPage = new PageImpl<>(searchChatRooms);
+        return chatRoomPage;
     }
 }

@@ -297,12 +297,23 @@ public class PlaylistService {
                 }
             }
         }
-//      else if (type.equals("category")) {
-//            // 해당 카테고리를 포함하는 플레이리스트 목록
+        else if (type.equals("category")) {
+            // 해당 카테고리를 포함하는 플레이리스트 목록
 //            List<String> search = new ArrayList<>();
 //            search.add(name);
 //            searchPlaylists = playlistRepository.findByCategoryListContaining(search);
-//        }
+
+            // 모든 플레이리스트를 조회해서 카테고리랑 일치하면 리스트에 넣기
+            // 플레이리스트를 전부 조회하기 때문에 플레이리스트가 많아지면 문제가 있음
+            List<Playlist> allPlaylists = playlistRepository.findAll();
+            for (Playlist playlist : allPlaylists){
+                for (int i=0; i<playlist.getCategoryList().size(); i++){
+                    if (playlist.getCategoryList().get(i).equals(name)){
+                        searchPlaylists.add(playlist);
+                    }
+                }
+            }
+        }
         else {throw new BusinessException(ExceptionCode.BAD_REQUEST);
         }
 
