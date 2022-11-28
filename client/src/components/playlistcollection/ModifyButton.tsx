@@ -33,8 +33,6 @@ const ModifyButton = ({
 					getUserInfo(Number(userId)).then((res) => {
 						if (res.data) {
 							setPlayLists(res.data.playlist.data);
-						} else {
-							alert(res);
 						}
 					});
 				}

@@ -47,8 +47,6 @@ const MakePlayList = () => {
 						setPlList(data.playlistItems);
 						setCategoryList(data.categoryList);
 						setStatus(!data.status);
-					} else {
-						alert(res);
 					}
 				});
 			}
@@ -117,7 +115,12 @@ const MakePlayList = () => {
 			<PlayListSetting {...settingProps} />
 			<MusicList {...props} />
 			{type === 'modify' ? (
-				<DefaultButton width="150px" height="45px" onClick={modifyPl}>
+				<DefaultButton
+					width="200px"
+					height="50px"
+					mobileWidth
+					margin="0 auto"
+					onClick={modifyPl}>
 					수정
 				</DefaultButton>
 			) : (
@@ -125,8 +128,8 @@ const MakePlayList = () => {
 					width="200px"
 					height="50px"
 					mobileWidth
-					onClick={createPl}
-					margin="0 auto">
+					margin="0 auto"
+					onClick={createPl}>
 					만들기
 				</DefaultButton>
 			)}

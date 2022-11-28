@@ -40,8 +40,6 @@ const PlayListDetail = () => {
 				getUserInfo(res.data.memberId).then((res) =>
 					setPicture(res.data.picture),
 				);
-			} else {
-				alert(res);
 			}
 		});
 	}, []);

@@ -148,8 +148,8 @@ const PlayListSetting = ({
 				<div className="rigth"></div>
 			</div>
 			<Title>
-				<a href="https://www.youtube.com/">
-					<AiFillYoutube color="red" size="30" />
+				<a href="https://www.youtube.com/" target="_blank" rel="noreferrer">
+					<AiFillYoutube color="red" size="30" /> <span>YouTube</span>
 				</a>
 				URL 입력
 			</Title>
@@ -254,7 +254,15 @@ const Title = styled.h3`
 	font-weight: 600;
 
 	a {
+		display: flex;
+		align-items: center;
 		margin-right: 8px;
+
+		span {
+			margin-left: 5px;
+			color: red;
+			font-size: 16px;
+		}
 	}
 
 	// Mobile

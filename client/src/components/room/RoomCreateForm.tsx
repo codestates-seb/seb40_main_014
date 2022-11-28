@@ -124,23 +124,20 @@ const RoomCreateForm = () => {
 			// createRoom(CreateRoomInfo).then((res) => {
 			// 	if (res.data) {
 			// 		navigate(`rooms/${res.data.roomId}`);
-			// 	} else {
-			// 		alert(res);
 			// 	}
 			// });
-			createRoom(CreateRoomInfo)
-				.then((res) => {
-					navigate(`rooms/${res.data.roomId}`);
-					console.log('테스트', res);
-				})
-				.catch(
-					(err) => console.log(err),
-					// (err) =>
-					// 	String(err) ===
-					// 	"TypeError: Cannot read properties of undefined (reading 'roomId')"
-					// 		? alert('로그인이 만료되었습니다. 로그인을 다시 해주세요!')
-					// 		: console.log(err),
-				);
+			createRoom(CreateRoomInfo).then((res) => {
+				navigate(`rooms/${res.data.roomId}`);
+				console.log('테스트', res);
+			});
+			// .catch(
+			// 	(err) => console.log(err),
+			// 	// (err) =>
+			// 	// 	String(err) ===
+			// 	// 	"TypeError: Cannot read properties of undefined (reading 'roomId')"
+			// 	// 		? alert('로그인이 만료되었습니다. 로그인을 다시 해주세요!')
+			// 	// 		: console.log(err),
+			// );
 		}
 	};
 

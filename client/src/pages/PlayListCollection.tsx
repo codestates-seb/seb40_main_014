@@ -22,8 +22,6 @@ const UserPlayList = () => {
 				if (res.data) {
 					setTitle(`${res.data.name}의 플레이리스트`);
 					setPlayLists(res.data.playlist.data);
-				} else {
-					alert(res);
 				}
 			});
 		}
@@ -32,8 +30,6 @@ const UserPlayList = () => {
 			getBookmarkList(Number(userId)).then((res) => {
 				if (res.data) {
 					setPlayLists(res.data);
-				} else {
-					alert(res);
 				}
 			});
 		}
