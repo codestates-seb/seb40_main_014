@@ -53,7 +53,7 @@ const PlayListSetting = ({
 						musicInfo.url = url;
 						musicInfo.channelTitle = res.items[0].snippet.channelTitle;
 						musicInfo.title = res.items[0].snippet.title;
-						musicInfo.thumbnail = res.items[0].snippet.thumbnails.high.url;
+						musicInfo.thumbnail = res.items[0].snippet.thumbnails.medium.url;
 					} else {
 						return alert('찾으시는 곡의 정보가 없습니다.');
 					}
