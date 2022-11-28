@@ -26,8 +26,6 @@ const ChatMessage = styled.div`
 const Chatting = ({ receiveMessageObject }) => {
 	const ref = useRef(null);
 
-	console.log('ref', ref.current);
-
 	useEffect(() => {
 		if (ref.current) {
 			ref.current.scrollIntoView({ behavior: 'smooth' });

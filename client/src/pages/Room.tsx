@@ -69,7 +69,14 @@ const ChatHeader = styled.div`
 
 const ChatFooter = styled.div``;
 
-const ExitBtn = styled.button``;
+const ExitButton = styled.button`
+	padding: 3px 7px;
+	margin-left: 12px;
+	background-color: ${(props) => props.theme.colors.white};
+	color: ${(props) => props.theme.colors.purple};
+	border-radius: ${(props) => props.theme.radius.smallRadius};
+	transition: 0.1s;
+`;
 
 const ChatHeaderContent = styled.div``;
 
@@ -154,10 +161,12 @@ const MessageSection = styled.div`
 `;
 
 const UpdateRoomBtn = styled.button`
-	margin: 15px;
+	padding: 3px 7px;
+	margin-left: 12px;
+	background-color: ${(props) => props.theme.colors.white};
+	color: ${(props) => props.theme.colors.purple};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
-	padding: 5px;
-	border: 1px solid ${(props) => props.theme.colors.gray200};
+	transition: 0.1s;
 `;
 
 export type MessageInfo = {
@@ -205,6 +214,9 @@ const MessageInput = styled.input`
 		border: none;
 	}
 `;
+
+const ExitBtn = styled.button``;
+
 const Room = () => {
 	const { register, handleSubmit, reset } = useForm<MessageInfo>();
 	const userInfo = useSelector((state: RootState) => state.my.value);
@@ -212,6 +224,7 @@ const Room = () => {
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [playlist, setPlaylist] = useState<PlayListInfoProps[]>([]);
 	const [isConnect, setIsConnect] = useState(true);
+	const navigate = useNavigate();
 	const modalClose = () => {
 		if (isAdmin) {
 			setModalOpen(!modalOpen);
@@ -276,7 +289,7 @@ const Room = () => {
 			.then((res) => {
 				setTitle(res.data.title);
 				setPlaylist(res.data.playlistResponseDto.playlistItems);
-				if (!client.connected) {
+				if (!client.connected && isConnect) {
 					client.activate();
 				}
 				wsSubscribe();
@@ -284,30 +297,34 @@ const Room = () => {
 				return res;
 			})
 			.then((res) => {
-				setTimeout(
-					() =>
-						client.publish({
-							destination: `/pub/chat/enterUser`,
-							body: JSON.stringify(enterMessage),
-						}),
-					500,
-				);
+				// setTimeout(
+				// 	() =>
+
+				// 	500,
+				// );
+				client.publish({
+					destination: `/pub/chat/enterUser`,
+					body: JSON.stringify(enterMessage),
+				});
 				return res;
 			})
 			.then((res) => {
 				// 유저리스트에 추가, 방장인지 확인
 				getRoomById(roomId)
 					.then(() => {
+						console.log('퍼블리시 보내고 난 후에 데이터', res.data);
 						setPeople(res.data.userlist);
 						NumberMemberId === res.data.memberResponseDto.memberId
 							? setIsAdmin(true)
 							: setIsAdmin(false);
 					})
-					.catch((err) => console.log(err));
+					.catch((err) => {
+						console.log(err);
+					});
 			})
 			.catch((err) => {
-				// navigate('/');
-				// alert('해당 방이 존재하지 않습니다!');
+				navigate('/');
+				alert('해당 방이 존재하지 않습니다!');
 				console.log(err);
 			});
 	}, []);
@@ -368,6 +385,17 @@ const Room = () => {
 	};
 
 	const onClick = (e) => {
+		client.publish({
+			destination: `/pub/chat/leave`,
+			body: JSON.stringify({
+				memberName: `${userInfo.name}`,
+				message: '',
+				type: 'LEAVE',
+				memberId: NumberMemberId,
+				roomString: `${roomId}`,
+				roomId: `${roomId}`,
+			}),
+		});
 		client.deactivate();
 		setIsConnect(false);
 	};
@@ -392,7 +420,7 @@ const Room = () => {
 							)}
 							<ExitBtn>
 								<Link to="/">
-									<ImExit onClick={onClick} />
+									<ExitButton onClick={onClick}>방 나가기</ExitButton>
 								</Link>
 							</ExitBtn>
 						</ChatHeaderContent>
@@ -406,7 +434,7 @@ const Room = () => {
 						</ChatLeft>
 						<ChatRight>
 							<PlaylistPart playlist={playlist} />
-							<PeoplePart people={people} isAdmin={isAdmin} />
+							<PeoplePart roomId={roomId} people={people} isAdmin={isAdmin} />
 						</ChatRight>
 					</ChatRoomContainer>
 					<ChatFooter>

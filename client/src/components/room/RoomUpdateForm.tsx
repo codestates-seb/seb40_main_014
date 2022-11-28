@@ -49,6 +49,12 @@ const InputInfo = styled.div`
 	display: flex;
 	align-items: center;
 	color: ${(props) => props.theme.colors.black};
+
+	span {
+		font-size: ${(props) => props.theme.fontSize.xSmall};
+		margin-left: 23px;
+		color: #ff4848;
+	}
 `;
 const TitleInput = styled(DefaultInput)``;
 const PasswordInput = styled(DefaultInput)``;
@@ -62,7 +68,7 @@ const CreateRoomBtn = styled.button`
 	width: 70px;
 	height: 30px;
 	border-radius: ${(props) => props.theme.radius.largeRadius};
-	margin-top: 30px;
+	margin-top: 75px;
 	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.5),
 		3px 3px 3px 0px rgba(0, 0, 0, 0.1), 2px 2px 3px 0px rgba(0, 0, 0, 0.1);
 	cursor: pointer;
@@ -77,7 +83,11 @@ const CreateRoomBtn = styled.button`
 `;
 
 const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen }) => {
-	const { register, handleSubmit } = useForm<updateRoomInfo>();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<updateRoomInfo>();
 	const [checked, setChecked] = useState(false);
 	const params = useParams();
 	const roomId = params.id;
@@ -110,9 +120,13 @@ const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen }) => {
 	return (
 		<UpdateForm onSubmit={handleSubmit(onValid)}>
 			<InputContainer className="top">
-				<InputInfo>방 제목</InputInfo>
+				<InputInfo>
+					방 제목
+					<span>{errors?.title?.message}</span>
+				</InputInfo>
+
 				<TitleInput
-					{...register('title', { required: true })}
+					{...register('title', { required: '방 제목을 입력해주세요!' })}
 					placeholder="방 제목"></TitleInput>
 			</InputContainer>
 			<InputContainer>
@@ -136,17 +150,15 @@ const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen }) => {
 					type="text"
 					disabled></PlaylistInput>
 			</InputContainer>
-			<InputContainer>
+			{/* <InputContainer>
 				<InputInfo>최대 인원 수</InputInfo>
 				<PeopleInput
 					{...register('people')}
 					placeholder="최대 인원 수는 수정할 수 없습니다!"
 					type="number"
 					disabled></PeopleInput>
-			</InputContainer>
-			{/* <Link to="/room"> */}
+			</InputContainer> */}
 			<CreateRoomBtn as="input" type="submit" value="방 수정"></CreateRoomBtn>
-			{/* </Link> */}
 		</UpdateForm>
 	);
 };
