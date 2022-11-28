@@ -5,7 +5,7 @@ import { plinfo } from '../../pages/PlayListDetail';
 
 export type LikebookmarkType = {
 	playlistId: number;
-	setPlayListInfo: Dispatch<SetStateAction<plinfo>>;
+	setPlayListInfo?: Dispatch<SetStateAction<plinfo>>;
 	isLogin: boolean;
 	loginId: number;
 	memberId: number;

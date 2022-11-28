@@ -36,10 +36,10 @@ const DefaultInput = styled.input`
 	border: 1px solid ${(props) => props.theme.colors.gray500};
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	padding: 0px 10px 0px 10px;
-	:focus {
-		outline: 0.1px solid ${(props) => props.theme.colors.purple};
-		box-shadow: ${(props) => props.theme.colors.purple} 0px 0px 0px 1px;
-		border: none;
+	:focus-within {
+		outline: none;
+		border-color: ${(props) => props.theme.colors.lightPurple};
+		box-shadow: 0 0 10px ${(props) => props.theme.colors.lightPurple};
 	}
 `;
 

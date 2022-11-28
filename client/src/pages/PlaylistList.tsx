@@ -21,6 +21,8 @@ export type PlaylistInfoType = {
 	status: boolean;
 	like: number;
 	playlistId: number;
+	likeState?: boolean;
+	bookmarkState?: boolean;
 };
 
 const PlaylistList = () => {
