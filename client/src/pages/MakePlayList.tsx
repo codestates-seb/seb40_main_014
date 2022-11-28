@@ -25,14 +25,18 @@ const MakePlayList = () => {
 	const navigate = useNavigate();
 	const { type, id } = useParams();
 
+	const isLogin = useSelector(myLogin);
+	const myvalue = useSelector(myValue);
+
 	const [plTitle, setPlTitle] = useState<string>('');
 	const [plId, setPlId] = useState<number>();
 	const [plList, setPlList] = useState<Array<musicInfoType>>([]);
 	const [categoryList, setCategoryList] = useState<Array<string>>([]);
 	const [status, setStatus] = useState<boolean>(false);
 
-	const isLogin = useSelector(myLogin);
-	const myvalue = useSelector(myValue);
+	const [titleError, setTitleError] = useState('');
+	const [categoryError, setCategoryError] = useState('');
+	const [playlistError, setPlaylistError] = useState('');
 
 	useEffect(() => {
 		if (!isLogin) {
@@ -67,6 +71,10 @@ const MakePlayList = () => {
 		categoryList,
 		setStatus,
 		status,
+		titleError,
+		categoryError,
+		playlistError,
+		setPlaylistError,
 	};
 
 	const data: plinfo = {
@@ -76,19 +84,25 @@ const MakePlayList = () => {
 		status: !status,
 	};
 
+	// 유효성 검사
 	const validation = (data) => {
+		setTitleError('');
+		setCategoryError('');
+		setPlaylistError('');
+
 		if (data.title.trim() === '') {
-			alert('제목을 입력해주세요.');
+			setTitleError('제목을 입력해주세요');
 			return false;
 		}
 		if (data.categoryList.length === 0) {
-			alert('카테고리를 선택해 주세요.(1개 이상)');
+			setCategoryError('카테고리를 선택해 주세요 (1개 이상)');
 			return false;
 		}
 		if (data.playlistItems.length === 0) {
-			alert('PlayList를 채워주세요.');
+			setPlaylistError('플레이리스트를 채워주세요');
 			return false;
 		}
+
 		return true;
 	};
 

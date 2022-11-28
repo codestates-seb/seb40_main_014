@@ -22,32 +22,43 @@ type MypageContentsType = {
 const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 	const navigate = useNavigate();
 	const { userId } = useParams();
+
 	const myId = useSelector(myValue).memberId;
-	const slidesPerView = (length) => {
-		return contents.length < length ? contents.length : length;
-	};
+
+	// //* Swiper
+	// const settings = {
+	// 	modules: [Pagination, Navigation],
+	// 	slidesPerView: contents.length < 3 ? contents.length : 3,
+	// 	spaceBetween: 115,
+	// 	navigation: true,
+	// 	pagination: { clickable: true },
+	// 	breakpoints: {
+	// 		641: {
+	// 			spaceBetween: 25,
+	// 		},
+	// 		981: {
+	// 			spaceBetween: 51,
+	// 		},
+	// 	},
+	// };
 
 	//* Swiper
 	const settings = {
 		modules: [Pagination, Navigation],
-		slidesPerView: slidesPerView(3),
-		spaceBetween: 80,
+		slidesPerView: 2,
+		spaceBetween: 1,
 		navigation: true,
 		pagination: { clickable: true },
-		// breakpoints: {
-		// 	300: {
-		// 		slidesPerView: slidesPerView(1),
-		// 		spaceBetween: 25,
-		// 	},
-		// 	641: {
-		// 		slidesPerView: slidesPerView(2),
-		// 		spaceBetween: 51,
-		// 	},
-		// 	981: {
-		// 		slidesPerView: slidesPerView(3),
-		// 		spaceBetween: 51,
-		// 	},
-		// },
+		breakpoints: {
+			641: {
+				slidesPerView: 3,
+				spaceBetween: 19,
+			},
+			981: {
+				slidesPerView: 3,
+				spaceBetween: 44,
+			},
+		},
 	};
 
 	return (
@@ -55,10 +66,12 @@ const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 			<Roof>
 				<div className="title">{title}</div>
 				{id === 1 ? (
-					<div>
+					<div className="button-wrapper">
 						{Number(userId) === myId && (
 							<>
-								<button onClick={() => navigate('/makeplaylist/create')}>
+								<button
+									className="create-btn"
+									onClick={() => navigate('/makeplaylist/create')}>
 									플리 만들기
 								</button>
 							</>
@@ -76,25 +89,45 @@ const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 				)}
 			</Roof>
 			<Body>
-				<MyPageSwiperStyle {...settings}>
-					{contents.map((ele, idx) => {
-						return (
-							<SwiperSlide key={idx}>
+				{contents.length > 2 ? (
+					<MyPageSwiperStyle {...settings}>
+						{contents.map((ele, idx) => {
+							return (
+								<SwiperSlide key={idx}>
+									{id === 3 ? (
+										<Content id={id} followlist={ele} />
+									) : (
+										<Content id={id} playlist={ele} />
+									)}
+								</SwiperSlide>
+							);
+						})}
+					</MyPageSwiperStyle>
+				) : (
+					<NoSwiperStyle>
+						{contents.map((ele, idx) => (
+							<div key={idx}>
 								{id === 3 ? (
 									<Content id={id} followlist={ele} />
 								) : (
 									<Content id={id} playlist={ele} />
 								)}
-							</SwiperSlide>
-						);
-					})}
-				</MyPageSwiperStyle>
+							</div>
+						))}
+					</NoSwiperStyle>
+				)}
 			</Body>
 		</MypageContentsStyle>
 	);
 };
 
 export default MypageContents;
+
+const NoSwiperStyle = styled.div`
+	display: flex;
+	justify-content: space-evenly;
+	width: 100%;
+`;
 
 const MypageContentsStyle = styled.div`
 	box-shadow: 1px 1px 10px #4d0bd133;
@@ -134,9 +167,16 @@ const Roof = styled.div`
 		.title {
 			font-size: 14px;
 		}
+		.button-wrapper {
+			display: flex;
+			flex-direction: column;
+		}
 		button {
 			margin-left: 10px;
 			font-size: 12px;
+		}
+		.create-btn {
+			margin-bottom: 5px;
 		}
 	}
 `;

@@ -26,7 +26,7 @@ const UserPlayList = () => {
 			});
 		}
 		if (Number(id) === 2) {
-			setTitle('북마크한 플레이리스트');
+			setTitle('보관한 플레이리스트');
 			getBookmarkList(Number(userId)).then((res) => {
 				if (res.data) {
 					setPlayLists(res.data);
@@ -80,6 +80,24 @@ const PlayListsWrapper = styled.div`
 	box-shadow: 0 0 10px #00000013;
 	border-radius: 10px;
 	overflow-y: scroll;
+
+	// 스크롤바
+	::-webkit-scrollbar {
+		display: none;
+	}
+	::-webkit-scrollbar {
+		display: block;
+		width: 8px;
+	}
+	::-webkit-scrollbar-thumb {
+		height: 30%;
+		background-color: ${(props) => props.theme.colors.gray400};
+		border-radius: 10px;
+	}
+	::-webkit-scrollbar-track {
+		background-color: ${(props) => props.theme.colors.gray300};
+		border-radius: 10px;
+	}
 
 	> div:first-of-type {
 		border-radius: 10px 10px 0 0;

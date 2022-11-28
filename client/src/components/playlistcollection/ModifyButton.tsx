@@ -3,10 +3,13 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { deletePlayList } from '../../api/playlistApi';
 import { getUserInfo } from '../../api/userApi';
+import Swal from 'sweetalert2';
+
 type ModifyButtonType = {
 	playlistId: number;
 	setPlayLists?: Dispatch<SetStateAction<Array<object>>>;
 	fontSize?: string;
+	playlistName?: string;
 };
 
 type ModifyButtonProps = {
@@ -17,25 +20,41 @@ const ModifyButton = ({
 	playlistId,
 	setPlayLists,
 	fontSize,
+	playlistName,
 }: ModifyButtonType) => {
 	const navigate = useNavigate();
 	const pathname = useLocation().pathname.split('/')[1];
 	const { userId } = useParams();
 
+	console.log(playlistName);
+
 	const onClickDelete = () => {
-		deletePlayList(playlistId).then((res) => {
-			console.log();
-			if (res === 'success playlist deleted') {
-				if (pathname === 'playlistdetail') {
-					navigate(-1);
-				}
-				if (pathname === 'playlistcollection') {
-					getUserInfo(Number(userId)).then((res) => {
-						if (res.data) {
-							setPlayLists(res.data.playlist.data);
+		Swal.fire({
+			icon: 'warning',
+			title: '플레이리스트 삭제',
+			text: `${playlistName}을 삭제하시겠습니까?`,
+			showCancelButton: true,
+			confirmButtonText: '삭제',
+			cancelButtonText: '취소',
+		}).then((res) => {
+			if (res.isConfirmed) {
+				deletePlayList(playlistId).then((res) => {
+					console.log();
+					if (res === 'success playlist deleted') {
+						if (pathname === 'playlistdetail') {
+							navigate(-1);
 						}
-					});
-				}
+						if (pathname === 'playlistcollection') {
+							getUserInfo(Number(userId)).then((res) => {
+								if (res.data) {
+									setPlayLists(res.data.playlist.data);
+								}
+							});
+						}
+					}
+				});
+			} else {
+				return;
 			}
 		});
 	};

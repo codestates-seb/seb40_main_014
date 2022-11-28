@@ -169,7 +169,7 @@ const Edit = styled.button`
 	}
 `;
 
-const Follower = styled.div`
+export const Follower = styled.div`
 	display: flex;
 	align-items: center;
 
