@@ -2,6 +2,7 @@ package com.mainproject.server.ChatRoom.mapper;
 
 import com.mainproject.server.ChatRoom.dto.*;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.mapper.MemberMapper;
@@ -10,7 +11,11 @@ import com.mainproject.server.playlist.entity.Playlist;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
 import com.mainproject.server.playlist.service.PlaylistService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +27,8 @@ public class ChatRoomMapper {
     private final MemberMapper memberMapper;
     private final PlaylistMapper playlistMapper;
     private final PlaylistService playlistService;
+
+    private final ChatRoomRepository chatRoomRepository;
 
     public ChatRoom chatRoomPostDtoToChatRoom(ChatRoomPostDto chatRoomPostDto, Member member) {
         if (chatRoomPostDto == null) return null;
@@ -84,4 +91,12 @@ public class ChatRoomMapper {
 
         return roomDtoList;
     }
+
+//    public List<ResponseChatRoomDto> responseChatRoomDtoUserCount(List<ChatRoom> chatRooms, Member member, int userCount, int page, int size) {
+//
+//        List<ResponseChatRoomDto> roomDtoList = chatRooms.stream()
+//                .map(chatRoom -> chatRoomResponseDtoToChatRoom(chatRoom, member))
+//                .collect(Collectors.toList());
+//        return roomDtoList;
+//    }
 }
