@@ -2,9 +2,11 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getPlayList } from '../api/playlistApi';
+import { getUserInfo } from '../api/userApi';
 import MusicList from '../components/playlist/MusicList';
 import PlayListInfo from '../components/playlist/PlayListInfo';
 import { musicInfoType } from './MakePlayList';
+import { MinHeightWrapper } from './RoomList';
 
 export type plinfo = {
 	memberId?: number;
@@ -13,10 +15,10 @@ export type plinfo = {
 	title: string;
 	playlistItems: Array<musicInfoType>;
 	categoryList: Array<string>;
-	// status: string;
 	status: boolean;
 	like?: number;
-	likeCheck?: boolean;
+	likeState?: boolean;
+	bookmarkState?: boolean;
 };
 
 export type PlayListInfoProps = {
@@ -24,24 +26,28 @@ export type PlayListInfoProps = {
 	setPlayListInfo?: Dispatch<SetStateAction<plinfo>>;
 	plList?: Array<musicInfoType>;
 	setPlList?: Dispatch<SetStateAction<Array<musicInfoType>>>;
+	picture?: string;
 };
 
 const PlayListDetail = () => {
 	const [playListInfo, setPlayListInfo] = useState<plinfo>();
+	const [picture, setPicture] = useState<string>();
+
 	const { id } = useParams();
 	useEffect(() => {
 		getPlayList(id).then((res) => {
-			console.log(res);
 			if (res.data) {
 				setPlayListInfo(res.data);
-			} else {
-				alert(res);
+				getUserInfo(res.data.memberId).then((res) =>
+					setPicture(res.data.picture),
+				);
 			}
 		});
 	}, []);
 
 	const props: PlayListInfoProps = {
 		playListInfo,
+		picture,
 		setPlayListInfo,
 	};
 	return (
@@ -58,7 +64,7 @@ const PlayListDetail = () => {
 
 export default PlayListDetail;
 
-const PlayListDetailStyle = styled.div`
+const PlayListDetailStyle = styled(MinHeightWrapper)`
 	display: flex;
 	flex-direction: column;
 `;

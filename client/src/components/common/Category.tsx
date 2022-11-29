@@ -16,7 +16,7 @@ export default Category;
 
 const CategoryStyle = styled.button<CategoryProps>`
 	padding: 0 4px;
-	margin: ${(props) => (props.margin ? props.margin : `0 10px`)};
+	margin: ${(props) => (props.margin ? props.margin : `0 10px 0 0`)};
 	font-size: ${(props) => props.theme.fontSize.xSmall};
 	height: ${(props) => (props.height ? props.height : `20px`)};
 	color: white;

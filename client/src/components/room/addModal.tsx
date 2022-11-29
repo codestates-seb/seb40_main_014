@@ -1,3 +1,7 @@
+import e from 'express';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const ModalContainer = styled.div`
@@ -56,62 +60,86 @@ const BookmarkPlaylist = styled.div`
 	}
 `;
 
-const AddModal = () => {
+const PlaylistDiv = styled.div`
+	margin: 5px;
+	padding-bottom: 5px;
+	border-bottom: solid 1px ${(props) => props.theme.colors.gray400};
+	line-height: 18px;
+	:hover {
+		cursor: pointer;
+	}
+`;
+
+const AddModal = ({
+	playlist,
+	setSelectedPlaylist,
+	bookMarkPlaylist,
+	addModalOpen,
+	setAddModalOpen,
+}) => {
+	const handlePlaylist = (e) => {
+		const choice = playlist.filter(
+			(el) => String(el.playlistId) === e.target.id,
+		);
+		setSelectedPlaylist(choice[0]);
+		setAddModalOpen(!addModalOpen);
+	};
+
+	const handleBookMarkPlaylist = (e) => {
+		const choice = bookMarkPlaylist.filter(
+			(el) => String(el.playlistId) === e.target.id,
+		);
+		setSelectedPlaylist(choice[0]);
+	};
+
+	const navigate = useNavigate();
+	const linkToCreatePlaylist = () => {
+		navigate('/makeplaylist/create');
+	};
+
 	return (
 		<ModalContainer>
 			<MyPlaylistHeader>
 				<div>나의 플레이리스트</div>
 			</MyPlaylistHeader>
 			<MyPlaylist>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
+				{playlist.length === 0 ? (
+					<PlaylistDiv onClick={linkToCreatePlaylist}>
+						플레이리스트를 생성한 후 방을 생성해주세요!
+					</PlaylistDiv>
+				) : (
+					playlist.map((e) => {
+						return (
+							<PlaylistDiv
+								onClick={handlePlaylist}
+								key={e.playlistId}
+								id={e.playlistId}>
+								{e.title}
+							</PlaylistDiv>
+						);
+					})
+				)}
 			</MyPlaylist>
 			<BookmarkPlaylistHeader>
-				<div>북마크한 플레이리스트</div>
+				<div>보관한 플레이리스트</div>
 			</BookmarkPlaylistHeader>
 			<BookmarkPlaylist>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
-				<div>
-					공부하고 일할 때 꼭 필요한 음악 | 3 hour lofi hip hop mix / lofi study
-					/ work / chill beats
-				</div>
+				{bookMarkPlaylist.length === 0 ? (
+					<PlaylistDiv onClick={linkToCreatePlaylist}>
+						상대방의 플레이리스트를 보관해보세요!
+					</PlaylistDiv>
+				) : (
+					bookMarkPlaylist.map((e) => {
+						return (
+							<PlaylistDiv
+								onClick={handleBookMarkPlaylist}
+								key={e.playlistId}
+								id={e.playlistId}>
+								{e.title}
+							</PlaylistDiv>
+						);
+					})
+				)}
 			</BookmarkPlaylist>
 		</ModalContainer>
 	);

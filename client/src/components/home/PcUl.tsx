@@ -25,8 +25,8 @@ const PcUl = ({ currentMenu }: PcUlType) => {
 			<li className={currentMenu === 'ranking' ? 'active' : ''}>
 				<Link to="/ranking">랭킹</Link>
 			</li>
-			<li>
-				{isOpenSearch ? (
+			<li className={currentMenu === 'search' ? 'active' : ''}>
+				{/* {isOpenSearch ? (
 					<SearchInput
 						type="text"
 						placeholder="검색어를 입력하세요"
@@ -38,7 +38,11 @@ const PcUl = ({ currentMenu }: PcUlType) => {
 						<FaSearch className="search-icon" />
 						검색
 					</SearchButton>
-				)}
+				)} */}
+				<Link to="/searchbar">
+					<FaSearch className="search-icon" />
+					<span>검색</span>
+				</Link>
 			</li>
 		</Ul>
 	);
@@ -62,6 +66,16 @@ const Ul = styled.ul`
 
 		&.active {
 			color: ${(props) => props.theme.colors.white};
+		}
+	}
+
+	li:last-of-type {
+		a {
+			display: flex;
+			align-items: center;
+			span {
+				margin-left: 15px;
+			}
 		}
 	}
 

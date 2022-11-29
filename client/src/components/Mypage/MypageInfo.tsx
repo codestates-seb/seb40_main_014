@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MyInitialStateValue, myValue } from '../../slices/mySlice';
+import { MyInitialStateValue, myLogin, myValue } from '../../slices/mySlice';
 import { AiFillEdit } from 'react-icons/ai';
 import { useState, useCallback, useEffect } from 'react';
 import { followUser } from '../../api/userApi';
@@ -14,8 +14,10 @@ type MypageInfoType = {
 };
 
 const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
-	const { memberId, name, grade, follow, followState, picture } = userInfo;
+	const { memberId, name, grade, follow, followState, picture, email } =
+		userInfo;
 
+	const isLogin = useSelector(myLogin);
 	const my = useSelector(myValue);
 
 	const [isOpenModal, setOpenModal] = useState(false);
@@ -67,10 +69,11 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 								</Edit>
 							)}
 						</div>
+						<Email>{email}</Email>
 						<Follower>
 							팔로워
 							<span>{followNum}</span>
-							{myId !== memberId && (
+							{isLogin && myId !== memberId && (
 								<button onClick={handleFollow}>
 									{followCheck ? '언팔로우' : '팔로우'}
 								</button>
@@ -137,7 +140,7 @@ const Img = styled.img`
 const Info = styled.div`
 	> div:nth-of-type(2) {
 		display: flex;
-		margin-bottom: 40px;
+		margin-bottom: 15px;
 	}
 `;
 
@@ -148,7 +151,7 @@ const Name = styled.div`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 22px;
+		font-size: 20px;
 	}
 `;
 
@@ -168,7 +171,7 @@ const Edit = styled.button`
 	}
 `;
 
-const Follower = styled.div`
+export const Follower = styled.div`
 	display: flex;
 	align-items: center;
 
@@ -199,6 +202,22 @@ const Follower = styled.div`
 			margin-left: 17px;
 			font-size: 10px;
 		}
+	}
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 14px;
+	}
+`;
+
+const Email = styled.div`
+	margin-bottom: 40px;
+	color: #4d0bd198;
+	font-size: 14px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 12px;
 	}
 `;
 

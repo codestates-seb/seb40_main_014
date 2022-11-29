@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -12,6 +12,7 @@ import MusicList from '../components/playlist/MusicList';
 import PlayListSetting from '../components/playlist/PlayListSetting';
 import { myLogin, myValue } from '../slices/mySlice';
 import { PlayListInfoProps, plinfo } from './PlayListDetail';
+import { MinHeightWrapper } from './RoomList';
 
 export type musicInfoType = {
 	channelTitle?: string;
@@ -20,15 +21,23 @@ export type musicInfoType = {
 	videoId?: string;
 	url?: string;
 };
+
 const MakePlayList = () => {
+	const navigate = useNavigate();
+	const { type, id } = useParams();
+
+	const isLogin = useSelector(myLogin);
+	const myvalue = useSelector(myValue);
+
 	const [plTitle, setPlTitle] = useState<string>('');
 	const [plId, setPlId] = useState<number>();
 	const [plList, setPlList] = useState<Array<musicInfoType>>([]);
 	const [categoryList, setCategoryList] = useState<Array<string>>([]);
-	const [status, setStatus] = useState<boolean>(true);
-	const isLogin = useSelector(myLogin);
-	const { type, id } = useParams();
-	const navigate = useNavigate();
+	const [status, setStatus] = useState<boolean>(false);
+
+	const [titleError, setTitleError] = useState('');
+	const [categoryError, setCategoryError] = useState('');
+	const [playlistError, setPlaylistError] = useState('');
 
 	useEffect(() => {
 		if (!isLogin) {
@@ -42,9 +51,7 @@ const MakePlayList = () => {
 						setPlTitle(data.title);
 						setPlList(data.playlistItems);
 						setCategoryList(data.categoryList);
-						setStatus(data.status);
-					} else {
-						alert(res);
+						setStatus(!data.status);
 					}
 				});
 			}
@@ -65,32 +72,41 @@ const MakePlayList = () => {
 		categoryList,
 		setStatus,
 		status,
+		titleError,
+		categoryError,
+		playlistError,
+		setPlaylistError,
 	};
+
 	const data: plinfo = {
 		title: plTitle,
 		playlistItems: plList,
 		categoryList,
-		// status: status ? 'public' : 'private',
-		status: status,
+		status: !status,
 	};
 
+	// 유효성 검사
 	const validation = (data) => {
+		setTitleError('');
+		setCategoryError('');
+		setPlaylistError('');
+
 		if (data.title.trim() === '') {
-			alert('제목을 입력해주세요.');
+			setTitleError('제목을 입력해주세요');
 			return false;
 		}
 		if (data.categoryList.length === 0) {
-			alert('카테고리를 선택해 주세요.(1개 이상)');
+			setCategoryError('카테고리를 선택해 주세요 (1개 이상)');
 			return false;
 		}
 		if (data.playlistItems.length === 0) {
-			alert('PlayList를 채워주세요.');
+			setPlaylistError('플레이리스트를 채워주세요');
 			return false;
 		}
+
 		return true;
 	};
 
-	const myvalue = useSelector(myValue);
 	const createPl = () => {
 		if (validation(data)) {
 			console.log(data);
@@ -99,22 +115,38 @@ const MakePlayList = () => {
 			});
 		}
 	};
+
 	const modifyPl = () => {
 		if (validation(data)) {
 			data.playlistId = plId;
 			modifyPlayList(data).then((res) => {
-				if (res.data) navigate(`/mypage/${myvalue.memberId}`);
+				if (res.data) navigate(-1);
 			});
 		}
 	};
+
 	return (
 		<MakePlayListStyle>
 			<PlayListSetting {...settingProps} />
-			<MusicList {...props} />
+			{plList.length ? <MusicList {...props} /> : null}
 			{type === 'modify' ? (
-				<DefaultButton onClick={modifyPl}>수정</DefaultButton>
+				<DefaultButton
+					width="200px"
+					height="50px"
+					mobileWidth
+					margin="0 auto"
+					onClick={modifyPl}>
+					수정
+				</DefaultButton>
 			) : (
-				<DefaultButton onClick={createPl}>만들기</DefaultButton>
+				<DefaultButton
+					width="200px"
+					height="50px"
+					mobileWidth
+					margin="0 auto"
+					onClick={createPl}>
+					만들기
+				</DefaultButton>
 			)}
 		</MakePlayListStyle>
 	);
@@ -122,7 +154,7 @@ const MakePlayList = () => {
 
 export default MakePlayList;
 
-const MakePlayListStyle = styled.div`
+const MakePlayListStyle = styled(MinHeightWrapper)`
 	display: flex;
 	flex-direction: column;
 `;

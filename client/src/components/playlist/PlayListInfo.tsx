@@ -4,12 +4,30 @@ import Category from '../common/Category';
 import BookMark from '../common/BookMark';
 import Like from '../common/Like';
 import ModifyButton from '../playlistcollection/ModifyButton';
+import { useSelector } from 'react-redux';
+import { myLogin, myValue } from '../../slices/mySlice';
+import { useNavigate } from 'react-router-dom';
 
-const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
-	console.log(playListInfo);
+const PlayListInfo = ({
+	playListInfo,
+	setPlayListInfo,
+	picture,
+}: PlayListInfoProps) => {
+	const isLogin = useSelector(myLogin);
+	const loginId = useSelector(myValue).memberId;
+	const navigate = useNavigate();
+
+	const likeBookmarkProps = {
+		setPlayListInfo,
+		isLogin,
+		loginId,
+		memberId: playListInfo.memberId,
+		playlistId: playListInfo.playlistId,
+		likeState: playListInfo.likeState,
+		bookmarkState: playListInfo.bookmarkState,
+	};
 	return (
 		<PlayListInfoStyle>
-			<ModifyButton playlistId={playListInfo.playlistId} />
 			<div className="info">
 				<Img>
 					<img
@@ -30,20 +48,25 @@ const PlayListInfo = ({ playListInfo, setPlayListInfo }: PlayListInfoProps) => {
 						</div>
 					</div>
 					<div className="options">
-						<img
-							src="https://t1.daumcdn.net/thumb/R720x0.fpng/?fname=http://t1.daumcdn.net/brunch/service/user/8fXh/image/0_JTh3JET7ZCHaT_IJhG4VbhEpI.png"
-							alt={playListInfo.name}
-						/>
-						<div>{playListInfo.name}</div>
-						<Like
-							playlistId={playListInfo.playlistId}
-							setPlayListInfo={setPlayListInfo}
-						/>
-						<div>{playListInfo.like}</div>
-						<BookMark
-							playlistId={playListInfo.playlistId}
-							memberId={playListInfo.memberId}
-						/>
+						<div>
+							<img src={picture} alt={playListInfo.name} />
+							<button
+								onClick={() => navigate(`/mypage/${playListInfo.memberId}`)}>
+								{playListInfo.name}
+							</button>
+							<Like {...likeBookmarkProps} />
+							<span>{playListInfo.like}</span>
+							<BookMark {...likeBookmarkProps} />
+						</div>
+						<div>
+							{loginId === playListInfo.memberId && (
+								<ModifyButton
+									playlistId={playListInfo.playlistId}
+									fontSize="16px"
+									playlistName={playListInfo.title}
+								/>
+							)}
+						</div>
 					</div>
 				</Info>
 			</div>
@@ -61,43 +84,48 @@ const PlayListInfoStyle = styled.div`
 	.info {
 		display: flex;
 		justify-content: center;
-		@media (max-width: 850px) {
+		@media (max-width: 550px) {
 			flex-direction: column;
-			align-items: center;
 		}
 	}
 	.total {
 		font-size: ${(props) => props.theme.fontSize.large};
-		color: ${(props) => props.theme.colors.purple};
-		margin-top: 20px;
-		margin-bottom: 20px;
-	}
-`;
-const Img = styled.span`
-	img {
-		width: 350px;
-		object-fit: cover;
-		@media (max-width: 850px) {
-			margin-bottom: 10px;
-		}
-		@media (max-width: 550px) {
-			width: 300px;
-		}
-	}
-`;
-const Info = styled.div`
-	width: 500px;
-	margin-left: 3%;
-	@media (max-width: 850px) {
-		width: 400px;
-		margin-left: 0;
+		margin: 40px 0 25px 0;
 
-		div {
-			margin-bottom: 10px;
+		// Mobile
+		@media screen and (max-width: 640px) {
+			font-size: 18px;
 		}
+	}
+`;
+
+const Img = styled.span`
+	width: 30%;
+
+	img {
+		width: 100%;
+		object-fit: cover;
+	}
+
+	@media (max-width: 850px) {
+		width: 40%;
 	}
 	@media (max-width: 550px) {
-		width: 300px;
+		width: 100%;
+		margin-bottom: 10px;
+	}
+`;
+
+const Info = styled.div`
+	width: 40%;
+	margin-left: 5%;
+	@media (max-width: 850px) {
+		width: 52%;
+		margin-left: 8%;
+	}
+	@media (max-width: 550px) {
+		width: 100%;
+		margin-left: 0;
 	}
 	display: flex;
 	flex-direction: column;
@@ -106,25 +134,52 @@ const Info = styled.div`
 		font-size: ${(props) => props.theme.fontSize.medium};
 	}
 	.title {
-		font-size: ${(props) => props.theme.fontSize.large};
+		font-size: 22px;
+		/* font-size: ${(props) => props.theme.fontSize.large}; */
 		line-height: 1.5;
+		font-weight: 600;
 
 		.categoryBox {
-			margin-top: 10px;
+			margin: 10px 0;
+		}
+		// Tablet
+		@media screen and (max-width: 980px) {
+			font-size: 18px;
+		}
+		// Mobile
+		@media screen and (max-width: 640px) {
+			font-size: 18px;
 		}
 	}
 	.options {
 		display: flex;
+		justify-content: space-between;
 		align-items: center;
-		img {
-			width: 25px;
-			margin: 0 5px;
-			border-radius: 50%;
-			object-fit: cover;
-		}
-		div {
-			margin-left: 5px;
-			margin-right: 20px;
+
+		> div:first-of-type {
+			display: flex;
+			align-items: center;
+			img {
+				width: 25px;
+				margin: 0 5px;
+				border-radius: 50%;
+				object-fit: cover;
+			}
+			span {
+				margin-left: 5px;
+				margin-right: 20px;
+			}
+			button {
+				margin-left: 5px;
+				margin-right: 20px;
+				:hover {
+					color: ${(props) => props.theme.colors.gray700};
+				}
+			}
+			// Mobile
+			@media screen and (max-width: 640px) {
+				font-size: 14px !important;
+			}
 		}
 	}
 `;

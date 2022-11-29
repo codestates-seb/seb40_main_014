@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import axios from 'axios';
+import { updateRoom } from '../../api/roomApi';
+import { useParams } from 'react-router-dom';
 
 type updateRoomInfo = {
 	title: string;
@@ -11,12 +13,14 @@ type updateRoomInfo = {
 };
 
 const UpdateForm = styled.form`
+	font-size: ${(props) => props.theme.fontSize.small};
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	.top {
 		margin-top: 15px;
 	}
+	z-index: 9999;
 `;
 const DefaultInput = styled.input`
 	width: 300px;
@@ -24,6 +28,7 @@ const DefaultInput = styled.input`
 	border: 1px solid ${(props) => props.theme.colors.gray500};
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	padding: 0px 10px 0px 10px;
+	margin: 5px;
 	:focus {
 		outline: 0.1px solid ${(props) => props.theme.colors.purple};
 		box-shadow: ${(props) => props.theme.colors.purple} 0px 0px 0px 1px;
@@ -32,15 +37,24 @@ const DefaultInput = styled.input`
 `;
 
 const InputContainer = styled.div`
+	color: ${(props) => props.theme.colors.gray700};
 	margin: 10px;
 	.add {
 		justify-content: space-between;
 	}
+	z-index: 9999;
 `;
 const InputInfo = styled.div`
 	margin: 5px;
 	display: flex;
 	align-items: center;
+	color: ${(props) => props.theme.colors.black};
+
+	span {
+		font-size: ${(props) => props.theme.fontSize.xSmall};
+		margin-left: 23px;
+		color: #ff4848;
+	}
 `;
 const TitleInput = styled(DefaultInput)``;
 const PasswordInput = styled(DefaultInput)``;
@@ -54,7 +68,7 @@ const CreateRoomBtn = styled.button`
 	width: 70px;
 	height: 30px;
 	border-radius: ${(props) => props.theme.radius.largeRadius};
-	margin-top: 30px;
+	margin-top: 75px;
 	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.5),
 		3px 3px 3px 0px rgba(0, 0, 0, 0.1), 2px 2px 3px 0px rgba(0, 0, 0, 0.1);
 	cursor: pointer;
@@ -68,26 +82,35 @@ const CreateRoomBtn = styled.button`
 	}
 `;
 
-const RoomUpdateForm = () => {
-	const { register, handleSubmit } = useForm<updateRoomInfo>();
+const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen }) => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<updateRoomInfo>();
 	const [checked, setChecked] = useState(false);
-
+	const params = useParams();
+	const roomId = params.id;
+	console.log(roomId);
 	const onValid = (e) => {
 		const UpdateRoomInfo = {
 			title: e.title,
-			password: e.password,
-			people: e.people,
 		};
 
 		console.log('수정될 방의 정보', UpdateRoomInfo);
-
-		axios
-			.post(
-				`${process.env.REACT_APP_STACK_SERVER_TEST}/rooms/update`,
-				UpdateRoomInfo,
-			)
-			.then((res) => console.log(res))
+		updateRoom(UpdateRoomInfo, roomId)
+			.then((res) => {
+				setTitle(res.data.title);
+			})
+			.then(() => setModalOpen(!modalOpen))
 			.catch((err) => console.log(err));
+		// axios
+		// 	.post(
+		// 		`${process.env.REACT_APP_STACK_SERVER_TEST}/rooms/update`,
+		// 		UpdateRoomInfo,
+		// 	)
+		// 	.then((res) => console.log(res))
+		// 	.catch((err) => console.log(err));
 	};
 
 	const onCheck = () => {
@@ -97,9 +120,13 @@ const RoomUpdateForm = () => {
 	return (
 		<UpdateForm onSubmit={handleSubmit(onValid)}>
 			<InputContainer className="top">
-				<InputInfo>방 제목</InputInfo>
+				<InputInfo>
+					방 제목
+					<span>{errors?.title?.message}</span>
+				</InputInfo>
+
 				<TitleInput
-					{...register('title', { required: true })}
+					{...register('title', { required: '방 제목을 입력해주세요!' })}
 					placeholder="방 제목"></TitleInput>
 			</InputContainer>
 			<InputContainer>
@@ -107,11 +134,12 @@ const RoomUpdateForm = () => {
 					비밀번호
 					<PasswordCheckInput
 						type="checkbox"
-						onChange={onCheck}></PasswordCheckInput>
+						onChange={onCheck}
+						disabled></PasswordCheckInput>
 				</InputInfo>
 				<PasswordInput
 					{...register('password')}
-					placeholder="비밀번호"
+					placeholder="비밀번호는 수정할 수 없습니다!"
 					disabled={!checked}></PasswordInput>
 			</InputContainer>
 			<InputContainer>
@@ -122,16 +150,15 @@ const RoomUpdateForm = () => {
 					type="text"
 					disabled></PlaylistInput>
 			</InputContainer>
-			<InputContainer>
+			{/* <InputContainer>
 				<InputInfo>최대 인원 수</InputInfo>
 				<PeopleInput
 					{...register('people')}
-					placeholder="최대 인원 수"
-					type="number"></PeopleInput>
-			</InputContainer>
-			{/* <Link to="/room"> */}
+					placeholder="최대 인원 수는 수정할 수 없습니다!"
+					type="number"
+					disabled></PeopleInput>
+			</InputContainer> */}
 			<CreateRoomBtn as="input" type="submit" value="방 수정"></CreateRoomBtn>
-			{/* </Link> */}
 		</UpdateForm>
 	);
 };

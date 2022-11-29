@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import * as StompJS from '@stomp/stompjs';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
@@ -24,6 +24,14 @@ const ChatMessage = styled.div`
 `;
 
 const Chatting = ({ receiveMessageObject }) => {
+	const ref = useRef(null);
+
+	useEffect(() => {
+		if (ref.current) {
+			ref.current.scrollIntoView({ behavior: 'smooth' });
+		}
+	}, [receiveMessageObject]);
+
 	return (
 		<>
 			{receiveMessageObject.map((e, index) => {
@@ -31,6 +39,7 @@ const Chatting = ({ receiveMessageObject }) => {
 					<ChatContainer key={index}>
 						<ChatUser>{e.user}</ChatUser>
 						<ChatMessage>{e.message}</ChatMessage>
+						<div ref={ref} />
 					</ChatContainer>
 				);
 			})}

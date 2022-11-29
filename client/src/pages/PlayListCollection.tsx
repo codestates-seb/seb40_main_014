@@ -1,75 +1,103 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { getPlaylists } from '../api/playlistApi';
-import { getUserInfo } from '../api/userApi';
+import { getBookmarkList, getFollowList, getUserInfo } from '../api/userApi';
 import CplayList from '../components/playlistcollection/CplayList';
 import { myValue } from '../slices/mySlice';
 import { PlaylistInfoType } from './PlaylistList';
+import { H2, RankingListStyle } from './RankingList';
 
 const UserPlayList = () => {
 	const [playlists, setPlayLists] = useState([]);
+	const [followList, setFollowList] = useState([]);
+	const [title, setTitle] = useState('');
 
-	const { memberId } = useSelector(myValue);
+	const { id, userId } = useParams();
+	const myId = useSelector(myValue).memberId;
 
-	// useEffect(() => {
-	// 	getPlaylists(memberId).then((res) => {
-	// 		console.log('getPlaylists res', res);
-
-	// 		setPlayLists(res);
-	// 	});
-	// }, []);
-
-	// 유진 test
 	useEffect(() => {
-		getUserInfo(memberId).then((res) => {
-			if (res.data) {
-				console.log('getUserInfo res', res);
-
-				setPlayLists(res.data.playlist.data);
-			} else {
-				alert(res);
-			}
-		});
+		if (Number(id) === 1) {
+			getUserInfo(Number(userId)).then((res) => {
+				if (res.data) {
+					setTitle(`${res.data.name}님의 플레이리스트`);
+					setPlayLists(res.data.playlist.data);
+				}
+			});
+		}
+		if (Number(id) === 2) {
+			setTitle('보관한 플레이리스트');
+			getBookmarkList(Number(userId)).then((res) => {
+				if (res.data) {
+					setPlayLists(res.data);
+				}
+			});
+		}
+		if (Number(id) === 3) {
+			setTitle('팔로우 한 DJ');
+			getFollowList(Number(userId)).then((res) => setFollowList(res.data));
+		}
 	}, []);
 
+	const props = {
+		setPlayLists,
+		id: Number(id),
+		userId: Number(userId),
+		memberId: myId,
+	};
+
 	return (
-		<UserPlayListStyle>
-			<div className="title">USERNAME의 플레이리스트</div>
+		<RankingListStyle>
+			<H2 className="title">{title}</H2>
 			<PlayListsWrapper>
-				{playlists &&
-					playlists.map((playlist: PlaylistInfoType) => {
-						return <CplayList key={playlist.playlistId} playList={playlist} />;
-					})}
+				{Number(id) === 3
+					? followList &&
+					  followList.map((ele) => {
+							return (
+								<CplayList key={ele.memberId} followList={ele} {...props} />
+							);
+					  })
+					: playlists &&
+					  playlists.map((playlist: PlaylistInfoType) => {
+							return (
+								<CplayList
+									key={playlist.playlistId}
+									playList={playlist}
+									{...props}
+								/>
+							);
+					  })}
 			</PlayListsWrapper>
-		</UserPlayListStyle>
+		</RankingListStyle>
 	);
 };
 
 export default UserPlayList;
-
-const UserPlayListStyle = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-
-	.title {
-		font-size: ${(props) => props.theme.fontSize.xLarge};
-		font-weight: 600;
-		margin-bottom: 60px;
-
-		// Mobile
-		@media screen and (max-width: 640px) {
-			font-size: 24px;
-		}
-	}
-`;
 
 const PlayListsWrapper = styled.div`
 	width: 100%;
 	max-width: 700px;
 	box-shadow: 0 0 10px #00000013;
 	border-radius: 10px;
+	overflow-y: scroll;
+
+	// 스크롤바
+	::-webkit-scrollbar {
+		display: none;
+	}
+	::-webkit-scrollbar {
+		display: block;
+		width: 8px;
+	}
+	::-webkit-scrollbar-thumb {
+		height: 30%;
+		background-color: ${(props) => props.theme.colors.gray400};
+		border-radius: 10px;
+	}
+	::-webkit-scrollbar-track {
+		background-color: ${(props) => props.theme.colors.gray300};
+		border-radius: 10px;
+	}
 
 	> div:first-of-type {
 		border-radius: 10px 10px 0 0;

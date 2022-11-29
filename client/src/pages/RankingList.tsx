@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getRanking } from '../api/rankingApi';
 import Ranking from '../components/ranking/Ranking';
+import { MinHeightWrapper } from './RoomList';
 
 export type RankingInfoType = {
 	name: string;
@@ -27,40 +28,36 @@ const RankingList = () => {
 	}, []);
 
 	return (
-		<>
-			<RankingListStyle>
-				<H2>
-					DJ 랭킹 <span>TOP7</span>
-				</H2>
-				<Rankings>
-					<Title>
-						<div>순위</div>
-						<div>닉네임</div>
-						<div>팔로워</div>
-						<div>플리 좋아요</div>
-					</Title>
-					{rankings.length
-						? rankings.map((ranking, idx) => (
-								<Ranking ranking={ranking} key={idx} />
-						  ))
-						: null}
-				</Rankings>
-			</RankingListStyle>
-		</>
+		<RankingListStyle>
+			<H2>
+				DJ 랭킹 <span>TOP7</span>
+			</H2>
+			<Rankings>
+				<Title>
+					<div>순위</div>
+					<div>닉네임</div>
+					<div>팔로워</div>
+					<div>플리 좋아요</div>
+				</Title>
+				{rankings.length
+					? rankings.map((ranking, idx) => (
+							<Ranking ranking={ranking} key={idx} />
+					  ))
+					: null}
+			</Rankings>
+		</RankingListStyle>
 	);
 };
 
 export default RankingList;
 
-const RankingListStyle = styled.div`
+export const RankingListStyle = styled(MinHeightWrapper)`
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
-	height: calc(100vh - 80px - 120px);
 `;
 
-const H2 = styled.h2`
+export const H2 = styled.h2`
 	font-size: ${(props) => props.theme.fontSize.xLarge};
 	font-weight: 600;
 	margin-bottom: 60px;

@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Category from '../common/Category';
 import { RoomInfoType } from '../../pages/RoomList';
+import { HiUser } from 'react-icons/hi';
 
 type RoomType = {
-	room: RoomInfoType;
+	room: any;
 	key?: string;
 	swiper?: boolean;
 };
@@ -14,21 +15,21 @@ export type SwiperTrueType = {
 };
 
 const Room = ({ room, swiper }: RoomType) => {
-	const { roomId, title, userCount, maxCount } = room;
+	const { roomId, title, userCount, maxCount, userlist } = room;
 	const { memberId, name } = room.memberResponseDto;
-	const { categoryList, playlistItems } = room.playlistResponseDtoList[0];
+	const { categoryList, playlistItems } = room.playlistResponseDto;
 
 	return (
 		<RoomStyle>
 			<Thumbnail>
 				<img src={playlistItems[0].thumbnail} alt="thumbnail" />
-				<Link to={`/room/${roomId}`}>
+				<Link to={`/rooms/${roomId}`}>
 					<ThumbnailBackdrop />
 				</Link>
 				<Onair swiper={swiper}>ON AIR</Onair>
 			</Thumbnail>
 			<Title swiper={swiper}>
-				<Link to={`/room/${roomId}`}>{title}</Link>
+				<Link to={`/rooms/${roomId}`}>{title}</Link>
 			</Title>
 			<Name swiper={swiper}>
 				<Link to={`/mypage/${memberId}`}>{name}</Link>
@@ -47,7 +48,8 @@ const Room = ({ room, swiper }: RoomType) => {
 						))}
 				</Categorys>
 				<RoomCount swiper={swiper}>
-					{userCount} / {maxCount}
+					<HiUser className="user_icon" />
+					{userlist.length}
 				</RoomCount>
 			</Detail>
 		</RoomStyle>
@@ -93,7 +95,7 @@ export const ThumbnailBackdrop = styled.div`
 	top: 0;
 	text-align: center;
 	/* background-color: #4d0bd16e; */
-	background-color: #ffffff48;
+	background-color: #ffffff37;
 	border-radius: 3px;
 	z-index: 1111;
 
@@ -189,7 +191,14 @@ const Onair = styled.div<SwiperTrueType>`
 `;
 
 const RoomCount = styled.div<SwiperTrueType>`
+	display: flex;
+	align-items: center;
 	color: ${(props) => props.theme.colors.gray600};
+
+	.user_icon {
+		margin: 5px 5px 4px 5px;
+		color: #3cc13c;
+	}
 
 	// Tablet
 	@media screen and (max-width: 980px) {

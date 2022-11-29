@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Content from './Content';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
@@ -10,32 +10,36 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { SwiperStyle } from '../../pages/RoomList';
+import { useSelector } from 'react-redux';
+import { myValue } from '../../slices/mySlice';
 
 type MypageContentsType = {
 	title?: string;
 	contents?: Array<PlaylistInfoType>;
-	key?: number;
+	id: number;
 };
 
-const MypageContents = ({ title, contents }: MypageContentsType) => {
+const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 	const navigate = useNavigate();
-	const slidesPerView = contents.length < 3 ? contents.length : 3;
+	const { userId } = useParams();
+
+	const myId = useSelector(myValue).memberId;
 
 	//* Swiper
 	const settings = {
 		modules: [Pagination, Navigation],
 		slidesPerView: 2,
-		spaceBetween: 15,
+		spaceBetween: 1,
 		navigation: true,
 		pagination: { clickable: true },
 		breakpoints: {
 			641: {
 				slidesPerView: 3,
-				spaceBetween: 25,
+				spaceBetween: 19,
 			},
 			981: {
 				slidesPerView: 3,
-				spaceBetween: 51,
+				spaceBetween: 44,
 			},
 		},
 	};
@@ -44,37 +48,69 @@ const MypageContents = ({ title, contents }: MypageContentsType) => {
 		<MypageContentsStyle>
 			<Roof>
 				<div className="title">{title}</div>
-				{title === '나의 플레이리스트' ? (
-					<div>
-						<button onClick={() => navigate('/makeplaylist/create')}>
-							플리 만들기
-						</button>
-						<button onClick={() => navigate('/playlistcollection')}>
-							더보기
+				{id === 1 ? (
+					<div className="button-wrapper">
+						{Number(userId) === myId && (
+							<>
+								<button
+									className="create-btn"
+									onClick={() => navigate('/makeplaylist/create')}>
+									플리 만들기
+								</button>
+							</>
+						)}
+						<button
+							onClick={() => navigate(`/playlistcollection/${id}/${userId}`)}>
+							전체보기
 						</button>
 					</div>
 				) : (
-					<button onClick={() => navigate('/playlistcollection')}>
-						더보기
+					<button
+						onClick={() => navigate(`/playlistcollection/${id}/${userId}`)}>
+						전체보기
 					</button>
 				)}
 			</Roof>
 			<Body>
-				<MyPageSwiperStyle {...settings}>
-					{contents.map((playlist) => {
-						return (
-							<SwiperSlide key={playlist.playlistId}>
-								<Content playlist={playlist} />
-							</SwiperSlide>
-						);
-					})}
-				</MyPageSwiperStyle>
+				{contents.length > 2 ? (
+					<MyPageSwiperStyle {...settings}>
+						{contents.map((ele, idx) => {
+							return (
+								<SwiperSlide key={idx}>
+									{id === 3 ? (
+										<Content id={id} followlist={ele} />
+									) : (
+										<Content id={id} playlist={ele} />
+									)}
+								</SwiperSlide>
+							);
+						})}
+					</MyPageSwiperStyle>
+				) : (
+					<NoSwiperStyle>
+						{contents.map((ele, idx) => (
+							<div key={idx}>
+								{id === 3 ? (
+									<Content id={id} followlist={ele} />
+								) : (
+									<Content id={id} playlist={ele} />
+								)}
+							</div>
+						))}
+					</NoSwiperStyle>
+				)}
 			</Body>
 		</MypageContentsStyle>
 	);
 };
 
 export default MypageContents;
+
+const NoSwiperStyle = styled.div`
+	display: flex;
+	justify-content: space-evenly;
+	width: 100%;
+`;
 
 const MypageContentsStyle = styled.div`
 	box-shadow: 1px 1px 10px #4d0bd133;
@@ -98,7 +134,7 @@ const Roof = styled.div`
 		transition: 0.1s;
 
 		:hover {
-			background-color: #e8ddff;
+			background-color: #f1eaff;
 		}
 	}
 
@@ -114,22 +150,30 @@ const Roof = styled.div`
 		.title {
 			font-size: 14px;
 		}
+		.button-wrapper {
+			display: flex;
+			flex-direction: column;
+		}
 		button {
 			margin-left: 10px;
 			font-size: 12px;
+		}
+		.create-btn {
+			margin-bottom: 5px;
 		}
 	}
 `;
 
 const Body = styled.div`
 	margin-bottom: 60px;
+	padding: 40px 60px;
 	border-bottom-left-radius: ${(props) => props.theme.radius.largeRadius};
 	border-bottom-right-radius: ${(props) => props.theme.radius.largeRadius};
 	background-color: ${(props) => props.theme.colors.white};
 	display: flex;
 	overflow-x: auto;
 	overflow-y: hidden;
-	padding: 40px 60px;
+	line-height: 20px;
 
 	// Tablet
 	@media screen and (max-width: 980px) {

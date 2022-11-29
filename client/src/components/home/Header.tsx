@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImg from '../../assets/images/header-logo.png';
 import { useCallback, useState, useEffect, useRef } from 'react';
@@ -16,6 +16,7 @@ import { BsFillTriangleFill } from 'react-icons/bs';
 const Header = () => {
 	const dispatch = useDispatch();
 	const { pathname } = useLocation();
+	const navigate = useNavigate();
 
 	const { memberId, name, picture } = useSelector(myValue);
 	const isLogin = useSelector(myLogin);
@@ -40,6 +41,13 @@ const Header = () => {
 			localStorage.removeItem('refreshToken');
 			dispatch(myLogout());
 		});
+	};
+
+	//마이페이지 이동
+	const handleMypage = () => {
+		navigate(`/mypage/${memberId}`);
+		profileUlRef.current.style.display = 'none';
+		// window.location.reload();
 	};
 
 	const handleOpenModal = useCallback(() => {
@@ -82,63 +90,62 @@ const Header = () => {
 
 	return (
 		<>
-			<HeaderStyle position={position}>
-				<Logo>
-					<Link to="/">
-						<img src={LogoImg} alt="logo" />
-					</Link>
-				</Logo>
-				<div className="on-pc">
-					<PcUl currentMenu={currentMenu} />
-				</div>
-				{isOpenSide && (
-					<div className="on-mobile">
-						<MobileUl
-							currentMenu={currentMenu}
-							setOpenModal={setOpenModal}
-							handleOpenSide={handleOpenSide}
-						/>
+			{pathname.slice(0, 6) === '/rooms' ? null : (
+				<HeaderStyle position={position}>
+					<Logo>
+						<Link to="/">
+							<img src={LogoImg} alt="logo" />
+						</Link>
+					</Logo>
+					<div className="on-pc">
+						<PcUl currentMenu={currentMenu} />
 					</div>
-				)}
-				{isLogin ? (
-					<>
-						<Profile ref={profileRef}>
-							<Img src={picture} alt="profile" />
-							<div className="on-pc">{name}</div>
-							<ProfileUl ref={profileUlRef}>
-								<Triangle>
-									<BsFillTriangleFill />
-								</Triangle>
-								<MyPageLink>
-									<Link
-										to={`/mypage/${memberId}`}
+					{isOpenSide && (
+						<div className="on-mobile">
+							<MobileUl
+								currentMenu={currentMenu}
+								setOpenModal={setOpenModal}
+								handleOpenSide={handleOpenSide}
+							/>
+						</div>
+					)}
+					{isLogin ? (
+						<>
+							<Profile ref={profileRef}>
+								<Img src={picture} alt="profile" />
+								<div className="on-pc">{name}</div>
+								<ProfileUl ref={profileUlRef}>
+									<Triangle>
+										<BsFillTriangleFill />
+									</Triangle>
+									<MyPageLink>
+										<BiUser />
+										<span role="presentation" onClick={handleMypage}>
+											마이페이지
+										</span>
+									</MyPageLink>
+									<LogoutButton
 										onClick={() => {
+											handleLogout();
 											profileUlRef.current.style.display = 'none';
 										}}>
-										<BiUser />
-										<span>마이페이지</span>
-									</Link>
-								</MyPageLink>
-								<LogoutButton
-									onClick={() => {
-										handleLogout();
-										profileUlRef.current.style.display = 'none';
-									}}>
-									<MdLogout />
-									<span>로그아웃</span>
-								</LogoutButton>
-							</ProfileUl>
-						</Profile>
-					</>
-				) : (
-					<LoginButton onClick={handleOpenModal} className="on-pc">
-						로그인
-					</LoginButton>
-				)}
-				<Hambuger className="on-mobile" onClick={handleOpenSide}>
-					{isOpenSide ? <RiMenuUnfoldLine /> : <RiMenuFoldLine />}
-				</Hambuger>
-			</HeaderStyle>
+										<MdLogout />
+										<span>로그아웃</span>
+									</LogoutButton>
+								</ProfileUl>
+							</Profile>
+						</>
+					) : (
+						<LoginButton onClick={handleOpenModal} className="on-pc">
+							로그인
+						</LoginButton>
+					)}
+					<Hambuger className="on-mobile" onClick={handleOpenSide}>
+						{isOpenSide ? <RiMenuUnfoldLine /> : <RiMenuFoldLine />}
+					</Hambuger>
+				</HeaderStyle>
+			)}
+
 			{isOpenModal && <LoginModal handleOpenModal={handleOpenModal} />}
 			{isOpenSide && (
 				<ModalBackdrop
@@ -162,7 +169,7 @@ const HeaderStyle = styled.div<{ position: string }>`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 17px 15vw;
+	padding: 18px 15vw;
 	background-color: ${(props) => props.theme.colors.headerBackground};
 	font-size: 18px;
 	z-index: 3333;

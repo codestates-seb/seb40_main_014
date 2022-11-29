@@ -1,15 +1,66 @@
-import { useNavigate } from 'react-router-dom';
+import { Dispatch, SetStateAction } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { deletePlayList } from '../../api/playlistApi';
+import { getUserInfo } from '../../api/userApi';
+import Swal from 'sweetalert2';
 
-const ModifyButton = ({ playlistId }) => {
+type ModifyButtonType = {
+	playlistId: number;
+	setPlayLists?: Dispatch<SetStateAction<Array<object>>>;
+	fontSize?: string;
+	playlistName?: string;
+};
+
+type ModifyButtonProps = {
+	fontSize?: string;
+};
+
+const ModifyButton = ({
+	playlistId,
+	setPlayLists,
+	fontSize,
+	playlistName,
+}: ModifyButtonType) => {
 	const navigate = useNavigate();
+	const pathname = useLocation().pathname.split('/')[1];
+	const { userId } = useParams();
+
+	console.log(playlistName);
 
 	const onClickDelete = () => {
-		deletePlayList(playlistId).then((res) => console.log(res));
+		Swal.fire({
+			icon: 'warning',
+			title: '플레이리스트 삭제',
+			text: `${playlistName}을(를) 삭제하시겠습니까?`,
+			showCancelButton: true,
+			confirmButtonText: '삭제',
+			cancelButtonText: '취소',
+		}).then((res) => {
+			if (res.isConfirmed) {
+				deletePlayList(playlistId).then((res) => {
+					console.log();
+					if (res === 'success playlist deleted') {
+						if (pathname === 'playlistdetail') {
+							navigate(-1);
+						}
+						if (pathname === 'playlistcollection') {
+							getUserInfo(Number(userId)).then((res) => {
+								if (res.data) {
+									setPlayLists(res.data.playlist.data);
+								}
+							});
+						}
+					}
+				});
+			} else {
+				return;
+			}
+		});
 	};
+
 	return (
-		<ModifyButtonStyle>
+		<ModifyButtonStyle fontSize={fontSize}>
 			<EditButton
 				onClick={() => navigate(`/makeplaylist/modify/${playlistId}`)}>
 				수정
@@ -21,12 +72,14 @@ const ModifyButton = ({ playlistId }) => {
 
 export default ModifyButton;
 
-const ModifyButtonStyle = styled.div`
+const ModifyButtonStyle = styled.div<ModifyButtonProps>`
 	display: flex;
 
 	button {
-		padding: 7px 18px;
-		font-size: 14px;
+		margin-left: 15px;
+		width: 60px;
+		height: 35px;
+		font-size: ${(props) => (props.fontSize ? props.fontSize : '14px')};
 		border-radius: ${(props) => props.theme.radius.smallRadius};
 	}
 
@@ -35,8 +88,10 @@ const ModifyButtonStyle = styled.div`
 		justify-content: flex-end;
 
 		button {
-			padding: 5px 12px;
-			font-size: 12px;
+			margin-left: 10px;
+			width: 52px;
+			height: 30px;
+			font-size: ${(props) => (props.fontSize ? '14px' : '12px')};
 		}
 	}
 `;
@@ -50,15 +105,10 @@ const EditButton = styled.button`
 `;
 
 const Deletebutton = styled.button`
-	margin-left: 15px;
+	background-color: ${(props) => props.theme.colors.white};
 	border: 1.3px solid ${(props) => props.theme.colors.purple};
 	color: ${(props) => props.theme.colors.purple};
 	:hover {
-		background-color: ${(props) => props.theme.colors.gray50};
-	}
-
-	// Mobile
-	@media screen and (max-width: 640px) {
-		margin-left: 10px;
+		background-color: #f1eaff;
 	}
 `;

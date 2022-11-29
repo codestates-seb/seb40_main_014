@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import AddModal from './addModal';
@@ -11,6 +11,7 @@ import { myLogin } from '../../slices/mySlice';
 import { currentRoomInfo } from '../../slices/roomSlice';
 import instance, { root } from '../../api/root';
 import { createRoom } from '../../api/roomApi';
+import { getMyInfo, getBookmarkList } from '../../api/userApi';
 
 export type roomInfo = {
 	memberId: number;
@@ -35,10 +36,10 @@ const DefaultInput = styled.input`
 	border: 1px solid ${(props) => props.theme.colors.gray500};
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	padding: 0px 10px 0px 10px;
-	:focus {
-		outline: 0.1px solid ${(props) => props.theme.colors.purple};
-		box-shadow: ${(props) => props.theme.colors.purple} 0px 0px 0px 1px;
-		border: none;
+	:focus-within {
+		outline: none;
+		border-color: ${(props) => props.theme.colors.lightPurple};
+		box-shadow: 0 0 10px ${(props) => props.theme.colors.lightPurple};
 	}
 `;
 
@@ -52,6 +53,12 @@ const InputInfo = styled.div`
 	margin: 5px 5px 10px 5px;
 	display: flex;
 	align-items: center;
+
+	span {
+		font-size: ${(props) => props.theme.fontSize.xSmall};
+		margin-left: 23px;
+		color: #ff4848;
+	}
 `;
 const TitleInput = styled(DefaultInput)``;
 const PasswordInput = styled(DefaultInput)``;
@@ -65,7 +72,7 @@ const CreateRoomBtn = styled.button`
 	width: 70px;
 	height: 30px;
 	border-radius: ${(props) => props.theme.radius.largeRadius};
-	margin-top: 30px;
+	margin-top: 75px;
 	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.5),
 		3px 3px 3px 0px rgba(0, 0, 0, 0.1), 2px 2px 3px 0px rgba(0, 0, 0, 0.1);
 	cursor: pointer;
@@ -80,42 +87,65 @@ const CreateRoomBtn = styled.button`
 `;
 
 const RoomCreateForm = () => {
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const userInfo = useSelector((state: RootState) => state.my.value);
-	const roomInfo = useSelector((state: RootState) => state.room);
-	console.log('roomInfo', roomInfo);
+
 	const isLogin = useSelector(myLogin);
-	const { register, handleSubmit } = useForm<roomInfo>();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<roomInfo>();
 	const [checked, setChecked] = useState<boolean>(false);
 	const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
+	const [playlist, setPlaylist] = useState([]);
+	const [bookMarkPlaylist, setBookMarkPlaylist] = useState([]);
+	const accessToken = localStorage.getItem('accessToken');
+	const [selectedPlaylist, setSelectedPlaylist] = useState({
+		title: '',
+		playlistId: 0,
+	});
+	useEffect(() => {
+		getMyInfo(userInfo.memberId, accessToken).then((res) => {
+			setPlaylist(res.data.playlist.data);
+		});
+	}, []);
+	useEffect(() => {
+		getBookmarkList(userInfo.memberId).then((res) => {
+			setBookMarkPlaylist(res.data);
+		});
+	}, []);
 
-	const onValid = async (e) => {
+	const onValid = (e) => {
 		const CreateRoomInfo = {
 			memberId: userInfo.memberId,
 			title: e.title,
 			pwd: e.password,
-			playlist: e.playlist,
-			maxCount: e.people,
+			playlistId: selectedPlaylist.playlistId,
+			maxCount: 100,
 		};
-		// console.log('생성될 방의 정보', CreateRoomInfo);
+		console.log('생성될 방의 정보', CreateRoomInfo);
 
 		if (!isLogin) {
 			alert('로그인 후 생성하실 수 있습니다.');
 		} else {
-			// instance
-			// 	.post(`/rooms`, CreateRoomInfo)
-			// 	.then((res) => {
-			// 		console.log(res);
+			// createRoom(CreateRoomInfo).then((res) => {
+			// 	if (res.data) {
 			// 		navigate(`rooms/${res.data.roomId}`);
-			// 	})
-			// 	.catch((err) => console.log(err));
-			createRoom(CreateRoomInfo)
-				.then((res) => {
-					// console.log(res);
-					navigate(`rooms/${res.data.roomId}`);
-				})
-				.catch((err) => console.log(err));
+			// 	}
+			// });
+			createRoom(CreateRoomInfo).then((res) => {
+				navigate(`rooms/${res.data.roomId}`);
+				console.log('테스트', res);
+			});
+			// .catch(
+			// 	(err) => console.log(err),
+			// 	// (err) =>
+			// 	// 	String(err) ===
+			// 	// 	"TypeError: Cannot read properties of undefined (reading 'roomId')"
+			// 	// 		? alert('로그인이 만료되었습니다. 로그인을 다시 해주세요!')
+			// 	// 		: console.log(err),
+			// );
 		}
 	};
 
@@ -130,9 +160,12 @@ const RoomCreateForm = () => {
 	return (
 		<CreateForm onSubmit={handleSubmit(onValid)}>
 			<InputContainer className="top">
-				<InputInfo>방 제목</InputInfo>
+				<InputInfo>
+					방 제목
+					<span>{errors?.title?.message}</span>
+				</InputInfo>
 				<TitleInput
-					{...register('title', { required: true })}
+					{...register('title', { required: '방 제목을 입력해주세요!' })}
 					placeholder="방 제목"></TitleInput>
 			</InputContainer>
 			<InputContainer>
@@ -141,10 +174,20 @@ const RoomCreateForm = () => {
 					<PasswordCheckInput
 						type="checkbox"
 						onChange={onCheck}></PasswordCheckInput>
+					<span>{errors?.password?.message}</span>
 				</InputInfo>
 				<PasswordInput
-					{...register('password')}
-					placeholder="비밀번호"
+					{...register('password', {
+						maxLength: {
+							value: 4,
+							message: '비밀번호는 4자 이하여야 합니다.',
+						},
+						// pattern: {
+						// 	value: /[0,9]/,
+						// 	message: '비밀번호는 4자 이하의 숫자여야 합니다.',
+						// },
+					})}
+					placeholder="비밀번호 설정 시 4자 이하여야 합니다."
 					disabled={!checked}></PasswordInput>
 			</InputContainer>
 
@@ -158,20 +201,33 @@ const RoomCreateForm = () => {
 						onClick={handleAdd}>
 						추가
 					</DefaultButton>
-					{addModalOpen && <AddModal></AddModal>}
+					{addModalOpen && (
+						<AddModal
+							addModalOpen={addModalOpen}
+							setAddModalOpen={setAddModalOpen}
+							bookMarkPlaylist={bookMarkPlaylist}
+							playlist={playlist}
+							setSelectedPlaylist={setSelectedPlaylist}></AddModal>
+					)}
 				</InputInfo>
 				<PlaylistInput
 					{...register('playlist', { required: true })}
 					placeholder="플레이리스트를 추가해주세요!"
-					type="text"></PlaylistInput>
+					type="text"
+					readOnly
+					value={
+						selectedPlaylist.title
+							? selectedPlaylist.title
+							: '플레이리스트를 추가해주세요'
+					}></PlaylistInput>
 			</InputContainer>
-			<InputContainer>
+			{/* <InputContainer>
 				<InputInfo>최대 인원 수</InputInfo>
 				<PeopleInput
 					{...register('people')}
 					placeholder="최대 인원 수"
 					type="number"></PeopleInput>
-			</InputContainer>
+			</InputContainer> */}
 			<CreateRoomBtn as="input" type="submit" value="방 생성"></CreateRoomBtn>
 		</CreateForm>
 	);

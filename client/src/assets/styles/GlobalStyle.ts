@@ -42,6 +42,14 @@ const GlobalStyle = createGlobalStyle`
     font-size: inherit;
     color: inherit;
   }
+
+  select{
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+  }
 `;
 
 export default GlobalStyle;
