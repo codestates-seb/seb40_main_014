@@ -48,9 +48,29 @@ export const updateRoom = async (data, roomId) => {
 	}
 };
 
+export const deleteRoom = async (roomId) => {
+	try {
+		const result = await instance.delete(`/rooms/delete/${roomId}`);
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
+
 export const getRoomById = async (roomId) => {
 	try {
 		const result = await instance.get(`/rooms/${roomId}`);
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
+
+export const checkRoomByName = async (roomId, memberName) => {
+	try {
+		const result = await instance.get(
+			`/rooms/chat/${roomId}?memberName=${memberName}`,
+		);
 		return result.data;
 	} catch (err) {
 		return err;

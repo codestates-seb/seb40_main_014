@@ -70,12 +70,19 @@ const PlaylistDiv = styled.div`
 	}
 `;
 
-const AddModal = ({ playlist, setSelectedPlaylist, bookMarkPlaylist }) => {
+const AddModal = ({
+	playlist,
+	setSelectedPlaylist,
+	bookMarkPlaylist,
+	addModalOpen,
+	setAddModalOpen,
+}) => {
 	const handlePlaylist = (e) => {
 		const choice = playlist.filter(
 			(el) => String(el.playlistId) === e.target.id,
 		);
 		setSelectedPlaylist(choice[0]);
+		setAddModalOpen(!addModalOpen);
 	};
 
 	const handleBookMarkPlaylist = (e) => {

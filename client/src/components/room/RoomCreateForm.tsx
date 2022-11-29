@@ -53,6 +53,12 @@ const InputInfo = styled.div`
 	margin: 5px 5px 10px 5px;
 	display: flex;
 	align-items: center;
+
+	span {
+		font-size: ${(props) => props.theme.fontSize.xSmall};
+		margin-left: 23px;
+		color: #ff4848;
+	}
 `;
 const TitleInput = styled(DefaultInput)``;
 const PasswordInput = styled(DefaultInput)``;
@@ -66,7 +72,7 @@ const CreateRoomBtn = styled.button`
 	width: 70px;
 	height: 30px;
 	border-radius: ${(props) => props.theme.radius.largeRadius};
-	margin-top: 30px;
+	margin-top: 75px;
 	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.5),
 		3px 3px 3px 0px rgba(0, 0, 0, 0.1), 2px 2px 3px 0px rgba(0, 0, 0, 0.1);
 	cursor: pointer;
@@ -81,13 +87,15 @@ const CreateRoomBtn = styled.button`
 `;
 
 const RoomCreateForm = () => {
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const userInfo = useSelector((state: RootState) => state.my.value);
-	const roomInfo = useSelector((state: RootState) => state.room);
 
 	const isLogin = useSelector(myLogin);
-	const { register, handleSubmit } = useForm<roomInfo>();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<roomInfo>();
 	const [checked, setChecked] = useState<boolean>(false);
 	const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
 	const [playlist, setPlaylist] = useState([]);
@@ -114,7 +122,7 @@ const RoomCreateForm = () => {
 			title: e.title,
 			pwd: e.password,
 			playlistId: selectedPlaylist.playlistId,
-			maxCount: e.people,
+			maxCount: 100,
 		};
 		console.log('생성될 방의 정보', CreateRoomInfo);
 
@@ -148,13 +156,16 @@ const RoomCreateForm = () => {
 	const handleAdd = () => {
 		return setAddModalOpen(!addModalOpen);
 	};
-	console.log(selectedPlaylist);
+
 	return (
 		<CreateForm onSubmit={handleSubmit(onValid)}>
 			<InputContainer className="top">
-				<InputInfo>방 제목</InputInfo>
+				<InputInfo>
+					방 제목
+					<span>{errors?.title?.message}</span>
+				</InputInfo>
 				<TitleInput
-					{...register('title', { required: true })}
+					{...register('title', { required: '방 제목을 입력해주세요!' })}
 					placeholder="방 제목"></TitleInput>
 			</InputContainer>
 			<InputContainer>
@@ -163,10 +174,20 @@ const RoomCreateForm = () => {
 					<PasswordCheckInput
 						type="checkbox"
 						onChange={onCheck}></PasswordCheckInput>
+					<span>{errors?.password?.message}</span>
 				</InputInfo>
 				<PasswordInput
-					{...register('password')}
-					placeholder="비밀번호"
+					{...register('password', {
+						maxLength: {
+							value: 4,
+							message: '비밀번호는 4자 이하여야 합니다.',
+						},
+						// pattern: {
+						// 	value: /[0,9]/,
+						// 	message: '비밀번호는 4자 이하의 숫자여야 합니다.',
+						// },
+					})}
+					placeholder="비밀번호 설정 시 4자 이하여야 합니다."
 					disabled={!checked}></PasswordInput>
 			</InputContainer>
 
@@ -182,6 +203,8 @@ const RoomCreateForm = () => {
 					</DefaultButton>
 					{addModalOpen && (
 						<AddModal
+							addModalOpen={addModalOpen}
+							setAddModalOpen={setAddModalOpen}
 							bookMarkPlaylist={bookMarkPlaylist}
 							playlist={playlist}
 							setSelectedPlaylist={setSelectedPlaylist}></AddModal>
@@ -191,19 +214,20 @@ const RoomCreateForm = () => {
 					{...register('playlist', { required: true })}
 					placeholder="플레이리스트를 추가해주세요!"
 					type="text"
+					readOnly
 					value={
 						selectedPlaylist.title
 							? selectedPlaylist.title
 							: '플레이리스트를 추가해주세요'
 					}></PlaylistInput>
 			</InputContainer>
-			<InputContainer>
+			{/* <InputContainer>
 				<InputInfo>최대 인원 수</InputInfo>
 				<PeopleInput
 					{...register('people')}
 					placeholder="최대 인원 수"
 					type="number"></PeopleInput>
-			</InputContainer>
+			</InputContainer> */}
 			<CreateRoomBtn as="input" type="submit" value="방 생성"></CreateRoomBtn>
 		</CreateForm>
 	);

@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getRoomById } from '../../api/roomApi';
 import { GiChessKing } from 'react-icons/gi';
 import UserModal from './userModal';
+import { AiTwotoneHome } from 'react-icons/ai';
 
 const PeopleSetcion = styled.div`
 	margin-top: 80px;
@@ -53,6 +54,14 @@ const Person = styled.div`
 	margin: 5px;
 	padding-bottom: 5px;
 	border-bottom: solid 1px ${(props) => props.theme.colors.gray400};
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	.follow {
+		margin-right: 5px;
+		height: 20px;
+	}
 
 	:hover {
 		cursor: pointer;
@@ -60,45 +69,71 @@ const Person = styled.div`
 
 	.option_btn {
 		color: #df7a2894;
-		width: 13px;
-		height: 13px;
+		width: 12px;
+		height: 12px;
 		margin-right: 2px;
 	}
 `;
 
-const PeoplePart = ({ people, isAdmin }) => {
+const FollowBtn = styled.button`
+	margin-right: 12px;
+	width: 40px;
+	font-size: 10px;
+	background-color: ${(props) => props.theme.colors.white};
+	color: ${(props) => props.theme.colors.purple};
+	border-radius: ${(props) => props.theme.radius.smallRadius};
+	transition: 0.1s;
+	border: 1px solid ${(props) => props.theme.colors.purple};
+	padding: 2px;
+`;
+
+const PeoplePart = ({ people, isAdmin, roomId }) => {
 	// const [people, setPeople] = useState([]);
 	// const params = useParams();
 	// const roomId = params.id;
 	const userRef = useRef(null);
+	const navigate = useNavigate();
+	const [peopleList, setPeopleList] = useState([]);
 	const filtered = people.reduce((acc, v) => {
 		return acc.includes(v) ? acc : [...acc, v];
 	}, []);
-	const [modalOpen, setModalOpen] = useState(false);
+
 	const onClick = (e) => {
-		setModalOpen(!modalOpen);
+		console.log(userRef.current.innerText);
 	};
+
+	const linkMyPage = (e) => {
+		navigate(`/mypage/3`);
+	};
+	useEffect(() => {
+		getRoomById(roomId)
+			.then((res) => {
+				setPeopleList(res.data.userlist);
+			})
+			.catch((err) => console.log(err));
+	}, []);
 
 	return (
 		<PeopleSetcion>
 			<PeopleContainer>
-				{filtered.map((e, index) => {
+				{people.map((e, index) => {
 					return (
-						<>
-							<Person ref={userRef} onClick={onClick} key={index}>
+						<Person onClick={onClick} key={index}>
+							<div ref={userRef}>
 								{isAdmin ? (
 									<GiChessKing className="option_btn"></GiChessKing>
 								) : null}
 								{e}
-							</Person>
-							{modalOpen && (
-								<UserModal
-									userRef={userRef}
-									modalOpen={modalOpen}
-									setModalOpen={setModalOpen}
-								/>
-							)}
-						</>
+							</div>
+
+							<div className="option">
+								{/* <span className="follow">팔로우</span> */}
+								<FollowBtn className="follow">팔로우</FollowBtn>
+								<AiTwotoneHome
+									className="option_btn home"
+									onClick={linkMyPage}></AiTwotoneHome>
+							</div>
+						</Person>
 					);
 				})}
 			</PeopleContainer>

@@ -173,6 +173,7 @@ const Body = styled.div`
 	display: flex;
 	overflow-x: auto;
 	overflow-y: hidden;
+	line-height: 20px;
 
 	// Tablet
 	@media screen and (max-width: 980px) {
