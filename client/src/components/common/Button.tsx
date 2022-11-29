@@ -39,6 +39,6 @@ export const DefaultBtn = styled.button<ButtonProps>`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		width: ${(props) => (props.mobileWidth ? '100%' : '70px')};
+		width: ${(props) => props.mobileWidth && '100%'};
 	}
 `;

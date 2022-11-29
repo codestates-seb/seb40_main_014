@@ -24,17 +24,14 @@ const SearchBar = () => {
 	const [searchError, setSearchError] = useState('');
 
 	const onSelectOneChange = (e) => {
-		console.log('#1', e.target.value);
 		setTypeOne(e.target.value);
 	};
 
 	const onSelectTwoChange = (e) => {
-		console.log('#2', e.target.value);
 		setTypeTwo(e.target.value);
 	};
 
 	const onChangeText = (e) => {
-		console.log('#3', e.target.value);
 		setText(e.target.value);
 	};
 
@@ -77,7 +74,6 @@ const SearchBar = () => {
 	}, [typeOne]);
 
 	useEffect(() => {
-		console.log('들어와');
 		if (!inputRef.current) return;
 
 		setText('');
@@ -99,8 +95,6 @@ const SearchBar = () => {
 	}, [typeOne, typeTwo]);
 
 	const onSearch = () => {
-		console.log(typeOne, typeTwo, text);
-
 		if (!typeOne || !typeTwo) {
 			setSearchError('카테고리를 모두 선택해주세요');
 			return;
