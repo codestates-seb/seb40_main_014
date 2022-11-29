@@ -133,8 +133,8 @@ public class ChatService {
         return findAllRooms;
     }
 
-    public Page<ChatRoom> findRoomsRank(int page, int size) {
-        Page<ChatRoom> findAllRooms = chatRoomRepository.findAll(
+    public Page<Member> findRoomsRank(int page, int size) {
+        Page<Member> findAllRooms = memberRepository.findAll(
                 PageRequest.of(page, size, Sort.by("rank").descending()));
 
         return findAllRooms;
