@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Category from '../common/Category';
 import { RoomInfoType } from '../../pages/RoomList';
+import { HiUser } from 'react-icons/hi';
 
 type RoomType = {
 	room: RoomInfoType;
@@ -14,7 +15,7 @@ export type SwiperTrueType = {
 };
 
 const Room = ({ room, swiper }: RoomType) => {
-	const { roomId, title, userCount, maxCount } = room;
+	const { roomId, title, userCount, maxCount, userlist } = room;
 	const { memberId, name } = room.memberResponseDto;
 	const { categoryList, playlistItems } = room.playlistResponseDto;
 
@@ -47,7 +48,8 @@ const Room = ({ room, swiper }: RoomType) => {
 						))}
 				</Categorys>
 				<RoomCount swiper={swiper}>
-					{userCount} / {maxCount}
+					<HiUser className="user_icon" />
+					{userlist.length}
 				</RoomCount>
 			</Detail>
 		</RoomStyle>
@@ -189,7 +191,14 @@ const Onair = styled.div<SwiperTrueType>`
 `;
 
 const RoomCount = styled.div<SwiperTrueType>`
+	display: flex;
+	align-items: center;
 	color: ${(props) => props.theme.colors.gray600};
+
+	.user_icon {
+		margin: 5px 5px 4px 5px;
+		color: #3cc13c;
+	}
 
 	// Tablet
 	@media screen and (max-width: 980px) {
