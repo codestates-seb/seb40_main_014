@@ -1,6 +1,5 @@
 package com.mainproject.server.ChatRoom.entity;
 
-import com.mainproject.server.member.entity.Member;
 import lombok.*;
 
 import javax.persistence.*;

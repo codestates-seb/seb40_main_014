@@ -39,7 +39,6 @@ public class RoomController {
     private final MemberService memberService;
     private final ChatRoomMapper chatRoomMapper;
     private final PlaylistService playlistService;
-    private final ChatRoomRepository chatRoomRepository;
 
     @NeedMemberId
     @PostMapping
@@ -108,16 +107,19 @@ public class RoomController {
                 new MultiResponseDto<>(chatRoomMapper.responseChatRoomDtoList(content, member), chatRoomPage), HttpStatus.OK);
     }
 
-//    @GetMapping("/rank")
-//    public ResponseEntity findRoomsRank(@RequestParam(required = false, defaultValue = "1") int page,
-//                                        @RequestParam(required = false, defaultValue = "10") int size, Member member) {
-//
-//        Page<Member> chatRoomPage = chatService.findRoomsRank(page - 1 , size);
-//        List<Member> content = chatRoomPage.getContent();
-//
-//        return new ResponseEntity<>(
-//                new MultiResponseDto<>(chatRoomMapper.responseChatRoomDtoList(content, member), chatRoomPage), HttpStatus.OK);
-//    }
+    @GetMapping("/rank")
+    public ResponseEntity findRoomsRank(@RequestParam(required = false, defaultValue = "1") int page,
+                                        @RequestParam(required = false, defaultValue = "10") int size, Member member) {
+
+        Page<Member> roomsRank = memberService.findRoomsRank(page - 1, size);
+        List<Member> rankContent = roomsRank.getContent();
+
+        Page<ChatRoom> chatRoomPage = chatService.findChatRooms(page - 1 , size);
+        List<ChatRoom> content = chatRoomPage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(chatRoomMapper.chatRoomRankDtotoMember(content, rankContent), chatRoomPage), HttpStatus.OK);
+    }
 
     // 방 검색
     @GetMapping("/search")

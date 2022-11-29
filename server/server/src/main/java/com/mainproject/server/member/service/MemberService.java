@@ -117,4 +117,11 @@ public class MemberService {
                 () -> {throw new BusinessException(ExceptionCode.MEMBER_NOT_EXISTS);
                 });
     }
+
+    public Page<Member> findRoomsRank(int page, int size) {
+        Page<Member> findAllRooms = memberRepository.findAll(
+                PageRequest.of(page, size, Sort.by("ranking").descending()));
+
+        return findAllRooms;
+    }
 }

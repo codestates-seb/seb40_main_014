@@ -14,7 +14,6 @@ import com.mainproject.server.playlist.repository.PlaylistRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.NoSuchMessageException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;

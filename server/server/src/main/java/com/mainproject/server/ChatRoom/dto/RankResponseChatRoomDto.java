@@ -1,5 +1,4 @@
 package com.mainproject.server.ChatRoom.dto;
-
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.playlist.dto.PlaylistResponseDto;
@@ -14,7 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ResponseChatRoomDto {
+public class RankResponseChatRoomDto {
+
     private String roomId;
     private String title;
     private int maxCount;
@@ -22,13 +22,12 @@ public class ResponseChatRoomDto {
     private boolean secret;
     private int userCount;
     private Long playlistId;
-    SimpleMemberResponseDto memberResponseDto;
-
+    List<SimpleMemberResponseDto> simpleMemberResponseDtoList;
     PlaylistResponseDto playlistResponseDto;
     List<String> userlist = new ArrayList<>();
 
     @Builder
-    public ResponseChatRoomDto(ChatRoom chatRoom, SimpleMemberResponseDto memberResponseDto, PlaylistResponseDto playlistResponseDto) {
+    public RankResponseChatRoomDto(ChatRoom chatRoom, List<SimpleMemberResponseDto> simpleMemberResponseDtoList, PlaylistResponseDto playlistResponseDto) {
         this.roomId = chatRoom.getRoomId();
         this.title = chatRoom.getTitle();
         this.maxCount = chatRoom.getMaxCount();
@@ -37,7 +36,9 @@ public class ResponseChatRoomDto {
         this.userCount = chatRoom.getUserCount();
         this.userlist = chatRoom.getUserlist();
         this.playlistId = chatRoom.getPlaylistId();
-        this.memberResponseDto = memberResponseDto;
+        this.simpleMemberResponseDtoList = simpleMemberResponseDtoList;
         this.playlistResponseDto = playlistResponseDto;
     }
 }
+
+
