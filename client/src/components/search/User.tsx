@@ -20,7 +20,7 @@ const User = ({ user }: SearchUserType) => {
 				</Link>
 			</Profile>
 			<div>
-				<Badge grade={grade} margin="0 0 7px 0" />
+				<Badge grade={grade} margin="0 0 8px 0" />
 				<Name>
 					<Link to={`/mypage/${memberId}`}>{name}</Link>
 				</Name>
@@ -62,7 +62,7 @@ const Profile = styled.div`
 `;
 
 const Name = styled.div`
-	margin-bottom: 7px;
+	margin-bottom: 8px;
 
 	:hover {
 		color: ${(props) => props.theme.colors.purple};

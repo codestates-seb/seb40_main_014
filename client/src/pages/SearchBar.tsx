@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { DefaultButton } from '../components/common/Button';
+import ErrorMessage from '../components/common/ErrorMessage';
 import { MinHeightWrapper } from './RoomList';
 
 const SearchBar = () => {
@@ -18,6 +19,8 @@ const SearchBar = () => {
 	const [typeTwoOptions, setTypeTwoOptions] = useState([
 		{ value: '', text: '선택' },
 	]);
+
+	const [searchError, setSearchError] = useState('');
 
 	const onSelectOneChange = (e) => {
 		console.log('#1', e.target.value);
@@ -87,48 +90,69 @@ const SearchBar = () => {
 	const onSearch = () => {
 		console.log(typeOne, typeTwo, text);
 
+		if (!typeOne || !typeTwo) {
+			setSearchError('카테고리를 모두 선택해주세요');
+			return;
+		}
+		if (!text) {
+			setSearchError('검색어를 입력해주세요');
+			return;
+		}
+
 		navigate(`/search?type1=${typeOne}&type2=${typeTwo}&q=${text}`);
 	};
 
 	return (
-		<SearchBarStyle>
-			<div>
-				{/* 카테고리 One */}
-				<select onChange={onSelectOneChange} ref={selectOneRef}>
-					<option value="">선택</option>
-					<option value="room">방</option>
-					<option value="playlist">플레이리스트</option>
-					<option value="user">유저</option>
-				</select>
+		<SearchBarWrapper>
+			<SearchBarStyle>
+				<div>
+					{/* 카테고리 One */}
+					<select onChange={onSelectOneChange} ref={selectOneRef}>
+						<option value="">선택</option>
+						<option value="room">방</option>
+						<option value="playlist">플레이리스트</option>
+						<option value="user">유저</option>
+					</select>
 
-				{/* 카테고리 Two */}
-				<select onChange={onSelectTwoChange} ref={selectTwoRef} disabled>
-					{typeTwoOptions.map((el, idx) => (
-						<option value={el.value} key={idx}>
-							{el.text}
-						</option>
-					))}
-				</select>
+					{/* 카테고리 Two */}
+					<select onChange={onSelectTwoChange} ref={selectTwoRef} disabled>
+						{typeTwoOptions.map((el, idx) => (
+							<option value={el.value} key={idx}>
+								{el.text}
+							</option>
+						))}
+					</select>
 
-				{/* 입력창 */}
-				<input
-					type="text"
-					placeholder="검색어를 입력하세요"
-					value={text}
-					onChange={onChangeText}
-					ref={inputRef}
-					disabled
-				/>
-			</div>
+					{/* 입력창 */}
+					<input
+						type="text"
+						placeholder="검색어를 입력하세요"
+						value={text}
+						onChange={onChangeText}
+						ref={inputRef}
+						disabled
+					/>
+				</div>
 
-			<DefaultButton onClick={onSearch}>검색</DefaultButton>
-		</SearchBarStyle>
+				<DefaultButton onClick={onSearch}>검색</DefaultButton>
+			</SearchBarStyle>
+			{searchError && (
+				<ErrorMessage text={searchError} center margin="30px 0 0 0" />
+			)}
+		</SearchBarWrapper>
 	);
 };
 
 export default SearchBar;
 
-const SearchBarStyle = styled(MinHeightWrapper)`
+const SearchBarWrapper = styled(MinHeightWrapper)`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+`;
+
+const SearchBarStyle = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -141,7 +165,10 @@ const SearchBarStyle = styled(MinHeightWrapper)`
 		align-items: center;
 		width: 85%;
 		margin-right: 3%;
+
 		> * {
+			box-shadow: 0 0 10px ${(props) => props.theme.colors.gray300};
+
 			height: 45px;
 			padding: 0 10px;
 			background-color: ${(props) => props.theme.colors.white};
