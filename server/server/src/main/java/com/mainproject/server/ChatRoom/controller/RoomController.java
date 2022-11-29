@@ -109,7 +109,7 @@ public class RoomController {
 
     @GetMapping("/rank")
     public ResponseEntity findRoomsRank(@RequestParam(required = false, defaultValue = "1") int page,
-                                        @RequestParam(required = false, defaultValue = "10") int size, Member member) {
+                                        @RequestParam(required = false, defaultValue = "10") int size) {
 
         Page<Member> roomsRank = memberService.findRoomsRank(page - 1, size);
         List<Member> rankContent = roomsRank.getContent();
