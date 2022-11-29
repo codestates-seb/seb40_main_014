@@ -7,6 +7,8 @@ import { GoMute } from 'react-icons/go';
 import YouTube, { YouTubeProps } from 'react-youtube';
 import Loading from '../common/Loading';
 import { useEffect, useRef, useState } from 'react';
+import playSvg from '../../assets/images/play.json';
+import Lottie from 'lottie-react';
 
 // import ReactPlayer from 'react-player/youtube';
 
@@ -118,6 +120,11 @@ const OptionBtn = styled.button`
 	}
 `;
 
+const LottieContainer = styled.span`
+	width: 16px;
+	height: 16px;
+`;
+
 const PlaylistPart = ({ playlist }) => {
 	// const [playlist, setPlaylist] = useState<PlayListInfoProps[]>([]);
 	// const [videoId, setVideoId] = useState<string>('');
@@ -140,6 +147,7 @@ const PlaylistPart = ({ playlist }) => {
 	const [play, setPlay] = useState<boolean>(true);
 	const [playlistIdList, setPlaylistIdList] = useState<string[]>([]);
 	const [isMute, setIsMute] = useState<boolean>(false);
+	const [nowVideo, setNowVideo] = useState('');
 
 	const opts: YouTubeProps['opts'] = {
 		height: '0',
@@ -154,6 +162,13 @@ const PlaylistPart = ({ playlist }) => {
 		event.target.loadPlaylist({ playlist: playlistIdList, startSeconds: 1 });
 		// event.target.playVideo();
 	};
+
+	// useEffect(() => {
+	// 	if (player) {
+	// 		console.log('reload');
+	// 		player.playVideo();
+	// 	}
+	// }, [player]);
 
 	const pause = () => {
 		if (player) {
@@ -198,6 +213,10 @@ const PlaylistPart = ({ playlist }) => {
 		}
 	};
 
+	const onPlay = () => {
+		setNowVideo(player.getVideoData().video_id);
+	};
+
 	useEffect(() => {
 		playlist.map((e) => setPlaylistIdList((prev) => [...prev, e.videoId]));
 	}, [playlist]);
@@ -233,6 +252,11 @@ const PlaylistPart = ({ playlist }) => {
 								<FcMusic className="music_logo" />
 							</span>
 							{e.title}
+							{e.videoId === nowVideo && (
+								<span>
+									<Lottie animationData={playSvg} loop={true} />
+								</span>
+							)}
 						</MusicElement>
 					);
 				})}
@@ -268,9 +292,10 @@ const PlaylistPart = ({ playlist }) => {
 				) : (
 					<>
 						<YouTube
-							videoId={playlist[0].videoId}
+							// videoId={playlist[0].videoId}
 							opts={opts}
 							onReady={onReady}
+							onPlay={onPlay}
 						/>
 					</>
 				)}
