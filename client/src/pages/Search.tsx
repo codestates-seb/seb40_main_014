@@ -12,6 +12,7 @@ import User from '../components/search/User';
 import { PlaylistInfoType } from './PlaylistList';
 import { ListStyle, MinHeightWrapper, RoomInfoType } from './RoomList';
 import { MyInitialStateValue, myValue } from '../slices/mySlice';
+import { IoIosArrowForward } from 'react-icons/io';
 
 const Search = () => {
 	const params = new URLSearchParams(location.search);
@@ -112,7 +113,8 @@ const Search = () => {
 	return (
 		<MinHeightWrapper>
 			<H2>
-				{type1Title} &gt; {type2Title} &gt; {q} 의 검색 결과
+				{type1Title} <IoIosArrowForward /> {type2Title} <IoIosArrowForward />{' '}
+				{q} 의 검색 결과
 			</H2>
 			{posts.length ? (
 				<ListStyle>
@@ -152,13 +154,25 @@ const Search = () => {
 export default Search;
 
 const H2 = styled.h2`
+	display: flex;
+	align-items: center;
 	margin-bottom: 60px;
 	font-size: 20px;
 	font-weight: 500;
+
+	> svg {
+		font-size: 18px;
+		margin: 0 4px;
+		color: ${(props) => props.theme.colors.gray800};
+	}
 
 	// Mobile
 	@media screen and (max-width: 640px) {
 		font-size: 18px;
 		margin-bottom: 30px;
+		> svg {
+			font-size: 16px;
+			margin: 0 2px;
+		}
 	}
 `;

@@ -11,6 +11,7 @@ const SearchBar = () => {
 	const selectOneRef = useRef(null);
 	const selectTwoRef = useRef(null);
 	const inputRef = useRef(null);
+	const categoryRef = useRef(null);
 
 	const [typeOne, setTypeOne] = useState('');
 	const [typeTwo, setTypeTwo] = useState('');
@@ -76,14 +77,24 @@ const SearchBar = () => {
 	}, [typeOne]);
 
 	useEffect(() => {
+		console.log('들어와');
 		if (!inputRef.current) return;
 
 		setText('');
 
 		if (typeOne && typeTwo) {
+			if (typeTwo === 'category') {
+				inputRef.current.style.display = 'none';
+				categoryRef.current.style.display = 'block';
+			} else {
+				inputRef.current.style.display = 'block';
+				categoryRef.current.style.display = 'none';
+			}
 			inputRef.current.disabled = false;
+			categoryRef.current.disabled = false;
 		} else {
 			inputRef.current.disabled = true;
+			categoryRef.current.disabled = true;
 		}
 	}, [typeOne, typeTwo]);
 
@@ -132,6 +143,19 @@ const SearchBar = () => {
 						ref={inputRef}
 						disabled
 					/>
+					{/* 장르 */}
+					<select onChange={onChangeText} ref={categoryRef}>
+						<option value="">선택</option>
+						<option value="발라드">발라드</option>
+						<option value="댄스">댄스</option>
+						<option value="힙합">힙합</option>
+						<option value="R&B">R&B</option>
+						<option value="인디">인디</option>
+						<option value="록">록</option>
+						<option value="트로트">트로트</option>
+						<option value="POP">POP</option>
+						<option value="OST">OST</option>
+					</select>
 				</div>
 
 				<DefaultButton onClick={onSearch}>검색</DefaultButton>
@@ -183,12 +207,16 @@ const SearchBarStyle = styled.div`
 				background-color: ${(props) => props.theme.colors.background};
 			}
 		}
-		> select {
+		> select:not(:nth-of-type(3)) {
 			width: 25%;
 			font-size: 14px;
 		}
-		> input {
+		> input,
+		select:nth-of-type(3) {
 			width: 47%;
+		}
+		select:nth-of-type(3) {
+			display: none;
 		}
 		option:first-of-type {
 			background-color: ${(props) => props.theme.colors.gray400};
@@ -201,7 +229,8 @@ const SearchBarStyle = styled.div`
 			border-left: none;
 			border-right: none;
 		}
-		> *:nth-child(3) {
+		> *:nth-child(3),
+		> *:nth-child(4) {
 			border-radius: 0 5px 5px 0;
 		}
 	}
