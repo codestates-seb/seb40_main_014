@@ -14,6 +14,8 @@ import com.mainproject.server.response.SingleResponseDto;
 import com.mainproject.server.tx.NeedMemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -89,11 +91,11 @@ public class PlaylistController {
     }
     // 플레이리스트 검색
     @GetMapping("/search")
-    public ResponseEntity searchMembers(@Positive @RequestParam(defaultValue = "1") int page,
-                                        @Positive @RequestParam(defaultValue = "15") int size,
+    public ResponseEntity searchMembers(@RequestParam(defaultValue = "1") int page,
+                                        @RequestParam(defaultValue = "6") int size,
                                         @RequestParam String type, @RequestParam String name) {
 
-        Page<Playlist> pagePlaylists = playlistService.searchPlaylists(type, name);
+        Page<Playlist> pagePlaylists = playlistService.searchPlaylists(type, name, page-1, size);
         List<Playlist> playlists = pagePlaylists.getContent();
 
         return new ResponseEntity<>(

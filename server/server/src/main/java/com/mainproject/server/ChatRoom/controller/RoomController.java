@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -121,11 +122,11 @@ public class RoomController {
     // 방 검색
     @GetMapping("/search")
     public ResponseEntity searchMembers(@Positive @RequestParam(defaultValue = "1") int page,
-                                        @Positive @RequestParam(defaultValue = "15") int size,
+                                        @Positive @RequestParam(defaultValue = "6") int size,
                                         @RequestParam String type, @RequestParam String name,
                                         Member member) {
 
-        Page<ChatRoom> pageChatRooms = chatService.searchChatRooms(type, name);
+        Page<ChatRoom> pageChatRooms = chatService.searchChatRooms(type, name, page-1, size);
         List<ChatRoom> chatRoomList = pageChatRooms.getContent();
 
         return new ResponseEntity<>(
