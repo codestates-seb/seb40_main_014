@@ -25,23 +25,6 @@ const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 
 	const myId = useSelector(myValue).memberId;
 
-	// //* Swiper
-	// const settings = {
-	// 	modules: [Pagination, Navigation],
-	// 	slidesPerView: contents.length < 3 ? contents.length : 3,
-	// 	spaceBetween: 115,
-	// 	navigation: true,
-	// 	pagination: { clickable: true },
-	// 	breakpoints: {
-	// 		641: {
-	// 			spaceBetween: 25,
-	// 		},
-	// 		981: {
-	// 			spaceBetween: 51,
-	// 		},
-	// 	},
-	// };
-
 	//* Swiper
 	const settings = {
 		modules: [Pagination, Navigation],
@@ -183,13 +166,13 @@ const Roof = styled.div`
 
 const Body = styled.div`
 	margin-bottom: 60px;
+	padding: 40px 60px;
 	border-bottom-left-radius: ${(props) => props.theme.radius.largeRadius};
 	border-bottom-right-radius: ${(props) => props.theme.radius.largeRadius};
 	background-color: ${(props) => props.theme.colors.white};
 	display: flex;
 	overflow-x: auto;
 	overflow-y: hidden;
-	padding: 40px 60px;
 	line-height: 20px;
 
 	// Tablet

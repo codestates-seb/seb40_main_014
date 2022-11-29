@@ -5,7 +5,7 @@ import { RoomInfoType } from '../../pages/RoomList';
 import { HiUser } from 'react-icons/hi';
 
 type RoomType = {
-	room: RoomInfoType;
+	room: any;
 	key?: string;
 	swiper?: boolean;
 };
@@ -95,7 +95,7 @@ export const ThumbnailBackdrop = styled.div`
 	top: 0;
 	text-align: center;
 	/* background-color: #4d0bd16e; */
-	background-color: #ffffff48;
+	background-color: #ffffff37;
 	border-radius: 3px;
 	z-index: 1111;
 

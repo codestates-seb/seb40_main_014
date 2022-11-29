@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
 import { getBookmarkList, getFollowList, getUserInfo } from '../api/userApi';
 import MypageContents from '../components/Mypage/MypageContents';
 import MypageInfo from '../components/Mypage/MypageInfo';
@@ -26,7 +25,7 @@ const Mypage = () => {
 		useState<MyInitialStateValue>(myInitialStateValue);
 
 	const [contentList, setContentList] = useState<Array<content>>([
-		{ id: 1, title: `${userInfo.name}의 플레이리스트`, contents: [] },
+		{ id: 1, title: `${userInfo.name}님의 플레이리스트`, contents: [] },
 		{ id: 2, title: '보관한 플레이리스트', contents: [] },
 		{ id: 3, title: '팔로우 한 DJ', contents: [] },
 	]);
@@ -40,7 +39,7 @@ const Mypage = () => {
 				setUserInfo(res.data);
 				setContentList((prev) => {
 					const copy = [...prev];
-					copy[0].title = `${res.data.name}의 플레이리스트`;
+					copy[0].title = `${res.data.name}님의 플레이리스트`;
 					copy[0].contents = res.data.playlist.data;
 					return copy;
 				});

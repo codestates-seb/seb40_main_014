@@ -169,7 +169,7 @@ const HeaderStyle = styled.div<{ position: string }>`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 17px 15vw;
+	padding: 18px 15vw;
 	background-color: ${(props) => props.theme.colors.headerBackground};
 	font-size: 18px;
 	z-index: 3333;

@@ -1,21 +1,18 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getRooms } from '../api/roomApi';
+import { getRooms, getRoomsByDj, getRoomsByView } from '../api/roomApi';
 import { DefaultButton } from '../components/common/Button';
 import Room from '../components/home/Room';
 import CreateModal from '../components/room/createModal';
 import { myLogin } from '../slices/mySlice';
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { PlaylistInfoType } from './PlaylistList';
 
-// Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { PlaylistInfoType } from './PlaylistList';
 
 export type RoomInfoType = {
 	maxCount: number;
@@ -43,40 +40,39 @@ export type HostType = {
 };
 
 const RoomList = () => {
-	// const prevRef = useRef(null);
-	// const nextRef = useRef(null);
-
 	const isLogin = useSelector(myLogin);
 
-	//* 무한 스크롤
 	const [rooms, setRooms] = useState<RoomInfoType[]>([]);
+	const [roomsByView, setRoomsByView] = useState<RoomInfoType[]>([]);
+	const [roomsByDj, setRoomsByDj] = useState<RoomInfoType[]>([]);
 
+	useEffect(() => {
+		getRoomsByView(1, 7).then((res) => {
+			console.log('rooms by view res', res);
+			setRoomsByView(res.data);
+		});
+
+		// getRoomsByDj(1, 7).then((res) => {
+		// 	console.log('rooms by dj res', res);
+		// 	setRoomsByDj(res.data);
+		// });
+	}, []);
+
+	//* 무한 스크롤
 	const [hasNextPage, setHasNextPage] = useState(true);
 	const currentPage = useRef<number>(1);
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
-	// real
 	const fetch = useCallback(() => {
 		getRooms(currentPage.current, 6).then((res) => {
 			console.log('getRooms res', res);
 			const data = res.data;
 			const { page, totalPages } = res.pageInfo;
 			setRooms((prevRooms) => [...prevRooms, ...data]);
-			// setHasNextPage(data.length === 10);
 			setHasNextPage(page !== totalPages);
-			// if (data.length) currentPage.current += 1;
 			if (hasNextPage) currentPage.current += 1;
 		});
 	}, []);
-
-	// test
-	// useEffect(() => {
-	// 	getRooms(currentPage.current, 10).then((res) => {
-	// 		console.log('getRooms res', res);
-
-	// 		setRooms(res);
-	// 	});
-	// }, []);
 
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;
@@ -105,7 +101,6 @@ const RoomList = () => {
 		slidesPerView: 2,
 		spaceBetween: 1,
 		navigation: true,
-		// navigation: { prevEl: prevRef.current, newtEl: nextRef.current },
 		pagination: { clickable: true },
 		autoplay: { delay: 5000, disableOnInteraction: false },
 		breakpoints: {
@@ -118,12 +113,8 @@ const RoomList = () => {
 				spaceBetween: 44,
 			},
 		},
-		// onBeforeInit: (swiper) => {
-		// 	swiper.params.navigation.prevEl = prevRef.current;
-		// 	swiper.params.navigation.nextEl = nextRef.current;
-		// 	swiper.navigation.update();
-		// },
 	};
+
 	const swiperRef1 = useRef<SwiperCore>();
 	const onInit1 = (Swiper: SwiperCore): void => {
 		swiperRef1.current = Swiper;
@@ -140,8 +131,9 @@ const RoomList = () => {
 	const handleMouseLeave = (ref) => {
 		if (ref.current) ref.current.autoplay.start();
 	};
+
 	return (
-		<>
+		<MinHeightWrapper>
 			{isLogin && (
 				<ButtonWrapper>
 					<DefaultButton
@@ -157,9 +149,9 @@ const RoomList = () => {
 				</ButtonWrapper>
 			)}
 			<H2>가장 많은 청취자가 있는 방송</H2>
-			{rooms.length ? (
+			{roomsByView.length ? (
 				<SwiperStyle {...settings} onInit={onInit1}>
-					{rooms.map((room: RoomInfoType) => (
+					{roomsByView.map((room: RoomInfoType) => (
 						<SwiperSlide
 							key={room.roomId}
 							onMouseEnter={() => handleMouseEnter(swiperRef1)}
@@ -167,18 +159,12 @@ const RoomList = () => {
 							<Room room={room} key={room.roomId} swiper />
 						</SwiperSlide>
 					))}
-					{/* <PrevButton ref={prevRef}>
-						<IoIosArrowBack />
-					</PrevButton>
-					<NextButton ref={nextRef}>
-						<IoIosArrowForward />
-					</NextButton> */}
 				</SwiperStyle>
 			) : null}
 			<H2>인기 DJ 방송</H2>
-			{rooms.length ? (
+			{roomsByDj.length ? (
 				<SwiperStyle {...settings} onInit={onInit2}>
-					{rooms.map((room: RoomInfoType) => (
+					{roomsByDj.map((room: RoomInfoType) => (
 						<SwiperSlide
 							key={room.roomId}
 							onMouseEnter={() => handleMouseEnter(swiperRef2)}
@@ -186,12 +172,6 @@ const RoomList = () => {
 							<Room room={room} key={room.roomId} swiper />
 						</SwiperSlide>
 					))}
-					{/* <PrevButton ref={prevRef}>
-						<IoIosArrowBack />
-					</PrevButton>
-					<NextButton ref={nextRef}>
-						<IoIosArrowForward />
-					</NextButton> */}
 				</SwiperStyle>
 			) : null}
 			<H2>전체</H2>
@@ -203,11 +183,24 @@ const RoomList = () => {
 					: null}
 				<div ref={observerTargetEl} />
 			</ListStyle>
-		</>
+		</MinHeightWrapper>
 	);
 };
 
 export default RoomList;
+
+export const MinHeightWrapper = styled.div`
+	min-height: calc(100vh - 74px - 120px - 234px);
+
+	// Tablet
+	@media screen and (max-width: 980px) {
+		min-height: calc(100vh - 72.406px - 120px - 234px);
+	}
+	// Mobile
+	@media screen and (max-width: 640px) {
+		min-height: calc(100vh - 72.406px - 120px - 212px);
+	}
+`;
 
 export const ButtonWrapper = styled.div`
 	display: flex;
@@ -219,6 +212,7 @@ export const H2 = styled.h2`
 	margin-bottom: 30px;
 	font-size: 22px;
 	font-weight: 500;
+
 	// Mobile
 	@media screen and (max-width: 640px) {
 		font-size: 18px;
@@ -226,14 +220,10 @@ export const H2 = styled.h2`
 `;
 
 export const SwiperStyle = styled(Swiper)`
-	/* background-color: red; */
 	padding: 0 50px;
 	margin-bottom: 30px;
-	> div {
-		/* background-color: blue; */
-	}
+
 	> div > div {
-		/* background-color: green; */
 		display: flex;
 		justify-content: center;
 	}
@@ -297,27 +287,13 @@ export const ListStyle = styled.div`
 	flex-wrap: wrap;
 	z-index: 1111;
 
-	/* > div:not(:nth-of-type(4n)) {
-		margin-right: calc((100vw - 30vw) * 0.03);
-	}
-	> div:nth-of-type(4n) {
-		margin-right: 0;
-	} */
 	> div:not(:nth-of-type(3n)) {
 		margin-right: calc((100vw - 30vw) * 0.04);
 	}
 	> div:nth-of-type(3n) {
 		margin-right: 0;
 	}
-	// 14
-	@media screen and (max-width: 1512px) {
-		> div:not(:nth-of-type(3n)) {
-			margin-right: calc((100vw - 30vw) * 0.04);
-		}
-		> div:nth-of-type(3n) {
-			margin-right: 0;
-		}
-	}
+
 	// Tablet
 	@media screen and (max-width: 980px) {
 		> div:not(:nth-of-type(2n)) {
