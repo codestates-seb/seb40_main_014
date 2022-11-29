@@ -69,7 +69,7 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 								</Edit>
 							)}
 						</div>
-						<div>{email}</div>
+						<Email>{email}</Email>
 						<Follower>
 							팔로워
 							<span>{followNum}</span>
@@ -140,7 +140,7 @@ const Img = styled.img`
 const Info = styled.div`
 	> div:nth-of-type(2) {
 		display: flex;
-		margin-bottom: 40px;
+		margin-bottom: 5px;
 	}
 `;
 
@@ -151,7 +151,7 @@ const Name = styled.div`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 22px;
+		font-size: 20px;
 	}
 `;
 
@@ -202,6 +202,22 @@ export const Follower = styled.div`
 			margin-left: 17px;
 			font-size: 10px;
 		}
+	}
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 14px;
+	}
+`;
+
+const Email = styled.div`
+	margin-bottom: 40px;
+	color: #4d0bd186;
+	font-size: 14px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 12px;
 	}
 `;
 

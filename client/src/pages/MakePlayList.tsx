@@ -164,6 +164,6 @@ export const MinHeightWrapper = styled.div`
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		min-height: calc(100vh - 72.406px - 120px - 234px);
+		min-height: calc(100vh - 72.406px - 120px - 212px);
 	}
 `;
