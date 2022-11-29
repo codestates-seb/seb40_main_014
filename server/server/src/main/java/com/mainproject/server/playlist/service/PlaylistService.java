@@ -15,10 +15,7 @@ import com.mainproject.server.playlist.repository.LikesRepository;
 import com.mainproject.server.playlist.repository.PlaylistItemRepository;
 import com.mainproject.server.playlist.repository.PlaylistRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
@@ -274,7 +271,7 @@ public class PlaylistService {
         }
     }
 
-    public Page<Playlist> searchPlaylists(String type, String name) {
+    public Page<Playlist> searchPlaylists(String type, String name, int page, int size) {
 
         List<Playlist> searchPlaylists = new ArrayList<>();
 
@@ -315,9 +312,12 @@ public class PlaylistService {
         }
         else {throw new BusinessException(ExceptionCode.BAD_REQUEST);
         }
-
-        Page<Playlist> playlistPage = new PageImpl<>(searchPlaylists);
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("likes.size()").descending());
+        int start = (int)pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), searchPlaylists.size());
+        Page<Playlist> playlistPage = new PageImpl<>(searchPlaylists.subList(start, end), pageRequest, searchPlaylists.size());
         return playlistPage;
+
     }
 
     public List<Boolean> BookmarkStates(Long memberId, Long authMemberId) {

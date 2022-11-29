@@ -85,10 +85,10 @@ public class MemberController {
 
     @GetMapping("/search")
     public ResponseEntity searchMembers(@Positive @RequestParam(defaultValue = "1") int page,
-                                        @Positive @RequestParam(defaultValue = "15") int size,
+                                        @Positive @RequestParam(defaultValue = "6") int size,
                                         @RequestParam String name) {
 
-        Page<Member> pageMembers = service.searchMembers(name);
+        Page<Member> pageMembers = service.searchMembers(name, page-1, size);
         List<Member> members = pageMembers.getContent();
 
         MultiResponseDto<MemberResponseDto> multiResponseDto =

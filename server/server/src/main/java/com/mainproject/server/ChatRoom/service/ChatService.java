@@ -19,10 +19,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.NoSuchMessageException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.TextMessage;
@@ -145,7 +142,7 @@ public class ChatService {
         return findAllRooms;
     }
 
-    public Page<ChatRoom> searchChatRooms(String type, String name) {
+    public Page<ChatRoom> searchChatRooms(String type, String name, int page, int size) {
 
         List<ChatRoom> searchChatRooms = new ArrayList<>();
 
@@ -199,8 +196,11 @@ public class ChatService {
         }
         else {throw new BusinessException(ExceptionCode.BAD_REQUEST);
         }
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("userCount").descending());
+        int start = (int)pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), searchChatRooms.size());
 
-        Page<ChatRoom> chatRoomPage = new PageImpl<>(searchChatRooms);
+        Page<ChatRoom> chatRoomPage = new PageImpl<>(searchChatRooms.subList(start, end), pageRequest, searchChatRooms.size());
         return chatRoomPage;
     }
 }

@@ -9,10 +9,7 @@ import com.mainproject.server.member.jwt.RefreshToken;
 import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.member.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
@@ -71,10 +68,15 @@ public class MemberService {
         return findMembers;
     }
 
-    public Page<Member> searchMembers(String name){
+    public Page<Member> searchMembers(String name, int page, int size){
 
         List<Member> searchMembers = memberRepository.findByNameContaining(name);
-        Page<Member> memberPage = new PageImpl<>(searchMembers);
+
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by("ranking"));
+        int start = (int)pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), searchMembers.size());
+
+        Page<Member> memberPage = new PageImpl<>(searchMembers.subList(start, end), pageRequest, searchMembers.size());
         return memberPage;
     }
 
