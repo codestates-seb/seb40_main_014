@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getRoomById } from '../../api/roomApi';
 import { GiChessKing } from 'react-icons/gi';
@@ -56,6 +56,12 @@ const Person = styled.div`
 	border-bottom: solid 1px ${(props) => props.theme.colors.gray400};
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
+
+	.follow {
+		margin-right: 5px;
+		height: 20px;
+	}
 
 	:hover {
 		cursor: pointer;
@@ -63,8 +69,8 @@ const Person = styled.div`
 
 	.option_btn {
 		color: #df7a2894;
-		width: 13px;
-		height: 13px;
+		width: 12px;
+		height: 12px;
 		margin-right: 2px;
 	}
 `;
@@ -86,6 +92,7 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 	// const params = useParams();
 	// const roomId = params.id;
 	const userRef = useRef(null);
+	const navigate = useNavigate();
 	const [peopleList, setPeopleList] = useState([]);
 	const filtered = people.reduce((acc, v) => {
 		return acc.includes(v) ? acc : [...acc, v];
@@ -96,13 +103,12 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 	};
 
 	const linkMyPage = (e) => {
-		console.log(e);
+		navigate(`/mypage/3`);
 	};
 	useEffect(() => {
 		getRoomById(roomId)
 			.then((res) => {
 				setPeopleList(res.data.userlist);
-				console.log('피플때매 렌더링', res.data.userlist);
 			})
 			.catch((err) => console.log(err));
 	}, []);
@@ -110,32 +116,24 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 	return (
 		<PeopleSetcion>
 			<PeopleContainer>
-				{peopleList.map((e, index) => {
+				{people.map((e, index) => {
 					return (
-						<>
-							<Person onClick={onClick} key={index}>
-								<div ref={userRef}>
-									{isAdmin ? (
-										<GiChessKing className="option_btn"></GiChessKing>
-									) : null}
-									{e}
-								</div>
-								<div>
-									<FollowBtn className="follow">팔로우</FollowBtn>
-									<AiTwotoneHome
-										className="option_btn home"
-										onClick={linkMyPage}></AiTwotoneHome>
-								</div>
-							</Person>
+						<Person onClick={onClick} key={index}>
+							<div ref={userRef}>
+								{isAdmin ? (
+									<GiChessKing className="option_btn"></GiChessKing>
+								) : null}
+								{e}
+							</div>
 
-							{/* {modalOpen && (
-								<UserModal
-									userRef={userRef}
-									modalOpen={modalOpen}
-									setModalOpen={setModalOpen}
-								/>
-							)} */}
-						</>
+							<div className="option">
+								{/* <span className="follow">팔로우</span> */}
+								<FollowBtn className="follow">팔로우</FollowBtn>
+								<AiTwotoneHome
+									className="option_btn home"
+									onClick={linkMyPage}></AiTwotoneHome>
+							</div>
+						</Person>
 					);
 				})}
 			</PeopleContainer>
