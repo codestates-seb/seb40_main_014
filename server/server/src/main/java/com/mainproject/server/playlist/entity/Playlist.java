@@ -27,7 +27,7 @@ public class Playlist extends Auditable {
     private Member member;
 
     @Column(nullable = false, updatable = true, unique = false)
-    private String title;
+    private String plTitle;
 
     @Column(nullable = false)
     private boolean status;

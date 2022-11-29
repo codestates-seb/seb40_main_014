@@ -10,7 +10,7 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
 
 
     List<Playlist> findByMember(Member member);
-    List<Playlist> findByTitleContaining(String title);
+    List<Playlist> findByPlTitleContaining(String plTitle);
 //    List<Playlist> findByCategoryListContaining(List<String> categoryList);
 
 }

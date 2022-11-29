@@ -117,4 +117,19 @@ public class RoomController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>(chatRoomMapper.responseChatRoomDtoList(content, member), chatRoomPage), HttpStatus.OK);
     }
+
+    // 방 검색
+    @GetMapping("/search")
+    public ResponseEntity searchMembers(@Positive @RequestParam(defaultValue = "1") int page,
+                                        @Positive @RequestParam(defaultValue = "15") int size,
+                                        @RequestParam String type, @RequestParam String name,
+                                        Member member) {
+
+        Page<ChatRoom> pageChatRooms = chatService.searchChatRooms(type, name);
+        List<ChatRoom> chatRoomList = pageChatRooms.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(chatRoomMapper.responseChatRoomDtoList(chatRoomList, member), pageChatRooms), HttpStatus.OK);
+
+    }
 }
