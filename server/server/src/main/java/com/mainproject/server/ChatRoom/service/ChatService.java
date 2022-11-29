@@ -2,26 +2,21 @@ package com.mainproject.server.ChatRoom.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mainproject.server.ChatRoom.config.WebSocketTest;
-import com.mainproject.server.ChatRoom.dto.ResponseChatRoomDto;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
-import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.exception.BusinessException;
 import com.mainproject.server.exception.ExceptionCode;
-import com.mainproject.server.member.entity.Member;
-import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.mapper.MemberMapper;
+import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.playlist.entity.Playlist;
 import com.mainproject.server.playlist.repository.PlaylistRepository;
-import com.mainproject.server.playlist.dto.PlaylistResponseDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -135,8 +130,8 @@ public class ChatService {
         return findAllRooms;
     }
 
-    public Page<ChatRoom> findRoomsRank(int page, int size) {
-        Page<ChatRoom> findAllRooms = chatRoomRepository.findAll(
+    public Page<Member> findRoomsRank(int page, int size) {
+        Page<Member> findAllRooms = memberRepository.findAll(
                 PageRequest.of(page, size, Sort.by("rank").descending()));
 
         return findAllRooms;

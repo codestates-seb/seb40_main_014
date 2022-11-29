@@ -1,13 +1,19 @@
 package com.mainproject.server.ChatRoom.controller;
 
+import com.mainproject.server.ChatRoom.dto.ResponseChatRoomDto;
 import com.mainproject.server.ChatRoom.entity.ChatMessage;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
 import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.ChatRoom.service.ChatService;
 import com.mainproject.server.exception.ExceptionCode;
+import com.mainproject.server.member.entity.Member;
+import com.mainproject.server.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
@@ -15,12 +21,12 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.*;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
@@ -29,6 +35,8 @@ public class ChatController {
     private final SimpMessagingTemplate template;
     private final ChatService chatService;
     private final ChatRoomRepository chatRoomRepository;
+
+    private final ChatRoomMapper chatRoomMapper;
 
     // MessageMapping 을 통해 webSocket 로 들어오는 메시지를 발신 처리한다.
     // 이때 클라이언트에서는 /pub/chat/~ 로 요청하게 되고 이것을 controller 가 받아서 처리한다.
@@ -45,6 +53,7 @@ public class ChatController {
         boolean isContains = room.getUserlist().contains(chat.getMemberName());
         if (!isContains) {
             room.getUserlist().add(chat.getMemberName());
+            room.getUserlist().add(String.valueOf(chat.getMemberId()));
             room.setUserlist(room.getUserlist());
             room.setUserCount(room.getUserCount() + 1);
             chat.setMessage(chat.getMemberName() + " 님 입장하셨습니다.");
@@ -52,20 +61,20 @@ public class ChatController {
                 template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
             }
             chatRoomRepository.save(room);
-        } else {
-            chat.setMessage((ExceptionCode.MEMBER_NAME_ALREADY_EXISTS.getStatus()) + ExceptionCode.MEMBER_NAME_ALREADY_EXISTS.getMessage());
-            template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
         }
+//        else {
+//            chat.setMessage((ExceptionCode.MEMBER_NAME_ALREADY_EXISTS.getStatus()) + ExceptionCode.MEMBER_NAME_ALREADY_EXISTS.getMessage());
+//            template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
+//        }
 
         chatRoomRepository.save(room);
 
         // 반환 결과를 socket session 에 memName 으로 저장
+        headerAccessor.getSessionAttributes().put("memberId", chat.getMemberId());
         headerAccessor.getSessionAttributes().put("MemberName", chat.getMemberName());
         headerAccessor.getSessionAttributes().put("roomId", chat.getRoomId());
 
         log.info("CHAT6 {}", headerAccessor.getSessionAttributes()); // MemberName, roomId가 저장된 sessionAttributes가 찍힘
-
-
     }
 
     // 해당 유저 채팅 보내기
@@ -73,7 +82,6 @@ public class ChatController {
     public void sendMessage(@Payload ChatMessage chat,
                             @PathVariable String roomId) {
 
-        log.info("CHAT1 {}", chat);
         log.info("CHAT2 {}", chat.getMessage()); // Hello World
         log.info("CHAT3 {}", roomId);  // chat
         log.info("CHAT5 {}", chat.getRoomId()); // roomId
@@ -94,6 +102,7 @@ public class ChatController {
 
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 
+        Long memberId = (Long) headerAccessor.getSessionAttributes().get("memberId");
         String memberName = (String) headerAccessor.getSessionAttributes().get("MemberName");
         String roomId = (String) headerAccessor.getSessionAttributes().get("roomId");
 
@@ -102,12 +111,15 @@ public class ChatController {
         room.setRoomId(roomId);
         room.setUserCount(room.getUserCount() - 1);
         room.getUserlist().remove(memberName);
+        room.getUserlist().remove(String.valueOf(memberId));
+        room.setUserlist(room.getUserlist());
         chatRoomRepository.save(room);
 
         log.info("headAccessor {}", headerAccessor);
 
         ChatMessage chatMessage = ChatMessage.builder()
                 .type(ChatMessage.MessageType.LEAVE)
+                .memberId(memberId)
                 .memberName(memberName)
                 .roomId(roomId)
                 .message(memberName + "님 퇴장하셨습니다.")
@@ -117,8 +129,7 @@ public class ChatController {
     }
 
     @MessageMapping("/chat/leave")
-    public void leaveRoom(@Payload ChatMessage chat,
-                          @PathVariable String roomId) {
+    public void leaveRoom(@Payload ChatMessage chat) {
         if (chat.getType().equals(LEAVE)) {
             chat.setMemberName(chat.getMemberName());
             chat.setMessage(chat.getMemberName() + "님 퇴장하셨습니다.");
@@ -127,12 +138,22 @@ public class ChatController {
 
             room.setUserCount(room.getUserCount() - 1);
             room.getUserlist().remove(chat.getMemberName());
+            room.getUserlist().remove(String.valueOf(chat.getMemberId()));
             chatRoomRepository.save(room);
 
             template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
         }
     }
-}
 
+    @GetMapping("/rooms/chat/{roomId}")
+    @ResponseBody
+    public Boolean chatRoom(@PathVariable String roomId, @RequestParam String memberName, Member member) {
+        ChatRoom chatRoom = chatService.findVerifiedRoomId(roomId);
+        ResponseChatRoomDto responseChatRoomDto = chatRoomMapper.chatRoomResponseDtoToChatRoom(chatRoom, member);
+        if (responseChatRoomDto.getUserlist().contains(memberName)) {
+            return true;
+        } else return false;
+    }
+}
 //재시도하는 로직 브라우저 닫히면 다시 붙을 수 있는 retry 로직 필요
 
