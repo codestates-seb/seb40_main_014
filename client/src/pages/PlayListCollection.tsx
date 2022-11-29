@@ -20,7 +20,7 @@ const UserPlayList = () => {
 		if (Number(id) === 1) {
 			getUserInfo(Number(userId)).then((res) => {
 				if (res.data) {
-					setTitle(`${res.data.name}의 플레이리스트`);
+					setTitle(`${res.data.name}님의 플레이리스트`);
 					setPlayLists(res.data.playlist.data);
 				}
 			});

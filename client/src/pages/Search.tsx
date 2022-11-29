@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import {
@@ -54,28 +54,60 @@ const Search = () => {
 		}
 	}, [type1, type2]);
 
-	useEffect(() => {
-		console.log('type1', type1, 'type2', type2, 'q', q);
+	//* 무한 스크롤
+	const [hasNextPage, setHasNextPage] = useState(true);
+	const currentPage = useRef<number>(1);
+	const observerTargetEl = useRef<HTMLDivElement>(null);
 
+	const fetch = useCallback(() => {
 		if (type1 === 'room') {
-			getSearchRooms(type2, q).then((res) => {
+			getSearchRooms(type2, q, currentPage.current, 9).then((res) => {
 				console.log('search rooms res', res);
-				setPosts(res.data);
+
+				const data = res.data;
+				const { page, totalPages } = res.pageInfo;
+				setPosts((prevPosts) => [...prevPosts, ...data]);
+				setHasNextPage(page !== totalPages);
+				if (hasNextPage) currentPage.current += 1;
 			});
 		}
 		if (type1 === 'playlist') {
-			getSearchPlaylists(type2, q).then((res) => {
+			getSearchPlaylists(type2, q, currentPage.current, 9).then((res) => {
 				console.log('search playlists res', res);
-				setPosts(res.data);
+
+				const data = res.data;
+				const { page, totalPages } = res.pageInfo;
+				setPosts((prevPosts) => [...prevPosts, ...data]);
+				setHasNextPage(page !== totalPages);
+				if (hasNextPage) currentPage.current += 1;
 			});
 		}
 		if (type1 === 'user') {
-			getSearchUsers(q).then((res) => {
+			getSearchUsers(q, currentPage.current, 30).then((res) => {
 				console.log('search users res', res);
-				setPosts(res.data);
+
+				const data = res.data;
+				const { page, totalPages } = res.pageInfo;
+				setPosts((prevPosts) => [...prevPosts, ...data]);
+				setHasNextPage(page !== totalPages);
+				if (hasNextPage) currentPage.current += 1;
 			});
 		}
 	}, []);
+
+	useEffect(() => {
+		if (!observerTargetEl.current || !hasNextPage) return;
+
+		const io = new IntersectionObserver((entries, observer) => {
+			if (entries[0].isIntersecting) fetch();
+		});
+
+		io.observe(observerTargetEl.current);
+
+		return () => {
+			io.disconnect();
+		};
+	}, [fetch, hasNextPage]);
 
 	return (
 		<MinHeightWrapper>
@@ -110,9 +142,9 @@ const Search = () => {
 						posts.map((user: MyInitialStateValue) => (
 							<User user={user} key={user.memberId} />
 						))}
-					{/* <div ref={observerTargetEl} /> */}
 				</ListStyle>
 			) : null}
+			<div ref={observerTargetEl} />
 		</MinHeightWrapper>
 	);
 };

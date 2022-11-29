@@ -175,11 +175,12 @@ const SearchBarStyle = styled.div`
 			border: 1.5px solid ${(props) => props.theme.colors.gray400};
 
 			:focus {
-				background-color: #e2d5fc9c;
+				/* background-color: #e2d5fc9c; */
+				background-color: ${(props) => props.theme.colors.gray200};
 			}
 
 			:disabled {
-				background-color: inherit;
+				background-color: ${(props) => props.theme.colors.background};
 			}
 		}
 		> select {
