@@ -17,7 +17,7 @@ public interface PlaylistMapper {
 
     List<SimplePlaylistResponseDto> playlistToSimplePlaylistResponseDtoList(List<Playlist> playlistList);
 
-    SimplePlaylistResponseDto playlistToSimplePlaylistResponseDto(Playlist playlistList);
+//    SimplePlaylistResponseDto playlistToSimplePlaylistResponseDto(Playlist playlistList);
 
     default Playlist playlistPostDtoToPlaylist(PlaylistPostDto playlistPostDto, Member member) {
         if (playlistPostDto == null) {
@@ -134,5 +134,26 @@ public interface PlaylistMapper {
         }
 
         return list;
+    }
+
+    default SimplePlaylistResponseDto playlistToSimplePlaylistResponseDto(Playlist playlistList) {
+        if ( playlistList == null ) {
+            return null;
+        }
+
+        SimplePlaylistResponseDto.SimplePlaylistResponseDtoBuilder simplePlaylistResponseDto = SimplePlaylistResponseDto.builder();
+
+        simplePlaylistResponseDto.playlistId( playlistList.getPlaylistId() );
+        simplePlaylistResponseDto.title( playlistList.getPlTitle() );
+        simplePlaylistResponseDto.playlistItems( playlistItemsToPlaylistItemResponseDto( playlistList.getPlaylistItems() ) );
+        simplePlaylistResponseDto.status( playlistList.isStatus() );
+        List<String> list1 = playlistList.getCategoryList();
+        if ( list1 != null ) {
+            simplePlaylistResponseDto.categoryList( new ArrayList<String>( list1 ) );
+        }
+        simplePlaylistResponseDto.createdAt( playlistList.getCreatedAt() );
+        simplePlaylistResponseDto.modifiedAt( playlistList.getModifiedAt() );
+
+        return simplePlaylistResponseDto.build();
     }
 }
