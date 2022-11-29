@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { DefaultButton } from '../components/common/Button';
+import { MinHeightWrapper } from './RoomList';
 
 const SearchBar = () => {
 	const navigate = useNavigate();
@@ -127,15 +128,13 @@ const SearchBar = () => {
 
 export default SearchBar;
 
-const SearchBarStyle = styled.div`
+const SearchBarStyle = styled(MinHeightWrapper)`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	width: 100%;
 	max-width: 800px;
 	margin: 0 auto;
-
-	min-height: calc(100vh - 80px - 120px - 234px);
 
 	> div:first-of-type {
 		display: flex;
@@ -157,14 +156,9 @@ const SearchBarStyle = styled.div`
 		width: 15%;
 	}
 
-	// Tablet
-	@media screen and (max-width: 980px) {
-		min-height: calc(100vh - 76px - 120px - 234px);
-	}
 	// Mobile
 	@media screen and (max-width: 640px) {
 		flex-direction: column;
-		min-height: calc(100vh - 72.406px - 120px - 212px);
 
 		> div:first-of-type {
 			width: 100%;

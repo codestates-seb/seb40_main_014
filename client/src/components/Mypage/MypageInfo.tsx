@@ -140,7 +140,7 @@ const Img = styled.img`
 const Info = styled.div`
 	> div:nth-of-type(2) {
 		display: flex;
-		margin-bottom: 5px;
+		margin-bottom: 15px;
 	}
 `;
 
@@ -212,7 +212,7 @@ export const Follower = styled.div`
 
 const Email = styled.div`
 	margin-bottom: 40px;
-	color: #4d0bd186;
+	color: #4d0bd198;
 	font-size: 14px;
 
 	// Mobile

@@ -12,6 +12,7 @@ import MusicList from '../components/playlist/MusicList';
 import PlayListSetting from '../components/playlist/PlayListSetting';
 import { myLogin, myValue } from '../slices/mySlice';
 import { PlayListInfoProps, plinfo } from './PlayListDetail';
+import { MinHeightWrapper } from './RoomList';
 
 export type musicInfoType = {
 	channelTitle?: string;
@@ -125,9 +126,9 @@ const MakePlayList = () => {
 	};
 
 	return (
-		<MinHeightWrapper>
+		<MakePlayListStyle>
 			<PlayListSetting {...settingProps} />
-			<MusicList {...props} />
+			{plList.length ? <MusicList {...props} /> : null}
 			{type === 'modify' ? (
 				<DefaultButton
 					width="200px"
@@ -147,23 +148,13 @@ const MakePlayList = () => {
 					만들기
 				</DefaultButton>
 			)}
-		</MinHeightWrapper>
+		</MakePlayListStyle>
 	);
 };
 
 export default MakePlayList;
 
-export const MinHeightWrapper = styled.div`
+const MakePlayListStyle = styled(MinHeightWrapper)`
 	display: flex;
 	flex-direction: column;
-	min-height: calc(100vh - 80px - 120px - 234px);
-
-	// Tablet
-	@media screen and (max-width: 980px) {
-		min-height: calc(100vh - 76px - 120px - 234px);
-	}
-	// Mobile
-	@media screen and (max-width: 640px) {
-		min-height: calc(100vh - 72.406px - 120px - 212px);
-	}
 `;

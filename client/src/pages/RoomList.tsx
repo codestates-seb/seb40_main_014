@@ -51,10 +51,10 @@ const RoomList = () => {
 			setRoomsByView(res.data);
 		});
 
-		getRoomsByDj(1, 7).then((res) => {
-			console.log('rooms by dj res', res);
-			setRoomsByDj(res.data);
-		});
+		// getRoomsByDj(1, 7).then((res) => {
+		// 	console.log('rooms by dj res', res);
+		// 	setRoomsByDj(res.data);
+		// });
 	}, []);
 
 	//* 무한 스크롤
@@ -132,7 +132,7 @@ const RoomList = () => {
 	};
 
 	return (
-		<>
+		<MinHeightWrapper>
 			{isLogin && (
 				<ButtonWrapper>
 					<DefaultButton
@@ -182,11 +182,24 @@ const RoomList = () => {
 					: null}
 				<div ref={observerTargetEl} />
 			</ListStyle>
-		</>
+		</MinHeightWrapper>
 	);
 };
 
 export default RoomList;
+
+export const MinHeightWrapper = styled.div`
+	min-height: calc(100vh - 74px - 120px - 234px);
+
+	// Tablet
+	@media screen and (max-width: 980px) {
+		min-height: calc(100vh - 72.406px - 120px - 234px);
+	}
+	// Mobile
+	@media screen and (max-width: 640px) {
+		min-height: calc(100vh - 72.406px - 120px - 212px);
+	}
+`;
 
 export const ButtonWrapper = styled.div`
 	display: flex;

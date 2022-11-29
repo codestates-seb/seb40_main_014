@@ -10,7 +10,7 @@ import Playlist from '../components/home/Playlist';
 import Room from '../components/home/Room';
 import User from '../components/search/User';
 import { PlaylistInfoType } from './PlaylistList';
-import { ListStyle, RoomInfoType } from './RoomList';
+import { ListStyle, MinHeightWrapper, RoomInfoType } from './RoomList';
 import { MyInitialStateValue, myValue } from '../slices/mySlice';
 
 const Search = () => {
@@ -78,7 +78,7 @@ const Search = () => {
 	}, []);
 
 	return (
-		<>
+		<MinHeightWrapper>
 			<H2>
 				{type1Title} &gt; {type2Title} &gt; {q} 의 검색 결과
 			</H2>
@@ -113,13 +113,20 @@ const Search = () => {
 					{/* <div ref={observerTargetEl} /> */}
 				</ListStyle>
 			) : null}
-		</>
+		</MinHeightWrapper>
 	);
 };
 
 export default Search;
 
 const H2 = styled.h2`
-	margin-bottom: 30px;
-	color: ${(props) => props.theme.colors.gray700};
+	margin-bottom: 60px;
+	font-size: 20px;
+	font-weight: 500;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 18px;
+		margin-bottom: 30px;
+	}
 `;

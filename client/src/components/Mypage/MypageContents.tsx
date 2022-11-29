@@ -166,13 +166,13 @@ const Roof = styled.div`
 
 const Body = styled.div`
 	margin-bottom: 60px;
+	padding: 40px 60px;
 	border-bottom-left-radius: ${(props) => props.theme.radius.largeRadius};
 	border-bottom-right-radius: ${(props) => props.theme.radius.largeRadius};
 	background-color: ${(props) => props.theme.colors.white};
 	display: flex;
 	overflow-x: auto;
 	overflow-y: hidden;
-	padding: 40px 60px;
 
 	// Tablet
 	@media screen and (max-width: 980px) {

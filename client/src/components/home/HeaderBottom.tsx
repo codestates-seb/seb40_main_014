@@ -7,13 +7,13 @@ const HeaderBottom = () => {
 export default HeaderBottom;
 
 const HeaderBottomStyle = styled.div`
-	height: 80px;
+	height: 74px;
 	// Tablet
 	@media screen and (max-width: 980px) {
-		height: 76px;
+		height: 72.406px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		height: 73px;
+		height: 72.406px;
 	}
 `;

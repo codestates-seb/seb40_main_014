@@ -2,7 +2,13 @@ import Playlist from '../components/home/Playlist';
 import { useState, useEffect, useRef, useCallback, Ref } from 'react';
 import { DefaultButton } from '../components/common/Button';
 import { Link } from 'react-router-dom';
-import { ButtonWrapper, H2, ListStyle, SwiperStyle } from './RoomList';
+import {
+	ButtonWrapper,
+	H2,
+	ListStyle,
+	MinHeightWrapper,
+	SwiperStyle,
+} from './RoomList';
 import { getPlaylists } from '../api/playlistApi';
 import { useSelector } from 'react-redux';
 import { musicInfoType } from './MakePlayList';
@@ -110,7 +116,7 @@ const PlaylistList = () => {
 	};
 
 	return (
-		<>
+		<MinHeightWrapper>
 			{isLogin && (
 				<ButtonWrapper>
 					<Link to="/makeplaylist/create">
@@ -223,7 +229,7 @@ const PlaylistList = () => {
 					: null}
 				<div ref={observerTargetEl} />
 			</ListStyle>
-		</>
+		</MinHeightWrapper>
 	);
 };
 

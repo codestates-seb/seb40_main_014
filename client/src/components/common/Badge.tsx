@@ -49,8 +49,8 @@ const BadgeStyle = styled.div<BadgeProps>`
 	}
 
 	.circle {
-		width: 13px;
-		height: 13px;
+		width: 12px;
+		height: 12px;
 		border-radius: 50%;
 		background-color: ${(props) =>
 			props.grade === 'silver'
