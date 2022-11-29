@@ -15,7 +15,6 @@ import com.mainproject.server.playlist.repository.LikesRepository;
 import com.mainproject.server.playlist.repository.PlaylistItemRepository;
 import com.mainproject.server.playlist.repository.PlaylistRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -51,7 +50,7 @@ public class PlaylistService {
         for (int i = 0; i < playlistPostDto.getPlaylistItems().size(); i++) {
             PlaylistItem playlistItem = new PlaylistItem();
             playlistItem.setUrl(playlistPostDto.getPlaylistItems().get(i).getUrl());
-            playlistItem.setTitle(playlistPostDto.getPlaylistItems().get(i).getTitle());
+            playlistItem.setItemTitle(playlistPostDto.getPlaylistItems().get(i).getTitle());
             playlistItem.setThumbnail(playlistPostDto.getPlaylistItems().get(i).getThumbnail());
             playlistItem.setChannelTitle(playlistPostDto.getPlaylistItems().get(i).getChannelTitle());
             playlistItem.setVideoId(playlistPostDto.getPlaylistItems().get(i).getVideoId());
@@ -73,8 +72,8 @@ public class PlaylistService {
             throw new BusinessException(ExceptionCode.BAD_REQUEST);
         }
 
-        Optional.ofNullable(playlist.getTitle()) //제목수정
-                .ifPresent(title -> findPlaylist.setTitle(title));
+        Optional.ofNullable(playlist.getPlTitle()) //제목수정
+                .ifPresent(title -> findPlaylist.setPlTitle(title));
         Optional.ofNullable(playlist.getCategoryList()) //카테고리 수정
                 .ifPresent(categories -> findPlaylist.setCategoryList(categories));
         Optional.ofNullable(playlist.isStatus()) //카테고리 수정
@@ -88,7 +87,7 @@ public class PlaylistService {
         for (int i = 0; i < playlistPatchDto.getPlaylistItems().size(); i++) {
             PlaylistItem playlistItem = new PlaylistItem();
             playlistItem.setUrl(playlistPatchDto.getPlaylistItems().get(i).getUrl());
-            playlistItem.setTitle(playlistPatchDto.getPlaylistItems().get(i).getTitle());
+            playlistItem.setItemTitle(playlistPatchDto.getPlaylistItems().get(i).getTitle());
             playlistItem.setThumbnail(playlistPatchDto.getPlaylistItems().get(i).getThumbnail());
             playlistItem.setChannelTitle(playlistPatchDto.getPlaylistItems().get(i).getChannelTitle());
             playlistItem.setVideoId(playlistPatchDto.getPlaylistItems().get(i).getVideoId());
@@ -281,7 +280,7 @@ public class PlaylistService {
 
         if (type.equals("title")) {
             //해당 타이틀을 포함하는 플레이리스트 목록
-            searchPlaylists = playlistRepository.findByTitleContaining(name);
+            searchPlaylists = playlistRepository.findByPlTitleContaining(name);
         }
         else if (type.equals("name")) {
             // 멤버 이름이 포함된 member 검색
@@ -297,7 +296,7 @@ public class PlaylistService {
                 }
             }
         }
-        else if (type.equals("category")) {
+      else if (type.equals("category")) {
             // 해당 카테고리를 포함하는 플레이리스트 목록
 //            List<String> search = new ArrayList<>();
 //            search.add(name);

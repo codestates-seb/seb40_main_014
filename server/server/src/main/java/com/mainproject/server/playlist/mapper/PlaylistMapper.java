@@ -24,7 +24,7 @@ public interface PlaylistMapper {
             return null;
         } else {
             Playlist playlist = new Playlist();
-            playlist.setTitle(playlistPostDto.getTitle());
+            playlist.setPlTitle(playlistPostDto.getTitle());
             playlist.setMember(member);
             playlist.setCategoryList(playlistPostDto.getCategoryList());
             playlist.setStatus(playlistPostDto.isStatus());
@@ -39,7 +39,7 @@ public interface PlaylistMapper {
         } else {
             Playlist playlist = new Playlist();
             playlist.setPlaylistId(playlistPatchDto.getPlaylistId());
-            playlist.setTitle(playlistPatchDto.getTitle());
+            playlist.setPlTitle(playlistPatchDto.getTitle());
             playlist.setCategoryList(playlistPatchDto.getCategoryList());
             playlist.setStatus(playlistPatchDto.isStatus());
 
@@ -54,7 +54,7 @@ public interface PlaylistMapper {
             PlaylistResponseDto.PlaylistResponseDtoBuilder playlistResponseDto = PlaylistResponseDto.builder();
             List<PlaylistItem> playlistItems = playlist.getPlaylistItems();
             playlistResponseDto.playlistId(playlist.getPlaylistId());
-            playlistResponseDto.title(playlist.getTitle());
+            playlistResponseDto.title(playlist.getPlTitle());
             playlistResponseDto.createdAt(playlist.getCreatedAt());
             playlistResponseDto.modifiedAt(playlist.getModifiedAt());
             playlistResponseDto.memberId(playlist.getMember().getMemberId());
@@ -78,7 +78,7 @@ public interface PlaylistMapper {
                         .channelTitle(playlistItem.getChannelTitle())
                         .thumbnail(playlistItem.getThumbnail())
                         .videoId(playlistItem.getVideoId())
-                        .title(playlistItem.getTitle())
+                        .title(playlistItem.getItemTitle())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -90,7 +90,7 @@ public interface PlaylistMapper {
             LikePlaylistResponseDto.LikePlaylistResponseDtoBuilder likePlaylistResponseDto = LikePlaylistResponseDto.builder();
             List<PlaylistItem> playlistItems = playlist.getPlaylistItems();
             likePlaylistResponseDto.playlistId(playlist.getPlaylistId());
-            likePlaylistResponseDto.title(playlist.getTitle());
+            likePlaylistResponseDto.title(playlist.getPlTitle());
             likePlaylistResponseDto.memberId(playlist.getMember().getMemberId());
             likePlaylistResponseDto.name(playlist.getMember().getName());
             likePlaylistResponseDto.like(playlist.getLikes().size());
@@ -110,7 +110,7 @@ public interface PlaylistMapper {
             LikePlaylistResponseDto.LikePlaylistResponseDtoBuilder likePlaylistResponseDto = LikePlaylistResponseDto.builder();
             List<PlaylistItem> playlistItems = playlist.getPlaylistItems();
             likePlaylistResponseDto.playlistId(playlist.getPlaylistId());
-            likePlaylistResponseDto.title(playlist.getTitle());
+            likePlaylistResponseDto.title(playlist.getPlTitle());
             likePlaylistResponseDto.memberId(playlist.getMember().getMemberId());
             likePlaylistResponseDto.name(playlist.getMember().getName());
             likePlaylistResponseDto.categoryList(playlist.getCategoryList());

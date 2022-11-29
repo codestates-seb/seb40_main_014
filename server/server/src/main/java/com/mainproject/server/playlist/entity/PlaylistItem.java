@@ -24,7 +24,7 @@ public class PlaylistItem extends Auditable {
 
     private String thumbnail;
 
-    private String title;
+    private String itemTitle;
     private String videoId;
 
     @ManyToOne
