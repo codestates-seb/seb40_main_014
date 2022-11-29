@@ -190,6 +190,7 @@ const Body = styled.div`
 	overflow-x: auto;
 	overflow-y: hidden;
 	padding: 40px 60px;
+	line-height: 20px;
 
 	// Tablet
 	@media screen and (max-width: 980px) {

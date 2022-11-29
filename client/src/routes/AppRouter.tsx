@@ -5,9 +5,6 @@ import Layout from '../components/common/Layout';
 import PlaylistList from '../pages/PlaylistList';
 import Room from '../pages/Room';
 import EditProfile from '../pages/EditProfile';
-import Chat from '../components/chat/Chat';
-import Chattest from '../components/chat/Chattest';
-import StompChat from '../components/chat/ChatStompTest';
 import ScrollToTop from '../components/common/ScrollToTop';
 
 // const Main = lazy(() => import('../pages/Main'));
@@ -45,10 +42,6 @@ const AppRouter = () => {
 						{/* 방 */}
 						<Route path="/rooms/:id" element={<Room />} />
 					</Route>
-
-					<Route path="/chat" element={<Chat />} />
-					<Route path="/chattest" element={<Chattest />} />
-					<Route path="/chatstomp" element={<StompChat />} />
 					<Route path="/loginCallback" element={<LoginCallback />} />
 					<Route path="*" element={<Navigate to="/" replace />} />
 				</Routes>

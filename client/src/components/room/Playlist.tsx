@@ -144,17 +144,15 @@ const PlaylistPart = ({ playlist }) => {
 	const opts: YouTubeProps['opts'] = {
 		height: '0',
 		width: '0',
-		playerVars: {
-			autoplay: 1,
-		},
+		// playerVars: {
+		// 	autoplay: 1,
+		// },
 	};
 	const onReady = (event) => {
 		// access to player in all event handlers via event.target
 		setPlayer(event.target);
-
 		event.target.loadPlaylist({ playlist: playlistIdList, startSeconds: 1 });
-		event.target.playVideo();
-		// console.log('플리 리스트', playlistIdList);
+		// event.target.playVideo();
 	};
 
 	const pause = () => {
