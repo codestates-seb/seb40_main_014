@@ -4,7 +4,7 @@ import Category from '../common/Category';
 import { RoomInfoType } from '../../pages/RoomList';
 
 type RoomType = {
-	room: RoomInfoType;
+	room: any;
 	key?: string;
 	swiper?: boolean;
 };

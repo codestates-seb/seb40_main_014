@@ -14,7 +14,8 @@ type MypageInfoType = {
 };
 
 const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
-	const { memberId, name, grade, follow, followState, picture } = userInfo;
+	const { memberId, name, grade, follow, followState, picture, email } =
+		userInfo;
 
 	const isLogin = useSelector(myLogin);
 	const my = useSelector(myValue);
@@ -68,6 +69,7 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 								</Edit>
 							)}
 						</div>
+						<div>{email}</div>
 						<Follower>
 							팔로워
 							<span>{followNum}</span>

@@ -67,7 +67,7 @@ const MobileUl = ({
 				</Link>
 			</li>
 			<li className={currentMenu === 'search' ? 'active' : ''}>
-				<Link to="/search" id="search">
+				<Link to="/searchbar" id="search">
 					<FaSearch className="search-icon" />
 					<span>검색</span>
 				</Link>

@@ -39,7 +39,7 @@ const PcUl = ({ currentMenu }: PcUlType) => {
 						검색
 					</SearchButton>
 				)} */}
-				<Link to="/search">
+				<Link to="/searchbar">
 					<FaSearch className="search-icon" />
 					<span>검색</span>
 				</Link>

@@ -18,6 +18,7 @@ const RankingList = lazy(() => import('../pages/RankingList'));
 const MakePlayList = lazy(() => import('../pages/MakePlayList'));
 const Mypage = lazy(() => import('../pages/Mypage'));
 const PlayListCollection = lazy(() => import('../pages/PlayListCollection'));
+const SearchBar = lazy(() => import('../pages/SearchBar'));
 const Search = lazy(() => import('../pages/Search'));
 
 const AppRouter = () => {
@@ -31,6 +32,7 @@ const AppRouter = () => {
 						<Route path="/" element={<RoomList />} />
 						<Route path="/playlist" element={<PlaylistList />} />
 						<Route path="/ranking" element={<RankingList />} />
+						<Route path="/searchbar" element={<SearchBar />} />
 						<Route path="/search" element={<Search />} />
 						<Route path="/mypage/:userId" element={<Mypage />} />
 						<Route path="/editProfile" element={<EditProfile />} />

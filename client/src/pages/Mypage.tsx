@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
 import { getBookmarkList, getFollowList, getUserInfo } from '../api/userApi';
 import MypageContents from '../components/Mypage/MypageContents';
 import MypageInfo from '../components/Mypage/MypageInfo';

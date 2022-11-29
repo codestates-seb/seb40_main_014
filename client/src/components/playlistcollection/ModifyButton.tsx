@@ -32,7 +32,7 @@ const ModifyButton = ({
 		Swal.fire({
 			icon: 'warning',
 			title: '플레이리스트 삭제',
-			text: `${playlistName}을 삭제하시겠습니까?`,
+			text: `${playlistName}을(를) 삭제하시겠습니까?`,
 			showCancelButton: true,
 			confirmButtonText: '삭제',
 			cancelButtonText: '취소',
