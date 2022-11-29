@@ -53,7 +53,6 @@ public class ChatController {
         boolean isContains = room.getUserlist().contains(chat.getMemberName());
         if (!isContains) {
             room.getUserlist().add(chat.getMemberName());
-            room.getUserlist().add(String.valueOf(chat.getMemberId()));
             room.setUserlist(room.getUserlist());
             room.setUserCount(room.getUserCount() + 1);
             chat.setMessage(chat.getMemberName() + " 님 입장하셨습니다.");
@@ -70,7 +69,6 @@ public class ChatController {
         chatRoomRepository.save(room);
 
         // 반환 결과를 socket session 에 memName 으로 저장
-        headerAccessor.getSessionAttributes().put("memberId", chat.getMemberId());
         headerAccessor.getSessionAttributes().put("MemberName", chat.getMemberName());
         headerAccessor.getSessionAttributes().put("roomId", chat.getRoomId());
 
@@ -102,7 +100,6 @@ public class ChatController {
 
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 
-        Long memberId = (Long) headerAccessor.getSessionAttributes().get("memberId");
         String memberName = (String) headerAccessor.getSessionAttributes().get("MemberName");
         String roomId = (String) headerAccessor.getSessionAttributes().get("roomId");
 
@@ -111,7 +108,6 @@ public class ChatController {
         room.setRoomId(roomId);
         room.setUserCount(room.getUserCount() - 1);
         room.getUserlist().remove(memberName);
-        room.getUserlist().remove(String.valueOf(memberId));
         room.setUserlist(room.getUserlist());
         chatRoomRepository.save(room);
 
@@ -119,7 +115,6 @@ public class ChatController {
 
         ChatMessage chatMessage = ChatMessage.builder()
                 .type(ChatMessage.MessageType.LEAVE)
-                .memberId(memberId)
                 .memberName(memberName)
                 .roomId(roomId)
                 .message(memberName + "님 퇴장하셨습니다.")
@@ -138,7 +133,7 @@ public class ChatController {
 
             room.setUserCount(room.getUserCount() - 1);
             room.getUserlist().remove(chat.getMemberName());
-            room.getUserlist().remove(String.valueOf(chat.getMemberId()));
+//            room.getUserlist().remove(String.valueOf(chat.getMemberId()));
             chatRoomRepository.save(room);
 
             template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);

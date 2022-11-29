@@ -25,7 +25,7 @@ import javax.persistence.*;
 //        @JoinColumn(name = "room_id")
 //        private ChatRoom chatRoom;
 
-        private Long memberId;
+//        private Long memberId;
 
         private String message;
 
