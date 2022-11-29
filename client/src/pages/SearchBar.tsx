@@ -142,7 +142,18 @@ const SearchBarStyle = styled(MinHeightWrapper)`
 		width: 85%;
 		margin-right: 3%;
 		> * {
-			height: 40px;
+			height: 45px;
+			padding: 0 10px;
+			background-color: ${(props) => props.theme.colors.white};
+			border: 1.5px solid ${(props) => props.theme.colors.gray400};
+
+			:focus {
+				background-color: #e2d5fc9c;
+			}
+
+			:disabled {
+				background-color: inherit;
+			}
 		}
 		> select {
 			width: 25%;
@@ -151,7 +162,22 @@ const SearchBarStyle = styled(MinHeightWrapper)`
 		> input {
 			width: 47%;
 		}
+		option:first-of-type {
+			background-color: ${(props) => props.theme.colors.gray400};
+		}
+
+		> *:nth-child(1) {
+			border-radius: 5px 0 0 5px;
+		}
+		> *:nth-child(2) {
+			border-left: none;
+			border-right: none;
+		}
+		> *:nth-child(3) {
+			border-radius: 0 5px 5px 0;
+		}
 	}
+
 	> button {
 		width: 15%;
 	}
