@@ -47,3 +47,14 @@ export const getRoomById = async (roomId) => {
 		return err;
 	}
 };
+
+export const checkRoomByName = async (roomId, memberName) => {
+	try {
+		const result = await instance.get(
+			`/rooms/chat/${roomId}?memberName=${memberName}`,
+		);
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};

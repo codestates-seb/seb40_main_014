@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { useForm } from 'react-hook-form';
 import instance from '../api/root';
-import { deleteRoom, getRoomById } from '../api/roomApi';
+import { checkRoomByName, deleteRoom, getRoomById } from '../api/roomApi';
 import * as StompJS from '@stomp/stompjs';
 
 const TotalContainer = styled.div`
@@ -291,50 +291,55 @@ const Room = () => {
 	// 	});
 	// }, []);
 	useEffect(() => {
-		getRoomById(roomId)
-			.then((res) => {
-				setTitle(res.data.title);
-				setPlaylist(res.data.playlistResponseDto.playlistItems);
-				// if (!client.connected && isConnect) {
-				// 	client.activate();
-				// }
-				wsSubscribe();
-
-				return res;
-			})
-			.then((res) => {
-				// setTimeout(
-				// 	() =>
-
-				// 	500,
-				// );
-				client.publish({
-					destination: `/pub/chat/enterUser`,
-					body: JSON.stringify(enterMessage),
-				});
-				return res;
-			})
-			.then((res) => {
-				// 유저리스트에 추가, 방장인지 확인
-				getRoomById(roomId)
-					.then(() => {
-						NumberMemberId === res.data.memberResponseDto.memberId
-							? setIsAdmin(true)
-							: setIsAdmin(false);
-					})
-					.catch((err) => {
-						console.log(err);
-					});
-			})
-			.catch((err) => {
+		checkRoomByName(roomId, userInfo.name).then((res) => {
+			if (res) {
 				navigate('/');
 				Swal.fire({
 					icon: 'warning',
-					title: '존재하지 않는 방',
-					text: '해당 방이 존재하지 않습니다!',
+					text: '이미 참여중인 방입니다!',
 				});
-				console.log(err);
-			});
+			} else {
+				getRoomById(roomId)
+					.then((res) => {
+						setTitle(res.data.title);
+						setPlaylist(res.data.playlistResponseDto.playlistItems);
+						// if (!client.connected && isConnect) {
+						// 	client.activate();
+						// }
+						wsSubscribe();
+
+						return res;
+					})
+					.then((res) => {
+						client.publish({
+							destination: `/pub/chat/enterUser`,
+							body: JSON.stringify(enterMessage),
+						});
+						return res;
+					})
+					.then((res) => {
+						// 유저리스트에 추가, 방장인지 확인
+						getRoomById(roomId)
+							.then(() => {
+								NumberMemberId === res.data.memberResponseDto.memberId
+									? setIsAdmin(true)
+									: setIsAdmin(false);
+							})
+							.catch((err) => {
+								console.log(err);
+							});
+					})
+					.catch((err) => {
+						navigate('/');
+						Swal.fire({
+							icon: 'warning',
+							title: '존재하지 않는 방',
+							text: '해당 방이 존재하지 않습니다!',
+						});
+						console.log(err);
+					});
+			}
+		});
 	}, []);
 	const client = new StompJS.Client({
 		brokerURL: `${process.env.REACT_APP_STACK_WS_SERVER}/ws/websocket`,
