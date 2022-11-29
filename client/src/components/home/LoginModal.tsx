@@ -81,14 +81,14 @@ export const WhiteBox = styled.div`
 `;
 
 export const H2 = styled.h2`
-	font-size: ${(props) => props.theme.fontSize.xLarge};
+	font-size: 26px;
 	font-weight: 600;
 	margin-bottom: 46px;
 
 	// Mobile
 	@media screen and (max-width: 640px) {
 		margin-bottom: 37px;
-		font-size: 24px;
+		font-size: 22px;
 	}
 `;
 
