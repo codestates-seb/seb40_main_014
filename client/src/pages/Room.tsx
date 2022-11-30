@@ -305,7 +305,8 @@ const Room = () => {
 	useEffect(() => {
 		if (isLogin) {
 			checkRoomByName(roomId, userInfo.name).then((res) => {
-				if (res) {
+				// console.log('니 뭔데', res);
+				if (res.response?.status !== 404 && res) {
 					navigate('/');
 					Swal.fire({
 						icon: 'warning',
