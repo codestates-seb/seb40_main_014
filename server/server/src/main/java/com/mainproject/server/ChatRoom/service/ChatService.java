@@ -68,21 +68,6 @@ public class ChatService {
     }
 
     //MessageType : ENTER
-    public void plusMemCount(String roomId) {
-//        List<Member> members = chatRoom.getRoomMemberlist().stream()
-//                .map(roomMember::getMember)
-//                .collect(Collectors.toList());
-        ChatRoom room = findVerifiedRoomId(roomId);
-        room.setUserCount(room.getUserCount() + 1);
-    }
-
-    //MessageType : LEAVE
-    public void minusMemCount(String roomId) {
-//        ChatRoom room = chatRoomMap.get(roomId);
-//        room.setUserCount(room.getUserCount() - 1);
-        ChatRoom room = findVerifiedRoomId(roomId);
-        room.setUserCount(room.getUserCount() - 1);
-    }
 
     public Page<ChatRoom> findChatRooms(int page, int size) {
         Page<ChatRoom> findAllRooms = chatRoomRepository.findAll(
@@ -122,16 +107,9 @@ public class ChatService {
         chatRoomRepository.delete(room);
     }
 
-    public Page<ChatRoom> findRoomsUserCount(int page, int size) {
+    public Page<ChatRoom> findRoomsUserSize(int page, int size) {
         Page<ChatRoom> findAllRooms = chatRoomRepository.findAll(
-                PageRequest.of(page, size, Sort.by("userCount").descending()));
-
-        return findAllRooms;
-    }
-
-    public Page<Member> findRoomsRank(int page, int size) {
-        Page<Member> findAllRooms = memberRepository.findAll(
-                PageRequest.of(page, size, Sort.by("rank").descending()));
+                PageRequest.of(page, size, Sort.by("userSize").descending()));
 
         return findAllRooms;
     }

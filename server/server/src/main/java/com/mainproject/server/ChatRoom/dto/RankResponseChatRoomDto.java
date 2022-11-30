@@ -20,7 +20,7 @@ public class RankResponseChatRoomDto {
     private int maxCount;
     private String pwd;
     private boolean secret;
-    private int userCount;
+    private int userSize;
     private Long playlistId;
     List<SimpleMemberResponseDto> simpleMemberResponseDtoList;
     PlaylistResponseDto playlistResponseDto;
@@ -33,8 +33,8 @@ public class RankResponseChatRoomDto {
         this.maxCount = chatRoom.getMaxCount();
         this.pwd = chatRoom.getPwd();
         this.secret = chatRoom.getPwd() != null;
-        this.userCount = chatRoom.getUserCount();
         this.userlist = chatRoom.getUserlist();
+        this.userSize = chatRoom.getUserlist().size();
         this.playlistId = chatRoom.getPlaylistId();
         this.simpleMemberResponseDtoList = simpleMemberResponseDtoList;
         this.playlistResponseDto = playlistResponseDto;
