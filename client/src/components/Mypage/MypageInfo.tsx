@@ -88,7 +88,16 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 						</Follower>
 					</Info>
 				</Top>
-				<Bottom>{myId === memberId ? myIntro : content}</Bottom>
+				<Bottom>
+					{myId === memberId && (
+						<IntroEdit onClick={handleOpenModal}>
+							<AiFillEdit />
+						</IntroEdit>
+					)}
+					{myId === memberId
+						? myIntro || '등록된 자기소개가 없습니다'
+						: content || '등록된 자기소개가 없습니다'}
+				</Bottom>
 			</Wrapper>
 			{isOpenModal && (
 				<EditProfileModal
@@ -165,7 +174,7 @@ const Name = styled.div`
 
 const Edit = styled.button`
 	padding: 5px;
-	color: ${(props) => props.theme.colors.gray600};
+	color: ${(props) => props.theme.colors.gray500};
 	font-size: 18px;
 	transition: 0.1s;
 
@@ -232,6 +241,7 @@ const Email = styled.div`
 `;
 
 const Bottom = styled.div`
+	position: relative;
 	padding: 40px 60px;
 	min-height: 120px;
 	background-color: ${(props) => props.theme.colors.white};
@@ -246,5 +256,17 @@ const Bottom = styled.div`
 	@media screen and (max-width: 640px) {
 		padding: 30px;
 		min-height: 80px;
+	}
+`;
+
+const IntroEdit = styled(Edit)`
+	position: absolute;
+	top: 10px;
+	right: 15px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		top: 5px;
+		right: 10px;
 	}
 `;
