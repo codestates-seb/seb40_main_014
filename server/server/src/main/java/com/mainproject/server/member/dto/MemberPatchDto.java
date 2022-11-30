@@ -10,6 +10,6 @@ import javax.validation.constraints.NotBlank;
 public class MemberPatchDto {
 
     private String name;
-    private String picture;
+    private String content;
 
 }

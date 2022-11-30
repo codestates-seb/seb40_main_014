@@ -2,6 +2,7 @@ package com.mainproject.server.playlist.controller;
 
 import com.mainproject.server.member.dto.MemberResponseDto;
 import com.mainproject.server.member.entity.Member;
+import com.mainproject.server.member.service.FollowService;
 import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.dto.PlaylistPatchDto;
 import com.mainproject.server.playlist.dto.PlaylistPostDto;
@@ -33,6 +34,7 @@ public class PlaylistController {
     private final PlaylistService playlistService;
     private final MemberService memberService;
     private final PlaylistMapper mapper;
+    private final FollowService followService;
 
     @NeedMemberId
     @PostMapping
@@ -70,6 +72,7 @@ public class PlaylistController {
     public ResponseEntity getPlaylist(@PathVariable("playlist-id") @Positive long playlistId,
                                       Long authMemberId) {
         Playlist playlist = playlistService.findPlaylist(playlistId);
+
 
         Boolean likeState = playlistService.likeState(playlistId, authMemberId);
         Boolean bookmarkState = playlistService.BookmarkState(playlistId, authMemberId);
@@ -120,6 +123,8 @@ public class PlaylistController {
 
         Playlist playlist = playlistService.findPlaylist(playlistId);
 
+        followService.getGrade(playlist.getMember());
+
         Boolean likeState = playlistService.likeState(playlistId, authMemberId);
         Boolean bookmarkState = playlistService.BookmarkState(playlistId, authMemberId);
 
@@ -157,4 +162,30 @@ public class PlaylistController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists, bookmarkStates), bookmarkPlaylists), HttpStatus.OK);
     }
+
+    // 좋아요순 정렬
+    @GetMapping("/likeSort")
+    public ResponseEntity findPlLike(@Positive @RequestParam(required = false, defaultValue = "1") int page,
+                                     @Positive @RequestParam(required = false, defaultValue = "10") int size) {
+        Page<Playlist> playlistPage = playlistService.findPlLikeSort(page - 1, size);
+        List<Playlist> playlists = playlistPage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists), playlistPage), HttpStatus.OK);
+
+    }
+
+
+//    // 인기 dj 플리 정렬
+//    @GetMapping("/topDj")
+//    public ResponseEntity findPlTopDj(@Positive @RequestParam(required = false, defaultValue = "1") int page,
+//                                      @Positive @RequestParam(required = false, defaultValue = "10") int size) {
+//        Page<Member> pagePlList = playlistService.findPlTopDjSort(page - 1, size);
+//        List<Member> playlists = pagePlList.getContent();
+//
+//        return new ResponseEntity<>(
+//                new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists), pagePlList), HttpStatus.OK);
+//
+//    }
+
 }

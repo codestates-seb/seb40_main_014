@@ -3,13 +3,11 @@ package com.mainproject.server.playlist.entity;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.auditable.Auditable;
 import com.mainproject.server.member.entity.Member;
-import com.mainproject.server.playlist.dto.PlaylistItemResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,15 +34,8 @@ public class Playlist extends Auditable {
     @Column
     private List<String> categoryList;
 
-    @OneToMany(mappedBy = "playlist", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "playlist", cascade = CascadeType.REMOVE)
     private List<Likes> likes  = new ArrayList<>();
-
-
-//    @Column(nullable = false, updatable = true, unique = false)
-//    private String videoId;
-
-//    @OneToMany(mappedBy = "playlist", cascade = CascadeType.REMOVE)
-//    private List<Category> categoryList = new ArrayList<>();
 
     @OneToMany(mappedBy = "playlist", cascade = CascadeType.REMOVE)
     private List<PlaylistItem> playlistItems = new ArrayList<>();
@@ -56,15 +47,8 @@ public class Playlist extends Auditable {
     @JoinColumn(name = "room_id")
     private ChatRoom chatRoom;
 
+    @Column
+    private int likePlus;
 
-//    @Enumerated(EnumType.STRING)
-//    private PlaylistStatus playlistStatus = PlaylistStatus.PLAYLIST_ACTIVE;
 
-
-//    public enum PlaylistStatus {
-//        PLAYLIST_ACTIVE("활성중"),
-//        PLAYLIST_INACTIVE("비활성중");
-//
-
-//    }
 }

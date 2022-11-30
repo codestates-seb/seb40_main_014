@@ -39,10 +39,19 @@ public class MemberService {
 
         Member findMember = verifyExistsMember(memberId);
 
+        // 기존닉네임과 Patch요청의 닉네임이 다른경우
+        if (!member.getName().equals(findMember.getName())){
+            // 요청 닉네임이 존재하는지 조회
+            if(memberRepository.existsByName(member.getName())){
+                //존재한다면 에러 발생
+                throw new BusinessException(ExceptionCode.NAME_ALREADY_EXISTS);
+            }
+        }
+
         Optional.ofNullable(member.getName())
                 .ifPresent(name -> findMember.setName(name));
-        Optional.ofNullable(member.getPicture())
-                .ifPresent(picture -> findMember.setPicture(picture));
+        Optional.ofNullable(member.getContent())
+                .ifPresent(content -> findMember.setContent(content));
         Optional.ofNullable(member.getModifiedAt())
                 .ifPresent(modifiedAt -> findMember.setModifiedAt(modifiedAt));
 
@@ -109,7 +118,6 @@ public class MemberService {
             return new ResponseEntity<>("Refresh Failed", HttpStatus.NOT_FOUND);
         }
     }
-
 
     private Member verifyExistsMember(Long memberId) {
 

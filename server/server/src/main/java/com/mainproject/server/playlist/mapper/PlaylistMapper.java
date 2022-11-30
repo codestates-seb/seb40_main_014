@@ -120,6 +120,7 @@ public interface PlaylistMapper {
             likePlaylistResponseDto.likeState(likeState);
             likePlaylistResponseDto.bookmarkState(bookmarkState);
             likePlaylistResponseDto.playlistItems(playlistItemsToPlaylistItemResponseDto(playlistItems));
+            playlist.setLikePlus(playlist.getLikes().size());
             return likePlaylistResponseDto.build();
         }
     }
@@ -157,3 +158,4 @@ public interface PlaylistMapper {
         return simplePlaylistResponseDto.build();
     }
 }
+

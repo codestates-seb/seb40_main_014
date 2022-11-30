@@ -12,7 +12,6 @@ import com.mainproject.server.playlist.mapper.PlaylistMapper;
 import com.mainproject.server.playlist.service.PlaylistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -114,5 +113,4 @@ public class ChatRoomMapper {
         return rankResponseChatRoomDtoList;
 
     }
-
 }
