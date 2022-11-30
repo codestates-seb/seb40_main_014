@@ -23,7 +23,6 @@ public class ResponseChatRoomDto {
     private int userSize;
     private Long playlistId;
     SimpleMemberResponseDto memberResponseDto;
-
     PlaylistResponseDto playlistResponseDto;
     List<String> userlist = new ArrayList<>();
 

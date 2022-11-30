@@ -15,5 +15,6 @@ public interface PlaylistRepository extends JpaRepository<Playlist, Long> {
 //    Page<Playlist> findByPlTitleContaining(String plTitle, Pageable pageable);
     List<Playlist> findByPlTitleContaining(String plTitle);
 //    List<Playlist> findByCategoryListContaining(List<String> categoryList);
+    boolean existsByPlaylistId(Long playlistId);
 
 }
