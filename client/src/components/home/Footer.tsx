@@ -32,7 +32,6 @@ const FooterStyle = styled.div`
 	img {
 		width: 90px;
 		margin-bottom: 30px;
-		/* opacity: 0.9; */
 	}
 
 	// Mobile

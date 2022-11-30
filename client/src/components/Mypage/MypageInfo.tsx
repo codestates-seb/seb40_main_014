@@ -165,12 +165,12 @@ const Name = styled.div`
 
 const Edit = styled.button`
 	padding: 5px;
-	color: ${(props) => props.theme.colors.gray500};
+	color: ${(props) => props.theme.colors.gray600};
 	font-size: 18px;
 	transition: 0.1s;
 
 	:hover {
-		color: ${(props) => props.theme.colors.gray600};
+		opacity: 0.75;
 	}
 
 	// Mobile
@@ -201,8 +201,9 @@ export const Follower = styled.div`
 		border-radius: ${(props) => props.theme.radius.smallRadius};
 		transition: 0.1s;
 
+		// 임시
 		:hover {
-			background-color: #410bae;
+			opacity: 0.75;
 		}
 
 		// Mobile

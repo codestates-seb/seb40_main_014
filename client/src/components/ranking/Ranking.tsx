@@ -48,8 +48,8 @@ const RankingStyle = styled.div`
 			align-items: center;
 		}
 
-		a:hover {
-			color: ${(props) => props.theme.colors.gray700};
+		:hover {
+			opacity: 0.75;
 		}
 	}
 	// 팔로워

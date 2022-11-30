@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Category from '../common/Category';
-import { RoomInfoType } from '../../pages/RoomList';
 import { HiUser } from 'react-icons/hi';
+import { RoomInfoType } from '../../pages/RoomList';
 
 type RoomType = {
 	room: RoomInfoType;

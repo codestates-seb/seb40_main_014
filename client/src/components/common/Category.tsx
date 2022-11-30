@@ -41,6 +41,10 @@ const CategoryStyle = styled.button<CategoryProps>`
 			: props.theme.colors.gray300};
 	border-radius: 3px;
 
+	:hover {
+		opacity: 0.75;
+	}
+
 	// Mobile
 	@media screen and (max-width: 640px) {
 		font-size: ${(props) => props.swiper && '10px'};

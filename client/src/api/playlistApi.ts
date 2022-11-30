@@ -16,6 +16,28 @@ export const getPlaylists = async (page?: number, size?: number) => {
 	}
 };
 
+export const getPlaylistsByLike = async (page: number, size: number) => {
+	try {
+		const result = await instance.get(
+			`/api/playlists/likeSort?type=${page}&name=${size}`,
+		);
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
+
+export const getPlaylistsByDj = async (page: number, size: number) => {
+	try {
+		const result = await instance.get(
+			`/api/playlists/topDj?type=${page}&name=${size}`,
+		);
+		return result.data;
+	} catch (err) {
+		return err;
+	}
+};
+
 export const getPlayList = async (data?) => {
 	try {
 		let result;

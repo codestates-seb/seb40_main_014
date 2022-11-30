@@ -6,7 +6,7 @@ import Like from '../common/Like';
 import ModifyButton from '../playlistcollection/ModifyButton';
 import { useSelector } from 'react-redux';
 import { myLogin, myValue } from '../../slices/mySlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const PlayListInfo = ({
 	playListInfo,
@@ -42,7 +42,9 @@ const PlayListInfo = ({
 							{playListInfo.categoryList &&
 								playListInfo.categoryList.map((ele, idx) => (
 									<Category key={idx} category={ele} margin="0 10px 0 0">
-										{ele}
+										<Link to={`/search?type1=playlist&type2=category&q=${ele}`}>
+											{ele}
+										</Link>
 									</Category>
 								))}
 						</div>
@@ -50,15 +52,16 @@ const PlayListInfo = ({
 					<div className="options">
 						<div>
 							<div>
-								<img src={picture} alt={playListInfo.name} />
-								<button
-									onClick={() => navigate(`/mypage/${playListInfo.memberId}`)}>
-									{playListInfo.name}
-								</button>
+								<Link to={`/mypage/${playListInfo.memberId}`}>
+									<img src={picture} alt={playListInfo.name} />
+									<button>{playListInfo.name}</button>
+								</Link>
 							</div>
 							<div>
-								<Like {...likeBookmarkProps} />
-								<span>{playListInfo.like}</span>
+								<button>
+									<Like {...likeBookmarkProps} />
+									<span>{playListInfo.like}</span>
+								</button>
 								<BookMark {...likeBookmarkProps} />
 							</div>
 						</div>
@@ -159,31 +162,40 @@ const Info = styled.div`
 		> div:first-of-type {
 			display: flex;
 			flex-direction: column;
-			> div {
-				display: flex;
-				align-items: center;
-			}
 			> div:first-of-type {
-				img {
-					width: 25px;
-					margin: 0 5px;
-					border-radius: 50%;
-					object-fit: cover;
-				}
-				button {
-					margin-left: 5px;
-					margin-right: 20px;
-					:hover {
-						color: ${(props) => props.theme.colors.gray700};
+				a {
+					display: flex;
+					align-items: center;
+					img {
+						width: 25px;
+						margin-right: 5px;
+						border-radius: 50%;
+						object-fit: cover;
 					}
+					button {
+						margin-left: 5px;
+						margin-right: 20px;
+					}
+				}
+				:hover {
+					opacity: 0.75;
 				}
 			}
 			> div:last-of-type {
+				display: flex;
 				justify-content: flex-end;
+				align-items: center;
 				margin-top: 10px;
 
-				span {
-					margin-left: 5px;
+				button {
+					display: flex;
+					align-items: center;
+					span {
+						margin-left: 7px !important;
+					}
+					:hover {
+						opacity: 0.75;
+					}
 				}
 
 				> *:last-child {

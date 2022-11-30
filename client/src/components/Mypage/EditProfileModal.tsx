@@ -201,7 +201,7 @@ const SaveButton = styled.button`
 	color: ${(props) => props.theme.colors.white};
 
 	:hover {
-		background-color: #3f0ba9;
+		opacity: 0.85;
 	}
 `;
 
@@ -210,6 +210,6 @@ const CancelButton = styled.button`
 	color: ${(props) => props.theme.colors.purple};
 
 	:hover {
-		background-color: #f1eaff;
+		opacity: 0.75;
 	}
 `;

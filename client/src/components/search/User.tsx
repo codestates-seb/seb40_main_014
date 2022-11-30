@@ -44,9 +44,7 @@ const Profile = styled.div`
 	cursor: pointer;
 
 	:hover {
-		${ThumbnailBackdrop} {
-			display: block;
-		}
+		opacity: 0.75;
 	}
 
 	img {
@@ -62,10 +60,6 @@ const Profile = styled.div`
 
 const Name = styled.div`
 	margin-bottom: 8px;
-
-	:hover {
-		color: ${(props) => props.theme.colors.purple};
-	}
 `;
 
 const Email = styled.div`
