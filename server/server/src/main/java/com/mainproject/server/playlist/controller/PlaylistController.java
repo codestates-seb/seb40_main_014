@@ -162,4 +162,30 @@ public class PlaylistController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists, bookmarkStates), bookmarkPlaylists), HttpStatus.OK);
     }
+
+    // 좋아요순 정렬
+    @GetMapping("/likeSort")
+    public ResponseEntity findPlLike(@Positive @RequestParam(required = false, defaultValue = "1") int page,
+                                     @Positive @RequestParam(required = false, defaultValue = "10") int size) {
+        Page<Playlist> playlistPage = playlistService.findPlLikeSort(page - 1, size);
+        List<Playlist> playlists = playlistPage.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists), playlistPage), HttpStatus.OK);
+
+    }
+
+
+//    // 인기 dj 플리 정렬
+//    @GetMapping("/topDj")
+//    public ResponseEntity findPlTopDj(@Positive @RequestParam(required = false, defaultValue = "1") int page,
+//                                      @Positive @RequestParam(required = false, defaultValue = "10") int size) {
+//        Page<Member> pagePlList = playlistService.findPlTopDjSort(page - 1, size);
+//        List<Member> playlists = pagePlList.getContent();
+//
+//        return new ResponseEntity<>(
+//                new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists), pagePlList), HttpStatus.OK);
+//
+//    }
+
 }
