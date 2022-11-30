@@ -100,7 +100,7 @@ public class RoomController {
     public ResponseEntity findRoomsUserList(@RequestParam(required = false, defaultValue = "1") int page,
                                             @RequestParam(required = false, defaultValue = "10") int size, Member member) {
 
-        Page<ChatRoom> chatRoomPage = chatService.findRoomsUserCount(page - 1 , size);
+        Page<ChatRoom> chatRoomPage = chatService.findRoomsUserSize(page - 1 , size);
         List<ChatRoom> content = chatRoomPage.getContent();
 
         return new ResponseEntity<>(

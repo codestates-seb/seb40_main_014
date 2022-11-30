@@ -46,7 +46,7 @@ public class ChatRoom extends Auditable {
     private int maxCount;
 
     @Column
-    private int userCount;
+    private int userSize;
 
     @Column
     private Onair onair = Onair.ON;
@@ -76,7 +76,7 @@ public class ChatRoom extends Auditable {
         this.title = title;
         this.maxCount = maxCount;
         this.pwd = pwd;
-        this.userCount = userCount;
+        this.userSize = userlist.size();
         Onair on = Onair.ON;
     }
 

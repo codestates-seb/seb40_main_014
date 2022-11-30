@@ -20,7 +20,7 @@ public class ResponseChatRoomDto {
     private int maxCount;
     private String pwd;
     private boolean secret;
-    private int userCount;
+    private int userSize;
     private Long playlistId;
     SimpleMemberResponseDto memberResponseDto;
     PlaylistResponseDto playlistResponseDto;
@@ -33,8 +33,8 @@ public class ResponseChatRoomDto {
         this.maxCount = chatRoom.getMaxCount();
         this.pwd = chatRoom.getPwd();
         this.secret = chatRoom.getPwd() != null;
-        this.userCount = chatRoom.getUserCount();
         this.userlist = chatRoom.getUserlist();
+        this.userSize = chatRoom.getUserlist().size();
         this.playlistId = chatRoom.getPlaylistId();
         this.memberResponseDto = memberResponseDto;
         this.playlistResponseDto = playlistResponseDto;
