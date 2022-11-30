@@ -1,5 +1,8 @@
 package com.mainproject.server.playlist.service;
 
+import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
+import com.mainproject.server.ChatRoom.service.ChatService;
 import com.mainproject.server.exception.BusinessException;
 import com.mainproject.server.exception.ExceptionCode;
 import com.mainproject.server.member.entity.Member;
@@ -34,6 +37,8 @@ public class PlaylistService {
     private final LikesRepository likeRepository;
     private final BookmarkRepository bookmarkRepository;
     private final MemberRepository memberRepository;
+    private final ChatRoomRepository chatRoomRepository;
+    private final ChatService chatService;
     private final String KEY = "Ranking";
 
     @Resource(name = "redisTemplate")
@@ -117,6 +122,11 @@ public class PlaylistService {
     //플리 삭제
     public void deletePlaylist(long playlistId) {
         Playlist findPlaylist = verifiedPlaylist(playlistId);
+
+        List<ChatRoom> chatRooms = chatRoomRepository.findByPlaylistId(findPlaylist.getPlaylistId());
+        for (ChatRoom chatRoom : chatRooms) {
+            chatService.deleteChatRoom(chatRoom.getRoomId());
+        }
 
         playlistRepository.delete(findPlaylist);
     }
