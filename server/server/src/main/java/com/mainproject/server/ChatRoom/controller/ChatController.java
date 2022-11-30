@@ -49,7 +49,6 @@ public class ChatController {
         if (!isContains) {
             room.getUserlist().add(chat.getMemberName());
             room.setUserlist(room.getUserlist());
-            room.setUserCount(room.getUserCount() + 1);
             chat.setMessage(chat.getMemberName() + " 님 입장하셨습니다.");
             if (chat.getType().equals(ENTER)) {
                 template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
@@ -101,7 +100,6 @@ public class ChatController {
         // 채팅방 유저 -1
         ChatRoom room = chatService.findVerifiedRoomId(roomId);
         room.setRoomId(roomId);
-        room.setUserCount(room.getUserCount() - 1);
         room.getUserlist().remove(memberName);
         room.setUserlist(room.getUserlist());
         chatRoomRepository.save(room);
@@ -122,11 +120,10 @@ public class ChatController {
     public void leaveRoom(@Payload ChatMessage chat) {
         if (chat.getType().equals(LEAVE)) {
             chat.setMemberName(chat.getMemberName());
-            chat.setMessage(chat.getMemberName() + "님 퇴장하셨습니다.");
+//            chat.setMessage(chat.getMemberName() + "님 퇴장하셨습니다.");
             ChatRoom room = chatService.findVerifiedRoomId(chat.getRoomId());
             room.setRoomId(chat.getRoomId());
 
-            room.setUserCount(room.getUserCount() - 1);
             room.getUserlist().remove(chat.getMemberName());
 //            room.getUserlist().remove(String.valueOf(chat.getMemberId()));
             chatRoomRepository.save(room);
