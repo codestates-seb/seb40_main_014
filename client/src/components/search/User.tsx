@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { MyInitialStateValue } from '../../slices/mySlice';
 import Badge from '../common/Badge';
-import { RoomStyle, ThumbnailBackdrop } from '../home/Room';
+import { LinkRoom, RoomStyle, ThumbnailBackdrop } from '../home/Room';
 
 type SearchUserType = {
 	user: MyInitialStateValue;
@@ -13,19 +13,18 @@ const User = ({ user }: SearchUserType) => {
 
 	return (
 		<SearchUserStyle>
-			<Profile>
-				<img src={picture} alt="thumbnail" />
-				<Link to={`/mypage/${memberId}`}>
-					<ProfileBackdrop />
-				</Link>
-			</Profile>
-			<div>
-				<Badge grade={grade} margin="0 0 8px 0" />
-				<Name>
-					<Link to={`/mypage/${memberId}`}>{name}</Link>
-				</Name>
-				<Email>{email}</Email>
-			</div>
+			<Link to={`/mypage/${memberId}`}>
+				<LinkUser>
+					<Profile>
+						<img src={picture} alt="thumbnail" />
+					</Profile>
+					<div>
+						<Badge grade={grade} margin="0 0 8px 0" />
+						<Name>{name}</Name>
+						<Email>{email}</Email>
+					</div>
+				</LinkUser>
+			</Link>
 		</SearchUserStyle>
 	);
 };
@@ -35,8 +34,8 @@ const SearchUserStyle = styled(RoomStyle)`
 	align-items: center;
 `;
 
-const ProfileBackdrop = styled(ThumbnailBackdrop)`
-	border-radius: 50%;
+const LinkUser = styled(LinkRoom)`
+	display: flex;
 `;
 
 const Profile = styled.div`

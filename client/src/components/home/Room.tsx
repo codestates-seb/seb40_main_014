@@ -21,16 +21,15 @@ const Room = ({ room, swiper }: RoomType) => {
 
 	return (
 		<RoomStyle>
-			<Thumbnail>
-				<img src={playlistItems[0].thumbnail} alt="thumbnail" />
-				<Link to={`/rooms/${roomId}`}>
-					<ThumbnailBackdrop />
-				</Link>
-				<Onair swiper={swiper}>ON AIR</Onair>
-			</Thumbnail>
-			<Title swiper={swiper}>
-				<Link to={`/rooms/${roomId}`}>{title}</Link>
-			</Title>
+			<Link to={`/rooms/${roomId}`}>
+				<LinkRoom>
+					<Thumbnail>
+						<Img src={playlistItems[0].thumbnail} alt="thumbnail" />
+						<Onair swiper={swiper}>ON AIR</Onair>
+					</Thumbnail>
+					<Title swiper={swiper}>{title}</Title>
+				</LinkRoom>
+			</Link>
 			<Name swiper={swiper}>
 				<Link to={`/mypage/${memberId}`}>{name}</Link>
 			</Name>
@@ -100,21 +99,20 @@ export const ThumbnailBackdrop = styled.div`
 	}
 `;
 
+export const LinkRoom = styled.div`
+	:hover {
+		opacity: 0.75;
+	}
+`;
+
 export const Thumbnail = styled.div`
 	position: relative;
 	margin-bottom: 15px;
-	cursor: pointer;
+`;
 
-	:hover {
-		${ThumbnailBackdrop} {
-			display: block;
-		}
-	}
-
-	img {
-		width: 100%;
-		border-radius: 3px;
-	}
+export const Img = styled.img`
+	width: 100%;
+	border-radius: 3px;
 `;
 
 export const Title = styled.h3<SwiperTrueType>`
@@ -133,10 +131,6 @@ export const Title = styled.h3<SwiperTrueType>`
 	word-wrap: break-word;
 	word-break: break-all;
 
-	:hover {
-		color: ${(props) => props.theme.colors.gray700};
-	}
-
 	// Tablet
 	@media screen and (max-width: 980px) {
 		font-size: ${(props) => props.swiper && '16px'};
@@ -154,7 +148,7 @@ export const Name = styled.h4<SwiperTrueType>`
 	margin-bottom: 15px;
 
 	a:hover {
-		color: ${(props) => props.theme.colors.gray500};
+		opacity: 0.75;
 	}
 
 	// Mobile

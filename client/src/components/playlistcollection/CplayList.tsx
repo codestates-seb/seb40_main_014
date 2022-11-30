@@ -6,6 +6,7 @@ import { followUser } from '../../api/userApi';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { myLogin } from '../../slices/mySlice';
 import BookMark from '../common/BookMark';
+import { LinkRoom } from '../home/Room';
 import { Follower } from '../Mypage/MypageInfo';
 import ModifyButton from './ModifyButton';
 
@@ -46,54 +47,48 @@ const CplayList = ({
 
 	return (
 		<CplayListStyle>
-			<div>
-				{id === 3 ? (
-					<>
-						<Img src={followList.picture} alt="userPicture" follow />
-						<Title>
-							<Link to={`/mypage/${followList.memberId}`}>
-								{followList.name}
-							</Link>
-						</Title>
-						<Follower>
-							{isLogin &&
-								userId === memberId &&
-								followList.memberId !== memberId && (
-									<button onClick={handleFollow}>
-										{followCheck ? '언팔로우' : '팔로우'}
-									</button>
-								)}
-						</Follower>
-					</>
-				) : (
-					<>
+			{id === 1 || id === 2 ? (
+				<Link to={`/playlistdetail/${playList.playlistId}`}>
+					<LinkCollection>
 						<Img src={playList.playlistItems[0].thumbnail} alt="thumbnail" />
-						<Title>
-							<Link to={`/playlistdetail/${playList.playlistId}`}>
-								{playList.title}
-							</Link>
-						</Title>
-					</>
-				)}
-			</div>
-			<div>
-				{id === 1 && userId === memberId && (
-					<ModifyButton
-						playlistId={playList.playlistId}
-						setPlayLists={setPlayLists}
-						playlistName={playList.title}
-					/>
-				)}
-				{id === 2 && userId === memberId && (
-					<BookMark
-						playlistId={playList.playlistId}
-						memberId={playList.memberId}
-						isLogin={isLogin}
-						loginId={memberId}
-						bookmarkState={playList.bookmarkState}
-					/>
-				)}
-			</div>
+						<Title className="title">{playList.title}</Title>
+					</LinkCollection>
+				</Link>
+			) : (
+				<Link to={`/mypage/${followList.memberId}`}>
+					<LinkCollection>
+						<Img src={followList.picture} alt="userPicture" follow />
+						<Title className="title">{followList.name}</Title>{' '}
+					</LinkCollection>
+				</Link>
+			)}
+			{userId === memberId && (
+				<div>
+					{id === 1 && (
+						<ModifyButton
+							playlistId={playList.playlistId}
+							setPlayLists={setPlayLists}
+							playlistName={playList.title}
+						/>
+					)}
+					{id === 2 && (
+						<BookMark
+							playlistId={playList.playlistId}
+							memberId={playList.memberId}
+							isLogin={isLogin}
+							loginId={memberId}
+							bookmarkState={playList.bookmarkState}
+						/>
+					)}
+					{id === 3 && (
+						<CollectionFollwer>
+							<button onClick={handleFollow}>
+								{followCheck ? '언팔로우' : '팔로우'}
+							</button>
+						</CollectionFollwer>
+					)}
+				</div>
+			)}
 		</CplayListStyle>
 	);
 };
@@ -106,14 +101,25 @@ const CplayListStyle = styled.div`
 	align-items: center;
 	padding: 20px 30px;
 	background-color: ${(props) => props.theme.colors.white};
+	width: 100%;
 
-	> div:first-of-type {
+	> *:first-child {
+		width: 70%;
 		display: flex;
 		align-items: center;
 	}
 
+	> *:last-child {
+		width: 35%;
+		display: flex;
+		justify-content: flex-end;
+	}
+
 	:hover {
 		background-color: ${(props) => props.theme.colors.gray100};
+		.title {
+			color: ${(props) => props.theme.colors.purple};
+		}
 	}
 
 	// Mobile
@@ -121,13 +127,20 @@ const CplayListStyle = styled.div`
 		flex-direction: column;
 		align-items: flex-start;
 		padding: 20px;
-		> div:first-of-type {
+		> *:first-child {
+			width: 100%;
 			margin-bottom: 10px;
 		}
-		> div:last-of-type {
+		> *:last-child {
 			width: 100%;
 		}
 	}
+`;
+
+const LinkCollection = styled.div`
+	width: 100%;
+	display: flex;
+	align-items: center;
 `;
 
 const Img = styled.img<ImgProps>`
@@ -142,13 +155,16 @@ const Img = styled.img<ImgProps>`
 	}
 `;
 
-const Title = styled.h4`
-	:hover {
-		color: ${(props) => props.theme.colors.purple};
-	}
-
+export const Title = styled.h4`
 	// Mobile
 	@media screen and (max-width: 640px) {
 		font-size: 14px;
+	}
+`;
+
+const CollectionFollwer = styled(Follower)`
+	button {
+		margin: 0;
+		padding: 6px 7px;
 	}
 `;

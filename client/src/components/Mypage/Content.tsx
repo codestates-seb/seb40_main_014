@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
+import { LinkRoom, Thumbnail } from '../home/Room';
 
 type ContentType = {
 	id: number;
@@ -18,29 +19,28 @@ const Content = ({ id, playlist, followlist }: ContentType) => {
 		<>
 			{id === 3 ? (
 				<ContentStyle>
-					<Thumbnail>
-						<Img src={followlist.picture} alt="thumbnail" follow />
-						<Link to={`/mypage/${followlist.memberId}`}>
-							<ThumbnailBackdrop follow />
-						</Link>
-					</Thumbnail>
-					<Name>
-						<Link to={`/mypage/${followlist.memberId}`}>{followlist.name}</Link>
-					</Name>
+					<Link to={`/mypage/${followlist.memberId}`}>
+						<LinkRoom>
+							<Thumbnail>
+								<Img src={followlist.picture} alt="thumbnail" follow />
+							</Thumbnail>
+							<Name>{followlist.name}</Name>
+						</LinkRoom>
+					</Link>
 				</ContentStyle>
 			) : (
 				<ContentStyle>
-					<Thumbnail>
-						<Img src={playlist.playlistItems[0].thumbnail} alt="thumbnail" />
-						<Link to={`/playlistdetail/${playlist.playlistId}`}>
-							<ThumbnailBackdrop />
-						</Link>
-					</Thumbnail>
-					<Name>
-						<Link to={`/playlistdetail/${playlist.playlistId}`}>
-							{playlist.title}
-						</Link>
-					</Name>
+					<Link to={`/playlistdetail/${playlist.playlistId}`}>
+						<LinkRoom>
+							<Thumbnail>
+								<Img
+									src={playlist.playlistItems[0].thumbnail}
+									alt="thumbnail"
+								/>
+							</Thumbnail>
+							<Name>{playlist.title}</Name>
+						</LinkRoom>
+					</Link>
 				</ContentStyle>
 			)}
 		</>
@@ -52,30 +52,6 @@ export default Content;
 const ContentStyle = styled.div`
 	display: flex;
 	flex-direction: column;
-`;
-
-export const ThumbnailBackdrop = styled.div<ImgProps>`
-	display: none;
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	top: 0;
-	background-color: #ffffff48;
-	border-radius: ${(props) =>
-		props.follow ? '50%' : props.theme.radius.smallRadius};
-	z-index: 1111;
-`;
-
-export const Thumbnail = styled.div`
-	position: relative;
-	margin-bottom: 15px;
-
-	:hover {
-		${ThumbnailBackdrop} {
-			display: block;
-		}
-	}
 `;
 
 const Img = styled.img<ImgProps>`
