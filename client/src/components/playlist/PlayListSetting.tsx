@@ -45,7 +45,7 @@ const PlayListSetting = ({
 		setPlaylistDetailError('');
 		setPlaylistError('');
 
-		if (plList.length >= 1) {
+		if (plList.length >= 10) {
 			return setPlaylistError('동영상은 10개 이상 추가할 수 없습니다.');
 		}
 		let videoId = getVideoId(url);
@@ -70,6 +70,7 @@ const PlayListSetting = ({
 						musicInfo.url = url;
 						musicInfo.channelTitle = res.items[0].snippet.channelTitle;
 						musicInfo.title = res.items[0].snippet.title;
+						console.log(res.items[0].snippet.thumbnails);
 						musicInfo.thumbnail = res.items[0].snippet.thumbnails.maxres.url;
 					} else {
 						return setPlaylistDetailError('찾으시는 곡의 정보가 없습니다.');
