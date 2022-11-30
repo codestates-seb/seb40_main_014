@@ -50,6 +50,7 @@ const ThumbnailContainer = styled.div`
 	} */
 	@media screen and (max-width: 640px) {
 		height: 120px;
+		width: 100%;
 	}
 `;
 
@@ -85,6 +86,7 @@ const MusicContainer = styled.div`
 	}
 	@media screen and (max-width: 640px) {
 		height: 100px;
+		width: 100%;
 	}
 `;
 

@@ -17,6 +17,7 @@ const PeopleSetcion = styled.div`
 	@media screen and (max-width: 640px) {
 		margin-top: -10px;
 		margin-bottom: 20px;
+		height: 65px;
 	}
 `;
 

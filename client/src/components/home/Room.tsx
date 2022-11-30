@@ -48,8 +48,10 @@ const Room = ({ room, swiper }: RoomType) => {
 						))}
 				</Categorys>
 				<RoomCount swiper={swiper}>
-					<HiUser className="user_icon" />
-					{userlist.length}
+					<div className="user_count">
+						<HiUser className="user_icon" />
+						{userlist.length}
+					</div>
 				</RoomCount>
 			</Detail>
 		</RoomStyle>
@@ -198,6 +200,11 @@ const RoomCount = styled.div<SwiperTrueType>`
 	.user_icon {
 		margin: 5px 5px 4px 5px;
 		color: #3cc13c;
+	}
+
+	.user_count {
+		display: flex;
+		align-items: center;
 	}
 
 	// Tablet
