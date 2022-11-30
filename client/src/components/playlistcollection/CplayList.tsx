@@ -90,7 +90,6 @@ const CplayList = ({
 						memberId={playList.memberId}
 						isLogin={isLogin}
 						loginId={memberId}
-						bookmarkState={playList.bookmarkState}
 					/>
 				)}
 			</div>
