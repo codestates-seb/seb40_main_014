@@ -7,12 +7,14 @@ import {
 	Categorys,
 	Detail,
 	Name,
+	Onair,
 	RoomStyle,
 	SwiperTrueType,
 	Thumbnail,
 	ThumbnailBackdrop,
 	Title,
 } from './Room';
+import { IoMdMusicalNote } from 'react-icons/io';
 
 type PlaylistType = {
 	playList: PlaylistInfoType;
@@ -38,6 +40,10 @@ const Playlist = ({ playList, swiper }: PlaylistType) => {
 				<Link to={`/playlistdetail/${playlistId}`}>
 					<ThumbnailBackdrop />
 				</Link>
+				<PlaylistCount swiper={swiper}>
+					<IoMdMusicalNote />
+					{playlistItems.length}
+				</PlaylistCount>
 			</Thumbnail>
 			<Title>
 				<Link to={`/playlistdetail/${playlistId}`}>{title}</Link>
@@ -64,6 +70,15 @@ const Playlist = ({ playList, swiper }: PlaylistType) => {
 };
 
 export default Playlist;
+
+const PlaylistCount = styled(Onair)`
+	> *:first-of-type {
+		margin-right: 4px;
+	}
+	display: flex;
+	align-items: center;
+	background-color: #3cc13ca1;
+`;
 
 const Like = styled.span<SwiperTrueType>`
 	> *:first-of-type {

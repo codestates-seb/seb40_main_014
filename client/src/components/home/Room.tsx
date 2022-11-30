@@ -5,7 +5,7 @@ import { RoomInfoType } from '../../pages/RoomList';
 import { HiUser } from 'react-icons/hi';
 
 type RoomType = {
-	room: any;
+	room: RoomInfoType;
 	key?: string;
 	swiper?: boolean;
 };
@@ -15,7 +15,7 @@ export type SwiperTrueType = {
 };
 
 const Room = ({ room, swiper }: RoomType) => {
-	const { roomId, title, userCount, maxCount, userlist } = room;
+	const { roomId, title, userlist } = room;
 	const { memberId, name } = room.memberResponseDto;
 	const { categoryList, playlistItems } = room.playlistResponseDto;
 
@@ -48,7 +48,7 @@ const Room = ({ room, swiper }: RoomType) => {
 						))}
 				</Categorys>
 				<RoomCount swiper={swiper}>
-					<HiUser className="user_icon" />
+					<HiUser color="#3cc13c" />
 					{userlist.length}
 				</RoomCount>
 			</Detail>
@@ -59,14 +59,9 @@ const Room = ({ room, swiper }: RoomType) => {
 export default Room;
 
 export const RoomStyle = styled.div`
-	/* width: calc((100vw - 30vw) * 0.225);
-	margin-bottom: calc((100vw - 30vw) * 0.03); */
 	width: calc((100vw - 30vw) * 0.306);
 	margin-bottom: calc((100vw - 30vw) * 0.04);
 	padding: 7px;
-	/* background-color: ${(props) => props.theme.colors.gray50}; */
-	/* border-radius: ${(props) => props.theme.radius.smallRadius}; */
-	/* box-shadow: 1px 1px 10px #4d0bd133; */
 	z-index: 1111;
 
 	// 14
@@ -94,7 +89,6 @@ export const ThumbnailBackdrop = styled.div`
 	left: 0;
 	top: 0;
 	text-align: center;
-	/* background-color: #4d0bd16e; */
 	background-color: #ffffff37;
 	border-radius: 3px;
 	z-index: 1111;
@@ -167,7 +161,7 @@ export const Detail = styled.div`
 
 export const Categorys = styled.div``;
 
-const Onair = styled.div<SwiperTrueType>`
+export const Onair = styled.div<SwiperTrueType>`
 	position: absolute;
 	top: 15px;
 	left: 15px;
@@ -191,17 +185,20 @@ const Onair = styled.div<SwiperTrueType>`
 `;
 
 const RoomCount = styled.div<SwiperTrueType>`
+	> *:first-of-type {
+		margin-right: 4px;
+		font-size: 17px;
+	}
 	display: flex;
 	align-items: center;
 	color: ${(props) => props.theme.colors.gray600};
 
-	.user_icon {
-		margin: 5px 5px 4px 5px;
-		color: #3cc13c;
-	}
-
 	// Tablet
 	@media screen and (max-width: 980px) {
+		> *:first-of-type {
+			margin-right: 4px;
+			font-size: ${(props) => props.swiper && '15px'};
+		}
 		font-size: ${(props) => props.swiper && '14px'};
 	}
 	// Mobile
