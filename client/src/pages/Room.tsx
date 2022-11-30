@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import instance from '../api/root';
 import { checkRoomByName, deleteRoom, getRoomById } from '../api/roomApi';
 import * as StompJS from '@stomp/stompjs';
+import { myLogin } from '../slices/mySlice';
 
 const TotalContainer = styled.div`
 	display: flex;
@@ -239,6 +240,7 @@ const ExitBtn = styled.button``;
 const Room = () => {
 	const { register, handleSubmit, reset } = useForm<MessageInfo>();
 	const userInfo = useSelector((state: RootState) => state.my.value);
+	const isLogin = useSelector(myLogin);
 	const [isAdmin, setIsAdmin] = useState<boolean>(false);
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [playlist, setPlaylist] = useState<PlayListInfoProps[]>([]);
@@ -301,55 +303,63 @@ const Room = () => {
 	};
 
 	useEffect(() => {
-		checkRoomByName(roomId, userInfo.name).then((res) => {
-			if (res) {
-				navigate('/');
-				Swal.fire({
-					icon: 'warning',
-					text: '이미 참여중인 방입니다!',
-				});
-			} else {
-				getRoomById(roomId)
-					.then((res) => {
-						setTitle(res.data.title);
-						setPlaylist(res.data.playlistResponseDto.playlistItems);
-						// if (!client.connected && isConnect) {
-						// 	client.activate();
-						// }
-						wsSubscribe();
-
-						return res;
-					})
-					.then((res) => {
-						client.publish({
-							destination: `/pub/chat/enterUser`,
-							body: JSON.stringify(enterMessage),
-						});
-						return res;
-					})
-					.then((res) => {
-						// 유저리스트에 추가, 방장인지 확인
-						getRoomById(roomId)
-							.then(() => {
-								NumberMemberId === res.data.memberResponseDto.memberId
-									? setIsAdmin(true)
-									: setIsAdmin(false);
-							})
-							.catch((err) => {
-								console.log(err);
-							});
-					})
-					.catch((err) => {
-						navigate('/');
-						Swal.fire({
-							icon: 'warning',
-							title: '존재하지 않는 방',
-							text: '해당 방이 존재하지 않습니다!',
-						});
-						console.log(err);
+		if (isLogin) {
+			checkRoomByName(roomId, userInfo.name).then((res) => {
+				if (res) {
+					navigate('/');
+					Swal.fire({
+						icon: 'warning',
+						text: '이미 참여중인 방입니다!',
 					});
-			}
-		});
+				} else {
+					getRoomById(roomId)
+						.then((res) => {
+							setTitle(res.data.title);
+							setPlaylist(res.data.playlistResponseDto.playlistItems);
+							// if (!client.connected && isConnect) {
+							// 	client.activate();
+							// }
+							wsSubscribe();
+
+							return res;
+						})
+						.then((res) => {
+							client.publish({
+								destination: `/pub/chat/enterUser`,
+								body: JSON.stringify(enterMessage),
+							});
+							return res;
+						})
+						.then((res) => {
+							// 유저리스트에 추가, 방장인지 확인
+							getRoomById(roomId)
+								.then(() => {
+									NumberMemberId === res.data.memberResponseDto.memberId
+										? setIsAdmin(true)
+										: setIsAdmin(false);
+								})
+								.catch((err) => {
+									console.log(err);
+								});
+						})
+						.catch((err) => {
+							navigate('/');
+							Swal.fire({
+								icon: 'warning',
+								title: '존재하지 않는 방',
+								text: '해당 방이 존재하지 않습니다!',
+							});
+							console.log(err);
+						});
+				}
+			});
+		} else {
+			Swal.fire({
+				icon: 'warning',
+				text: '채팅방은 로그인 후 입장가능합니다!',
+			});
+			navigate('/');
+		}
 	}, []);
 	const client = new StompJS.Client({
 		brokerURL: `${process.env.REACT_APP_STACK_WS_SERVER}/ws/websocket`,
@@ -394,15 +404,16 @@ const Room = () => {
 		const receiveMessage = JSON.parse(message.body).message;
 		const receiveUser = JSON.parse(message.body).memberName;
 		const receiveType = JSON.parse(message.body).type;
-		setReceiveMessageObject((prev) => [
-			...prev,
-			{ user: receiveUser, message: receiveMessage },
-		]);
+		if (receiveMessage) {
+			setReceiveMessageObject((prev) => [
+				...prev,
+				{ user: receiveUser, message: receiveMessage },
+			]);
+		}
+
+		console.log('나의 테스트', message.body);
 		console.log('subscribe msg', receiveMessage, receiveUser);
-		if (
-			receiveMessage.slice(-8) === '입장하셨습니다.' ||
-			receiveMessage.slice(-8) === '퇴장하셨습니다.'
-		) {
+		if (receiveType === `ENTER` || receiveType === `LEAVE`) {
 			getRoomById(roomId)
 				.then((res) => {
 					setPeople(res.data.userlist);
@@ -413,7 +424,7 @@ const Room = () => {
 				});
 		}
 
-		if (receiveType === `LEAVE`) {
+		if (receiveType === `LEAVE` && userInfo.name === receiveUser) {
 			console.log('ho2');
 			client.deactivate();
 			console.log(client.connected);
