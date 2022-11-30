@@ -57,8 +57,8 @@ export const ModalStyle = styled.div`
 
 export const WhiteBox = styled.div`
 	width: 500px;
-	height: 300px;
-	padding: 46px 70px;
+	/* height: 300px; */
+	padding: 70px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -70,13 +70,13 @@ export const WhiteBox = styled.div`
 	// Tablet
 	@media screen and (max-width: 980px) {
 		width: 400px;
-		padding: 46px 50px;
+		padding: 50px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
 		width: 300px;
-		height: 250px;
-		padding: 37px 30px;
+		/* height: 250px; */
+		padding: 30px;
 	}
 `;
 
