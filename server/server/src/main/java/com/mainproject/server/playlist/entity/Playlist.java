@@ -3,13 +3,11 @@ package com.mainproject.server.playlist.entity;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.auditable.Auditable;
 import com.mainproject.server.member.entity.Member;
-import com.mainproject.server.playlist.dto.PlaylistItemResponseDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +34,8 @@ public class Playlist extends Auditable {
     @Column
     private List<String> categoryList;
 
-    @OneToMany(mappedBy = "playlist", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "playlist", cascade = CascadeType.REMOVE)
     private List<Likes> likes  = new ArrayList<>();
-
 
 //    @Column(nullable = false, updatable = true, unique = false)
 //    private String videoId;

@@ -8,6 +8,7 @@ import com.mainproject.server.member.mapper.MemberMapper;
 import com.mainproject.server.playlist.dto.PlaylistResponseDto;
 import com.mainproject.server.playlist.entity.Playlist;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
+import com.mainproject.server.playlist.repository.PlaylistRepository;
 import com.mainproject.server.playlist.service.PlaylistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ public class ChatRoomMapper {
     private final MemberMapper memberMapper;
     private final PlaylistMapper playlistMapper;
     private final PlaylistService playlistService;
+    private final PlaylistRepository playlistRepository;
 
     public ChatRoom chatRoomPostDtoToChatRoom(ChatRoomPostDto chatRoomPostDto, Member member) {
         if (chatRoomPostDto == null) return null;
@@ -51,14 +53,24 @@ public class ChatRoomMapper {
 //        List<PlaylistResponseDto> playlistResponseDtos = chatRoom.getMember().getPlaylists().stream()
 //                .map(playlistMapper::playlistToPlaylistResponseDto)
 //                .collect(Collectors.toList());
-        Playlist playList = playlistService.findPlaylist(chatRoom.getPlaylistId());
-        PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playList);
-
         ResponseChatRoomDto responseChatRoomDto = ResponseChatRoomDto.builder()
                 .chatRoom(chatRoom)
                 .memberResponseDto(memberResponseDto)
-                .playlistResponseDto(playlistResponseDto)
                 .build();
+        if (playlistRepository.existsByPlaylistId(chatRoom.getPlaylistId())){
+            Playlist playList = playlistService.findPlaylist(chatRoom.getPlaylistId());
+            PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playList);
+            responseChatRoomDto.setPlaylistResponseDto(playlistResponseDto);
+        }
+        else {}
+//        Playlist playList = playlistService.findPlaylist(chatRoom.getPlaylistId());
+//        PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playList);
+
+//        ResponseChatRoomDto responseChatRoomDto = ResponseChatRoomDto.builder()
+//                .chatRoom(chatRoom)
+//                .memberResponseDto(memberResponseDto)
+//                .playlistResponseDto(playlistResponseDto)
+//                .build();
         return responseChatRoomDto;
     }
 
@@ -90,14 +102,16 @@ public class ChatRoomMapper {
 
         List<SimpleMemberResponseDto> simpleMemberResponseDtoList = memberMapper.memberListToSimpleMemberResponseDtoList(member);
 
-        Playlist playList = playlistService.findPlaylist(chatRoom.getPlaylistId());
-        PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playList);
-
         RankResponseChatRoomDto rankResponseChatRoomDto = RankResponseChatRoomDto.builder()
                 .chatRoom(chatRoom)
                 .simpleMemberResponseDtoList(simpleMemberResponseDtoList)
-                .playlistResponseDto(playlistResponseDto)
                 .build();
+        if (playlistRepository.existsByPlaylistId(chatRoom.getPlaylistId())) {
+            Playlist playList = playlistService.findPlaylist(chatRoom.getPlaylistId());
+            PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playList);
+            rankResponseChatRoomDto.setPlaylistResponseDto(playlistResponseDto);
+        }
+        else {}
         return rankResponseChatRoomDto;
     }
 
@@ -110,5 +124,6 @@ public class ChatRoomMapper {
         return rankResponseChatRoomDtoList;
 
     }
+
 
 }
