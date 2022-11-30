@@ -50,6 +50,9 @@ const GlobalStyle = createGlobalStyle`
     font-size: inherit;
     color: inherit;
   }
+  .swal2-container {
+  z-index: 20000 !important;
+  }
 `;
 
 export default GlobalStyle;

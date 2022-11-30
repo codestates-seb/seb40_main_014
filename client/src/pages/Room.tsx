@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import instance from '../api/root';
 import { checkRoomByName, deleteRoom, getRoomById } from '../api/roomApi';
 import * as StompJS from '@stomp/stompjs';
+import { myLogin } from '../slices/mySlice';
 
 const TotalContainer = styled.div`
 	display: flex;
@@ -21,7 +22,8 @@ const TotalContainer = styled.div`
 	margin-top: -90px;
 	height: 90vh;
 	@media screen and (max-width: 640px) {
-		width: 300px;
+		display: flex;
+		justify-content: center;
 	}
 `;
 
@@ -33,7 +35,7 @@ const Container = styled.div`
 	border: 1px solid ${(props) => props.theme.colors.gray300};
 	background-color: ${(props) => props.theme.colors.background};
 	margin-bottom: 40px;
-	@media screen and (max-width: 980px) {
+	@media screen and (min-width: 640px) and (max-width: 980px) {
 		width: 500px;
 	}
 	@media screen and (max-width: 640px) {
@@ -48,7 +50,7 @@ const ChatRoomContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	border-radius: ${(props) => props.theme.radius.largeRadius};
-	@media screen and (max-width: 980px) {
+	@media screen and (min-width: 640px) and (max-width: 980px) {
 		flex-direction: row;
 	}
 	@media screen and (max-width: 640px) {
@@ -79,24 +81,41 @@ const ExitButton = styled.button`
 	transition: 0.1s;
 `;
 
-const ChatHeaderContent = styled.div``;
+const ChatHeaderContent = styled.div`
+	@media screen and (max-width: 640px) {
+		display: flex;
+		justify-content: space-between;
+		.title {
+			width: 100px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+
+		button {
+			height: 29px;
+			font-size: ${(props) => props.theme.fontSize.xSmall};
+		}
+	}
+`;
 
 const ChatLeft = styled.div`
 	height: 600px;
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	background-color: ${(props) => props.theme.colors.background};
 
-	@media screen and (max-width: 980px) {
+	@media screen and (min-width: 640px) and (max-width: 980px) {
 		width: 200px;
 	}
 	@media screen and (max-width: 640px) {
+		width: 98%;
 		margin-left: 5px;
 		height: 220px;
 	}
 `;
 
 const ChatRight = styled.div`
-	@media screen and (max-width: 980px) {
+	@media screen and (min-width: 640px) and (max-width: 980px) {
 		width: 200px;
 		margin: auto;
 	}
@@ -138,11 +157,11 @@ const ChatSection = styled.div`
 			border-radius: 10px;
 		}
 	}
-	@media screen and (max-width: 980px) {
+	@media screen and (min-width: 640px) and (max-width: 980px) {
 		width: 90%;
 	}
 	@media screen and (max-width: 640px) {
-		width: 125%;
+		width: 85%;
 		height: 200px;
 	}
 `;
@@ -221,6 +240,7 @@ const ExitBtn = styled.button``;
 const Room = () => {
 	const { register, handleSubmit, reset } = useForm<MessageInfo>();
 	const userInfo = useSelector((state: RootState) => state.my.value);
+	const isLogin = useSelector(myLogin);
 	const [isAdmin, setIsAdmin] = useState<boolean>(false);
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [playlist, setPlaylist] = useState<PlayListInfoProps[]>([]);
@@ -281,65 +301,65 @@ const Room = () => {
 		reset();
 		send();
 	};
-	// useEffect(() => {
-	// 	getRoomById(roomId).then((res) => {
-	// 		setTitle(res.data.title);
-	// 		setPeople((prev) => [
-	// 			...prev,
-	// 			{ name: userInfo.name, id: NumberMemberId },
-	// 		]);
-	// 	});
-	// }, []);
-	useEffect(() => {
-		checkRoomByName(roomId, userInfo.name).then((res) => {
-			if (res) {
-				navigate('/');
-				Swal.fire({
-					icon: 'warning',
-					text: '이미 참여중인 방입니다!',
-				});
-			} else {
-				getRoomById(roomId)
-					.then((res) => {
-						setTitle(res.data.title);
-						setPlaylist(res.data.playlistResponseDto.playlistItems);
-						// if (!client.connected && isConnect) {
-						// 	client.activate();
-						// }
-						wsSubscribe();
 
-						return res;
-					})
-					.then((res) => {
-						client.publish({
-							destination: `/pub/chat/enterUser`,
-							body: JSON.stringify(enterMessage),
-						});
-						return res;
-					})
-					.then((res) => {
-						// 유저리스트에 추가, 방장인지 확인
-						getRoomById(roomId)
-							.then(() => {
-								NumberMemberId === res.data.memberResponseDto.memberId
-									? setIsAdmin(true)
-									: setIsAdmin(false);
-							})
-							.catch((err) => {
-								console.log(err);
-							});
-					})
-					.catch((err) => {
-						navigate('/');
-						Swal.fire({
-							icon: 'warning',
-							title: '존재하지 않는 방',
-							text: '해당 방이 존재하지 않습니다!',
-						});
-						console.log(err);
+	useEffect(() => {
+		if (isLogin) {
+			checkRoomByName(roomId, userInfo.name).then((res) => {
+				if (res) {
+					navigate('/');
+					Swal.fire({
+						icon: 'warning',
+						text: '이미 참여중인 방입니다!',
 					});
-			}
-		});
+				} else {
+					getRoomById(roomId)
+						.then((res) => {
+							setTitle(res.data.title);
+							setPlaylist(res.data.playlistResponseDto.playlistItems);
+							// if (!client.connected && isConnect) {
+							// 	client.activate();
+							// }
+							wsSubscribe();
+
+							return res;
+						})
+						.then((res) => {
+							client.publish({
+								destination: `/pub/chat/enterUser`,
+								body: JSON.stringify(enterMessage),
+							});
+							return res;
+						})
+						.then((res) => {
+							// 유저리스트에 추가, 방장인지 확인
+							getRoomById(roomId)
+								.then(() => {
+									NumberMemberId === res.data.memberResponseDto.memberId
+										? setIsAdmin(true)
+										: setIsAdmin(false);
+								})
+								.catch((err) => {
+									console.log(err);
+								});
+						})
+						.catch((err) => {
+							navigate('/');
+							Swal.fire({
+								icon: 'warning',
+								title: '존재하지 않는 방',
+								text: '해당 방이 존재하지 않습니다!',
+							});
+							console.log(err);
+						});
+				}
+			});
+		} else {
+			Swal.fire({
+				icon: 'warning',
+				text: '채팅방은 로그인 후 입장가능합니다!',
+			});
+			navigate('/');
+		}
 	}, []);
 	const client = new StompJS.Client({
 		brokerURL: `${process.env.REACT_APP_STACK_WS_SERVER}/ws/websocket`,
@@ -354,16 +374,6 @@ const Room = () => {
 		heartbeatIncoming: 4000,
 		heartbeatOutgoing: 4000,
 	});
-
-	// useEffect(() => {
-	// 	client.activate();
-	// 	console.log('연결상태', client.connected);
-	// 	return () => wsDisconnect();
-	// }, []);
-
-	// const wsDisconnect = () => {
-	// 	client.deactivate();
-	// };
 
 	client.onStompError = function (frame) {
 		console.log('Broker reported error: ' + frame.headers['message']);
@@ -393,15 +403,17 @@ const Room = () => {
 	const message_callback = function (message) {
 		const receiveMessage = JSON.parse(message.body).message;
 		const receiveUser = JSON.parse(message.body).memberName;
-		setReceiveMessageObject((prev) => [
-			...prev,
-			{ user: receiveUser, message: receiveMessage },
-		]);
+		const receiveType = JSON.parse(message.body).type;
+		if (receiveMessage) {
+			setReceiveMessageObject((prev) => [
+				...prev,
+				{ user: receiveUser, message: receiveMessage },
+			]);
+		}
+
+		console.log('나의 테스트', message.body);
 		console.log('subscribe msg', receiveMessage, receiveUser);
-		if (
-			receiveMessage.slice(-8) === '입장하셨습니다.' ||
-			receiveMessage.slice(-8) === '퇴장하셨습니다.'
-		) {
+		if (receiveType === `ENTER` || receiveType === `LEAVE`) {
 			getRoomById(roomId)
 				.then((res) => {
 					setPeople(res.data.userlist);
@@ -412,7 +424,7 @@ const Room = () => {
 				});
 		}
 
-		if (receiveMessage === `${userInfo.name}님 퇴장하셨습니다.`) {
+		if (receiveType === `LEAVE` && userInfo.name === receiveUser) {
 			console.log('ho2');
 			client.deactivate();
 			console.log(client.connected);
@@ -479,28 +491,6 @@ const Room = () => {
 		};
 	}, []);
 
-	// const preventClose = (e: BeforeUnloadEvent) => {
-	// 	e.preventDefault();
-	// 	e.returnValue = '??';
-	// 	navigate('/'); // chrome에서는 설정이 필요해서 넣은 코드
-	// 	// alert('새로고침 하지마');
-	// 	// Swal.fire({
-	// 	// 	icon: 'warning',
-	// 	// 	text: '채팅방에서는 새로고침을 할 수 없습니다!',
-	// 	// });
-	// };
-
-	// // 브라우저에 렌더링 시 한 번만 실행하는 코드
-	// useEffect(() => {
-	// 	(() => {
-	// 		window.addEventListener('beforeunload', preventClose);
-	// 	})();
-
-	// 	return () => {
-	// 		window.removeEventListener('beforeunload', preventClose);
-	// 	};
-	// }, []);
-
 	return (
 		<>
 			{' '}
@@ -508,13 +498,14 @@ const Room = () => {
 				<Container>
 					<ChatHeader>
 						<ChatHeaderContent>
-							<div>{title}</div>
+							<div className="title">{title}</div>
 						</ChatHeaderContent>
 						<ChatHeaderContent>
-							<UpdateRoomBtn onClick={modalClose}>Edit</UpdateRoomBtn>
+							<UpdateRoomBtn onClick={modalClose}>방 수정</UpdateRoomBtn>
 
 							{modalOpen && (
 								<UpdateRoomModal
+									title={title}
 									setTitle={setTitle}
 									modalOpen={modalOpen}
 									setModalOpen={setModalOpen}
@@ -543,7 +534,8 @@ const Room = () => {
 								<MessageInput
 									{...register('message')}
 									placeholder="하고 싶은 말을 입력하세요!"
-									onChange={onChange}></MessageInput>
+									onChange={onChange}
+									autoComplete="off"></MessageInput>
 								{/* <MessageInput
 									{...register('message', { required: true })}
 									placeholder="하고 싶은 말을 입력하세요!"></MessageInput> */}

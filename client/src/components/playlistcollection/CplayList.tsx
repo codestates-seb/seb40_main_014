@@ -6,7 +6,6 @@ import { followUser } from '../../api/userApi';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { myLogin } from '../../slices/mySlice';
 import BookMark from '../common/BookMark';
-import { LinkRoom } from '../home/Room';
 import { Follower } from '../Mypage/MypageInfo';
 import ModifyButton from './ModifyButton';
 
