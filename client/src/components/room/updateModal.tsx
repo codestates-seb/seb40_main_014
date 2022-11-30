@@ -25,6 +25,10 @@ const ModalContaincer = styled.div`
 	left: 50%;
 	transform: translate(-50%, -50%);
 	z-index: 8888;
+	@media screen and (max-width: 640px) {
+		width: 350px;
+		height: 500px;
+	}
 `;
 
 const ModalHeader = styled.div`
@@ -58,7 +62,7 @@ export const ExitBtn = styled.button`
 	font-size: ${(props) => props.theme.fontSize.medium};
 `;
 
-const UpdateRoomModal = ({ modalOpen, setModalOpen, setTitle }) => {
+const UpdateRoomModal = ({ modalOpen, setModalOpen, setTitle, title }) => {
 	const onClick = () => {
 		setModalOpen(!modalOpen);
 	};
@@ -90,6 +94,7 @@ const UpdateRoomModal = ({ modalOpen, setModalOpen, setTitle }) => {
 					</HeaderContent>
 				</ModalHeader>
 				<RoomUpdateForm
+					title={title}
 					setTitle={setTitle}
 					modalOpen={modalOpen}
 					setModalOpen={setModalOpen}

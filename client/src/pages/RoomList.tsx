@@ -1,7 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getRooms, getRoomsByDj, getRoomsByView } from '../api/roomApi';
+import {
+	deleteRoom,
+	getRooms,
+	getRoomsByDj,
+	getRoomsByView,
+} from '../api/roomApi';
 import { DefaultButton } from '../components/common/Button';
 import Room from '../components/home/Room';
 import CreateModal from '../components/room/createModal';
@@ -47,10 +52,19 @@ const RoomList = () => {
 	const [roomsByDj, setRoomsByDj] = useState<RoomInfoType[]>([]);
 
 	useEffect(() => {
-		getRoomsByView(1, 7).then((res) => {
-			console.log('rooms by view res', res);
-			setRoomsByView(res.data);
-		});
+		getRoomsByView(1, 7)
+			.then((res) => {
+				return res.data.filter((e) => {
+					if (!e.playlistResponseDto) {
+						deleteRoom(e.roomId);
+					}
+					return e.playlistResponseDto !== null;
+				});
+			})
+			.then((data) => {
+				console.log('rooms by view res', data);
+				setRoomsByView(data);
+			});
 
 		// getRoomsByDj(1, 7).then((res) => {
 		// 	console.log('rooms by dj res', res);
@@ -64,14 +78,25 @@ const RoomList = () => {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
-		getRooms(currentPage.current, 6).then((res) => {
-			console.log('getRooms res', res);
-			const data = res.data;
-			const { page, totalPages } = res.pageInfo;
-			setRooms((prevRooms) => [...prevRooms, ...data]);
-			setHasNextPage(page !== totalPages);
-			if (hasNextPage) currentPage.current += 1;
-		});
+		getRooms(currentPage.current, 6)
+			.then((res) => {
+				const filterData = res.data.filter((e) => {
+					if (!e.playlistResponseDto) {
+						deleteRoom(e.roomId);
+					}
+					return e.playlistResponseDto !== null;
+				});
+
+				return { data: filterData, pageInfo: res.pageInfo };
+			})
+			.then((res) => {
+				console.log('getRooms res', res);
+				const data = res.data;
+				const { page, totalPages } = res.pageInfo;
+				setRooms((prevRooms) => [...prevRooms, ...data]);
+				setHasNextPage(page !== totalPages);
+				if (hasNextPage) currentPage.current += 1;
+			});
 	}, []);
 
 	useEffect(() => {

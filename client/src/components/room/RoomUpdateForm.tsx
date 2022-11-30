@@ -29,10 +29,10 @@ const DefaultInput = styled.input`
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	padding: 0px 10px 0px 10px;
 	margin: 5px;
-	:focus {
-		outline: 0.1px solid ${(props) => props.theme.colors.purple};
-		box-shadow: ${(props) => props.theme.colors.purple} 0px 0px 0px 1px;
-		border: none;
+	:focus-within {
+		outline: none;
+		border-color: ${(props) => props.theme.colors.lightPurple};
+		box-shadow: 0 0 10px ${(props) => props.theme.colors.lightPurple};
 	}
 `;
 
@@ -49,12 +49,12 @@ const InputInfo = styled.div`
 	display: flex;
 	align-items: center;
 	color: ${(props) => props.theme.colors.black};
+`;
 
-	span {
-		font-size: ${(props) => props.theme.fontSize.xSmall};
-		margin-left: 23px;
-		color: #ff4848;
-	}
+const ErrorInfo = styled.div`
+	font-size: ${(props) => props.theme.fontSize.xSmall};
+	margin: 8px;
+	color: #ff4848;
 `;
 const TitleInput = styled(DefaultInput)``;
 const PasswordInput = styled(DefaultInput)``;
@@ -82,7 +82,7 @@ const CreateRoomBtn = styled.button`
 	}
 `;
 
-const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen }) => {
+const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen, title }) => {
 	const {
 		register,
 		handleSubmit,
@@ -96,8 +96,6 @@ const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen }) => {
 		const UpdateRoomInfo = {
 			title: e.title,
 		};
-
-		console.log('수정될 방의 정보', UpdateRoomInfo);
 		updateRoom(UpdateRoomInfo, roomId)
 			.then((res) => {
 				setTitle(res.data.title);
@@ -120,14 +118,19 @@ const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen }) => {
 	return (
 		<UpdateForm onSubmit={handleSubmit(onValid)}>
 			<InputContainer className="top">
-				<InputInfo>
-					방 제목
-					<span>{errors?.title?.message}</span>
-				</InputInfo>
+				<InputInfo>방 제목</InputInfo>
+
+				<ErrorInfo>{errors?.title?.message}</ErrorInfo>
 
 				<TitleInput
-					{...register('title', { required: '방 제목을 입력해주세요!' })}
-					placeholder="방 제목"></TitleInput>
+					{...register('title', {
+						required: '방 제목을 입력해주세요!',
+						maxLength: {
+							value: 20,
+							message: '방 제목은 20자 이하여야 합니다.',
+						},
+					})}
+					placeholder={title}></TitleInput>
 			</InputContainer>
 			<InputContainer>
 				<InputInfo>

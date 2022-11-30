@@ -15,6 +15,12 @@ const ModalContainer = styled.div`
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	overflow: hidden;
 
+	@media screen and (min-width: 640px) and (max-width: 980px) {
+		top: 60%;
+		left: 70%;
+		height: 300px;
+	}
+
 	@media screen and (max-width: 640px) {
 		top: 60%;
 		left: 50%;
@@ -43,6 +49,9 @@ const MyPlaylist = styled.div`
 	overflow: scroll;
 	div {
 		margin: 0px 10px 10px 10px;
+	}
+	@media screen and (min-width: 640px) and (max-width: 980px) {
+		height: 100px;
 	}
 	@media screen and (max-width: 640px) {
 		height: 100px;
