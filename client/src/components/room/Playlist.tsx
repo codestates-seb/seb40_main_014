@@ -123,8 +123,10 @@ const OptionBtn = styled.button`
 `;
 
 const LottieContainer = styled.span`
-	width: 16px;
-	height: 16px;
+	div {
+		width: 24px;
+		height: 24px;
+	}
 `;
 
 const PlaylistPart = ({ playlist }) => {
@@ -255,9 +257,9 @@ const PlaylistPart = ({ playlist }) => {
 							</span>
 							{e.title}
 							{e.videoId === nowVideo && (
-								<span>
+								<LottieContainer>
 									<Lottie animationData={playSvg} loop={true} />
-								</span>
+								</LottieContainer>
 							)}
 						</MusicElement>
 					);

@@ -107,10 +107,8 @@ const EPWhiteBox = styled(WhiteBox)`
 `;
 
 const EPH2 = styled(H2)`
-	// Tablet
-	@media screen and (max-width: 980px) {
-		font-size: 24px;
-	}
+	font-size: 24px;
+
 	// Mobile
 	@media screen and (max-width: 640px) {
 		font-size: 20px;

@@ -84,7 +84,7 @@ const PlayListInfoStyle = styled.div`
 	.info {
 		display: flex;
 		justify-content: center;
-		@media (max-width: 550px) {
+		@media (max-width: 640px) {
 			flex-direction: column;
 		}
 	}
@@ -107,10 +107,10 @@ const Img = styled.span`
 		object-fit: cover;
 	}
 
-	@media (max-width: 850px) {
+	@media (max-width: 980px) {
 		width: 40%;
 	}
-	@media (max-width: 550px) {
+	@media (max-width: 640px) {
 		width: 100%;
 		margin-bottom: 10px;
 	}
@@ -119,11 +119,11 @@ const Img = styled.span`
 const Info = styled.div`
 	width: 40%;
 	margin-left: 5%;
-	@media (max-width: 850px) {
+	@media (max-width: 980px) {
 		width: 52%;
 		margin-left: 8%;
 	}
-	@media (max-width: 550px) {
+	@media (max-width: 640px) {
 		width: 100%;
 		margin-left: 0;
 	}
