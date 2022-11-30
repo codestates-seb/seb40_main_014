@@ -33,7 +33,10 @@ public class Member extends Auditable {
     private String picture;
 
     @Column
-    private String grade = "silver";
+    private String content;
+
+    @Column
+    private String grade = "SILVER";
 
 //    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
 //    private Ranking ranking;
@@ -46,12 +49,13 @@ public class Member extends Auditable {
     private Role role;
 
     @Builder
-    public Member(Long memberId, String email, String name, String picture, Role role){
+    public Member(Long memberId, String email, String name, String picture, Role role, String content){
         this.memberId = memberId;
         this.email = email;
         this.name = name;
         this.picture = picture;
         this.role = role;
+        this.content = content;
     }
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)

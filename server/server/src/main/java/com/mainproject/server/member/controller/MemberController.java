@@ -38,7 +38,6 @@ public class MemberController {
     private final ChatRoomMapper chatRoomMapper;
     private final PlaylistMapper playlistMapper;
     private final FollowService followService;
-    private final MemberRepository memberRepository;
 
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") Long memberId,
@@ -103,7 +102,7 @@ public class MemberController {
     public ResponseEntity followMember(@PathVariable("member-id") Long memberId, Long authMemberId,
                                        @Positive @RequestParam(defaultValue = "1") int playlistPage) {
         followService.followMember(memberId, authMemberId);
-
+        followService.getGrade(service.findMember(memberId));
         // 이 아래는 get과 동일
         Member findMember = service.findMember(memberId);
 

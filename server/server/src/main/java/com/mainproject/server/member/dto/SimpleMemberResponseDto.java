@@ -31,4 +31,6 @@ public class SimpleMemberResponseDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime modifiedAt;
+
+    private String content;
 }

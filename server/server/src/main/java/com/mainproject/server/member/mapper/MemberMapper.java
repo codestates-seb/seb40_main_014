@@ -44,6 +44,7 @@ public interface MemberMapper {
         memberResponseDto.role(member.getRole());
         memberResponseDto.createdAt(member.getCreatedAt());
         memberResponseDto.modifiedAt(member.getModifiedAt());
+        memberResponseDto.content(member.getContent());
 
         List<Playlist> playlistList = member.getPlaylists();
 //                .stream()
@@ -92,6 +93,7 @@ public interface MemberMapper {
         memberResponseDto.name(member.getName());
         memberResponseDto.picture(member.getPicture());
         memberResponseDto.grade(member.getGrade());
+        memberResponseDto.content(member.getContent());
         if (followState == true) {
             memberResponseDto.follow(member.getFollows().size() + 1);
         }
@@ -137,6 +139,7 @@ public interface MemberMapper {
         simpleMemberResponseDto.role(member.getRole());
         simpleMemberResponseDto.createdAt(member.getCreatedAt());
         simpleMemberResponseDto.modifiedAt(member.getModifiedAt());
+        simpleMemberResponseDto.content(member.getContent());
 
         return simpleMemberResponseDto.build();
     }
@@ -153,6 +156,7 @@ public interface MemberMapper {
         rankResponseDto.picture(member.getPicture());
         rankResponseDto.rank( member.getRanking() );
         rankResponseDto.follow(member.getFollows().size());
+        rankResponseDto.content(member.getContent());
 
         List<Playlist> membersPlaylist = member.getPlaylists();
         int Score = 0;
