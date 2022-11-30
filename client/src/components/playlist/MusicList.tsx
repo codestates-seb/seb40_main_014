@@ -145,7 +145,7 @@ const Music = styled.div<{ pathname: string }>`
 	}
 	.thumbnail {
 		flex: 0.7;
-		@media (max-width: 800px) {
+		@media (max-width: 640px) {
 			flex: 2;
 		}
 	}
@@ -153,7 +153,7 @@ const Music = styled.div<{ pathname: string }>`
 		flex: 7.3;
 		line-height: 1.3;
 		height: 1.3em;
-		@media (max-width: 800px) {
+		@media (max-width: 640px) {
 			flex: 6;
 		}
 	}
