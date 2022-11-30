@@ -67,16 +67,16 @@ public class GlobalExceptionAdvice {
         return response;
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ErrorResponse handleClassCastException(
-            ClassCastException e) {
-
-        final ErrorResponse response = ErrorResponse.of(HttpStatus.UNAUTHORIZED,
-                "Token is not available");
-
-        return response;
-    }
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+//    public ErrorResponse handleClassCastException(
+//            ClassCastException e) {
+//
+//        final ErrorResponse response = ErrorResponse.of(HttpStatus.UNAUTHORIZED,
+//                "Token is not available");
+//
+//        return response;
+//    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
