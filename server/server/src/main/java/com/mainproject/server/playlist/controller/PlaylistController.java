@@ -2,6 +2,7 @@ package com.mainproject.server.playlist.controller;
 
 import com.mainproject.server.member.dto.MemberResponseDto;
 import com.mainproject.server.member.entity.Member;
+import com.mainproject.server.member.service.FollowService;
 import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.dto.PlaylistPatchDto;
 import com.mainproject.server.playlist.dto.PlaylistPostDto;
@@ -33,6 +34,7 @@ public class PlaylistController {
     private final PlaylistService playlistService;
     private final MemberService memberService;
     private final PlaylistMapper mapper;
+    private final FollowService followService;
 
     @NeedMemberId
     @PostMapping
@@ -70,6 +72,7 @@ public class PlaylistController {
     public ResponseEntity getPlaylist(@PathVariable("playlist-id") @Positive long playlistId,
                                       Long authMemberId) {
         Playlist playlist = playlistService.findPlaylist(playlistId);
+
 
         Boolean likeState = playlistService.likeState(playlistId, authMemberId);
         Boolean bookmarkState = playlistService.BookmarkState(playlistId, authMemberId);
@@ -119,6 +122,8 @@ public class PlaylistController {
         playlistService.likePlaylist(playlistId, authMemberId);
 
         Playlist playlist = playlistService.findPlaylist(playlistId);
+
+        followService.getGrade(playlist.getMember());
 
         Boolean likeState = playlistService.likeState(playlistId, authMemberId);
         Boolean bookmarkState = playlistService.BookmarkState(playlistId, authMemberId);

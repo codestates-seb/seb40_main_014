@@ -22,4 +22,6 @@ public class RankResponseDto {
     private Integer like;
 
     private Integer score;
+
+    private String content;
 }

@@ -38,4 +38,6 @@ public class MemberResponseDto {
 
     private MultiResponseDto<SimplePlaylistResponseDto> playlist;
 
+    private String content;
+
 }

@@ -21,6 +21,10 @@ public class LikePlaylistResponseDto {
 
     private String name;
 
+    private String content;
+
+    private String grade;
+
     private boolean status;
 
     private String title;

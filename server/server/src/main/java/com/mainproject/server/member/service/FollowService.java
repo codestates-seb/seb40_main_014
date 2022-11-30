@@ -72,7 +72,6 @@ public class FollowService {
     public Page<Member> getRankings() {
 
         Set<String> range = zSetOperations.reverseRange(KEY, 0, 7);
-        System.out.println("range = " + range);
         List<String> rankList = new ArrayList<>(range);
 
         List<Member> memberList = new ArrayList<>();
@@ -80,6 +79,7 @@ public class FollowService {
         int index = 1;
         for (String email : rankList) {
             Member member = memberRepository.findByEmail(email).get();
+            getGrade(member);
             member.setRanking(index);
             memberRepository.save(member);
             memberList.add(member);
@@ -162,5 +162,14 @@ public class FollowService {
             else {followStates.add(false);}
         }
         return followStates;
+    }
+
+    public void getGrade(Member member){
+
+        int score = zSetOperations.score(KEY, member.getEmail()).intValue();
+        if (score >= 2){ member.setGrade("LUVIP");}
+        else if (score >= 1){ member.setGrade("GOLD");}
+        else {member.setGrade("SILVER");}
+
     }
 }

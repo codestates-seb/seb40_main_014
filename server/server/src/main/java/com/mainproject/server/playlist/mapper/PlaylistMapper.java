@@ -59,6 +59,8 @@ public interface PlaylistMapper {
             playlistResponseDto.modifiedAt(playlist.getModifiedAt());
             playlistResponseDto.memberId(playlist.getMember().getMemberId());
             playlistResponseDto.name(playlist.getMember().getName());
+            playlistResponseDto.content(playlist.getMember().getContent());
+            playlistResponseDto.grade(playlist.getMember().getGrade());
 
             playlistResponseDto.like(playlist.getLikes().size());
             playlistResponseDto.categoryList(playlist.getCategoryList());
@@ -93,6 +95,8 @@ public interface PlaylistMapper {
             likePlaylistResponseDto.title(playlist.getPlTitle());
             likePlaylistResponseDto.memberId(playlist.getMember().getMemberId());
             likePlaylistResponseDto.name(playlist.getMember().getName());
+            likePlaylistResponseDto.content(playlist.getMember().getContent());
+            likePlaylistResponseDto.grade(playlist.getMember().getGrade());
             likePlaylistResponseDto.like(playlist.getLikes().size());
             likePlaylistResponseDto.categoryList(playlist.getCategoryList());
             likePlaylistResponseDto.status(playlist.isStatus());
@@ -113,6 +117,8 @@ public interface PlaylistMapper {
             likePlaylistResponseDto.title(playlist.getPlTitle());
             likePlaylistResponseDto.memberId(playlist.getMember().getMemberId());
             likePlaylistResponseDto.name(playlist.getMember().getName());
+            likePlaylistResponseDto.content(playlist.getMember().getContent());
+            likePlaylistResponseDto.grade(playlist.getMember().getGrade());
             likePlaylistResponseDto.categoryList(playlist.getCategoryList());
             likePlaylistResponseDto.status(playlist.isStatus());
             if (likeState == true){likePlaylistResponseDto.like(playlist.getLikes().size()+1);}
