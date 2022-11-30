@@ -149,6 +149,7 @@ const ButtonWrapper = styled.div`
 const SaveButton = styled.button`
 	margin-right: 6%;
 	background-color: ${(props) => props.theme.colors.purple};
+	border: 1.5px solid ${(props) => props.theme.colors.purple};
 	color: ${(props) => props.theme.colors.white};
 
 	:hover {

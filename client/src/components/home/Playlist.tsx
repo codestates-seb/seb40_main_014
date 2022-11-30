@@ -57,7 +57,9 @@ const Playlist = ({ playList, swiper }: PlaylistType) => {
 					{categoryList &&
 						categoryList.map((el, idx) => (
 							<Category category={el} margin="0 4px 0 0" key={idx}>
-								{el}
+								<Link to={`/search?type1=playlist&type2=category&q=${el}`}>
+									{el}
+								</Link>
 							</Category>
 						))}
 				</Categorys>

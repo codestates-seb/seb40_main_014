@@ -42,7 +42,9 @@ const Room = ({ room, swiper }: RoomType) => {
 								margin="0 4px 0 0"
 								key={idx}
 								swiper={swiper}>
-								{el}
+								<Link to={`/search?type1=room&type2=category&q=${el}`}>
+									{el}
+								</Link>
 							</Category>
 						))}
 				</Categorys>

@@ -212,8 +212,9 @@ export const Follower = styled.div`
 
 const Email = styled.div`
 	margin-bottom: 40px;
-	color: #4d0bd198;
+	color: ${(props) => props.theme.colors.gray600};
 	font-size: 14px;
+	font-weight: 300;
 
 	// Mobile
 	@media screen and (max-width: 640px) {

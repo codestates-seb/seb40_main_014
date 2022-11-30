@@ -41,28 +41,16 @@ const PlaylistList = () => {
 	const currentPage = useRef<number>(1);
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
-	// real
 	const fetch = useCallback(() => {
 		getPlaylists(currentPage.current, 6).then((res) => {
 			console.log('getPlaylists res', res);
 			const data = res.data;
 			const { page, totalPages } = res.pageInfo;
 			setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
-			// setHasNextPage(data.length === 10);
 			setHasNextPage(page !== totalPages);
-			// if (data.length) currentPage.current += 1;
 			if (hasNextPage) currentPage.current += 1;
 		});
 	}, []);
-
-	// test
-	// useEffect(() => {
-	// 	getPlaylists(memberId, currentPage.current, 10).then((res) => {
-	// 		console.log('getPlaylists res', res);
-
-	// 		setPlayLists(res);
-	// 	});
-	// }, []);
 
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;

@@ -99,7 +99,7 @@ const SearchBar = () => {
 			setSearchError('카테고리를 모두 선택해주세요');
 			return;
 		}
-		if (!text) {
+		if (!text.replace(/(\s*)/g, '')) {
 			setSearchError('검색어를 입력해주세요');
 			return;
 		}

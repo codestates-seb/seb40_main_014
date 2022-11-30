@@ -47,11 +47,10 @@ const RoomList = () => {
 	const [roomsByDj, setRoomsByDj] = useState<RoomInfoType[]>([]);
 
 	useEffect(() => {
-		getRoomsByView(1, 7).then((res) => {
-			console.log('rooms by view res', res);
-			setRoomsByView(res.data);
-		});
-
+		// getRoomsByView(1, 7).then((res) => {
+		// 	console.log('rooms by view res', res);
+		// 	setRoomsByView(res.data);
+		// });
 		// getRoomsByDj(1, 7).then((res) => {
 		// 	console.log('rooms by dj res', res);
 		// 	setRoomsByDj(res.data);
