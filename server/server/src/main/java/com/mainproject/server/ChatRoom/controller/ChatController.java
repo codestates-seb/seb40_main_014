@@ -49,7 +49,7 @@ public class ChatController {
         if (!isContains) {
             room.getUserlist().add(chat.getMemberName());
             room.setUserlist(room.getUserlist());
-            room.setUserSize(room.getUserSize() + 1);
+            room.setUserSize(room.getUserlist().size());
             chat.setMessage(chat.getMemberName() + " 님 입장하셨습니다.");
             if (chat.getType().equals(ENTER)) {
                 template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
@@ -103,7 +103,7 @@ public class ChatController {
         room.setRoomId(roomId);
         room.getUserlist().remove(memberName);
         room.setUserlist(room.getUserlist());
-        room.setUserSize(room.getUserSize() - 1);
+        room.setUserSize(room.getUserlist().size());
         chatRoomRepository.save(room);
 
         log.info("headAccessor {}", headerAccessor);
@@ -127,7 +127,7 @@ public class ChatController {
             room.setRoomId(chat.getRoomId());
 
             room.getUserlist().remove(chat.getMemberName());
-            room.setUserSize(room.getUserSize() - 1);
+            room.setUserSize(room.getUserlist().size());
 //            room.getUserlist().remove(String.valueOf(chat.getMemberId()));
             chatRoomRepository.save(room);
 
@@ -146,4 +146,3 @@ public class ChatController {
     }
 }
 //재시도하는 로직 브라우저 닫히면 다시 붙을 수 있는 retry 로직 필요
-

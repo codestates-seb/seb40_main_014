@@ -2,6 +2,8 @@ package com.mainproject.server.ChatRoom.mapper;
 
 import com.mainproject.server.ChatRoom.dto.*;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.member.dto.RankChatRoomSimpleDto;
+import com.mainproject.server.member.dto.RankResponseDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.mapper.MemberMapper;
@@ -93,11 +95,13 @@ public class ChatRoomMapper {
         PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playList);
 
         Member serviceMember = memberService.findMember(playlistResponseDto.getMemberId());
-        List<SimpleMemberResponseDto> simpleMemberResponseDtoList = memberMapper.memberListToSimpleMemberResponseDtoList(Collections.singletonList(serviceMember));
+        List<RankResponseDto> rankResponseDtoList = memberMapper.memberListToRankResponseDtoList(Collections.singletonList(serviceMember));
+        RankChatRoomSimpleDto rankChatRoomSimpleDto = memberMapper.memberToRankChatRoomSimpleDto(serviceMember);
 
         RankResponseChatRoomDto rankResponseChatRoomDto = RankResponseChatRoomDto.builder()
                 .chatRoom(chatRoom)
-                .simpleMemberResponseDtoList(simpleMemberResponseDtoList)
+                .rankResponseDtoList(rankResponseDtoList)
+                .rankChatRoomSimpleDto(rankChatRoomSimpleDto)
                 .playlistResponseDto(playlistResponseDto)
                 .build();
         return rankResponseChatRoomDto;

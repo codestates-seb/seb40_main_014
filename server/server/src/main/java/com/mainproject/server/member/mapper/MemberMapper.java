@@ -1,10 +1,7 @@
 package com.mainproject.server.member.mapper;
 
 import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
-import com.mainproject.server.member.dto.MemberPatchDto;
-import com.mainproject.server.member.dto.MemberResponseDto;
-import com.mainproject.server.member.dto.RankResponseDto;
-import com.mainproject.server.member.dto.SimpleMemberResponseDto;
+import com.mainproject.server.member.dto.*;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.playlist.dto.SimplePlaylistResponseDto;
 import com.mainproject.server.playlist.entity.Playlist;
@@ -172,4 +169,25 @@ public interface MemberMapper {
         return rankResponseDto.build();
     }
     List<RankResponseDto> memberListToRankResponseDtoList(List<Member> memberList);
+
+    default RankChatRoomSimpleDto memberToRankChatRoomSimpleDto(Member member) {
+        if (member == null) {
+            return null;
+        }
+
+        RankChatRoomSimpleDto.RankChatRoomSimpleDtoBuilder rankChatRoomSimpleDto = RankChatRoomSimpleDto.builder();
+
+        rankChatRoomSimpleDto.memberId(member.getMemberId());
+        rankChatRoomSimpleDto.email(member.getEmail());
+        rankChatRoomSimpleDto.name(member.getName());
+        rankChatRoomSimpleDto.picture(member.getPicture());
+        rankChatRoomSimpleDto.grade(member.getGrade());
+        rankChatRoomSimpleDto.follow(member.getFollows().size());
+        rankChatRoomSimpleDto.role(member.getRole());
+        rankChatRoomSimpleDto.createdAt(member.getCreatedAt());
+        rankChatRoomSimpleDto.modifiedAt(member.getModifiedAt());
+        rankChatRoomSimpleDto.content(member.getContent());
+
+        return rankChatRoomSimpleDto.build();
+    }
 }

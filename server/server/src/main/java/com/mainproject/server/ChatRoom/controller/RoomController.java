@@ -5,7 +5,6 @@ import com.mainproject.server.ChatRoom.dto.ChatRoomPostDto;
 import com.mainproject.server.ChatRoom.dto.ResponseChatRoomDto;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
-import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.ChatRoom.service.ChatService;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.service.MemberService;
@@ -39,7 +38,7 @@ public class RoomController {
     private final MemberService memberService;
     private final ChatRoomMapper chatRoomMapper;
     private final PlaylistService playlistService;
-
+    
     @NeedMemberId
     @PostMapping
     public ResponseEntity createRoom(@RequestBody ChatRoomPostDto requestBody, Long authMemberId) {
