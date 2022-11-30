@@ -34,7 +34,7 @@ public class ResponseChatRoomDto {
         this.pwd = chatRoom.getPwd();
         this.secret = chatRoom.getPwd() != null;
         this.userlist = chatRoom.getUserlist();
-        this.userSize = chatRoom.getUserSize();
+        this.userSize = chatRoom.getUserlist().size();
         this.playlistId = chatRoom.getPlaylistId();
         this.memberResponseDto = memberResponseDto;
         this.playlistResponseDto = playlistResponseDto;

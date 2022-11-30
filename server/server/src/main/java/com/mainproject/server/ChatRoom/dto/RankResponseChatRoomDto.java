@@ -1,5 +1,7 @@
 package com.mainproject.server.ChatRoom.dto;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.member.dto.RankChatRoomSimpleDto;
+import com.mainproject.server.member.dto.RankResponseDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.playlist.dto.PlaylistResponseDto;
 import lombok.Builder;
@@ -22,12 +24,13 @@ public class RankResponseChatRoomDto {
     private boolean secret;
     private int userSize;
     private Long playlistId;
-    List<SimpleMemberResponseDto> simpleMemberResponseDtoList = new ArrayList<>();
+    List<RankResponseDto> rankResponseDtoList = new ArrayList<>();
+    RankChatRoomSimpleDto rankChatRoomSimpleDto;
     PlaylistResponseDto playlistResponseDto;
     List<String> userlist = new ArrayList<>();
 
     @Builder
-    public RankResponseChatRoomDto(ChatRoom chatRoom, List<SimpleMemberResponseDto> simpleMemberResponseDtoList, PlaylistResponseDto playlistResponseDto) {
+    public RankResponseChatRoomDto(ChatRoom chatRoom, List<RankResponseDto> rankResponseDtoList, RankChatRoomSimpleDto rankChatRoomSimpleDto, PlaylistResponseDto playlistResponseDto) {
         this.roomId = chatRoom.getRoomId();
         this.title = chatRoom.getTitle();
         this.maxCount = chatRoom.getMaxCount();
@@ -36,7 +39,8 @@ public class RankResponseChatRoomDto {
         this.userlist = chatRoom.getUserlist();
         this.userSize = chatRoom.getUserSize();
         this.playlistId = chatRoom.getPlaylistId();
-        this.simpleMemberResponseDtoList = simpleMemberResponseDtoList;
+        this.rankResponseDtoList = rankResponseDtoList;
+        this.rankChatRoomSimpleDto = rankChatRoomSimpleDto;
         this.playlistResponseDto = playlistResponseDto;
     }
 }

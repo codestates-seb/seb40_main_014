@@ -39,6 +39,7 @@ public class RoomController {
     private final MemberService memberService;
     private final ChatRoomMapper chatRoomMapper;
     private final PlaylistService playlistService;
+    private final ChatRoomRepository chatRoomRepository;
 
     @NeedMemberId
     @PostMapping
