@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ModalBackdrop, H2, ModalStyle, WhiteBox } from '../home/LoginModal';
+import { ModalBackdrop, ModalStyle, WhiteBox } from '../home/LoginModal';
 import { useEffect, useState } from 'react';
 import { editUserInfo } from '../../api/userApi';
 import { useDispatch } from 'react-redux';
@@ -138,7 +138,6 @@ const EditProfileModal = ({
 export default EditProfileModal;
 
 const EPWhiteBox = styled(WhiteBox)`
-	/* height: 400px; */
 	justify-content: center;
 
 	> div:nth-of-type(1),
