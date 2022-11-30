@@ -101,7 +101,7 @@ public class ChatRoomMapper {
                 .playlistResponseDto(playlistResponseDto)
                 .build();
         return rankResponseChatRoomDto;
-        
+
     }
 
     public List<RankResponseChatRoomDto> chatRoomRankDtotoMember(List<ChatRoom> chatRooms, List<Member> member) {

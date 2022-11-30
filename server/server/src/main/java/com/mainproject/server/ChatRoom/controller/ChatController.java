@@ -49,6 +49,7 @@ public class ChatController {
         if (!isContains) {
             room.getUserlist().add(chat.getMemberName());
             room.setUserlist(room.getUserlist());
+            room.setUserSize(room.getUserSize() + 1);
             chat.setMessage(chat.getMemberName() + " 님 입장하셨습니다.");
             if (chat.getType().equals(ENTER)) {
                 template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
@@ -102,6 +103,7 @@ public class ChatController {
         room.setRoomId(roomId);
         room.getUserlist().remove(memberName);
         room.setUserlist(room.getUserlist());
+        room.setUserSize(room.getUserSize() - 1);
         chatRoomRepository.save(room);
 
         log.info("headAccessor {}", headerAccessor);
@@ -125,6 +127,7 @@ public class ChatController {
             room.setRoomId(chat.getRoomId());
 
             room.getUserlist().remove(chat.getMemberName());
+            room.setUserSize(room.getUserSize() - 1);
 //            room.getUserlist().remove(String.valueOf(chat.getMemberId()));
             chatRoomRepository.save(room);
 

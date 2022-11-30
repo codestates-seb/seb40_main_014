@@ -71,12 +71,12 @@ public class ChatRoom extends Auditable {
     }
 
     @Builder
-    public ChatRoom(String roomId, String title, int maxCount, String pwd, int userCount) {
+    public ChatRoom(String roomId, String title, int maxCount, String pwd, int userSize) {
         this.roomId = roomId;
         this.title = title;
         this.maxCount = maxCount;
         this.pwd = pwd;
-        this.userSize = userlist.size();
+        this.userSize = userSize;
         Onair on = Onair.ON;
     }
 
