@@ -22,7 +22,7 @@ public class RankResponseChatRoomDto {
     private boolean secret;
     private int userSize;
     private Long playlistId;
-    List<SimpleMemberResponseDto> simpleMemberResponseDtoList;
+    List<SimpleMemberResponseDto> simpleMemberResponseDtoList = new ArrayList<>();
     PlaylistResponseDto playlistResponseDto;
     List<String> userlist = new ArrayList<>();
 

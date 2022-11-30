@@ -5,6 +5,7 @@ import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.mapper.MemberMapper;
+import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.dto.PlaylistResponseDto;
 import com.mainproject.server.playlist.entity.Playlist;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +25,7 @@ public class ChatRoomMapper {
     private final MemberMapper memberMapper;
     private final PlaylistMapper playlistMapper;
     private final PlaylistService playlistService;
+    private final MemberService memberService;
 
     public ChatRoom chatRoomPostDtoToChatRoom(ChatRoomPostDto chatRoomPostDto, Member member) {
         if (chatRoomPostDto == null) return null;
@@ -44,15 +47,11 @@ public class ChatRoomMapper {
         return chatRoom;
     }
 
-    public ResponseChatRoomDto chatRoomResponseDtoToChatRoom(ChatRoom chatRoom, Member member) {
+    public ResponseChatRoomDto chatRoomMemberNameResponseDtoToChatRoom(ChatRoom chatRoom, Member member, Playlist playlist) {
+
+        PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playlist);
 
         SimpleMemberResponseDto memberResponseDto = memberMapper.memberToSimpleMemberResponseDto(chatRoom.getMember());
-
-//        List<PlaylistResponseDto> playlistResponseDtos = chatRoom.getMember().getPlaylists().stream()
-//                .map(playlistMapper::playlistToPlaylistResponseDto)
-//                .collect(Collectors.toList());
-        Playlist playList = playlistService.findPlaylist(chatRoom.getPlaylistId());
-        PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playList);
 
         ResponseChatRoomDto responseChatRoomDto = ResponseChatRoomDto.builder()
                 .chatRoom(chatRoom)
@@ -62,11 +61,15 @@ public class ChatRoomMapper {
         return responseChatRoomDto;
     }
 
-    public ResponseChatRoomDto chatRoomMemberNameResponseDtoToChatRoom(ChatRoom chatRoom, Member member, Playlist playlist) {
-
-        PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playlist);
+    public ResponseChatRoomDto chatRoomResponseDtoToChatRoom(ChatRoom chatRoom, Member member) {
 
         SimpleMemberResponseDto memberResponseDto = memberMapper.memberToSimpleMemberResponseDto(chatRoom.getMember());
+
+//        List<PlaylistResponseDto> playlistResponseDtos = chatRoom.getMember().getPlaylists().stream()
+//                .map(playlistMapper::playlistToPlaylistResponseDto)
+//                .collect(Collectors.toList());
+        Playlist playList = playlistService.findPlaylist(chatRoom.getPlaylistId());
+        PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playList);
 
         ResponseChatRoomDto responseChatRoomDto = ResponseChatRoomDto.builder()
                 .chatRoom(chatRoom)
@@ -88,10 +91,11 @@ public class ChatRoomMapper {
 
     public RankResponseChatRoomDto chatRoomRankResponseDtoToChatRoom(ChatRoom chatRoom, List<Member> member) {
 
-        List<SimpleMemberResponseDto> simpleMemberResponseDtoList = memberMapper.memberListToSimpleMemberResponseDtoList(member);
-
         Playlist playList = playlistService.findPlaylist(chatRoom.getPlaylistId());
         PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playList);
+
+        Member serviceMember = memberService.findMember(playlistResponseDto.getMemberId());
+        List<SimpleMemberResponseDto> simpleMemberResponseDtoList = memberMapper.memberListToSimpleMemberResponseDtoList(Collections.singletonList(serviceMember));
 
         RankResponseChatRoomDto rankResponseChatRoomDto = RankResponseChatRoomDto.builder()
                 .chatRoom(chatRoom)
