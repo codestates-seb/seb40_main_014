@@ -73,7 +73,7 @@ public class PlaylistService {
                 .ifPresent(title -> findPlaylist.setPlTitle(title));
         Optional.ofNullable(playlist.getCategoryList()) //카테고리 수정
                 .ifPresent(categories -> findPlaylist.setCategoryList(categories));
-        Optional.ofNullable(playlist.isStatus()) //카테고리 수정
+        Optional.ofNullable(playlist.isStatus()) //공개범위 수정
                 .ifPresent(status -> findPlaylist.setStatus(status));
 
         for (int i = 0; i < findPlaylist.getPlaylistItems().size(); i++) {
@@ -331,15 +331,29 @@ public class PlaylistService {
         for (Bookmark bookmark : bookmarkList) {
             Playlist playlist = playlistRepository.findById(bookmark.getPlaylist().getPlaylistId()).get();
 
-            Long BookmarkCount = bookmarkRepository.findByPlaylist(playlist)// 해당 Playlist를 Bookmark한 entity
+            Long BookmarkCount = bookmarkRepository.findByPlaylist(playlist) // 해당 Playlist를 Bookmark한 entity
                     .stream()
                     .filter(f -> f.getBookmarkMemberId().equals(authMemberId)) // 그안에 내가 있는 경우
                     .count(); // 0, 1
             if (BookmarkCount == 1) { bookmarkStates.add(true);}
             else {bookmarkStates.add(false);}
         }
-
-
         return bookmarkStates;
     }
+
+    public Page<Playlist> findPlLikeSort(int page, int size) {
+
+        Page<Playlist> findAllPlaylist = playlistRepository.findAll(
+                PageRequest.of(page, size, Sort.by("likePlus").descending()));
+
+        return findAllPlaylist;
+    }
+
+//    public Page<Member> findPlTopDjSort(int page, int size) {
+//        Page<Member> findAllPlaylist = memberRepository.findAll(
+//                PageRequest.of(page, size, Sort.by("rank").descending()));
+//
+//        return findAllPlaylist;
+//    }
+
 }

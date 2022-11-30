@@ -18,6 +18,7 @@ public class Likes {
 
     @Column // 팔로우 버튼을 누르는 MemberId
     private Long likeMemberId;
+
     @ManyToOne
     @JoinColumn(name = "playlist_id")
     private Playlist playlist;
