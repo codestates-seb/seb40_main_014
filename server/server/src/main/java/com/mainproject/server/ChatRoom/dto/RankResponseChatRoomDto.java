@@ -1,8 +1,8 @@
 package com.mainproject.server.ChatRoom.dto;
+
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.member.dto.RankChatRoomSimpleDto;
 import com.mainproject.server.member.dto.RankResponseDto;
-import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.playlist.dto.PlaylistResponseDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,5 +44,4 @@ public class RankResponseChatRoomDto {
         this.playlistResponseDto = playlistResponseDto;
     }
 }
-
 
