@@ -77,7 +77,7 @@ const PlaylistCount = styled(Onair)`
 	}
 	display: flex;
 	align-items: center;
-	background-color: #3cc13ca1;
+	background-color: #37af37a0;
 `;
 
 const Like = styled.span<SwiperTrueType>`

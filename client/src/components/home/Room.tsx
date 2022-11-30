@@ -119,10 +119,19 @@ export const Thumbnail = styled.div`
 
 export const Title = styled.h3<SwiperTrueType>`
 	display: inline-block;
+	height: 36px;
 	margin-bottom: 10px;
 	font-weight: 600;
 	font-size: 18px;
 	cursor: pointer;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	word-wrap: break-word;
+	word-break: break-all;
 
 	:hover {
 		color: ${(props) => props.theme.colors.gray700};
@@ -134,6 +143,7 @@ export const Title = styled.h3<SwiperTrueType>`
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
+		height: 28px;
 		font-size: ${(props) => (props.swiper ? '14px' : '16px')};
 	}
 `;
