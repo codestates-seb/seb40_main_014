@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ModalBackdrop, H2, ModalStyle, WhiteBox } from '../home/LoginModal';
+import { ModalBackdrop, ModalStyle, WhiteBox } from '../home/LoginModal';
 import { useEffect, useState } from 'react';
 import { editUserInfo } from '../../api/userApi';
 import { useDispatch } from 'react-redux';
@@ -10,34 +10,58 @@ type EditProfileModalType = {
 	handleOpenModal: () => void;
 	memberId: number;
 	myName: string;
+	myIntro: string;
 };
 
 const EditProfileModal = ({
 	handleOpenModal,
 	memberId,
 	myName,
+	myIntro,
 }: EditProfileModalType) => {
 	const dispatch = useDispatch();
 
 	const [changeName, setChangeName] = useState(myName);
-	const [isError, setError] = useState(false);
+	const [changeIntro, setChangeIntro] = useState(myIntro || '');
+	const [nicknameError, setNicknameError] = useState('');
+	const [introError, setIntroError] = useState('');
 
 	useEffect(() => {
 		console.log(changeName);
 	}, [changeName]);
 
 	const onSubmit = () => {
-		if (myName === changeName) {
-			setError(true);
+		setNicknameError('');
+		setIntroError('');
+
+		if (!changeName) {
+			setNicknameError('닉네임을 입력해주세요');
+			return;
+		}
+		if (changeName.length > 10) {
+			setNicknameError('닉네임은 10자 이하여야 합니다');
+			return;
+		}
+		if (changeIntro.length > 30) {
+			setIntroError('자기소개는 30자 이하여야 합니다');
+			return;
+		}
+		if (myName === changeName && myIntro === changeIntro) {
+			handleOpenModal();
 			return;
 		}
 
-		editUserInfo(memberId, changeName).then((res) => {
+		editUserInfo(memberId, changeName, changeIntro).then((res) => {
 			console.log('editUserInfo res', res);
 
-			dispatch(myInfo(res.data));
+			if (res.status === 402) {
+				setNicknameError('중복된 닉네임입니다');
+				return;
+			} else {
+				dispatch(myInfo(res.data));
 
-			handleOpenModal();
+				handleOpenModal();
+			}
 		});
 	};
 
@@ -57,21 +81,37 @@ const EditProfileModal = ({
 	return (
 		<ModalStyle>
 			<EPWhiteBox>
-				<EPH2>변경할 닉네임을 입력하세요</EPH2>
 				<div>
+					<H3>
+						닉네임 <span>10자 이하</span>
+					</H3>
 					<Input
 						value={changeName}
 						onChange={(e) => {
 							setChangeName(e.target.value);
 						}}
 						autoFocus
+						placeholder="등록된 닉네임이 없습니다"
+						className={nicknameError ? 'error' : ''}
 					/>
-					{isError && (
-						<ErrorMessage
-							margin="15px 0 0 0"
-							center
-							text="기존 닉네임과 동일합니다."
-						/>
+					{nicknameError && (
+						<ErrorMessage margin="15px 0 0 0" center text={nicknameError} />
+					)}
+				</div>
+				<div>
+					<H3>
+						자기소개 <span>30자 이하</span>
+					</H3>
+					<Input
+						value={changeIntro}
+						onChange={(e) => {
+							setChangeIntro(e.target.value);
+						}}
+						placeholder="등록된 자기소개가 없습니다"
+						className={introError ? 'error' : ''}
+					/>
+					{introError && (
+						<ErrorMessage margin="15px 0 0 0" center text={introError} />
 					)}
 				</div>
 				<ButtonWrapper>
@@ -100,18 +140,22 @@ export default EditProfileModal;
 const EPWhiteBox = styled(WhiteBox)`
 	justify-content: center;
 
-	> div:first-of-type {
+	> div:nth-of-type(1),
+	> div:nth-of-type(2) {
 		width: 100%;
-		margin-bottom: 46px;
+		margin-bottom: 25px;
 	}
 `;
 
-const EPH2 = styled(H2)`
-	font-size: 24px;
+const H3 = styled.h3`
+	font-size: 16px;
+	font-weight: 600;
+	margin-bottom: 15px;
 
-	// Mobile
-	@media screen and (max-width: 640px) {
-		font-size: 20px;
+	span {
+		margin-left: 3px;
+		color: ${(props) => props.theme.colors.gray500};
+		font-size: 14px;
 	}
 `;
 
@@ -120,6 +164,9 @@ const Input = styled.input`
 	width: 100%;
 	border: 1px solid ${(props) => props.theme.colors.gray400};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
+	&.error {
+		background-color: #ff38381c;
+	}
 	:focus {
 		/* border: 1.5px solid ${(props) => props.theme.colors.gray600}; */
 		/* border: 1.8px solid ${(props) => props.theme.colors.purple}; */
@@ -137,7 +184,7 @@ export const Error = styled.div`
 
 const ButtonWrapper = styled.div`
 	width: 100%;
-
+	margin-top: 10px;
 	button {
 		width: 47%;
 		padding: 8px 0;
@@ -149,10 +196,11 @@ const ButtonWrapper = styled.div`
 const SaveButton = styled.button`
 	margin-right: 6%;
 	background-color: ${(props) => props.theme.colors.purple};
+	border: 1.5px solid ${(props) => props.theme.colors.purple};
 	color: ${(props) => props.theme.colors.white};
 
 	:hover {
-		background-color: #3f0ba9;
+		opacity: 0.85;
 	}
 `;
 
@@ -161,6 +209,6 @@ const CancelButton = styled.button`
 	color: ${(props) => props.theme.colors.purple};
 
 	:hover {
-		background-color: #f1eaff;
+		opacity: 0.75;
 	}
 `;

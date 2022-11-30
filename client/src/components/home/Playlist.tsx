@@ -6,13 +6,16 @@ import Category from '../common/Category';
 import {
 	Categorys,
 	Detail,
+	Img,
+	LinkRoom,
 	Name,
+	Onair,
 	RoomStyle,
 	SwiperTrueType,
 	Thumbnail,
-	ThumbnailBackdrop,
 	Title,
 } from './Room';
+import { IoMdMusicalNote } from 'react-icons/io';
 
 type PlaylistType = {
 	playList: PlaylistInfoType;
@@ -33,15 +36,19 @@ const Playlist = ({ playList, swiper }: PlaylistType) => {
 
 	return (
 		<RoomStyle>
-			<Thumbnail>
-				<img src={playlistItems[0].thumbnail} alt="thumbnail" />
-				<Link to={`/playlistdetail/${playlistId}`}>
-					<ThumbnailBackdrop />
-				</Link>
-			</Thumbnail>
-			<Title>
-				<Link to={`/playlistdetail/${playlistId}`}>{title}</Link>
-			</Title>
+			<Link to={`/playlistdetail/${playlistId}`}>
+				<LinkRoom>
+					<Thumbnail>
+						<Img src={playlistItems[0].thumbnail} alt="thumbnail" />
+						<PlaylistCount swiper={swiper}>
+							<IoMdMusicalNote />
+							{playlistItems.length}
+						</PlaylistCount>
+					</Thumbnail>
+					<Title swiper={swiper}>{title}</Title>
+				</LinkRoom>
+			</Link>
+
 			<Name swiper={swiper}>
 				<Link to={`/mypage/${memberId}`}>{name}</Link>
 			</Name>
@@ -50,7 +57,9 @@ const Playlist = ({ playList, swiper }: PlaylistType) => {
 					{categoryList &&
 						categoryList.map((el, idx) => (
 							<Category category={el} margin="0 4px 0 0" key={idx}>
-								{el}
+								<Link to={`/search?type1=playlist&type2=category&q=${el}`}>
+									{el}
+								</Link>
 							</Category>
 						))}
 				</Categorys>
@@ -64,6 +73,15 @@ const Playlist = ({ playList, swiper }: PlaylistType) => {
 };
 
 export default Playlist;
+
+const PlaylistCount = styled(Onair)`
+	> *:first-of-type {
+		margin-right: 4px;
+	}
+	display: flex;
+	align-items: center;
+	background-color: #37af37a0;
+`;
 
 const Like = styled.span<SwiperTrueType>`
 	> *:first-of-type {

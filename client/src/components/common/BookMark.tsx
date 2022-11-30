@@ -11,6 +11,7 @@ const BookMark = ({
 	loginId,
 }: LikebookmarkType) => {
 	const [state, setState] = useState(true);
+
 	const onClickBookMark = () => {
 		postBookMark(playlistId).then(() => {
 			setState((prev) => !prev);
