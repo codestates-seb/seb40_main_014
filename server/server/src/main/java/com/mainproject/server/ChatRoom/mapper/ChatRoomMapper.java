@@ -84,7 +84,6 @@ public class ChatRoomMapper {
                 .map(chatRoom -> chatRoomResponseDtoToChatRoom(chatRoom, member))
                 .collect(Collectors.toList());
 
-
         return roomDtoList;
     }
 
@@ -102,6 +101,7 @@ public class ChatRoomMapper {
                 .playlistResponseDto(playlistResponseDto)
                 .build();
         return rankResponseChatRoomDto;
+
     }
 
     public List<RankResponseChatRoomDto> chatRoomRankDtotoMember(List<ChatRoom> chatRooms, List<Member> member) {
