@@ -14,6 +14,7 @@ import instance from '../api/root';
 import { checkRoomByName, deleteRoom, getRoomById } from '../api/roomApi';
 import * as StompJS from '@stomp/stompjs';
 import { myLogin } from '../slices/mySlice';
+import Greeting from '../assets/images/greeting.png';
 
 const TotalContainer = styled.div`
 	display: flex;
@@ -343,6 +344,16 @@ const Room = () => {
 									console.log(err);
 								});
 						})
+						.then(() =>
+							Swal.fire({
+								title: '환영합니다!',
+								text: `러플리에 오신 것을 환영합니다!플레이리스트를 재생해 음악을 들어보세요!`,
+								imageUrl: Greeting,
+								imageWidth: 200,
+								imageHeight: 400,
+								imageAlt: 'How To Play',
+							}),
+						)
 						.catch((err) => {
 							navigate('/');
 							Swal.fire({
@@ -362,6 +373,7 @@ const Room = () => {
 			navigate('/');
 		}
 	}, []);
+
 	const client = new StompJS.Client({
 		brokerURL: `${process.env.REACT_APP_STACK_WS_SERVER}/ws/websocket`,
 		connectHeaders: {
@@ -412,8 +424,7 @@ const Room = () => {
 			]);
 		}
 
-		console.log('나의 테스트', message.body);
-		console.log('subscribe msg', receiveMessage, receiveUser);
+		// console.log('subscribe msg', receiveMessage, receiveUser);
 		if (receiveType === `ENTER` || receiveType === `LEAVE`) {
 			getRoomById(roomId)
 				.then((res) => {
