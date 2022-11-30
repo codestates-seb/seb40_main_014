@@ -7,6 +7,7 @@ import Toggle from '../common/Toggle';
 import { AiFillYoutube } from 'react-icons/ai';
 import Category from '../common/Category';
 import ErrorMessage from '../common/ErrorMessage';
+import Swal from 'sweetalert2';
 
 type Props = {
 	setPlTitle: Dispatch<SetStateAction<string>>;
@@ -44,6 +45,9 @@ const PlayListSetting = ({
 		setPlaylistDetailError('');
 		setPlaylistError('');
 
+		if (plList.length >= 1) {
+			return setPlaylistError('동영상은 10개 이상 추가할 수 없습니다.');
+		}
 		let videoId = getVideoId(url);
 		const musicInfo: musicInfoType = {};
 
@@ -96,6 +100,11 @@ const PlayListSetting = ({
 			const category = value;
 			if (categoryList.length <= 2 && !categoryList.includes(category)) {
 				setCategoryList((prev) => [...prev, category]);
+			} else if (categoryList.length === 3) {
+				Swal.fire({
+					icon: 'warning',
+					text: '카테고리는 3개 이상 넣을 수 없습니다.',
+				});
 			}
 		}
 	};
@@ -116,7 +125,7 @@ const PlayListSetting = ({
 							className={titleError ? 'error' : ''}
 							value={plTitle}
 							onChange={(e) => setPlTitle(e.target.value)}
-							maxLength={70}
+							maxLength={20}
 							// eslint-disable-next-line jsx-a11y/no-autofocus
 							autoFocus
 						/>
@@ -207,7 +216,7 @@ const PlayListSettingStyle = styled.div`
 	.row > div:first-of-type {
 		display: flex;
 
-		@media (max-width: 800px) {
+		@media (max-width: 640px) {
 			flex-direction: column;
 		}
 	}
