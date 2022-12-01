@@ -143,7 +143,7 @@ const SearchBar = () => {
 						<option value="발라드">발라드</option>
 						<option value="댄스">댄스</option>
 						<option value="힙합">힙합</option>
-						<option value="R&B">R&B</option>
+						<option value="알앤비">알앤비</option>
 						<option value="인디">인디</option>
 						<option value="록">록</option>
 						<option value="트로트">트로트</option>
@@ -185,7 +185,7 @@ const SearchBarStyle = styled.div`
 		margin-right: 3%;
 
 		> * {
-			box-shadow: 0 0 10px ${(props) => props.theme.colors.gray300};
+			/* box-shadow: 0 0 10px ${(props) => props.theme.colors.gray300}; */
 
 			height: 45px;
 			padding: 0 10px;
@@ -212,9 +212,9 @@ const SearchBarStyle = styled.div`
 		select:nth-of-type(3) {
 			display: none;
 		}
-		option:first-of-type {
+		/* option:first-of-type {
 			background-color: ${(props) => props.theme.colors.gray400};
-		}
+		} */
 
 		> *:nth-child(1) {
 			border-radius: 5px 0 0 5px;

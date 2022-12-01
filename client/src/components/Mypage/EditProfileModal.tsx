@@ -54,7 +54,7 @@ const EditProfileModal = ({
 		editUserInfo(memberId, changeName, changeIntro).then((res) => {
 			console.log('editUserInfo res', res);
 
-			if (res.status === 402) {
+			if (res.response && res.response.status === 402) {
 				setNicknameError('중복된 닉네임입니다');
 				return;
 			} else {
@@ -65,12 +65,13 @@ const EditProfileModal = ({
 		});
 	};
 
+	// 모달 오픈시 스크롤 막기
 	useEffect(() => {
 		document.body.style.cssText = `
       position: fixed; 
       top: -${window.scrollY}px;
       overflow-y: scroll;
-      width: 100%;`;
+      width: 100vw`;
 		return () => {
 			const scrollY = document.body.style.top;
 			document.body.style.cssText = '';

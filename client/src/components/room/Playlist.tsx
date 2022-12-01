@@ -252,7 +252,7 @@ const PlaylistPart = ({ playlist }) => {
 				{playlist.length === 0 ? (
 					<Loading />
 				) : (
-					<img src={playlist[0].thumbnail} alt="thumbnail"></img>
+					<img src={playlist[0].thumbnail} alt="썸네일"></img>
 				)}
 			</ThumbnailContainer>
 			<MusicContainer>

@@ -25,7 +25,6 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 		content,
 	} = userInfo;
 
-	const isLogin = useSelector(myLogin);
 	const my = useSelector(myValue);
 
 	const [isOpenModal, setOpenModal] = useState(false);
@@ -65,7 +64,7 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 		<>
 			<Wrapper>
 				<Top>
-					<Img src={picture} alt="profile" />
+					<Img src={picture} alt="프로필" />
 					<Info>
 						<Badge grade={grade} margin="0px 0px 15px 0px" />
 						<div>
@@ -80,7 +79,7 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 						<Follower>
 							팔로워
 							<span>{followNum}</span>
-							{isLogin && myId !== memberId && (
+							{myId !== memberId && (
 								<button onClick={handleFollow}>
 									{followCheck ? '언팔로우' : '팔로우'}
 								</button>

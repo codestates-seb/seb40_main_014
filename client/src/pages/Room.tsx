@@ -20,7 +20,6 @@ const TotalContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
 	height: 100vh;
 	@media screen and (max-width: 640px) {
 		display: flex;
@@ -80,6 +79,9 @@ const ExitButton = styled.button`
 	color: ${(props) => props.theme.colors.purple};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
 	transition: 0.1s;
+	:hover {
+		opacity: 0.9;
+	}
 `;
 
 const ChatHeaderContent = styled.div`
@@ -188,6 +190,9 @@ const UpdateRoomBtn = styled.button`
 	color: ${(props) => props.theme.colors.purple};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
 	transition: 0.1s;
+	:hover {
+		opacity: 0.9;
+	}
 `;
 
 export type MessageInfo = {
@@ -365,9 +370,11 @@ const Room = () => {
 		} else {
 			Swal.fire({
 				icon: 'warning',
-				text: '채팅방은 로그인 후 입장가능합니다.',
+				text: '로그인 후 입장하실 수 있습니다.',
+				confirmButtonText: '뒤로가기',
+			}).then(() => {
+				navigate(-1);
 			});
-			navigate('/');
 		}
 	}, []);
 
@@ -513,7 +520,6 @@ const Room = () => {
 
 	return (
 		<>
-			{' '}
 			<TotalContainer>
 				<Container>
 					<ChatHeader>

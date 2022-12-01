@@ -106,12 +106,6 @@ const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 
 export default MypageContents;
 
-const NoSwiperStyle = styled.div`
-	display: flex;
-	justify-content: space-evenly;
-	width: 100%;
-`;
-
 const MypageContentsStyle = styled.div`
 	box-shadow: 1px 1px 10px #4d0bd133;
 `;
@@ -188,4 +182,10 @@ const Body = styled.div`
 
 const MyPageSwiperStyle = styled(SwiperStyle)`
 	margin-bottom: 0;
+`;
+
+const NoSwiperStyle = styled.div`
+	display: flex;
+	justify-content: space-evenly;
+	width: 100%;
 `;

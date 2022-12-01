@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { HiHeart } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Category from '../common/Category';
 import {
 	Categorys,
@@ -16,6 +16,9 @@ import {
 	Title,
 } from './Room';
 import { IoMdMusicalNote } from 'react-icons/io';
+import { useSelector } from 'react-redux';
+import { myLogin } from '../../slices/mySlice';
+import Swal from 'sweetalert2';
 
 type PlaylistType = {
 	playList: PlaylistInfoType;
@@ -24,6 +27,9 @@ type PlaylistType = {
 };
 
 const Playlist = ({ playList, swiper }: PlaylistType) => {
+	const navigate = useNavigate();
+	const isLogin = useSelector(myLogin);
+
 	const {
 		playlistId,
 		title,
@@ -34,23 +40,42 @@ const Playlist = ({ playList, swiper }: PlaylistType) => {
 		playlistItems,
 	} = playList;
 
+	const onClickLinkPlaylist = () => {
+		if (!isLogin) {
+			Swal.fire({
+				icon: 'warning',
+				text: '로그인 후 이동하실 수 있습니다.',
+			});
+		} else {
+			navigate(`/playlistdetail/${playlistId}`);
+		}
+	};
+
+	const onClickLinkName = () => {
+		if (!isLogin) {
+			Swal.fire({
+				icon: 'warning',
+				text: '로그인 후 이동하실 수 있습니다.',
+			});
+		} else {
+			navigate(`/mypage/${memberId}`);
+		}
+	};
+
 	return (
 		<RoomStyle>
-			<Link to={`/playlistdetail/${playlistId}`}>
-				<LinkRoom>
-					<Thumbnail>
-						<Img src={playlistItems[0].thumbnail} alt="thumbnail" />
-						<PlaylistCount swiper={swiper}>
-							<IoMdMusicalNote />
-							{playlistItems.length}
-						</PlaylistCount>
-					</Thumbnail>
-					<Title swiper={swiper}>{title}</Title>
-				</LinkRoom>
-			</Link>
-
-			<Name swiper={swiper}>
-				<Link to={`/mypage/${memberId}`}>{name}</Link>
+			<LinkRoom onClick={onClickLinkPlaylist}>
+				<Thumbnail>
+					<Img src={playlistItems[0].thumbnail} alt="썸네일" />
+					<PlaylistCount swiper={swiper}>
+						<IoMdMusicalNote />
+						{playlistItems.length}
+					</PlaylistCount>
+				</Thumbnail>
+				<Title swiper={swiper}>{title}</Title>
+			</LinkRoom>
+			<Name swiper={swiper} onClick={onClickLinkName}>
+				{name}
 			</Name>
 			<Detail>
 				<Categorys>

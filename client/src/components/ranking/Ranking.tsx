@@ -15,7 +15,7 @@ const Ranking = ({ ranking }: RankingType) => {
 			<div>{ranking.rank}</div>
 			<div>
 				<Link to={`/mypage/${ranking.memberId}`}>
-					<Img src={ranking.picture} alt="profile" />
+					<Img src={ranking.picture} alt="프로필" />
 					{ranking.name}
 				</Link>
 			</div>

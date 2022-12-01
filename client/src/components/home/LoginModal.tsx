@@ -8,12 +8,13 @@ type LoginModalType = {
 };
 
 const LoginModal = ({ handleOpenModal }: LoginModalType) => {
+	// 모달 오픈시 스크롤 막기
 	useEffect(() => {
 		document.body.style.cssText = `
-      position: fixed; 
-      top: -${window.scrollY}px;
-      overflow-y: scroll;
-      width: 100%;`;
+		  position: fixed;
+		  top: -${window.scrollY}px;
+		  overflow-y: scroll;
+		  width: 100vw;`;
 		return () => {
 			const scrollY = document.body.style.top;
 			document.body.style.cssText = '';
@@ -96,7 +97,7 @@ const H2 = styled.h2`
 `;
 
 const GoogleLogin = styled.button`
-	margin-bottom: 40px;
+	margin-bottom: 55px;
 	background-color: ${(props) => props.theme.colors.white};
 	border: 1.5px solid ${(props) => props.theme.colors.gray300};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
@@ -122,14 +123,14 @@ const GoogleLogin = styled.button`
 
 	// Tablet
 	@media screen and (max-width: 980px) {
-		margin-bottom: 35px;
+		margin-bottom: 50px;
 		> a {
 			padding: 15px 55px;
 		}
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		margin-bottom: 30px;
+		margin-bottom: 45px;
 		font-size: ${(props) => props.theme.fontSize.medium};
 
 		> a {

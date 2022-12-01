@@ -47,16 +47,20 @@ const PlaylistList = () => {
 
 	useEffect(() => {
 		getPlaylistsByLike(1, 7).then((res) => {
-			console.log('playlists by like res', res.data);
+			console.log('getPlaylistsByLike res', res);
 
-			setPlaylistsByLike(res.data);
+			if (res.data) {
+				setPlaylistsByLike(res.data);
+			}
 		});
 
-		// getPlaylistsByDj(1, 7).then((res) => {
-		// 	console.log('playlists by dj res', res);
+		getPlaylistsByDj(1, 7).then((res) => {
+			console.log('getPlaylistsByDj res', res);
 
-		// 	setPlaylistsByDj(res.data);
-		// });
+			if (res.data) {
+				setPlaylistsByDj(res.data);
+			}
+		});
 	}, []);
 
 	//* 무한 스크롤
@@ -67,11 +71,14 @@ const PlaylistList = () => {
 	const fetch = useCallback(() => {
 		getPlaylists(currentPage.current, 6).then((res) => {
 			console.log('getPlaylists res', res);
-			const data = res.data;
-			const { page, totalPages } = res.pageInfo;
-			setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
-			setHasNextPage(page !== totalPages);
-			if (hasNextPage) currentPage.current += 1;
+
+			if (res.data) {
+				const data = res.data;
+				const { page, totalPages } = res.pageInfo;
+				setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
+				setHasNextPage(page !== totalPages);
+				if (hasNextPage) currentPage.current += 1;
+			}
 		});
 	}, []);
 

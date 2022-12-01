@@ -1,8 +1,11 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Category from '../common/Category';
 import { HiUser } from 'react-icons/hi';
 import { RoomInfoType } from '../../pages/RoomList';
+import { useSelector } from 'react-redux';
+import { myLogin } from '../../slices/mySlice';
+import Swal from 'sweetalert2';
 
 type RoomType = {
 	room: RoomInfoType;
@@ -15,23 +18,47 @@ export type SwiperTrueType = {
 };
 
 const Room = ({ room, swiper }: RoomType) => {
+	const navigate = useNavigate();
+	const isLogin = useSelector(myLogin);
+
 	const { roomId, title, userlist } = room;
-	const { memberId, name } = room.memberResponseDto;
+	const { memberId, name } =
+		room.memberResponseDto || room.rankChatRoomSimpleDto;
 	const { categoryList, playlistItems } = room.playlistResponseDto;
+
+	const onClickLinkRoom = () => {
+		if (!isLogin) {
+			Swal.fire({
+				icon: 'warning',
+				text: '로그인 후 입장하실 수 있습니다.',
+			});
+		} else {
+			navigate(`/rooms/${roomId}`);
+		}
+	};
+
+	const onClickLinkName = () => {
+		if (!isLogin) {
+			Swal.fire({
+				icon: 'warning',
+				text: '로그인 후 이동하실 수 있습니다.',
+			});
+		} else {
+			navigate(`/mypage/${memberId}`);
+		}
+	};
 
 	return (
 		<RoomStyle>
-			<Link to={`/rooms/${roomId}`}>
-				<LinkRoom>
-					<Thumbnail>
-						<Img src={playlistItems[0].thumbnail} alt="thumbnail" />
-						<Onair swiper={swiper}>ON AIR</Onair>
-					</Thumbnail>
-					<Title swiper={swiper}>{title}</Title>
-				</LinkRoom>
-			</Link>
-			<Name swiper={swiper}>
-				<Link to={`/mypage/${memberId}`}>{name}</Link>
+			<LinkRoom onClick={onClickLinkRoom}>
+				<Thumbnail>
+					<Img src={playlistItems[0].thumbnail} alt="썸네일" />
+					<Onair swiper={swiper}>ON AIR</Onair>
+				</Thumbnail>
+				<Title swiper={swiper}>{title}</Title>
+			</LinkRoom>
+			<Name swiper={swiper} onClick={onClickLinkName}>
+				{name}
 			</Name>
 			<Detail>
 				<Categorys>
@@ -65,11 +92,6 @@ export const RoomStyle = styled.div`
 	padding: 7px;
 	z-index: 1111;
 
-	// 14
-	@media screen and (max-width: 1512px) {
-		width: calc((100vw - 30vw) * 0.306);
-		margin-bottom: calc((100vw - 30vw) * 0.04);
-	}
 	// Tablet
 	@media screen and (max-width: 980px) {
 		width: calc((100vw - 160px) * 0.47);
@@ -82,26 +104,8 @@ export const RoomStyle = styled.div`
 	}
 `;
 
-export const ThumbnailBackdrop = styled.div`
-	display: none;
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	top: 0;
-	text-align: center;
-	background-color: #ffffff37;
-	border-radius: 3px;
-	z-index: 1111;
-
-	div {
-		color: ${(props) => props.theme.colors.white};
-		padding: 30px;
-		margin: calc(100% / 2) 0;
-	}
-`;
-
 export const LinkRoom = styled.div`
+	cursor: pointer;
 	:hover {
 		opacity: 0.75;
 	}
@@ -118,7 +122,7 @@ export const Img = styled.img`
 `;
 
 export const Title = styled.h3<SwiperTrueType>`
-	display: inline-block;
+	text-align: left;
 	height: 36px;
 	margin-bottom: 10px;
 	font-weight: 600;
@@ -144,12 +148,12 @@ export const Title = styled.h3<SwiperTrueType>`
 	}
 `;
 
-export const Name = styled.h4<SwiperTrueType>`
+export const Name = styled.button<SwiperTrueType>`
 	font-size: ${(props) => props.theme.fontSize.small};
 	color: ${(props) => props.theme.colors.gray600};
 	margin-bottom: 15px;
 
-	a:hover {
+	:hover {
 		opacity: 0.75;
 	}
 

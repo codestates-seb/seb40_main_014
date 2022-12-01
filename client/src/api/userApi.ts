@@ -44,21 +44,6 @@ export const getAllUserInfo = async (accessToken) => {
 	}
 };
 
-export const editUserInfox = async (memberId: number, formData) => {
-	try {
-		const result = await instance.patch(`/api/members/${memberId}`, formData, {
-			headers: {
-				'Content-Type': 'multipart/form-data',
-				Authorization: localStorage.getItem('accessToken'),
-			},
-		});
-
-		return result.data;
-	} catch (err) {
-		return err;
-	}
-};
-
 export const editUserInfo = async (
 	memberId: number,
 	name: string,
@@ -72,7 +57,7 @@ export const editUserInfo = async (
 
 		return result.data;
 	} catch (err) {
-		return err['response'];
+		return err;
 	}
 };
 
