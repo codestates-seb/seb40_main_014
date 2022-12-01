@@ -119,10 +119,9 @@ public class ChatRoomMapper {
         List<ChatRoom> chatRoomList = new ArrayList<>();
         for (Member member1 : member) {
             // 멤버가 가지고 있는 룸을 전부 리스트에 추가
-            for (int i = 0; i < member1.getChatRooms().size(); i++) {
-                chatRoomList.add(member1.getChatRooms().get(i));
+            chatRoomList.add(member1.getChatRooms().get(0));
             }
-        }
+
         // 정렬된 ChatRoom 리스트로 한건씩 Dto 생성
         List<RankResponseChatRoomDto> rankResponseChatRoomDtoList = chatRoomList.stream()
                 .map(chatRoom -> chatRoomRankResponseDtoToChatRoom(chatRoom))
