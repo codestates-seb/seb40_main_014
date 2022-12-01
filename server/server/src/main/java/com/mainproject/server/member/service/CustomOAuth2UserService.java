@@ -59,6 +59,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         if (member.getCreatedAt() == null) {
             member.setCreatedAt(LocalDateTime.now());
         }
+//                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
+//                .orElse(attributes.toEntity());
 
         return memberRepository.save(member);
     }

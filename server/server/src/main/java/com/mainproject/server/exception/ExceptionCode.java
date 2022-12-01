@@ -12,7 +12,7 @@ public enum ExceptionCode {
     TOKEN_NOT_AVAILABLE(401, "유효하지 않은 토큰입니다"),
     BAD_REQUEST(400, "잘못된 요청입니다."),
     ROOM_NOT_EXISTS(404, "채팅방이 존재하지 않습니다."),
-    EMAIL_ALREADY_EXISTS(400, "이미 가입된 이메일입니다.");
+    MEMBER_NAME_ALREADY_EXISTS(404, " memberName already exists");
 
     @Getter
     private int status;

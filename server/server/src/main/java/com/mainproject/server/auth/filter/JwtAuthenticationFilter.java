@@ -89,8 +89,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         System.out.println("bearer"+accessToken);
 
         setResponseBody(response, authenticatedMember);
-
-        redirect(request, response, email, authorities);
     }
 
 
@@ -101,14 +99,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String content = gson.toJson(singleResponseDto);
         response.getWriter().write(content);
 
-    }
-
-    private void redirect(HttpServletRequest request, HttpServletResponse response, String username, List<GrantedAuthority> authorities) throws IOException {
-        String accessToken = delegateAccessToken(username, authorities);
-        String refreshToken = delegateRefreshToken(username, authorities);
-
-        String uri = createURI(accessToken, refreshToken, username).toString();
-        response.sendRedirect(uri);
     }
 
     private String delegateAccessToken(String email, List<GrantedAuthority> authorities) {
@@ -138,23 +128,5 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration, secretKey);
 
         return refreshToken;
-    }
-
-    private URI createURI(String accessToken, String refreshToken, String email) {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        String memberId = memberRepository.findByEmail(email).get().getMemberId().toString();
-        queryParams.add("access_token", "bearer"+accessToken);
-        queryParams.add("refresh_token", "bearer"+refreshToken);
-        queryParams.add("member_id", memberId);
-
-        return UriComponentsBuilder
-                .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
-                .path("/loginCallback")
-                .queryParams(queryParams)
-                .build()
-                .toUri();
     }
 }

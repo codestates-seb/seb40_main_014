@@ -49,6 +49,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         // AccessToken 유효하다면 컨텍스트에 저장
         if (accessToken != null && jwtTokenizer.validateToken(accessToken)) {
             if ( jwtTokenizer.validateToken(accessToken) )
+//                response.setHeader("Authorization", "bearer"+accessToken);
                 setSecurityContext(claims);
         }
 
@@ -71,6 +72,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
         MemberIdAuthenticationToken memberIdAuthenticationToken = new MemberIdAuthenticationToken(username, null, authorities, memberId);
 
+//        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
+
         SecurityContextHolder.getContext().setAuthentication(memberIdAuthenticationToken);
     }
 
@@ -80,5 +83,10 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         return null;
     }
 
+    public String resolveRefreshToken(HttpServletRequest request) {
+        if (request.getHeader("RefreshToken") != null)
+            return request.getHeader("RefreshToken").substring(6);
+        return null;
+    }
 }
 
