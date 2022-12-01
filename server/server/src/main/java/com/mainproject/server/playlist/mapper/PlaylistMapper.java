@@ -1,5 +1,7 @@
 package com.mainproject.server.playlist.mapper;
 
+import com.mainproject.server.member.dto.RankPlaylistSimpleDto;
+import com.mainproject.server.member.dto.RankResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.playlist.dto.*;
 import com.mainproject.server.playlist.entity.Playlist;
@@ -7,6 +9,7 @@ import com.mainproject.server.playlist.entity.PlaylistItem;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,7 +62,6 @@ public interface PlaylistMapper {
             playlistResponseDto.modifiedAt(playlist.getModifiedAt());
             playlistResponseDto.memberId(playlist.getMember().getMemberId());
             playlistResponseDto.name(playlist.getMember().getName());
-
             playlistResponseDto.like(playlist.getLikes().size());
             playlistResponseDto.categoryList(playlist.getCategoryList());
             playlistResponseDto.status(playlist.isStatus());
@@ -120,7 +122,6 @@ public interface PlaylistMapper {
             likePlaylistResponseDto.likeState(likeState);
             likePlaylistResponseDto.bookmarkState(bookmarkState);
             likePlaylistResponseDto.playlistItems(playlistItemsToPlaylistItemResponseDto(playlistItems));
-            playlist.setLikePlus(playlist.getLikes().size());
             return likePlaylistResponseDto.build();
         }
     }
@@ -157,5 +158,41 @@ public interface PlaylistMapper {
 
         return simplePlaylistResponseDto.build();
     }
+//
+//    default RankResponsePlaylistDto playlistRankResponseDtoToPlaylist(Playlist playlist, List<Member> member) {
+//        if (playlist == null) {
+//            return null;
+//        } else {
+//
+//            PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDti(playlist);
+//
+//            Member serviceMember = memberService.findMember(playlistResponseDto.getMemberId());
+//            List<RankResponseDto> rankResponseDtoList = memberMapper.memberListToRankResponseDtoList(Collections.singletonList(serviceMember));
+//            RankPlaylistSimpleDto rankPlaylistSimpleDto = memberMapper.memberToRankPlaylistSimpleDto(serviceMember);
+//
+//            RankResponsePlaylistDto.RankResponsePlaylistDtoBuilder rankResponsePlaylistDto = RankResponsePlaylistDto.builder();
+//            List<PlaylistItem> playlistItems = playlist.getPlaylistItems();
+//            rankResponsePlaylistDto.playlistId(playlist.getPlaylistId());
+//            rankResponsePlaylistDto.title(playlist.getPlTitle());
+//            rankResponsePlaylistDto.memberId(playlist.getMember().getMemberId());
+//            rankResponsePlaylistDto.name(playlist.getMember().getName());
+//            rankResponsePlaylistDto.like(playlist.getLikes().size());
+//            rankResponsePlaylistDto.categoryList(playlist.getCategoryList());
+//            rankResponsePlaylistDto.status(playlist.isStatus());
+//            rankResponsePlaylistDto.rankResponseDto(new RankResponseDto());
+//            rankResponsePlaylistDto.rankPlaylistSimpleDto(new RankPlaylistSimpleDto());
+//            return rankResponsePlaylistDto.build();
+//        }
+//
+//    }
+//
+//    default List<RankResponsePlaylistDto> playlistRankDtoToMember(List<Playlist> playlists, List<Member> member) {
+//        List<RankResponsePlaylistDto> rankResponsePlaylistDtoList = playlists.stream()
+//                .map(playlist -> playlistRankResponseDtoToPlaylist(playlist,(member)))
+//                .collect(Collectors.toList());
+//
+//        return  rankResponsePlaylistDtoList;
+//    }
+
 }
 
