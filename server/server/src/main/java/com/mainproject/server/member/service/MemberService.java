@@ -132,4 +132,12 @@ public class MemberService {
 
         return findAllRooms;
     }
+
+    public Page<Member> findPlTopDjList(int page, int size) {
+        Page<Member> findAllPlaylist = memberRepository.findAll(
+                PageRequest.of(page, size, Sort.by("ranking")));
+
+        return findAllPlaylist;
+    }
+
 }
