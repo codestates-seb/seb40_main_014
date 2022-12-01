@@ -32,24 +32,32 @@ const UserPlayList = () => {
 			});
 		} else {
 			if (Number(id) === 1) {
-				getUserInfo(Number(userId)).then((res) => {
-					if (res.data) {
+				getUserInfo(Number(userId))
+					.then((res) => {
 						setTitle(`${res.data.name}님의 플레이리스트`);
 						setPlayLists(res.data.playlist.data);
-					}
-				});
+					})
+					.catch((err) => {
+						console.log(err);
+					});
 			}
 			if (Number(id) === 2) {
 				setTitle('보관한 플레이리스트');
-				getBookmarkList(Number(userId)).then((res) => {
-					if (res.data) {
+				getBookmarkList(Number(userId))
+					.then((res) => {
 						setPlayLists(res.data);
-					}
-				});
+					})
+					.catch((err) => {
+						console.log(err);
+					});
 			}
 			if (Number(id) === 3) {
 				setTitle('팔로우 한 DJ');
-				getFollowList(Number(userId)).then((res) => setFollowList(res.data));
+				getFollowList(Number(userId))
+					.then((res) => setFollowList(res.data))
+					.catch((err) => {
+						console.log(err);
+					});
 			}
 		}
 	}, []);

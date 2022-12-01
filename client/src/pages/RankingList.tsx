@@ -20,13 +20,15 @@ const RankingList = () => {
 	const [rankings, setRankings] = useState<RankingInfoType[]>([]);
 
 	useEffect(() => {
-		getRanking().then((res) => {
-			console.log('ranking res', res);
+		getRanking()
+			.then((res) => {
+				console.log('ranking res', res);
 
-			if (res.data) {
 				setRankings(res.data);
-			}
-		});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}, []);
 
 	return (

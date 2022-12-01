@@ -46,21 +46,25 @@ const PlaylistList = () => {
 	const [playliistsByDj, setPlaylistsByDj] = useState<PlaylistInfoType[]>([]);
 
 	useEffect(() => {
-		getPlaylistsByLike(1, 7).then((res) => {
-			console.log('getPlaylistsByLike res', res);
+		getPlaylistsByLike(1, 7)
+			.then((res) => {
+				console.log('getPlaylistsByLike res', res);
 
-			if (res.data) {
 				setPlaylistsByLike(res.data);
-			}
-		});
+			})
+			.then((err) => {
+				console.log(err);
+			});
 
-		getPlaylistsByDj(1, 7).then((res) => {
-			console.log('getPlaylistsByDj res', res);
+		getPlaylistsByDj(1, 7)
+			.then((res) => {
+				console.log('getPlaylistsByDj res', res);
 
-			if (res.data) {
 				setPlaylistsByDj(res.data);
-			}
-		});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}, []);
 
 	//* 무한 스크롤
@@ -69,17 +73,19 @@ const PlaylistList = () => {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
-		getPlaylists(currentPage.current, 6).then((res) => {
-			console.log('getPlaylists res', res);
+		getPlaylists(currentPage.current, 6)
+			.then((res) => {
+				console.log('getPlaylists res', res);
 
-			if (res.data) {
 				const data = res.data;
 				const { page, totalPages } = res.pageInfo;
 				setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
 				setHasNextPage(page !== totalPages);
 				if (hasNextPage) currentPage.current += 1;
-			}
-		});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}, []);
 
 	useEffect(() => {
@@ -145,7 +151,7 @@ const PlaylistList = () => {
 				</ButtonWrapper>
 			)}
 			<H2>가장 많은 좋아요를 받은 플레이리스트</H2>
-			{palylistsByLike.length ? (
+			{palylistsByLike && (
 				<SwiperStyle {...settings} onInit={onInit1}>
 					{palylistsByLike.map((playlist: PlaylistInfoType) => {
 						// 본인이 쓴 글
@@ -183,9 +189,9 @@ const PlaylistList = () => {
 						}
 					})}
 				</SwiperStyle>
-			) : null}
+			)}
 			<H2>인기 DJ 플레이리스트</H2>
-			{playliistsByDj.length ? (
+			{playliistsByDj && (
 				<SwiperStyle {...settings} onInit={onInit2}>
 					{playliistsByDj.map((playlist: PlaylistInfoType) => {
 						// 본인이 쓴 글
@@ -223,28 +229,25 @@ const PlaylistList = () => {
 						}
 					})}
 				</SwiperStyle>
-			) : null}
+			)}
 			<H2>전체</H2>
 			<ListStyle>
-				{playlists.length
-					? playlists.map((playlist: PlaylistInfoType) => {
-							// 본인이 쓴 글
-							if (playlist.memberId === memberId) {
+				{playlists &&
+					playlists.map((playlist: PlaylistInfoType) => {
+						// 본인이 쓴 글
+						if (playlist.memberId === memberId) {
+							return <Playlist playList={playlist} key={playlist.playlistId} />;
+						}
+						//  남이 쓴 글
+						else {
+							// 비공개는 보여주지 않는다.
+							if (playlist.status) {
 								return (
 									<Playlist playList={playlist} key={playlist.playlistId} />
 								);
 							}
-							//  남이 쓴 글
-							else {
-								// 비공개는 보여주지 않는다.
-								if (playlist.status) {
-									return (
-										<Playlist playList={playlist} key={playlist.playlistId} />
-									);
-								}
-							}
-					  })
-					: null}
+						}
+					})}
 				<div ref={observerTargetEl} />
 			</ListStyle>
 		</MinHeightWrapper>

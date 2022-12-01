@@ -51,16 +51,18 @@ const MakePlayList = () => {
 			});
 		} else {
 			if (type === 'modify') {
-				getPlayList(id).then((res) => {
-					if (res.data) {
+				getPlayList(id)
+					.then((res) => {
 						const data = res.data;
 						setPlId(data.playlistId);
 						setPlTitle(data.title);
 						setPlList(data.playlistItems);
 						setCategoryList(data.categoryList);
 						setStatus(!data.status);
-					}
-				});
+					})
+					.catch((err) => {
+						console.log(err);
+					});
 			}
 		}
 	}, []);
@@ -117,25 +119,33 @@ const MakePlayList = () => {
 	const createPl = () => {
 		if (validation(data)) {
 			console.log(data);
-			createPlayList(data).then((res) => {
-				if (res.data) navigate(`/mypage/${myvalue.memberId}`);
-			});
+			createPlayList(data)
+				.then((res) => {
+					navigate(`/mypage/${myvalue.memberId}`);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		}
 	};
 
 	const modifyPl = () => {
 		if (validation(data)) {
 			data.playlistId = plId;
-			modifyPlayList(data).then((res) => {
-				if (res.data) navigate(-1);
-			});
+			modifyPlayList(data)
+				.then((res) => {
+					navigate(-1);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		}
 	};
 
 	return (
 		<MakePlayListStyle>
 			<PlayListSetting {...settingProps} />
-			{plList.length ? <MusicList {...props} /> : null}
+			{plList && <MusicList {...props} />}
 			{type === 'modify' ? (
 				<DefaultButton
 					width="200px"

@@ -12,7 +12,7 @@ export const getPlaylists = async (page?: number, size?: number) => {
 
 		return result.data;
 	} catch (err) {
-		console.log(err);
+		return err;
 	}
 };
 
@@ -23,7 +23,7 @@ export const getPlaylistsByLike = async (page: number, size: number) => {
 		);
 		return result.data;
 	} catch (err) {
-		console.log(err);
+		return err;
 	}
 };
 
@@ -34,7 +34,7 @@ export const getPlaylistsByDj = async (page: number, size: number) => {
 		);
 		return result.data;
 	} catch (err) {
-		console.log(err);
+		return err;
 	}
 };
 

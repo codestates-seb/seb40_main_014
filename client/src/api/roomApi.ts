@@ -5,7 +5,7 @@ export const getRooms = async (page: number, size: number) => {
 		const result = await instance.get(`/rooms?page=${page}&size=${size}`);
 		return result.data;
 	} catch (err) {
-		console.log(err);
+		return err;
 	}
 };
 
@@ -14,7 +14,7 @@ export const getRoomsByView = async (page: number, size: number) => {
 		const result = await instance.get(`/rooms/users?page=${page}&size=${size}`);
 		return result.data;
 	} catch (err) {
-		console.log(err);
+		return err;
 	}
 };
 
@@ -23,7 +23,7 @@ export const getRoomsByDj = async (page: number, size: number) => {
 		const result = await instance.get(`/rooms/rank?page=${page}&size=${size}`);
 		return result.data;
 	} catch (err) {
-		console.log(err);
+		return err;
 	}
 };
 

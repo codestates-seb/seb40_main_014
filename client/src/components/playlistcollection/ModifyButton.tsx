@@ -45,11 +45,13 @@ const ModifyButton = ({
 							navigate(-1);
 						}
 						if (pathname === 'playlistcollection') {
-							getUserInfo(Number(userId)).then((res) => {
-								if (res.data) {
+							getUserInfo(Number(userId))
+								.then((res) => {
 									setPlayLists(res.data.playlist.data);
-								}
-							});
+								})
+								.catch((err) => {
+									console.log(err);
+								});
 						}
 					}
 				});

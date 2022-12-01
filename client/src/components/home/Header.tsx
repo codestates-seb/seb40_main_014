@@ -35,13 +35,17 @@ const Header = () => {
 
 	// 로그아웃
 	const handleLogout = () => {
-		logout().then((res) => {
-			console.log('logout res', res);
-			localStorage.removeItem('accessToken');
-			localStorage.removeItem('refreshToken');
-			dispatch(myLogout());
-			navigate('/');
-		});
+		logout()
+			.then((res) => {
+				console.log('logout res', res);
+				localStorage.removeItem('accessToken');
+				localStorage.removeItem('refreshToken');
+				dispatch(myLogout());
+				navigate('/');
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 
 	//마이페이지 이동
@@ -269,7 +273,8 @@ const ProfileUl = styled.ul`
 	display: none;
 	position: absolute;
 	top: 45px;
-	left: -11px;
+	/* left: -11px; */
+	right: 0;
 	padding: 20px;
 	width: 150px;
 	background-color: ${(props) => props.theme.colors.background};
