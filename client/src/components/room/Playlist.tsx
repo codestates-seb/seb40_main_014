@@ -226,7 +226,6 @@ const PlaylistPart = ({ playlist }) => {
 
 	const onPlay = () => {
 		setNowVideo(player.getVideoData().video_id);
-		console.log('테스토', player.getVideoData());
 	};
 
 	useEffect(() => {
