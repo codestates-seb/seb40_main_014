@@ -4,6 +4,7 @@ import Loading from '../components/common/Loading';
 import Layout from '../components/common/Layout';
 import ScrollToTop from '../components/common/ScrollToTop';
 import Room from '../pages/Room';
+import Logout from '../pages/Logout';
 
 const LoginCallback = lazy(() => import('../pages/LoginCallback'));
 const Mypage = lazy(() => import('../pages/Mypage'));
@@ -47,6 +48,7 @@ const AppRouter = () => {
 					<Route path="*" element={<Navigate to="/" replace />} />
 					{/* 방 */}
 					<Route path="/rooms/:id" element={<Room />} />
+					<Route path="/logout" element={<Logout />} />
 				</Routes>
 			</Suspense>
 		</BrowserRouter>
