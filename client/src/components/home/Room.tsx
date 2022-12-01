@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import Category from '../common/Category';
-import { RoomInfoType } from '../../pages/RoomList';
 import { HiUser } from 'react-icons/hi';
+import { RoomInfoType } from '../../pages/RoomList';
 
 type RoomType = {
-	room: any;
+	room: RoomInfoType;
 	key?: string;
 	swiper?: boolean;
 };
@@ -15,22 +15,21 @@ export type SwiperTrueType = {
 };
 
 const Room = ({ room, swiper }: RoomType) => {
-	const { roomId, title, userCount, maxCount, userlist } = room;
+	const { roomId, title, userlist } = room;
 	const { memberId, name } = room.memberResponseDto;
 	const { categoryList, playlistItems } = room.playlistResponseDto;
 
 	return (
 		<RoomStyle>
-			<Thumbnail>
-				<img src={playlistItems[0].thumbnail} alt="thumbnail" />
-				<Link to={`/rooms/${roomId}`}>
-					<ThumbnailBackdrop />
-				</Link>
-				<Onair swiper={swiper}>ON AIR</Onair>
-			</Thumbnail>
-			<Title swiper={swiper}>
-				<Link to={`/rooms/${roomId}`}>{title}</Link>
-			</Title>
+			<Link to={`/rooms/${roomId}`}>
+				<LinkRoom>
+					<Thumbnail>
+						<Img src={playlistItems[0].thumbnail} alt="thumbnail" />
+						<Onair swiper={swiper}>ON AIR</Onair>
+					</Thumbnail>
+					<Title swiper={swiper}>{title}</Title>
+				</LinkRoom>
+			</Link>
 			<Name swiper={swiper}>
 				<Link to={`/mypage/${memberId}`}>{name}</Link>
 			</Name>
@@ -43,15 +42,15 @@ const Room = ({ room, swiper }: RoomType) => {
 								margin="0 4px 0 0"
 								key={idx}
 								swiper={swiper}>
-								{el}
+								<Link to={`/search?type1=room&type2=category&q=${el}`}>
+									{el}
+								</Link>
 							</Category>
 						))}
 				</Categorys>
 				<RoomCount swiper={swiper}>
-					<div className="user_count">
-						<HiUser className="user_icon" />
-						{userlist.length}
-					</div>
+					<HiUser color="#3cc13c" />
+					{userlist.length}
 				</RoomCount>
 			</Detail>
 		</RoomStyle>
@@ -61,14 +60,9 @@ const Room = ({ room, swiper }: RoomType) => {
 export default Room;
 
 export const RoomStyle = styled.div`
-	/* width: calc((100vw - 30vw) * 0.225);
-	margin-bottom: calc((100vw - 30vw) * 0.03); */
 	width: calc((100vw - 30vw) * 0.306);
 	margin-bottom: calc((100vw - 30vw) * 0.04);
 	padding: 7px;
-	/* background-color: ${(props) => props.theme.colors.gray50}; */
-	/* border-radius: ${(props) => props.theme.radius.smallRadius}; */
-	/* box-shadow: 1px 1px 10px #4d0bd133; */
 	z-index: 1111;
 
 	// 14
@@ -96,7 +90,6 @@ export const ThumbnailBackdrop = styled.div`
 	left: 0;
 	top: 0;
 	text-align: center;
-	/* background-color: #4d0bd16e; */
 	background-color: #ffffff37;
 	border-radius: 3px;
 	z-index: 1111;
@@ -108,33 +101,37 @@ export const ThumbnailBackdrop = styled.div`
 	}
 `;
 
+export const LinkRoom = styled.div`
+	:hover {
+		opacity: 0.75;
+	}
+`;
+
 export const Thumbnail = styled.div`
 	position: relative;
 	margin-bottom: 15px;
-	cursor: pointer;
+`;
 
-	:hover {
-		${ThumbnailBackdrop} {
-			display: block;
-		}
-	}
-
-	img {
-		width: 100%;
-		border-radius: 3px;
-	}
+export const Img = styled.img`
+	width: 100%;
+	border-radius: 3px;
 `;
 
 export const Title = styled.h3<SwiperTrueType>`
 	display: inline-block;
+	height: 36px;
 	margin-bottom: 10px;
 	font-weight: 600;
 	font-size: 18px;
 	cursor: pointer;
 
-	:hover {
-		color: ${(props) => props.theme.colors.gray700};
-	}
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	word-wrap: break-word;
+	word-break: break-all;
 
 	// Tablet
 	@media screen and (max-width: 980px) {
@@ -142,6 +139,7 @@ export const Title = styled.h3<SwiperTrueType>`
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
+		height: 28px;
 		font-size: ${(props) => (props.swiper ? '14px' : '16px')};
 	}
 `;
@@ -152,7 +150,7 @@ export const Name = styled.h4<SwiperTrueType>`
 	margin-bottom: 15px;
 
 	a:hover {
-		color: ${(props) => props.theme.colors.gray500};
+		opacity: 0.75;
 	}
 
 	// Mobile
@@ -169,7 +167,7 @@ export const Detail = styled.div`
 
 export const Categorys = styled.div``;
 
-const Onair = styled.div<SwiperTrueType>`
+export const Onair = styled.div<SwiperTrueType>`
 	position: absolute;
 	top: 15px;
 	left: 15px;
@@ -193,22 +191,20 @@ const Onair = styled.div<SwiperTrueType>`
 `;
 
 const RoomCount = styled.div<SwiperTrueType>`
+	> *:first-of-type {
+		margin-right: 4px;
+		font-size: 17px;
+	}
 	display: flex;
 	align-items: center;
 	color: ${(props) => props.theme.colors.gray600};
 
-	.user_icon {
-		margin: 5px 5px 4px 5px;
-		color: #3cc13c;
-	}
-
-	.user_count {
-		display: flex;
-		align-items: center;
-	}
-
 	// Tablet
 	@media screen and (max-width: 980px) {
+		> *:first-of-type {
+			margin-right: 4px;
+			font-size: ${(props) => props.swiper && '15px'};
+		}
 		font-size: ${(props) => props.swiper && '14px'};
 	}
 	// Mobile

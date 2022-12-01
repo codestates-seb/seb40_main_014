@@ -14,8 +14,16 @@ type MypageInfoType = {
 };
 
 const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
-	const { memberId, name, grade, follow, followState, picture, email } =
-		userInfo;
+	const {
+		memberId,
+		name,
+		grade,
+		follow,
+		followState,
+		picture,
+		email,
+		content,
+	} = userInfo;
 
 	const isLogin = useSelector(myLogin);
 	const my = useSelector(myValue);
@@ -25,12 +33,14 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 	const [followNum, setFollowNum] = useState(follow);
 	const [followCheck, setFollowCheck] = useState(followState);
 	const [myName, setMyName] = useState(my.name);
+	const [myIntro, setMyIntro] = useState(my.content);
 
 	useEffect(() => {
 		setMyName(my.name);
+		setMyIntro(my.content);
 		setFollowNum(follow);
 		setFollowCheck(followState);
-	}, [my.name, follow, followState]);
+	}, [my.name, my.content, follow, followState]);
 
 	const handleOpenModal = useCallback(() => {
 		setOpenModal(!isOpenModal);
@@ -61,9 +71,6 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 						<div>
 							<Name>{myId === memberId ? myName : name}</Name>
 							{myId === memberId && (
-								// <Link to="/editProfile">
-								// 	<AiFillEdit />
-								// </Link>
 								<Edit onClick={handleOpenModal}>
 									<AiFillEdit />
 								</Edit>
@@ -81,13 +88,23 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 						</Follower>
 					</Info>
 				</Top>
-				<Bottom className="bottom">자기소개</Bottom>
-			</Wrapper>{' '}
+				<Bottom>
+					{myId === memberId && (
+						<IntroEdit onClick={handleOpenModal}>
+							<AiFillEdit />
+						</IntroEdit>
+					)}
+					{myId === memberId
+						? myIntro || '등록된 자기소개가 없습니다'
+						: content || '등록된 자기소개가 없습니다'}
+				</Bottom>
+			</Wrapper>
 			{isOpenModal && (
 				<EditProfileModal
 					handleOpenModal={handleOpenModal}
 					memberId={memberId}
 					myName={myName}
+					myIntro={myIntro}
 				/>
 			)}
 			{isOpenSide && (
@@ -162,7 +179,7 @@ const Edit = styled.button`
 	transition: 0.1s;
 
 	:hover {
-		color: ${(props) => props.theme.colors.gray600};
+		opacity: 0.75;
 	}
 
 	// Mobile
@@ -193,8 +210,9 @@ export const Follower = styled.div`
 		border-radius: ${(props) => props.theme.radius.smallRadius};
 		transition: 0.1s;
 
+		// 임시
 		:hover {
-			background-color: #410bae;
+			opacity: 0.75;
 		}
 
 		// Mobile
@@ -212,8 +230,9 @@ export const Follower = styled.div`
 
 const Email = styled.div`
 	margin-bottom: 40px;
-	color: #4d0bd198;
+	color: ${(props) => props.theme.colors.gray600};
 	font-size: 14px;
+	font-weight: 300;
 
 	// Mobile
 	@media screen and (max-width: 640px) {
@@ -222,11 +241,32 @@ const Email = styled.div`
 `;
 
 const Bottom = styled.div`
-	height: 100px;
+	position: relative;
+	padding: 40px 60px;
+	min-height: 120px;
 	background-color: ${(props) => props.theme.colors.white};
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-wrap: wrap;
 	box-shadow: 1px 1px 10px #4d0bd133;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		padding: 30px;
+		min-height: 80px;
+	}
+`;
+
+const IntroEdit = styled(Edit)`
+	position: absolute;
+	top: 10px;
+	right: 15px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		top: 5px;
+		right: 10px;
+	}
 `;

@@ -18,7 +18,6 @@ const CategoryStyle = styled.button<CategoryProps>`
 	padding: 2px 4px;
 	margin: ${(props) => (props.margin ? props.margin : `0 10px 0 0`)};
 	font-size: ${(props) => props.theme.fontSize.xSmall};
-	/* height: ${(props) => (props.height ? props.height : `20px`)}; */
 	color: white;
 	background-color: ${(props) =>
 		props.category === '발라드'
@@ -41,7 +40,10 @@ const CategoryStyle = styled.button<CategoryProps>`
 			? '#ae3ec9'
 			: props.theme.colors.gray300};
 	border-radius: 3px;
-	cursor: text;
+
+	:hover {
+		opacity: 0.75;
+	}
 
 	// Mobile
 	@media screen and (max-width: 640px) {

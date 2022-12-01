@@ -132,21 +132,18 @@ const Wrapper = styled.div`
 				padding: 10px 0;
 				border-radius: ${(props) => props.theme.radius.smallRadius};
 				transition: 0.1s;
+				:hover {
+					opacity: 0.75;
+				}
 				:first-of-type {
 					color: ${(props) => props.theme.colors.white};
 					background-color: ${(props) => props.theme.colors.purple};
 					margin-right: 30px;
-					:hover {
-						background-color: #410bae;
-					}
 				}
 				:last-of-type {
 					color: ${(props) => props.theme.colors.purple};
 					background-color: ${(props) => props.theme.colors.white};
 					border: 1px solid ${(props) => props.theme.colors.purple};
-					:hover {
-						background-color: ${(props) => props.theme.colors.gray50};
-					}
 				}
 			}
 			// Mobile

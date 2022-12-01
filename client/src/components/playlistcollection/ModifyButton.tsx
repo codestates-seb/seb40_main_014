@@ -100,7 +100,7 @@ const EditButton = styled.button`
 	background-color: ${(props) => props.theme.colors.purple};
 	color: ${(props) => props.theme.colors.white};
 	:hover {
-		background-color: #3f0ba9;
+		opacity: 0.85;
 	}
 `;
 
@@ -109,6 +109,6 @@ const Deletebutton = styled.button`
 	border: 1.3px solid ${(props) => props.theme.colors.purple};
 	color: ${(props) => props.theme.colors.purple};
 	:hover {
-		background-color: #f1eaff;
+		opacity: 0.75;
 	}
 `;

@@ -9,7 +9,11 @@ import {
 	MinHeightWrapper,
 	SwiperStyle,
 } from './RoomList';
-import { getPlaylists } from '../api/playlistApi';
+import {
+	getPlaylists,
+	getPlaylistsByDj,
+	getPlaylistsByLike,
+} from '../api/playlistApi';
 import { useSelector } from 'react-redux';
 import { musicInfoType } from './MakePlayList';
 import { myLogin, myValue } from '../slices/mySlice';
@@ -35,34 +39,41 @@ const PlaylistList = () => {
 	const isLogin = useSelector(myLogin);
 	const { memberId } = useSelector(myValue);
 
-	//* 무한 스크롤
 	const [playlists, setPlayLists] = useState<PlaylistInfoType[]>([]);
+	const [palylistsByLike, setPlaylistsByLike] = useState<PlaylistInfoType[]>(
+		[],
+	);
+	const [playliistsByDj, setPlaylistsByDj] = useState<PlaylistInfoType[]>([]);
+
+	useEffect(() => {
+		getPlaylistsByLike(1, 7).then((res) => {
+			console.log('playlists by like res', res.data);
+
+			setPlaylistsByLike(res.data);
+		});
+
+		// getPlaylistsByDj(1, 7).then((res) => {
+		// 	console.log('playlists by dj res', res);
+
+		// 	setPlaylistsByDj(res.data);
+		// });
+	}, []);
+
+	//* 무한 스크롤
 	const [hasNextPage, setHasNextPage] = useState(true);
 	const currentPage = useRef<number>(1);
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
-	// real
 	const fetch = useCallback(() => {
 		getPlaylists(currentPage.current, 6).then((res) => {
 			console.log('getPlaylists res', res);
 			const data = res.data;
 			const { page, totalPages } = res.pageInfo;
 			setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
-			// setHasNextPage(data.length === 10);
 			setHasNextPage(page !== totalPages);
-			// if (data.length) currentPage.current += 1;
 			if (hasNextPage) currentPage.current += 1;
 		});
 	}, []);
-
-	// test
-	// useEffect(() => {
-	// 	getPlaylists(memberId, currentPage.current, 10).then((res) => {
-	// 		console.log('getPlaylists res', res);
-
-	// 		setPlayLists(res);
-	// 	});
-	// }, []);
 
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;
@@ -127,9 +138,9 @@ const PlaylistList = () => {
 				</ButtonWrapper>
 			)}
 			<H2>가장 많은 좋아요를 받은 플레이리스트</H2>
-			{playlists.length ? (
+			{palylistsByLike.length ? (
 				<SwiperStyle {...settings} onInit={onInit1}>
-					{playlists.map((playlist: PlaylistInfoType) => {
+					{palylistsByLike.map((playlist: PlaylistInfoType) => {
 						// 본인이 쓴 글
 						if (playlist.memberId === memberId) {
 							return (
@@ -167,9 +178,9 @@ const PlaylistList = () => {
 				</SwiperStyle>
 			) : null}
 			<H2>인기 DJ 플레이리스트</H2>
-			{playlists.length ? (
+			{playliistsByDj.length ? (
 				<SwiperStyle {...settings} onInit={onInit2}>
-					{playlists.map((playlist: PlaylistInfoType) => {
+					{playliistsByDj.map((playlist: PlaylistInfoType) => {
 						// 본인이 쓴 글
 						if (playlist.memberId === memberId) {
 							return (

@@ -284,7 +284,7 @@ const ProfileUl = styled.ul`
 		}
 
 		:hover {
-			color: ${(props) => props.theme.colors.gray700};
+			opacity: 0.75;
 		}
 	}
 
