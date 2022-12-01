@@ -59,14 +59,8 @@ instance.interceptors.response.use(
 				.catch((err) => {
 					// 리프레시 토큰 만료 => 로그아웃
 					if (err.response.status === 404) {
-						const dispatch = useDispatch();
-
-						localStorage.removeItem('accessToken');
-						localStorage.removeItem('refreshToken');
-						dispatch(myLogout());
-
 						window.alert('로그인이 만료되었습니다. 홈으로 이동됩니다.');
-						window.location.href = '/';
+						window.location.href = '/logout';
 					}
 				});
 		}
