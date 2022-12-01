@@ -6,8 +6,8 @@ import { followUser } from '../../api/userApi';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { myLogin } from '../../slices/mySlice';
 import BookMark from '../common/BookMark';
-import { Intro } from '../Mypage/Content';
-import { Follower } from '../Mypage/MypageInfo';
+import { Intro } from '../mypage/Content';
+import { Follower } from '../mypage/MypageInfo';
 import ModifyButton from './ModifyButton';
 
 type PlaylistType = {

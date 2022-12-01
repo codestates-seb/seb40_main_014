@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { MyInitialStateValue, myLogin, myValue } from '../../slices/mySlice';
+import { MyInitialStateValue, myValue } from '../../slices/mySlice';
 import { AiFillEdit } from 'react-icons/ai';
 import { useState, useCallback, useEffect } from 'react';
 import { followUser } from '../../api/userApi';
-import Badge from '../../components/common/Badge';
+import Badge from '../common/Badge';
 import EditProfileModal from './EditProfileModal';
 import { ModalBackdrop } from '../home/LoginModal';
 import { useSelector } from 'react-redux';
@@ -209,7 +209,6 @@ export const Follower = styled.div`
 		border-radius: ${(props) => props.theme.radius.smallRadius};
 		transition: 0.1s;
 
-		// 임시
 		:hover {
 			opacity: 0.75;
 		}
