@@ -458,6 +458,15 @@ const Room = () => {
 			}),
 		});
 	};
+
+	// getRoomById(roomId).then((res) => console.log(res.data.memberResponseDto.email));
+	const AdminEmailList = [
+		process.env.REACT_APP_ADMIN_EMAIL_01,
+		process.env.REACT_APP_ADMIN_EMAIL_02,
+		process.env.REACT_APP_ADMIN_EMAIL_03,
+	];
+	console.log(AdminEmailList.includes('wnsah0173@gmail.com'));
+
 	const onClick = (e) => {
 		if (userLength !== 1) {
 			leave();
@@ -465,14 +474,20 @@ const Room = () => {
 		} else {
 			Swal.fire({
 				icon: 'warning',
-				text: `방에 유저가 없을 경우 방이 삭제됩니다. 정말 나가시겠습니까?`,
+				text: `방에 유저가 없을 경우 방이 삭제됩니다.\n정말 나가시겠습니까?\n(운영자의 방일 경우 삭제되지 않습니다.)`,
 				showCancelButton: true,
-				confirmButtonText: '삭제',
+				confirmButtonText: '나가기',
 				cancelButtonText: '취소',
 			}).then((res) => {
 				if (res.isConfirmed) {
 					leave();
-					deleteRoom(roomId).then(() => navigate('/'));
+					getRoomById(roomId).then((res) => {
+						if (!AdminEmailList.includes(res.data.memberResponseDto.email)) {
+							deleteRoom(roomId).then(() => navigate('/'));
+						} else {
+							navigate('/');
+						}
+					});
 				}
 			});
 		}
@@ -482,7 +497,7 @@ const Room = () => {
 		history.pushState(null, '', location.href);
 		Swal.fire({
 			icon: 'warning',
-			text: '채팅방에서는 뒤로가기를 할 수 없습니다. 방 나가기를 눌러서 홈페이지로 이동해주세요',
+			text: '채팅방에서는 뒤로가기를 할 수 없습니다.\n방 나가기를 눌러서 홈페이지로 이동해주세요',
 		});
 	};
 
