@@ -330,7 +330,7 @@ export const ListStyle = styled.div`
 	z-index: 1111;
 
 	> div:not(:nth-of-type(3n)) {
-		margin-right: calc((100vw - 30vw) * 0.04 - 8px);
+		margin-right: calc((100vw - 30vw) * 0.04);
 	}
 	> div:nth-of-type(3n) {
 		margin-right: 0;
@@ -339,7 +339,7 @@ export const ListStyle = styled.div`
 	// Tablet
 	@media screen and (max-width: 980px) {
 		> div:not(:nth-of-type(2n)) {
-			margin-right: calc((100vw - 160px) * 0.06 - 17px);
+			margin-right: calc((100vw - 160px) * 0.06);
 		}
 		> div:nth-of-type(2n) {
 			margin-right: 0;

@@ -65,12 +65,13 @@ const EditProfileModal = ({
 		});
 	};
 
+	// 모달 오픈시 스크롤 막기
 	useEffect(() => {
 		document.body.style.cssText = `
       position: fixed; 
       top: -${window.scrollY}px;
       overflow-y: scroll;
-      width: 100%;`;
+      width: 100vw`;
 		return () => {
 			const scrollY = document.body.style.top;
 			document.body.style.cssText = '';

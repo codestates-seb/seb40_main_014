@@ -8,6 +8,7 @@ type LoginModalType = {
 };
 
 const LoginModal = ({ handleOpenModal }: LoginModalType) => {
+	// 모달 오픈시 스크롤 막기
 	useEffect(() => {
 		document.body.style.cssText = `
 		  position: fixed;
