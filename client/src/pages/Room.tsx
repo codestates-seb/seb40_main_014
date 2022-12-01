@@ -20,8 +20,8 @@ const TotalContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: -90px;
-	height: 90vh;
+
+	height: 100vh;
 	@media screen and (max-width: 640px) {
 		display: flex;
 		justify-content: center;
@@ -35,7 +35,7 @@ const Container = styled.div`
 	box-shadow: 0px 5px 5px 0px ${(props) => props.theme.colors.gray500};
 	border: 1px solid ${(props) => props.theme.colors.gray300};
 	background-color: ${(props) => props.theme.colors.background};
-	margin-bottom: 40px;
+
 	@media screen and (min-width: 640px) and (max-width: 980px) {
 		width: 500px;
 	}
@@ -252,7 +252,7 @@ const Room = () => {
 		} else {
 			Swal.fire({
 				icon: 'warning',
-				text: '방 수정은 방장만 가능합니다!',
+				text: '방 수정은 방장만 가능합니다.',
 			});
 			// alert('방 수정은 방장만 가능합니다!');
 		}
@@ -308,16 +308,16 @@ const Room = () => {
 					navigate('/');
 					Swal.fire({
 						icon: 'warning',
-						text: '이미 참여중인 방입니다!',
+						text: '이미 참여중인 방입니다.',
 					});
 				} else {
 					getRoomById(roomId)
 						.then((res) => {
 							setTitle(res.data.title);
 							setPlaylist(res.data.playlistResponseDto.playlistItems);
-							// if (!client.connected && isConnect) {
-							// 	client.activate();
-							// }
+							if (!client.connected) {
+								client.activate();
+							}
 							wsSubscribe();
 
 							return res;
@@ -344,7 +344,7 @@ const Room = () => {
 						.then(() =>
 							Swal.fire({
 								title: '환영합니다!',
-								text: `러플리에 오신 것을 환영합니다!\n플레이리스트를 재생해 음악을 들어보세요!`,
+								text: `러플리에 오신 것을 환영합니다.\n플레이리스트를 재생해 음악을 들어보세요.`,
 								imageUrl: Greeting,
 								imageWidth: 200,
 								imageHeight: 400,
@@ -356,7 +356,7 @@ const Room = () => {
 							Swal.fire({
 								icon: 'warning',
 								title: '존재하지 않는 방',
-								text: '해당 방이 존재하지 않습니다!',
+								text: '해당 방이 존재하지 않습니다.',
 							});
 							console.log(err);
 						});
@@ -365,7 +365,7 @@ const Room = () => {
 		} else {
 			Swal.fire({
 				icon: 'warning',
-				text: '채팅방은 로그인 후 입장가능합니다!',
+				text: '채팅방은 로그인 후 입장가능합니다.',
 			});
 			navigate('/');
 		}
@@ -421,7 +421,7 @@ const Room = () => {
 			]);
 		}
 
-		// console.log('subscribe msg', receiveMessage, receiveUser);
+		console.log('subscribe msg', receiveMessage, receiveUser);
 		if (receiveType === `ENTER` || receiveType === `LEAVE`) {
 			getRoomById(roomId)
 				.then((res) => {
@@ -482,7 +482,7 @@ const Room = () => {
 		history.pushState(null, '', location.href);
 		Swal.fire({
 			icon: 'warning',
-			text: '채팅방에서는 뒤로가기를 할 수 없습니다! 방 나가기를 눌러서 홈페이지로 이동해주세요',
+			text: '채팅방에서는 뒤로가기를 할 수 없습니다. 방 나가기를 눌러서 홈페이지로 이동해주세요',
 		});
 	};
 

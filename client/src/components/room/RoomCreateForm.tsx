@@ -196,6 +196,7 @@ const RoomCreateForm = () => {
 							message: '방 제목은 20자 이하여야 합니다.',
 						},
 					})}
+					autoComplete="off"
 					placeholder="방 제목"></TitleInput>
 			</InputContainer>
 			<InputContainer>
@@ -218,6 +219,7 @@ const RoomCreateForm = () => {
 						// },
 					})}
 					placeholder="비밀번호 설정 시 4자 이하여야 합니다."
+					autoComplete="off"
 					disabled={!checked}></PasswordInput>
 			</InputContainer>
 
@@ -243,6 +245,7 @@ const RoomCreateForm = () => {
 				<PlaylistInput
 					{...register('playlist', { required: true })}
 					placeholder="플레이리스트를 추가해주세요!"
+					autoComplete="off"
 					type="text"
 					readOnly
 					value={
