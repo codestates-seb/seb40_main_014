@@ -112,9 +112,17 @@ const RoomCreateForm = () => {
 		playlistId: 0,
 	});
 	useEffect(() => {
-		getMyInfo(userInfo.memberId, accessToken).then((res) => {
-			setPlaylist(res.data.playlist.data);
-		});
+		getMyInfo(userInfo.memberId, accessToken)
+			.then((res) => {
+				setPlaylist(res.data.playlist.data);
+			})
+			.catch((err) => {
+				if (err.name === 'TypeError')
+					Swal.fire({
+						icon: 'warning',
+						text: '로그인이 만료되었습니다. 로그인을 다시 해주세요.',
+					});
+			});
 	}, []);
 	useEffect(() => {
 		getBookmarkList(userInfo.memberId).then((res) => {
