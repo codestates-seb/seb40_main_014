@@ -345,8 +345,8 @@ public class PlaylistService {
                     .stream()
                     .filter(f -> f.getBookmarkMemberId().equals(authMemberId)) // 그안에 내가 있는 경우
                     .count(); // 0, 1
-            if (BookmarkCount == 1) { bookmarkStates.add(true);}
-            else {bookmarkStates.add(false);}
+            if (BookmarkCount == 1) { bookmarkStates.add(false);}
+            else {bookmarkStates.add(true);}
         }
         return bookmarkStates;
     }
