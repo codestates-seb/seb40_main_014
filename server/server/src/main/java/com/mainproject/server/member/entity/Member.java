@@ -1,7 +1,6 @@
 package com.mainproject.server.member.entity;
 
-import com.mainproject.server.ChatRoom.entity.ChatMessage;
-import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.chatroom.entity.ChatRoom;
 import com.mainproject.server.auditable.Auditable;
 import com.mainproject.server.playlist.entity.Playlist;
 import lombok.Builder;

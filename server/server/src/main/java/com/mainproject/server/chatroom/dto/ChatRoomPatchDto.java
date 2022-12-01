@@ -1,4 +1,4 @@
-package com.mainproject.server.ChatRoom.dto;
+package com.mainproject.server.chatroom.dto;
 
 import lombok.Getter;
 import lombok.Setter;

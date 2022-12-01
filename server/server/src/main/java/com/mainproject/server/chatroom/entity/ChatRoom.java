@@ -1,6 +1,6 @@
-package com.mainproject.server.ChatRoom.entity;
+package com.mainproject.server.chatroom.entity;
 
-import com.mainproject.server.ChatRoom.service.ChatService;
+import com.mainproject.server.chatroom.service.ChatService;
 import com.mainproject.server.auditable.Auditable;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.playlist.entity.Playlist;

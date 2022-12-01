@@ -1,4 +1,4 @@
-package com.mainproject.server.ChatRoom.config;
+package com.mainproject.server.chatroom.config;
 
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,6 @@ import javax.websocket.Session;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class WebSocketTest {

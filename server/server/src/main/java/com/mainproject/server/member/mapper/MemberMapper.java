@@ -1,6 +1,6 @@
 package com.mainproject.server.member.mapper;
 
-import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
+import com.mainproject.server.chatroom.mapper.ChatRoomMapper;
 import com.mainproject.server.member.dto.*;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.playlist.dto.SimplePlaylistResponseDto;
@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface MemberMapper {

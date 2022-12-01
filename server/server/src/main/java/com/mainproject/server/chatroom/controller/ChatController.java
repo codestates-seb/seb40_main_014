@@ -1,11 +1,11 @@
-package com.mainproject.server.ChatRoom.controller;
+package com.mainproject.server.chatroom.controller;
 
-import com.mainproject.server.ChatRoom.dto.ResponseChatRoomDto;
-import com.mainproject.server.ChatRoom.entity.ChatMessage;
-import com.mainproject.server.ChatRoom.entity.ChatRoom;
-import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
-import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
-import com.mainproject.server.ChatRoom.service.ChatService;
+import com.mainproject.server.chatroom.dto.ResponseChatRoomDto;
+import com.mainproject.server.chatroom.entity.ChatMessage;
+import com.mainproject.server.chatroom.entity.ChatRoom;
+import com.mainproject.server.chatroom.mapper.ChatRoomMapper;
+import com.mainproject.server.chatroom.repository.ChatRoomRepository;
+import com.mainproject.server.chatroom.service.ChatService;
 import com.mainproject.server.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import static com.mainproject.server.ChatRoom.entity.ChatMessage.MessageType.*;
+import static com.mainproject.server.chatroom.entity.ChatMessage.MessageType.*;
 
 @RestController
 @RequiredArgsConstructor
