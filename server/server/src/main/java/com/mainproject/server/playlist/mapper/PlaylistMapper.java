@@ -158,7 +158,9 @@ public interface PlaylistMapper {
     default List<PlaylistResponseDto> playlistRankDtoToMember(List<Member> member) {
         List<Playlist> playlistList = new ArrayList<>();
         for (Member member1 : member) {
-            playlistList.add(member1.getPlaylists().get(0));
+            if (member1.getPlaylists().size() != 0) {
+                playlistList.add(member1.getPlaylists().get(0));
+            }
         }
         List<PlaylistResponseDto> playlistResponseDtoList = playlistList.stream()
                 .map(playlist -> playlistToPlaylistResponseDto(playlist))
