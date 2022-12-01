@@ -40,6 +40,7 @@ const Header = () => {
 			localStorage.removeItem('accessToken');
 			localStorage.removeItem('refreshToken');
 			dispatch(myLogout());
+			navigate('/');
 		});
 	};
 

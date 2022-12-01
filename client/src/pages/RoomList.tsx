@@ -262,7 +262,7 @@ export const H2 = styled.h2`
 `;
 
 export const SwiperStyle = styled(Swiper)`
-	padding: 0 50px;
+	padding: 0 50px !important;
 	margin-bottom: 30px;
 
 	> div > div {
@@ -304,7 +304,7 @@ export const SwiperStyle = styled(Swiper)`
 
 	// Tablet, Mobile
 	@media screen and (max-width: 980px) {
-		padding: 0 25px;
+		padding: 0 25px !important;
 	}
 `;
 
@@ -326,11 +326,12 @@ export const NextButton = styled.button`
 
 export const ListStyle = styled.div`
 	display: flex;
+	justify-content: center;
 	flex-wrap: wrap;
 	z-index: 1111;
 
 	> div:not(:nth-of-type(3n)) {
-		margin-right: calc((100vw - 30vw) * 0.04);
+		margin-right: calc((100vw - 30vw) * 0.04 - 8px);
 	}
 	> div:nth-of-type(3n) {
 		margin-right: 0;
@@ -339,7 +340,7 @@ export const ListStyle = styled.div`
 	// Tablet
 	@media screen and (max-width: 980px) {
 		> div:not(:nth-of-type(2n)) {
-			margin-right: calc((100vw - 160px) * 0.06);
+			margin-right: calc((100vw - 160px) * 0.06 - 17px);
 		}
 		> div:nth-of-type(2n) {
 			margin-right: 0;

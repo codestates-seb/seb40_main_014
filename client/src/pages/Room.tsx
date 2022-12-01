@@ -20,8 +20,7 @@ const TotalContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: -90px;
-	height: 90vh;
+	height: 100vh;
 	@media screen and (max-width: 640px) {
 		display: flex;
 		justify-content: center;
@@ -35,7 +34,6 @@ const Container = styled.div`
 	box-shadow: 0px 5px 5px 0px ${(props) => props.theme.colors.gray500};
 	border: 1px solid ${(props) => props.theme.colors.gray300};
 	background-color: ${(props) => props.theme.colors.background};
-	margin-bottom: 40px;
 	@media screen and (min-width: 640px) and (max-width: 980px) {
 		width: 500px;
 	}
@@ -80,6 +78,9 @@ const ExitButton = styled.button`
 	color: ${(props) => props.theme.colors.purple};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
 	transition: 0.1s;
+	:hover {
+		opacity: 0.9;
+	}
 `;
 
 const ChatHeaderContent = styled.div`
@@ -188,6 +189,9 @@ const UpdateRoomBtn = styled.button`
 	color: ${(props) => props.theme.colors.purple};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
 	transition: 0.1s;
+	:hover {
+		opacity: 0.9;
+	}
 `;
 
 export type MessageInfo = {
@@ -500,7 +504,6 @@ const Room = () => {
 
 	return (
 		<>
-			{' '}
 			<TotalContainer>
 				<Container>
 					<ChatHeader>

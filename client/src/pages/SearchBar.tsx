@@ -212,9 +212,9 @@ const SearchBarStyle = styled.div`
 		select:nth-of-type(3) {
 			display: none;
 		}
-		option:first-of-type {
+		/* option:first-of-type {
 			background-color: ${(props) => props.theme.colors.gray400};
-		}
+		} */
 
 		> *:nth-child(1) {
 			border-radius: 5px 0 0 5px;
