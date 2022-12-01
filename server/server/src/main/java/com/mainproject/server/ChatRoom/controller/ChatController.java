@@ -146,4 +146,3 @@ public class ChatController {
     }
 }
 //재시도하는 로직 브라우저 닫히면 다시 붙을 수 있는 retry 로직 필요
-
