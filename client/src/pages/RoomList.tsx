@@ -7,7 +7,6 @@ import Room from '../components/home/Room';
 import CreateModal from '../components/room/createModal';
 import { myLogin } from '../slices/mySlice';
 import { PlaylistInfoType } from './PlaylistList';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
 import 'swiper/css';

@@ -17,8 +17,6 @@ import {
 import { useSelector } from 'react-redux';
 import { musicInfoType } from './MakePlayList';
 import { myLogin, myValue } from '../slices/mySlice';
-
-// Import Swiper React components
 import { SwiperSlide } from 'swiper/react';
 import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
 

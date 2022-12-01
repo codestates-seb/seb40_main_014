@@ -26,10 +26,6 @@ const EditProfileModal = ({
 	const [nicknameError, setNicknameError] = useState('');
 	const [introError, setIntroError] = useState('');
 
-	useEffect(() => {
-		console.log(changeName);
-	}, [changeName]);
-
 	const onSubmit = () => {
 		setNicknameError('');
 		setIntroError('');
@@ -169,9 +165,6 @@ const Input = styled.input`
 		background-color: #ff38381c;
 	}
 	:focus {
-		/* border: 1.5px solid ${(props) => props.theme.colors.gray600}; */
-		/* border: 1.8px solid ${(props) => props.theme.colors.purple}; */
-		/* box-shadow: ${(props) => props.theme.colors.gray400} 0px 0px 5px 1px; */
 		background-color: ${(props) => props.theme.colors.gray50};
 	}
 `;

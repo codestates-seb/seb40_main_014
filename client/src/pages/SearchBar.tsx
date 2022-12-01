@@ -185,15 +185,12 @@ const SearchBarStyle = styled.div`
 		margin-right: 3%;
 
 		> * {
-			/* box-shadow: 0 0 10px ${(props) => props.theme.colors.gray300}; */
-
 			height: 45px;
 			padding: 0 10px;
 			background-color: ${(props) => props.theme.colors.white};
 			border: 1.5px solid ${(props) => props.theme.colors.gray400};
 
 			:focus {
-				/* background-color: #e2d5fc9c; */
 				background-color: ${(props) => props.theme.colors.gray200};
 			}
 
@@ -212,9 +209,6 @@ const SearchBarStyle = styled.div`
 		select:nth-of-type(3) {
 			display: none;
 		}
-		/* option:first-of-type {
-			background-color: ${(props) => props.theme.colors.gray400};
-		} */
 
 		> *:nth-child(1) {
 			border-radius: 5px 0 0 5px;
