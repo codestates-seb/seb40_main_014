@@ -6,6 +6,7 @@ import { followUser } from '../../api/userApi';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { myLogin } from '../../slices/mySlice';
 import BookMark from '../common/BookMark';
+import { Intro } from '../Mypage/Content';
 import { Follower } from '../Mypage/MypageInfo';
 import ModifyButton from './ModifyButton';
 
@@ -16,6 +17,7 @@ type PlaylistType = {
 	userId: number;
 	memberId: number;
 	setPlayLists?: Dispatch<SetStateAction<Array<object>>>;
+	name: string;
 };
 
 type ImgProps = {
@@ -29,6 +31,7 @@ const CplayList = ({
 	userId,
 	memberId,
 	setPlayLists,
+	name,
 }: PlaylistType) => {
 	const isLogin = useSelector(myLogin);
 
@@ -45,24 +48,26 @@ const CplayList = ({
 	};
 
 	return (
-		<CplayListStyle>
+		<CplayListStyle className="wrapper">
 			{id === 1 || id === 2 ? (
 				<Link to={`/playlistdetail/${playList.playlistId}`}>
 					<LinkCollection>
 						<Img src={playList.playlistItems[0].thumbnail} alt="썸네일" />
 						<Title className="title">{playList.title}</Title>
+						<Detail>{id === 1 ? name : playList.name}</Detail>
 					</LinkCollection>
 				</Link>
 			) : (
 				<Link to={`/mypage/${followList.memberId}`}>
 					<LinkCollection>
 						<Img src={followList.picture} alt="프로필" follow />
-						<Title className="title">{followList.name}</Title>{' '}
+						<Title className="title">{followList.name}</Title>
+						<Detail>{followList.content}</Detail>
 					</LinkCollection>
 				</Link>
 			)}
 			{userId === memberId && (
-				<div>
+				<Buttons>
 					{id === 1 && (
 						<ModifyButton
 							playlistId={playList.playlistId}
@@ -86,7 +91,7 @@ const CplayList = ({
 							</button>
 						</CollectionFollwer>
 					)}
-				</div>
+				</Buttons>
 			)}
 		</CplayListStyle>
 	);
@@ -102,25 +107,6 @@ const CplayListStyle = styled.div`
 	background-color: ${(props) => props.theme.colors.white};
 	width: 100%;
 
-	> *:first-child {
-		width: 70%;
-		display: flex;
-		align-items: center;
-	}
-
-	> *:last-child {
-		width: 35%;
-		display: flex;
-		justify-content: flex-end;
-	}
-
-	:hover {
-		background-color: ${(props) => props.theme.colors.gray100};
-		.title {
-			color: ${(props) => props.theme.colors.purple};
-		}
-	}
-
 	// Mobile
 	@media screen and (max-width: 640px) {
 		flex-direction: column;
@@ -132,9 +118,6 @@ const CplayListStyle = styled.div`
 		> *:last-child {
 			width: 100%;
 		}
-		> div {
-			margin-top: 10px;
-		}
 	}
 `;
 
@@ -142,6 +125,10 @@ const LinkCollection = styled.div`
 	width: 100%;
 	display: flex;
 	align-items: center;
+
+	:hover {
+		opacity: 0.75;
+	}
 `;
 
 const Img = styled.img<ImgProps>`
@@ -163,9 +150,27 @@ export const Title = styled.h4`
 	}
 `;
 
+const Detail = styled(Intro)`
+	margin-left: 10px;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		display: none;
+	}
+`;
+
 const CollectionFollwer = styled(Follower)`
 	button {
 		margin: 0;
 		padding: 6px 7px;
+	}
+`;
+
+const Buttons = styled.div`
+	// Mobile
+	@media screen and (max-width: 640px) {
+		margin-top: 10px;
+		display: flex;
+		justify-content: flex-end;
 	}
 `;

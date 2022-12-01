@@ -18,6 +18,7 @@ const UserPlayList = () => {
 	const [title, setTitle] = useState('');
 
 	const myId = useSelector(myValue).memberId;
+	const { name } = useSelector(myValue);
 	const isLogin = useSelector(myLogin);
 
 	useEffect(() => {
@@ -58,6 +59,7 @@ const UserPlayList = () => {
 		id: Number(id),
 		userId: Number(userId),
 		memberId: myId,
+		name,
 	};
 
 	return (

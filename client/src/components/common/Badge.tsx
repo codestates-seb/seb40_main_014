@@ -37,7 +37,7 @@ const BadgeStyle = styled.div<BadgeProps>`
 			? props.theme.colors.purple
 			: props.grade === 'LUVIP'
 			? props.theme.colors.pink
-			: props.theme.colors.null};
+			: null};
 
 	.icon,
 	.circle {

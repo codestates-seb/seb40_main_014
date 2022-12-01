@@ -14,7 +14,7 @@ const Content = ({ id, playlist, followlist }: ContentType) => {
 	return (
 		<>
 			{id === 3 ? (
-				<ContentStyle>
+				<RoomStyle>
 					<Link to={`/mypage/${followlist.memberId}`}>
 						<LinkRoom>
 							<FollowThumbnail>
@@ -26,9 +26,9 @@ const Content = ({ id, playlist, followlist }: ContentType) => {
 							</Intro>
 						</LinkRoom>
 					</Link>
-				</ContentStyle>
+				</RoomStyle>
 			) : (
-				<ContentStyle>
+				<RoomStyle>
 					<Link to={`/playlistdetail/${playlist.playlistId}`}>
 						<LinkRoom>
 							<Thumbnail>
@@ -37,17 +37,13 @@ const Content = ({ id, playlist, followlist }: ContentType) => {
 							<Name>{playlist.title}</Name>
 						</LinkRoom>
 					</Link>
-				</ContentStyle>
+				</RoomStyle>
 			)}
 		</>
 	);
 };
 
 export default Content;
-
-const ContentStyle = styled(RoomStyle)`
-	/* margin-bottom: 0; */
-`;
 
 const FollowThumbnail = styled(Thumbnail)`
 	display: flex;
@@ -74,7 +70,7 @@ const Name = styled.div`
 	}
 `;
 
-const Intro = styled.div`
+export const Intro = styled.div`
 	color: ${(props) => props.theme.colors.gray500};
 	font-size: 14px;
 	text-align: center;

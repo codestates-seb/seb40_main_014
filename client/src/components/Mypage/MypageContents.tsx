@@ -72,35 +72,35 @@ const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 				)}
 			</Roof>
 			<Body>
-				{contents.length > 2 ? (
-					<MyPageSwiperStyle {...settings}>
-						{contents.map((ele, idx) => {
-							return (
-								<SwiperSlide key={idx}>
-									{id === 3 ? (
-										<Content id={id} followlist={ele} />
-									) : (
-										<Content id={id} playlist={ele} />
-									)}
-								</SwiperSlide>
-							);
-						})}
-					</MyPageSwiperStyle>
-				) : (
+				{/* {contents.length > 2 ? ( */}
+				<MyPageSwiperStyle {...settings}>
+					{contents.map((ele, idx) => {
+						return (
+							<SwiperSlide key={idx}>
+								{id === 3 ? (
+									<Content id={id} followlist={ele} />
+								) : (
+									<Content id={id} playlist={ele} />
+								)}
+							</SwiperSlide>
+						);
+					})}
+				</MyPageSwiperStyle>
+				{/* ) : (
 					<MyPageNoSwiperStyle>
 						{contents.map((ele, idx) => {
 							return (
-								<>
+								<div key={idx}>
 									{id === 3 ? (
 										<Content id={id} followlist={ele} />
 									) : (
 										<Content id={id} playlist={ele} />
 									)}
-								</>
+								</div>
 							);
 						})}
 					</MyPageNoSwiperStyle>
-				)}
+				)} */}
 			</Body>
 		</MypageContentsStyle>
 	);
@@ -161,7 +161,6 @@ const Roof = styled.div`
 `;
 
 const Body = styled.div`
-	width: 100%;
 	margin-bottom: 60px;
 	padding: 40px 60px;
 	border-bottom-left-radius: ${(props) => props.theme.radius.largeRadius};
@@ -184,11 +183,6 @@ const Body = styled.div`
 `;
 
 const MyPageSwiperStyle = styled(SwiperStyle)`
-	margin-bottom: 0;
-`;
-
-const MyPageNoSwiperStyle = styled.div`
 	width: 100%;
-	display: flex;
-	justify-content: space-evenly;
+	margin-bottom: 0;
 `;
