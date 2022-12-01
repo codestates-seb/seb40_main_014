@@ -11,7 +11,7 @@ import { myLogin } from '../../slices/mySlice';
 import { currentRoomInfo } from '../../slices/roomSlice';
 import instance, { root } from '../../api/root';
 import { createRoom } from '../../api/roomApi';
-import { getMyInfo, getBookmarkList } from '../../api/userApi';
+import { getMyInfo, getBookmarkList, getUserInfo } from '../../api/userApi';
 import Swal from 'sweetalert2';
 
 export type roomInfo = {
@@ -112,17 +112,19 @@ const RoomCreateForm = () => {
 		playlistId: 0,
 	});
 	useEffect(() => {
-		getMyInfo(userInfo.memberId, accessToken)
+		getUserInfo(userInfo.memberId)
 			.then((res) => {
 				setPlaylist(res.data.playlist.data);
 			})
-			.catch((err) => {
-				if (err.name === 'TypeError')
-					Swal.fire({
-						icon: 'warning',
-						text: '로그인이 만료되었습니다. 로그인을 다시 해주세요.',
-					});
-			});
+			.catch((err) => console.log(err));
+
+		// .catch((err) => {
+		// 	if (err.name === 'TypeError')
+		// 		Swal.fire({
+		// 			icon: 'warning',
+		// 			text: '로그인이 만료되었습니다. 로그인을 다시 해주세요.',
+		// 		});
+		// });
 	}, []);
 	useEffect(() => {
 		getBookmarkList(userInfo.memberId).then((res) => {
