@@ -359,11 +359,4 @@ public class PlaylistService {
         return findAllPlaylist;
     }
 
-//    public Page<Member> findPlTopDjSort(int page, int size) {
-//        Page<Member> findAllPlaylist = memberRepository.findAll(
-//                PageRequest.of(page, size, Sort.by("rank").descending()));
-//
-//        return findAllPlaylist;
-//    }
-
 }

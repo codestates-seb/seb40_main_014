@@ -1,7 +1,9 @@
 package com.mainproject.server.playlist.controller;
 
 import com.mainproject.server.member.dto.MemberResponseDto;
+import com.mainproject.server.member.dto.RankResponseDto;
 import com.mainproject.server.member.entity.Member;
+import com.mainproject.server.member.mapper.MemberMapper;
 import com.mainproject.server.member.service.FollowService;
 import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.dto.PlaylistPatchDto;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -35,6 +38,7 @@ public class PlaylistController {
     private final MemberService memberService;
     private final PlaylistMapper mapper;
     private final FollowService followService;
+    private final MemberMapper memberMapper;
 
     @NeedMemberId
     @PostMapping
@@ -182,20 +186,19 @@ public class PlaylistController {
     }
 
 
-//    // 인기 dj 플리 정렬
-//    @GetMapping("/topDj")
-//    public ResponseEntity findPlTopDj(@Positive @RequestParam(required = false, defaultValue = "1") int page,
-//                                      @Positive @RequestParam(required = false, defaultValue = "10") int size) {
-//
-//        Page<Member> djListPage = memberService.findPlTopDjList(page - 1, size);
-//        List<Member> rankPage = djListPage.getContent();
-//
-//        Page<Playlist> playlistPage = playlistService.findPlTopDjSort(page - 1, size);
-//        List<Playlist> content = playlistPage.getContent();
-//
-//        return new ResponseEntity<>(
-//                new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(rankPage, content), playlistPage), HttpStatus.OK);
-//
-//    }
+    // 인기 dj 플리 정렬
+    @GetMapping("/topDj")
+    public ResponseEntity findPlTopDj(@Positive @RequestParam(required = false, defaultValue = "1") int page,
+                                      @Positive @RequestParam(required = false, defaultValue = "10") int size) {
+
+        Page<Member> playlistRank = memberService.findPlTopDjList(page - 1, size);
+        List<Member> rankContent = playlistRank.getContent();
+
+        Page<Playlist> playlistPage = playlistService.findPlList(page - 1, size);
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.playlistRankDtoToMember(rankContent), playlistPage), HttpStatus.OK);
+
+    }
 
 }
