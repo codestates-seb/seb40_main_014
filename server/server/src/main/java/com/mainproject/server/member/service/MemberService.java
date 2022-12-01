@@ -128,7 +128,7 @@ public class MemberService {
 
     public Page<Member> findRoomsRank(int page, int size) {
         Page<Member> findAllRooms = memberRepository.findAll(
-                PageRequest.of(page, size, Sort.by("ranking").descending()));
+                PageRequest.of(page, size, Sort.by("ranking")));
 
         return findAllRooms;
     }

@@ -5,8 +5,8 @@ import com.mainproject.server.ChatRoom.dto.ChatRoomPostDto;
 import com.mainproject.server.ChatRoom.dto.ResponseChatRoomDto;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
 import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
-import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.ChatRoom.service.ChatService;
+import com.mainproject.server.member.dto.RankResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.entity.Playlist;
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,6 @@ public class RoomController {
     private final MemberService memberService;
     private final ChatRoomMapper chatRoomMapper;
     private final PlaylistService playlistService;
-    private final ChatRoomRepository chatRoomRepository;
 
     @NeedMemberId
     @PostMapping
@@ -116,10 +116,9 @@ public class RoomController {
         List<Member> rankContent = roomsRank.getContent();
 
         Page<ChatRoom> chatRoomPage = chatService.findChatRooms(page - 1 , size);
-        List<ChatRoom> content = chatRoomPage.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(chatRoomMapper.chatRoomRankDtotoMember(content, rankContent), chatRoomPage), HttpStatus.OK);
+                new MultiResponseDto<>(chatRoomMapper.chatRoomRankDtotoMember(rankContent), chatRoomPage), HttpStatus.OK);
     }
 
     // 방 검색

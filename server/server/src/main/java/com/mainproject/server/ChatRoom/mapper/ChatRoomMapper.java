@@ -2,6 +2,7 @@ package com.mainproject.server.ChatRoom.mapper;
 
 import com.mainproject.server.ChatRoom.dto.*;
 import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
 import com.mainproject.server.member.dto.RankChatRoomSimpleDto;
 import com.mainproject.server.member.dto.RankResponseDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
@@ -15,6 +16,7 @@ import com.mainproject.server.playlist.service.PlaylistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +29,7 @@ public class ChatRoomMapper {
     private final PlaylistMapper playlistMapper;
     private final PlaylistService playlistService;
     private final MemberService memberService;
+    private final ChatRoomRepository chatRoomRepository;
 
     public ChatRoom chatRoomPostDtoToChatRoom(ChatRoomPostDto chatRoomPostDto, Member member) {
         if (chatRoomPostDto == null) return null;
@@ -89,7 +92,7 @@ public class ChatRoomMapper {
         return roomDtoList;
     }
 
-    public RankResponseChatRoomDto chatRoomRankResponseDtoToChatRoom(ChatRoom chatRoom, List<Member> member) {
+    public RankResponseChatRoomDto chatRoomRankResponseDtoToChatRoom(ChatRoom chatRoom) {
 
         Playlist playList = playlistService.findPlaylist(chatRoom.getPlaylistId());
         PlaylistResponseDto playlistResponseDto = playlistMapper.playlistToPlaylistResponseDto(playList);
@@ -108,13 +111,20 @@ public class ChatRoomMapper {
 
     }
 
-    public List<RankResponseChatRoomDto> chatRoomRankDtotoMember(List<ChatRoom> chatRooms, List<Member> member) {
-
-        List<RankResponseChatRoomDto> rankResponseChatRoomDtoList = chatRooms.stream()
-                .map(chatRoom -> chatRoomRankResponseDtoToChatRoom( chatRoom, (member)) )
+    public List<RankResponseChatRoomDto> chatRoomRankDtotoMember(List<Member> member) {
+        // member는 이미 정렬된 멤버
+        List<ChatRoom> chatRoomList = new ArrayList<>();
+        for (Member member1 : member) {
+            // 멤버가 가지고 있는 룸을 전부 리스트에 추가
+            for (int i = 0; i < member1.getChatRooms().size(); i++) {
+                chatRoomList.add(member1.getChatRooms().get(i));
+            }
+        }
+        // 정렬된 ChatRoom 리스트로 한건씩 Dto 생성
+        List<RankResponseChatRoomDto> rankResponseChatRoomDtoList = chatRoomList.stream()
+                .map(chatRoom -> chatRoomRankResponseDtoToChatRoom(chatRoom))
                 .collect(Collectors.toList());
 
         return rankResponseChatRoomDtoList;
-
     }
 }
