@@ -91,7 +91,6 @@ const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen, title }) => {
 	const [checked, setChecked] = useState(false);
 	const params = useParams();
 	const roomId = params.id;
-	console.log(roomId);
 	const onValid = (e) => {
 		const UpdateRoomInfo = {
 			title: e.title,

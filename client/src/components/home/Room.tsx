@@ -6,6 +6,7 @@ import { RoomInfoType } from '../../pages/RoomList';
 import { useSelector } from 'react-redux';
 import { myLogin } from '../../slices/mySlice';
 import Swal from 'sweetalert2';
+import { AiTwotoneLock } from 'react-icons/ai';
 
 type RoomType = {
 	room: RoomInfoType;
@@ -21,18 +22,19 @@ const Room = ({ room, swiper }: RoomType) => {
 	const navigate = useNavigate();
 	const isLogin = useSelector(myLogin);
 
-	const { roomId, title, userlist } = room;
+	const { roomId, title, userlist, pwd } = room;
 	const { memberId, name } =
 		room.memberResponseDto || room.rankChatRoomSimpleDto;
 	const { categoryList, playlistItems } = room.playlistResponseDto;
 
-	const onClickLinkRoom = () => {
+	const onClickLinkRoom = (e) => {
 		if (!isLogin) {
 			Swal.fire({
 				icon: 'warning',
 				text: '로그인 후 입장하실 수 있습니다.',
 			});
 		} else {
+			console.log('나야', e);
 			navigate(`/rooms/${roomId}`);
 		}
 	};
@@ -57,9 +59,18 @@ const Room = ({ room, swiper }: RoomType) => {
 				</Thumbnail>
 				<Title swiper={swiper}>{title}</Title>
 			</LinkRoom>
+
 			<Name swiper={swiper} onClick={onClickLinkName}>
 				{name}
 			</Name>
+			<Lock>
+				{pwd ? (
+					<span>
+						<AiTwotoneLock className="lock" />
+					</span>
+				) : null}
+			</Lock>
+
 			<Detail>
 				<Categorys>
 					{categoryList &&
@@ -202,18 +213,23 @@ const RoomCount = styled.div<SwiperTrueType>`
 	display: flex;
 	align-items: center;
 	color: ${(props) => props.theme.colors.gray600};
-
 	// Tablet
 	@media screen and (max-width: 980px) {
 		> *:first-of-type {
 			margin-right: 4px;
 			font-size: ${(props) => props.swiper && '15px'};
 		}
+		display: ${(props) => (props.swiper ? 'none' : 'block')};
 		font-size: ${(props) => props.swiper && '14px'};
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
 		display: ${(props) => (props.swiper ? 'none' : 'block')};
 		font-size: 14px;
+	}
+`;
+const Lock = styled.span`
+	.lock {
+		color: #ecb462;
 	}
 `;

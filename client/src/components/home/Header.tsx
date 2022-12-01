@@ -185,6 +185,14 @@ const HeaderStyle = styled.div<{ position: string }>`
 	@media screen and (max-width: 980px) {
 		height: 72.406px;
 		padding: 20px 80px;
+		font-size: ${(props) => props.theme.fontSize.medium};
+		z-index: 6666;
+		.on-pc {
+			display: none;
+		}
+		.on-mobile {
+			display: block;
+		}
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
@@ -245,6 +253,10 @@ const Profile = styled.div`
 	cursor: pointer;
 
 	// Mobile
+	@media screen and (max-width: 980px) {
+		position: absolute;
+		right: 96px;
+	}
 	@media screen and (max-width: 640px) {
 		position: absolute;
 		right: 68px;
@@ -291,7 +303,7 @@ const ProfileUl = styled.ul`
 	}
 
 	// Mobile
-	@media screen and (max-width: 640px) {
+	@media screen and (max-width: 980px) {
 		top: 46px;
 		left: -52px;
 		padding: 17px;

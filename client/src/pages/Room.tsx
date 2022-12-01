@@ -368,12 +368,11 @@ const Room = () => {
 				}
 			});
 		} else {
+			navigate('/');
 			Swal.fire({
 				icon: 'warning',
 				text: '로그인 후 입장하실 수 있습니다.',
 				confirmButtonText: '뒤로가기',
-			}).then(() => {
-				navigate(-1);
 			});
 		}
 	}, []);
