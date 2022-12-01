@@ -130,6 +130,7 @@ const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen, title }) => {
 							message: '방 제목은 20자 이하여야 합니다.',
 						},
 					})}
+					autoComplete="off"
 					placeholder={title}></TitleInput>
 			</InputContainer>
 			<InputContainer>
@@ -143,6 +144,7 @@ const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen, title }) => {
 				<PasswordInput
 					{...register('password')}
 					placeholder="비밀번호는 수정할 수 없습니다!"
+					autoComplete="off"
 					disabled={!checked}></PasswordInput>
 			</InputContainer>
 			<InputContainer>
@@ -151,6 +153,7 @@ const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen, title }) => {
 					{...register('playlist')}
 					placeholder="플레이리스트는 수정할 수 없습니다!"
 					type="text"
+					autoComplete="off"
 					disabled></PlaylistInput>
 			</InputContainer>
 			{/* <InputContainer>
@@ -161,7 +164,11 @@ const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen, title }) => {
 					type="number"
 					disabled></PeopleInput>
 			</InputContainer> */}
-			<CreateRoomBtn as="input" type="submit" value="방 수정"></CreateRoomBtn>
+			<CreateRoomBtn
+				as="input"
+				autoComplete="off"
+				type="submit"
+				value="방 수정"></CreateRoomBtn>
 			{/* <CreateRoomBtn type="submit">방 수정</CreateRoomBtn> */}
 		</UpdateForm>
 	);
