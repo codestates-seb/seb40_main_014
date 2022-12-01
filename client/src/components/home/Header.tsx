@@ -40,6 +40,7 @@ const Header = () => {
 			localStorage.removeItem('accessToken');
 			localStorage.removeItem('refreshToken');
 			dispatch(myLogout());
+			navigate('/');
 		});
 	};
 
@@ -90,61 +91,59 @@ const Header = () => {
 
 	return (
 		<>
-			{pathname.slice(0, 6) === '/rooms' ? null : (
-				<HeaderStyle position={position}>
-					<Logo>
-						<Link to="/">
-							<img src={LogoImg} alt="logo" />
-						</Link>
-					</Logo>
-					<div className="on-pc">
-						<PcUl currentMenu={currentMenu} />
+			<HeaderStyle position={position}>
+				<Logo>
+					<Link to="/">
+						<img src={LogoImg} alt="logo" />
+					</Link>
+				</Logo>
+				<div className="on-pc">
+					<PcUl currentMenu={currentMenu} />
+				</div>
+				{isOpenSide && (
+					<div className="on-mobile">
+						<MobileUl
+							currentMenu={currentMenu}
+							setOpenModal={setOpenModal}
+							handleOpenSide={handleOpenSide}
+						/>
 					</div>
-					{isOpenSide && (
-						<div className="on-mobile">
-							<MobileUl
-								currentMenu={currentMenu}
-								setOpenModal={setOpenModal}
-								handleOpenSide={handleOpenSide}
-							/>
-						</div>
-					)}
-					{isLogin ? (
-						<>
-							<Profile ref={profileRef}>
-								<Img src={picture} alt="profile" />
-								<div className="on-pc">{name}</div>
-								<ProfileUl ref={profileUlRef}>
-									<Triangle>
-										<BsFillTriangleFill />
-									</Triangle>
-									<MyPageLink>
-										<BiUser />
-										<span role="presentation" onClick={handleMypage}>
-											마이페이지
-										</span>
-									</MyPageLink>
-									<LogoutButton
-										onClick={() => {
-											handleLogout();
-											profileUlRef.current.style.display = 'none';
-										}}>
-										<MdLogout />
-										<span>로그아웃</span>
-									</LogoutButton>
-								</ProfileUl>
-							</Profile>
-						</>
-					) : (
-						<LoginButton onClick={handleOpenModal} className="on-pc">
-							로그인
-						</LoginButton>
-					)}
-					<Hambuger className="on-mobile" onClick={handleOpenSide}>
-						{isOpenSide ? <RiMenuUnfoldLine /> : <RiMenuFoldLine />}
-					</Hambuger>
-				</HeaderStyle>
-			)}
+				)}
+				{isLogin ? (
+					<>
+						<Profile ref={profileRef}>
+							<Img src={picture} alt="profile" />
+							<div className="on-pc">{name}</div>
+							<ProfileUl ref={profileUlRef}>
+								<Triangle>
+									<BsFillTriangleFill />
+								</Triangle>
+								<MyPageLink>
+									<BiUser />
+									<span role="presentation" onClick={handleMypage}>
+										마이페이지
+									</span>
+								</MyPageLink>
+								<LogoutButton
+									onClick={() => {
+										handleLogout();
+										profileUlRef.current.style.display = 'none';
+									}}>
+									<MdLogout />
+									<span>로그아웃</span>
+								</LogoutButton>
+							</ProfileUl>
+						</Profile>
+					</>
+				) : (
+					<LoginButton onClick={handleOpenModal} className="on-pc">
+						로그인
+					</LoginButton>
+				)}
+				<Hambuger className="on-mobile" onClick={handleOpenSide}>
+					{isOpenSide ? <RiMenuUnfoldLine /> : <RiMenuFoldLine />}
+				</Hambuger>
+			</HeaderStyle>
 
 			{isOpenModal && <LoginModal handleOpenModal={handleOpenModal} />}
 			{isOpenSide && (
@@ -162,6 +161,7 @@ const Header = () => {
 export default Header;
 
 const HeaderStyle = styled.div<{ position: string }>`
+	height: 74px;
 	position: ${(props) =>
 		props.position === 'relative' ? 'relative' : 'fixed'};
 	top: 0;
@@ -183,10 +183,12 @@ const HeaderStyle = styled.div<{ position: string }>`
 
 	// Tablet
 	@media screen and (max-width: 980px) {
+		height: 72.406px;
 		padding: 20px 80px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
+		height: 72.406px;
 		padding: 20px 40px;
 		font-size: ${(props) => props.theme.fontSize.medium};
 		z-index: 6666;
@@ -276,7 +278,7 @@ const ProfileUl = styled.ul`
 	box-shadow: 1px 1px 10px 2px rgba(30, 30, 30, 0.185);
 	z-index: 6666;
 
-	> * {
+	> *:not(:first-child) {
 		padding: 5px;
 
 		span {
@@ -284,7 +286,7 @@ const ProfileUl = styled.ul`
 		}
 
 		:hover {
-			color: ${(props) => props.theme.colors.gray700};
+			opacity: 0.75;
 		}
 	}
 
@@ -305,10 +307,6 @@ const Triangle = styled.div`
 	padding: 15px 68px 0 68px;
 	color: ${(props) => props.theme.colors.background};
 	font-size: ${(props) => props.theme.fontSize.small};
-
-	:hover {
-		color: ${(props) => props.theme.colors.background};
-	}
 
 	// Mobile
 	@media screen and (max-width: 640px) {

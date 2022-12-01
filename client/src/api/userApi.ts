@@ -29,12 +29,12 @@ export const getUserInfo = async (memberId: number) => {
 	}
 };
 
-export const editUserInfox = async (memberId: number, formData) => {
+export const getAllUserInfo = async (accessToken) => {
 	try {
-		const result = await instance.patch(`/api/members/${memberId}`, formData, {
+		const result = await instance.get(`/api/members/`, {
 			headers: {
-				'Content-Type': 'multipart/form-data',
-				Authorization: localStorage.getItem('accessToken'),
+				'Content-Type': 'application/json; charset=UTF-8',
+				Authorization: accessToken,
 			},
 		});
 
@@ -44,9 +44,16 @@ export const editUserInfox = async (memberId: number, formData) => {
 	}
 };
 
-export const editUserInfo = async (memberId: number, name: string) => {
+export const editUserInfo = async (
+	memberId: number,
+	name: string,
+	content: string,
+) => {
 	try {
-		const result = await instance.patch(`/api/members/${memberId}`, { name });
+		const result = await instance.patch(`/api/members/${memberId}`, {
+			name,
+			content,
+		});
 
 		return result.data;
 	} catch (err) {

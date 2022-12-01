@@ -11,7 +11,8 @@ import { myLogin } from '../../slices/mySlice';
 import { currentRoomInfo } from '../../slices/roomSlice';
 import instance, { root } from '../../api/root';
 import { createRoom } from '../../api/roomApi';
-import { getMyInfo, getBookmarkList } from '../../api/userApi';
+import { getMyInfo, getBookmarkList, getUserInfo } from '../../api/userApi';
+import Swal from 'sweetalert2';
 
 export type roomInfo = {
 	memberId: number;
@@ -86,6 +87,11 @@ const CreateRoomBtn = styled.button`
 	}
 `;
 
+const ErrorInfo = styled.div`
+	font-size: ${(props) => props.theme.fontSize.xSmall};
+	margin: 8px;
+	color: #ff4848;
+`;
 const RoomCreateForm = () => {
 	const navigate = useNavigate();
 	const userInfo = useSelector((state: RootState) => state.my.value);
@@ -106,9 +112,19 @@ const RoomCreateForm = () => {
 		playlistId: 0,
 	});
 	useEffect(() => {
-		getMyInfo(userInfo.memberId, accessToken).then((res) => {
-			setPlaylist(res.data.playlist.data);
-		});
+		getUserInfo(userInfo.memberId)
+			.then((res) => {
+				setPlaylist(res.data.playlist.data);
+			})
+			.catch((err) => console.log(err));
+
+		// .catch((err) => {
+		// 	if (err.name === 'TypeError')
+		// 		Swal.fire({
+		// 			icon: 'warning',
+		// 			text: '로그인이 만료되었습니다. 로그인을 다시 해주세요.',
+		// 		});
+		// });
 	}, []);
 	useEffect(() => {
 		getBookmarkList(userInfo.memberId).then((res) => {
@@ -127,17 +143,29 @@ const RoomCreateForm = () => {
 		console.log('생성될 방의 정보', CreateRoomInfo);
 
 		if (!isLogin) {
-			alert('로그인 후 생성하실 수 있습니다.');
+			Swal.fire({
+				icon: 'warning',
+				text: '로그인 후 생성하실 수 있습니다.',
+			});
+			// alert('로그인 후 생성하실 수 있습니다.');
 		} else {
 			// createRoom(CreateRoomInfo).then((res) => {
 			// 	if (res.data) {
 			// 		navigate(`rooms/${res.data.roomId}`);
 			// 	}
 			// });
-			createRoom(CreateRoomInfo).then((res) => {
-				navigate(`rooms/${res.data.roomId}`);
-				console.log('테스트', res);
-			});
+			createRoom(CreateRoomInfo)
+				.then((res) => {
+					navigate(`rooms/${res.data.roomId}`);
+				})
+				.catch((err) => {
+					if (err.name === 'TypeError') {
+						Swal.fire({
+							icon: 'warning',
+							text: '플레이리스트를 추가해야합니다.',
+						});
+					}
+				});
 			// .catch(
 			// 	(err) => console.log(err),
 			// 	// (err) =>
@@ -160,12 +188,17 @@ const RoomCreateForm = () => {
 	return (
 		<CreateForm onSubmit={handleSubmit(onValid)}>
 			<InputContainer className="top">
-				<InputInfo>
-					방 제목
-					<span>{errors?.title?.message}</span>
-				</InputInfo>
+				<InputInfo>방 제목</InputInfo>
+				<ErrorInfo>{errors?.title?.message}</ErrorInfo>
 				<TitleInput
-					{...register('title', { required: '방 제목을 입력해주세요!' })}
+					{...register('title', {
+						required: '방 제목을 입력해주세요!',
+						maxLength: {
+							value: 20,
+							message: '방 제목은 20자 이하여야 합니다.',
+						},
+					})}
+					autoComplete="off"
 					placeholder="방 제목"></TitleInput>
 			</InputContainer>
 			<InputContainer>
@@ -174,8 +207,8 @@ const RoomCreateForm = () => {
 					<PasswordCheckInput
 						type="checkbox"
 						onChange={onCheck}></PasswordCheckInput>
-					<span>{errors?.password?.message}</span>
 				</InputInfo>
+				<ErrorInfo>{errors?.password?.message}</ErrorInfo>
 				<PasswordInput
 					{...register('password', {
 						maxLength: {
@@ -188,6 +221,7 @@ const RoomCreateForm = () => {
 						// },
 					})}
 					placeholder="비밀번호 설정 시 4자 이하여야 합니다."
+					autoComplete="off"
 					disabled={!checked}></PasswordInput>
 			</InputContainer>
 
@@ -213,12 +247,15 @@ const RoomCreateForm = () => {
 				<PlaylistInput
 					{...register('playlist', { required: true })}
 					placeholder="플레이리스트를 추가해주세요!"
+					autoComplete="off"
 					type="text"
 					readOnly
 					value={
-						selectedPlaylist.title
+						isLogin
 							? selectedPlaylist.title
-							: '플레이리스트를 추가해주세요'
+								? selectedPlaylist.title
+								: '플레이리스트를 추가해주세요'
+							: '로그인이 만료되었습니다. 로그인을 다시 해주세요.'
 					}></PlaylistInput>
 			</InputContainer>
 			{/* <InputContainer>

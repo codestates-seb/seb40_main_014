@@ -1,20 +1,12 @@
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImg from '../../assets/images/footer-logo.png';
 
 const Footer = () => {
-	const { pathname } = useLocation();
-
 	return (
-		<>
-			{pathname.slice(0, 6) === '/rooms' ? null : (
-				<FooterStyle>
-					<img src={LogoImg} alt="logo" /> 러플리 LUVPLI · 하리보 싱싱 · 40th
-					Code States
-				</FooterStyle>
-			)}
-		</>
+		<FooterStyle>
+			<img src={LogoImg} alt="logo" /> 러플리 LUVPLI · 하리보 싱싱 · 40th Code
+			States
+		</FooterStyle>
 	);
 };
 
@@ -32,7 +24,6 @@ const FooterStyle = styled.div`
 	img {
 		width: 90px;
 		margin-bottom: 30px;
-		/* opacity: 0.9; */
 	}
 
 	// Mobile

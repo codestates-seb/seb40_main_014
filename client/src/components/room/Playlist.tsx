@@ -50,6 +50,7 @@ const ThumbnailContainer = styled.div`
 	} */
 	@media screen and (max-width: 640px) {
 		height: 120px;
+		width: 100%;
 	}
 `;
 
@@ -85,6 +86,7 @@ const MusicContainer = styled.div`
 	}
 	@media screen and (max-width: 640px) {
 		height: 100px;
+		width: 100%;
 	}
 `;
 
@@ -110,19 +112,27 @@ const OptionContainer = styled.div`
 `;
 
 const OptionBtn = styled.button`
-	font-size: ${(props) => props.theme.fontSize.large};
+	font-size: ${(props) => props.theme.fontSize.xLarge};
 
 	.option_btn {
+		margin-left: 20px;
 		:hover {
 			transform: scale(1.1);
 		}
-		margin-left: 20px;
+	}
+	.pause {
+		color: blue;
+	}
+	.start {
+		color: red;
 	}
 `;
 
 const LottieContainer = styled.span`
-	width: 16px;
-	height: 16px;
+	div {
+		width: 24px;
+		height: 24px;
+	}
 `;
 
 const PlaylistPart = ({ playlist }) => {
@@ -144,7 +154,7 @@ const PlaylistPart = ({ playlist }) => {
 	// 		.catch((err) => console.log(err));
 	// }, []);
 	const [player, setPlayer] = useState<any>(null);
-	const [play, setPlay] = useState<boolean>(true);
+	const [play, setPlay] = useState<boolean>(false);
 	const [playlistIdList, setPlaylistIdList] = useState<string[]>([]);
 	const [isMute, setIsMute] = useState<boolean>(false);
 	const [nowVideo, setNowVideo] = useState('');
@@ -159,14 +169,16 @@ const PlaylistPart = ({ playlist }) => {
 	const onReady = (event) => {
 		// access to player in all event handlers via event.target
 		setPlayer(event.target);
-		event.target.loadPlaylist({ playlist: playlistIdList, startSeconds: 1 });
+		// event.target.loadPlaylist({ playlist: playlistIdList, startSeconds: 1 });
+		event.target.cuePlaylist({ playlist: playlistIdList, startSeconds: 1 });
 		// event.target.playVideo();
 	};
 
 	// useEffect(() => {
 	// 	if (player) {
 	// 		console.log('reload');
-	// 		player.playVideo();
+	// 		player.pauseVideo();
+	// 		setPlay(false);
 	// 	}
 	// }, [player]);
 
@@ -180,7 +192,6 @@ const PlaylistPart = ({ playlist }) => {
 	const start = () => {
 		if (player) {
 			player.playVideo();
-			// player.cuePlaylist(playlistIdList);
 			setPlay(true);
 		}
 	};
@@ -241,7 +252,7 @@ const PlaylistPart = ({ playlist }) => {
 				{playlist.length === 0 ? (
 					<Loading />
 				) : (
-					<img src={playlist[0].thumbnail} alt="thumbnail"></img>
+					<img src={playlist[0].thumbnail} alt="썸네일"></img>
 				)}
 			</ThumbnailContainer>
 			<MusicContainer>
@@ -253,9 +264,9 @@ const PlaylistPart = ({ playlist }) => {
 							</span>
 							{e.title}
 							{e.videoId === nowVideo && (
-								<span>
+								<LottieContainer>
 									<Lottie animationData={playSvg} loop={true} />
-								</span>
+								</LottieContainer>
 							)}
 						</MusicElement>
 					);
@@ -263,24 +274,30 @@ const PlaylistPart = ({ playlist }) => {
 			</MusicContainer>
 			<OptionContainer>
 				<OptionBtn>
-					<IoPlayBack className="option_btn" onClick={previous}></IoPlayBack>
+					<IoPlayBack
+						className="option_btn backward"
+						onClick={previous}></IoPlayBack>
 				</OptionBtn>
 				<OptionBtn>
 					{play ? (
 						<TbPlayerPause
-							className="option_btn"
+							className="option_btn pause"
 							onClick={pause}></TbPlayerPause>
 					) : (
-						<BsPlayCircle className="option_btn" onClick={start}></BsPlayCircle>
+						<BsPlayCircle
+							className="option_btn start"
+							onClick={start}></BsPlayCircle>
 					)}
 				</OptionBtn>
 
 				<OptionBtn>
-					<IoPlayForward className="option_btn" onClick={next}></IoPlayForward>
+					<IoPlayForward
+						className="option_btn forward"
+						onClick={next}></IoPlayForward>
 				</OptionBtn>
 				<OptionBtn>
 					{isMute ? (
-						<GoMute className="option_btn" onClick={unMute}></GoMute>
+						<GoMute className="option_btn pause" onClick={unMute}></GoMute>
 					) : (
 						<BsVolumeDownFill
 							className="option_btn"

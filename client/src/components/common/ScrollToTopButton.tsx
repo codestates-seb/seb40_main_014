@@ -52,7 +52,7 @@ const ScrollToTopButtonStyle = styled.button`
 	transition: 0.2s;
 
 	:hover {
-		background-color: #00000049;
+		opacity: 0.75;
 	}
 
 	// Tablet

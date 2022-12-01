@@ -2,9 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getRoomById } from '../../api/roomApi';
-import { GiChessKing } from 'react-icons/gi';
+import { GiChessKing, GiConsoleController } from 'react-icons/gi';
 import UserModal from './userModal';
 import { AiTwotoneHome } from 'react-icons/ai';
+import { followUser, getAllUserInfo, getFollowList } from '../../api/userApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import Swal from 'sweetalert2';
 
 const PeopleSetcion = styled.div`
 	margin-top: 80px;
@@ -17,6 +21,7 @@ const PeopleSetcion = styled.div`
 	@media screen and (max-width: 640px) {
 		margin-top: -10px;
 		margin-bottom: 20px;
+		height: 65px;
 	}
 `;
 
@@ -48,6 +53,9 @@ const PeopleContainer = styled.div`
 			border-radius: 10px;
 		}
 	}
+	@media screen and (max-width: 640px) {
+		height: 65px;
+	}
 `;
 
 const Person = styled.div`
@@ -61,10 +69,17 @@ const Person = styled.div`
 	.follow {
 		margin-right: 5px;
 		height: 20px;
+
+		:hover {
+			opacity: 0.7;
+		}
 	}
 
-	:hover {
+	.home {
 		cursor: pointer;
+		:hover {
+			color: ${(props) => props.theme.colors.purple};
+		}
 	}
 
 	.option_btn {
@@ -87,30 +102,91 @@ const FollowBtn = styled.button`
 	padding: 2px;
 `;
 
+const EmptyDiv = styled.div`
+	padding: 2px;
+`;
+
 const PeoplePart = ({ people, isAdmin, roomId }) => {
 	// const [people, setPeople] = useState([]);
 	// const params = useParams();
 	// const roomId = params.id;
+	const [admin, setAdmin] = useState<string>('');
 	const userRef = useRef(null);
-	const navigate = useNavigate();
-	const [peopleList, setPeopleList] = useState([]);
-	const filtered = people.reduce((acc, v) => {
-		return acc.includes(v) ? acc : [...acc, v];
-	}, []);
+	const userInfo = useSelector((state: RootState) => state.my.value);
 
-	const onClick = (e) => {
-		console.log(userRef.current.innerText);
+	const follow = (e) => {
+		getAllUserInfo(localStorage.getItem('accessToken'))
+			.then((res) => {
+				const filtered = res.data.filter(
+					(el) =>
+						el.name === e.target.parentNode.parentNode.innerText.split('\n')[0],
+				);
+				return filtered;
+			})
+			.then((data) => {
+				getFollowList(userInfo.memberId)
+					.then((response) => {
+						console.log('데이터', data);
+
+						const followlist = response.data.map((e) => e.name);
+						console.log('팔로리스트', followlist);
+						// console.log('data', data);
+						if (followlist.includes(data[0].name)) {
+							Swal.fire({
+								// icon: 'warning',
+								text: '이미 팔로우 된 유저입니다. 언팔로우하시겠습니까?',
+								showCancelButton: true,
+							}).then((res) => {
+								if (res.isConfirmed) {
+									followUser(data[0].memberId).then((res) => {
+										Swal.fire({
+											// icon: 'warning',
+											text: '해당 유저를 언팔로우하였습니다.',
+										});
+									});
+								} else {
+									Swal.fire({
+										// icon: 'warning',
+										text: '취소하였습니다.',
+									});
+								}
+							});
+						} else {
+							followUser(data[0].memberId).then((res) => {
+								Swal.fire({
+									// icon: 'warning',
+									text: '해당 유저를 팔로우하였습니다.',
+								});
+							});
+						}
+					})
+
+					.catch((err) => console.log(err));
+			});
 	};
 
 	const linkMyPage = (e) => {
-		navigate(`/mypage/3`);
-	};
-	useEffect(() => {
-		getRoomById(roomId)
+		console.log();
+		getAllUserInfo(localStorage.getItem('accessToken'))
 			.then((res) => {
-				setPeopleList(res.data.userlist);
+				return res.data.filter(
+					(el) =>
+						el.name ===
+						e.target.parentNode.parentNode.parentNode.innerText.split('\n')[0],
+				);
 			})
-			.catch((err) => console.log(err));
+			.then((data) => {
+				window.open(`/mypage/${data[0].memberId}`, '_blank');
+			});
+	};
+	const adminCheck = () => {
+		getRoomById(roomId).then((res) =>
+			setAdmin(res.data.memberResponseDto.name),
+		);
+	};
+
+	useEffect(() => {
+		adminCheck();
 	}, []);
 
 	return (
@@ -118,17 +194,23 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 			<PeopleContainer>
 				{people.map((e, index) => {
 					return (
-						<Person onClick={onClick} key={index}>
+						<Person key={index}>
 							<div ref={userRef}>
-								{isAdmin ? (
+								{e === admin ? (
 									<GiChessKing className="option_btn"></GiChessKing>
 								) : null}
 								{e}
 							</div>
 
 							<div className="option">
-								{/* <span className="follow">팔로우</span> */}
-								<FollowBtn className="follow">팔로우</FollowBtn>
+								{e === userInfo.name ? (
+									<EmptyDiv></EmptyDiv>
+								) : (
+									<FollowBtn className="follow" onClick={follow}>
+										팔로우
+									</FollowBtn>
+								)}
+
 								<AiTwotoneHome
 									className="option_btn home"
 									onClick={linkMyPage}></AiTwotoneHome>

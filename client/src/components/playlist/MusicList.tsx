@@ -30,7 +30,7 @@ const MusicList = ({ playListInfo, plList, setPlList }: PlayListInfoProps) => {
 						<Music pathname={pathname}>
 							<div className="left">
 								<span className="thumbnail">
-									<img src={ele.thumbnail} alt="thumbnail" />
+									<img src={ele.thumbnail} alt="썸네일" />
 								</span>
 								<span className="title">{ele.title}</span>
 								<span className="channelTitle">{ele.channelTitle}</span>
@@ -60,7 +60,7 @@ const MusicList = ({ playListInfo, plList, setPlList }: PlayListInfoProps) => {
 														{...provided.draggableProps}>
 														<div className="left">
 															<span className="thumbnail">
-																<img src={thumbnail} alt="thumbnail" />
+																<img src={thumbnail} alt="썸네일" />
 															</span>
 															<span className="title">{title}</span>
 															<span className="channelTitle">
@@ -145,7 +145,7 @@ const Music = styled.div<{ pathname: string }>`
 	}
 	.thumbnail {
 		flex: 0.7;
-		@media (max-width: 800px) {
+		@media (max-width: 640px) {
 			flex: 2;
 		}
 	}
@@ -153,7 +153,7 @@ const Music = styled.div<{ pathname: string }>`
 		flex: 7.3;
 		line-height: 1.3;
 		height: 1.3em;
-		@media (max-width: 800px) {
+		@media (max-width: 640px) {
 			flex: 6;
 		}
 	}

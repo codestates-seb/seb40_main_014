@@ -8,12 +8,13 @@ type LoginModalType = {
 };
 
 const LoginModal = ({ handleOpenModal }: LoginModalType) => {
+	// 모달 오픈시 스크롤 막기
 	useEffect(() => {
 		document.body.style.cssText = `
-      position: fixed; 
-      top: -${window.scrollY}px;
-      overflow-y: scroll;
-      width: 100%;`;
+		  position: fixed;
+		  top: -${window.scrollY}px;
+		  overflow-y: scroll;
+		  width: 100vw;`;
 		return () => {
 			const scrollY = document.body.style.top;
 			document.body.style.cssText = '';
@@ -57,8 +58,7 @@ export const ModalStyle = styled.div`
 
 export const WhiteBox = styled.div`
 	width: 500px;
-	height: 300px;
-	padding: 46px 70px;
+	padding: 60px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -70,29 +70,34 @@ export const WhiteBox = styled.div`
 	// Tablet
 	@media screen and (max-width: 980px) {
 		width: 400px;
-		padding: 46px 50px;
+		padding: 50px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
 		width: 300px;
-		height: 250px;
-		padding: 37px 30px;
+		padding: 35px;
 	}
 `;
 
-export const H2 = styled.h2`
+const H2 = styled.h2`
+	margin-bottom: 40px;
 	font-size: 26px;
 	font-weight: 600;
-	margin-bottom: 46px;
 
+	// Tablet
+	@media screen and (max-width: 980px) {
+		margin-bottom: 35px;
+		font-size: 24px;
+	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		margin-bottom: 37px;
+		margin-bottom: 30px;
 		font-size: 22px;
 	}
 `;
 
 const GoogleLogin = styled.button`
+	margin-bottom: 55px;
 	background-color: ${(props) => props.theme.colors.white};
 	border: 1.5px solid ${(props) => props.theme.colors.gray300};
 	border-radius: ${(props) => props.theme.radius.smallRadius};
@@ -118,16 +123,18 @@ const GoogleLogin = styled.button`
 
 	// Tablet
 	@media screen and (max-width: 980px) {
+		margin-bottom: 50px;
 		> a {
 			padding: 15px 55px;
 		}
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
+		margin-bottom: 45px;
 		font-size: ${(props) => props.theme.fontSize.medium};
 
 		> a {
-			padding: 13px 35px;
+			padding: 13px 30px;
 		}
 
 		.google-icon {

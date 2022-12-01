@@ -14,6 +14,7 @@ export type MyInitialStateValue = {
 	createdAt: string;
 	modifiedAt: string;
 	playlist: any;
+	content: string;
 };
 
 type MyInitialState = {
@@ -34,6 +35,7 @@ export const myInitialStateValue: MyInitialStateValue = {
 	createdAt: '',
 	modifiedAt: '',
 	playlist: [],
+	content: '',
 };
 
 const initialState: MyInitialState = {

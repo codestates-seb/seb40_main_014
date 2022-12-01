@@ -1,11 +1,14 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Category from '../common/Category';
-import { RoomInfoType } from '../../pages/RoomList';
 import { HiUser } from 'react-icons/hi';
+import { RoomInfoType } from '../../pages/RoomList';
+import { useSelector } from 'react-redux';
+import { myLogin } from '../../slices/mySlice';
+import Swal from 'sweetalert2';
 
 type RoomType = {
-	room: any;
+	room: RoomInfoType;
 	key?: string;
 	swiper?: boolean;
 };
@@ -15,24 +18,47 @@ export type SwiperTrueType = {
 };
 
 const Room = ({ room, swiper }: RoomType) => {
-	const { roomId, title, userCount, maxCount, userlist } = room;
-	const { memberId, name } = room.memberResponseDto;
+	const navigate = useNavigate();
+	const isLogin = useSelector(myLogin);
+
+	const { roomId, title, userlist } = room;
+	const { memberId, name } =
+		room.memberResponseDto || room.rankChatRoomSimpleDto;
 	const { categoryList, playlistItems } = room.playlistResponseDto;
+
+	const onClickLinkRoom = () => {
+		if (!isLogin) {
+			Swal.fire({
+				icon: 'warning',
+				text: '로그인 후 입장하실 수 있습니다.',
+			});
+		} else {
+			navigate(`/rooms/${roomId}`);
+		}
+	};
+
+	const onClickLinkName = () => {
+		if (!isLogin) {
+			Swal.fire({
+				icon: 'warning',
+				text: '로그인 후 이동하실 수 있습니다.',
+			});
+		} else {
+			navigate(`/mypage/${memberId}`);
+		}
+	};
 
 	return (
 		<RoomStyle>
-			<Thumbnail>
-				<img src={playlistItems[0].thumbnail} alt="thumbnail" />
-				<Link to={`/rooms/${roomId}`}>
-					<ThumbnailBackdrop />
-				</Link>
-				<Onair swiper={swiper}>ON AIR</Onair>
-			</Thumbnail>
-			<Title swiper={swiper}>
-				<Link to={`/rooms/${roomId}`}>{title}</Link>
-			</Title>
-			<Name swiper={swiper}>
-				<Link to={`/mypage/${memberId}`}>{name}</Link>
+			<LinkRoom onClick={onClickLinkRoom}>
+				<Thumbnail>
+					<Img src={playlistItems[0].thumbnail} alt="썸네일" />
+					<Onair swiper={swiper}>ON AIR</Onair>
+				</Thumbnail>
+				<Title swiper={swiper}>{title}</Title>
+			</LinkRoom>
+			<Name swiper={swiper} onClick={onClickLinkName}>
+				{name}
 			</Name>
 			<Detail>
 				<Categorys>
@@ -43,12 +69,14 @@ const Room = ({ room, swiper }: RoomType) => {
 								margin="0 4px 0 0"
 								key={idx}
 								swiper={swiper}>
-								{el}
+								<Link to={`/search?type1=room&type2=category&q=${el}`}>
+									{el}
+								</Link>
 							</Category>
 						))}
 				</Categorys>
 				<RoomCount swiper={swiper}>
-					<HiUser className="user_icon" />
+					<HiUser color="#3cc13c" />
 					{userlist.length}
 				</RoomCount>
 			</Detail>
@@ -59,21 +87,11 @@ const Room = ({ room, swiper }: RoomType) => {
 export default Room;
 
 export const RoomStyle = styled.div`
-	/* width: calc((100vw - 30vw) * 0.225);
-	margin-bottom: calc((100vw - 30vw) * 0.03); */
 	width: calc((100vw - 30vw) * 0.306);
 	margin-bottom: calc((100vw - 30vw) * 0.04);
 	padding: 7px;
-	/* background-color: ${(props) => props.theme.colors.gray50}; */
-	/* border-radius: ${(props) => props.theme.radius.smallRadius}; */
-	/* box-shadow: 1px 1px 10px #4d0bd133; */
 	z-index: 1111;
 
-	// 14
-	@media screen and (max-width: 1512px) {
-		width: calc((100vw - 30vw) * 0.306);
-		margin-bottom: calc((100vw - 30vw) * 0.04);
-	}
 	// Tablet
 	@media screen and (max-width: 980px) {
 		width: calc((100vw - 160px) * 0.47);
@@ -86,53 +104,38 @@ export const RoomStyle = styled.div`
 	}
 `;
 
-export const ThumbnailBackdrop = styled.div`
-	display: none;
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	top: 0;
-	text-align: center;
-	/* background-color: #4d0bd16e; */
-	background-color: #ffffff37;
-	border-radius: 3px;
-	z-index: 1111;
-
-	div {
-		color: ${(props) => props.theme.colors.white};
-		padding: 30px;
-		margin: calc(100% / 2) 0;
+export const LinkRoom = styled.div`
+	cursor: pointer;
+	:hover {
+		opacity: 0.75;
 	}
 `;
 
 export const Thumbnail = styled.div`
 	position: relative;
 	margin-bottom: 15px;
-	cursor: pointer;
+`;
 
-	:hover {
-		${ThumbnailBackdrop} {
-			display: block;
-		}
-	}
-
-	img {
-		width: 100%;
-		border-radius: 3px;
-	}
+export const Img = styled.img`
+	width: 100%;
+	border-radius: 3px;
 `;
 
 export const Title = styled.h3<SwiperTrueType>`
-	display: inline-block;
+	text-align: left;
+	height: 36px;
 	margin-bottom: 10px;
 	font-weight: 600;
 	font-size: 18px;
 	cursor: pointer;
 
-	:hover {
-		color: ${(props) => props.theme.colors.gray700};
-	}
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	word-wrap: break-word;
+	word-break: break-all;
 
 	// Tablet
 	@media screen and (max-width: 980px) {
@@ -140,17 +143,18 @@ export const Title = styled.h3<SwiperTrueType>`
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
+		height: 28px;
 		font-size: ${(props) => (props.swiper ? '14px' : '16px')};
 	}
 `;
 
-export const Name = styled.h4<SwiperTrueType>`
+export const Name = styled.button<SwiperTrueType>`
 	font-size: ${(props) => props.theme.fontSize.small};
 	color: ${(props) => props.theme.colors.gray600};
 	margin-bottom: 15px;
 
-	a:hover {
-		color: ${(props) => props.theme.colors.gray500};
+	:hover {
+		opacity: 0.75;
 	}
 
 	// Mobile
@@ -167,7 +171,7 @@ export const Detail = styled.div`
 
 export const Categorys = styled.div``;
 
-const Onair = styled.div<SwiperTrueType>`
+export const Onair = styled.div<SwiperTrueType>`
 	position: absolute;
 	top: 15px;
 	left: 15px;
@@ -191,17 +195,20 @@ const Onair = styled.div<SwiperTrueType>`
 `;
 
 const RoomCount = styled.div<SwiperTrueType>`
+	> *:first-of-type {
+		margin-right: 4px;
+		font-size: 17px;
+	}
 	display: flex;
 	align-items: center;
 	color: ${(props) => props.theme.colors.gray600};
 
-	.user_icon {
-		margin: 5px 5px 4px 5px;
-		color: #3cc13c;
-	}
-
 	// Tablet
 	@media screen and (max-width: 980px) {
+		> *:first-of-type {
+			margin-right: 4px;
+			font-size: ${(props) => props.swiper && '15px'};
+		}
 		font-size: ${(props) => props.swiper && '14px'};
 	}
 	// Mobile

@@ -1,18 +1,24 @@
 import styled from 'styled-components';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { HiHeart } from 'react-icons/hi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Category from '../common/Category';
 import {
 	Categorys,
 	Detail,
+	Img,
+	LinkRoom,
 	Name,
+	Onair,
 	RoomStyle,
 	SwiperTrueType,
 	Thumbnail,
-	ThumbnailBackdrop,
 	Title,
 } from './Room';
+import { IoMdMusicalNote } from 'react-icons/io';
+import { useSelector } from 'react-redux';
+import { myLogin } from '../../slices/mySlice';
+import Swal from 'sweetalert2';
 
 type PlaylistType = {
 	playList: PlaylistInfoType;
@@ -21,6 +27,9 @@ type PlaylistType = {
 };
 
 const Playlist = ({ playList, swiper }: PlaylistType) => {
+	const navigate = useNavigate();
+	const isLogin = useSelector(myLogin);
+
 	const {
 		playlistId,
 		title,
@@ -31,26 +40,51 @@ const Playlist = ({ playList, swiper }: PlaylistType) => {
 		playlistItems,
 	} = playList;
 
+	const onClickLinkPlaylist = () => {
+		if (!isLogin) {
+			Swal.fire({
+				icon: 'warning',
+				text: '로그인 후 이동하실 수 있습니다.',
+			});
+		} else {
+			navigate(`/playlistdetail/${playlistId}`);
+		}
+	};
+
+	const onClickLinkName = () => {
+		if (!isLogin) {
+			Swal.fire({
+				icon: 'warning',
+				text: '로그인 후 이동하실 수 있습니다.',
+			});
+		} else {
+			navigate(`/mypage/${memberId}`);
+		}
+	};
+
 	return (
 		<RoomStyle>
-			<Thumbnail>
-				<img src={playlistItems[0].thumbnail} alt="thumbnail" />
-				<Link to={`/playlistdetail/${playlistId}`}>
-					<ThumbnailBackdrop />
-				</Link>
-			</Thumbnail>
-			<Title>
-				<Link to={`/playlistdetail/${playlistId}`}>{title}</Link>
-			</Title>
-			<Name swiper={swiper}>
-				<Link to={`/mypage/${memberId}`}>{name}</Link>
+			<LinkRoom onClick={onClickLinkPlaylist}>
+				<Thumbnail>
+					<Img src={playlistItems[0].thumbnail} alt="썸네일" />
+					<PlaylistCount swiper={swiper}>
+						<IoMdMusicalNote />
+						{playlistItems.length}
+					</PlaylistCount>
+				</Thumbnail>
+				<Title swiper={swiper}>{title}</Title>
+			</LinkRoom>
+			<Name swiper={swiper} onClick={onClickLinkName}>
+				{name}
 			</Name>
 			<Detail>
 				<Categorys>
 					{categoryList &&
 						categoryList.map((el, idx) => (
 							<Category category={el} margin="0 4px 0 0" key={idx}>
-								{el}
+								<Link to={`/search?type1=playlist&type2=category&q=${el}`}>
+									{el}
+								</Link>
 							</Category>
 						))}
 				</Categorys>
@@ -64,6 +98,15 @@ const Playlist = ({ playList, swiper }: PlaylistType) => {
 };
 
 export default Playlist;
+
+const PlaylistCount = styled(Onair)`
+	> *:first-of-type {
+		margin-right: 4px;
+	}
+	display: flex;
+	align-items: center;
+	background-color: #37af37a0;
+`;
 
 const Like = styled.span<SwiperTrueType>`
 	> *:first-of-type {

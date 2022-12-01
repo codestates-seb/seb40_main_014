@@ -1,41 +1,55 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 import { getBookmarkList, getFollowList, getUserInfo } from '../api/userApi';
 import CplayList from '../components/playlistcollection/CplayList';
-import { myValue } from '../slices/mySlice';
+import { myLogin, myValue } from '../slices/mySlice';
 import { PlaylistInfoType } from './PlaylistList';
 import { H2, RankingListStyle } from './RankingList';
 
 const UserPlayList = () => {
+	const navigate = useNavigate();
+	const { id, userId } = useParams();
+
 	const [playlists, setPlayLists] = useState([]);
 	const [followList, setFollowList] = useState([]);
 	const [title, setTitle] = useState('');
 
-	const { id, userId } = useParams();
 	const myId = useSelector(myValue).memberId;
+	const isLogin = useSelector(myLogin);
 
 	useEffect(() => {
-		if (Number(id) === 1) {
-			getUserInfo(Number(userId)).then((res) => {
-				if (res.data) {
-					setTitle(`${res.data.name}님의 플레이리스트`);
-					setPlayLists(res.data.playlist.data);
-				}
+		if (!isLogin) {
+			Swal.fire({
+				icon: 'warning',
+				text: '로그인 후 이동하실 수 있습니다.',
+				confirmButtonText: '뒤로가기',
+			}).then(() => {
+				navigate(-1);
 			});
-		}
-		if (Number(id) === 2) {
-			setTitle('보관한 플레이리스트');
-			getBookmarkList(Number(userId)).then((res) => {
-				if (res.data) {
-					setPlayLists(res.data);
-				}
-			});
-		}
-		if (Number(id) === 3) {
-			setTitle('팔로우 한 DJ');
-			getFollowList(Number(userId)).then((res) => setFollowList(res.data));
+		} else {
+			if (Number(id) === 1) {
+				getUserInfo(Number(userId)).then((res) => {
+					if (res.data) {
+						setTitle(`${res.data.name}님의 플레이리스트`);
+						setPlayLists(res.data.playlist.data);
+					}
+				});
+			}
+			if (Number(id) === 2) {
+				setTitle('보관한 플레이리스트');
+				getBookmarkList(Number(userId)).then((res) => {
+					if (res.data) {
+						setPlayLists(res.data);
+					}
+				});
+			}
+			if (Number(id) === 3) {
+				setTitle('팔로우 한 DJ');
+				getFollowList(Number(userId)).then((res) => setFollowList(res.data));
+			}
 		}
 	}, []);
 
@@ -49,25 +63,27 @@ const UserPlayList = () => {
 	return (
 		<RankingListStyle>
 			<H2 className="title">{title}</H2>
-			<PlayListsWrapper>
-				{Number(id) === 3
-					? followList &&
-					  followList.map((ele) => {
-							return (
-								<CplayList key={ele.memberId} followList={ele} {...props} />
-							);
-					  })
-					: playlists &&
-					  playlists.map((playlist: PlaylistInfoType) => {
-							return (
-								<CplayList
-									key={playlist.playlistId}
-									playList={playlist}
-									{...props}
-								/>
-							);
-					  })}
-			</PlayListsWrapper>
+			{isLogin && (
+				<PlayListsWrapper>
+					{Number(id) === 3
+						? followList &&
+						  followList.map((ele) => {
+								return (
+									<CplayList key={ele.memberId} followList={ele} {...props} />
+								);
+						  })
+						: playlists &&
+						  playlists.map((playlist: PlaylistInfoType) => {
+								return (
+									<CplayList
+										key={playlist.playlistId}
+										playList={playlist}
+										{...props}
+									/>
+								);
+						  })}
+				</PlayListsWrapper>
+			)}
 		</RankingListStyle>
 	);
 };

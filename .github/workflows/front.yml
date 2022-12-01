@@ -8,6 +8,8 @@ env:
   REACT_APP_STACK_SERVER: ${{ secrets.REACT_APP_STACK_SERVER }}
   REACT_APP_YOUTUBE_KEY: ${{ secrets.REACT_APP_YOUTUBE_KEY }}
   REACT_APP_STACK_WS_SERVER: ${{ secrets.REACT_APP_STACK_WS_SERVER}}
+  REACT_APP_ADMIN_EMAIL_01: ${{secrets.REACT_APP_ADMIN_EMAIL_01}}
+  REACT_APP_ADMIN_EMAIL_02: ${{secrets.REACT_APP_ADMIN_EMAIL_02}}
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -21,7 +23,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          CI: ''
+          CI: ""
         working-directory: ./client
       - name: SHOW AWS CLI VERSION
         env:

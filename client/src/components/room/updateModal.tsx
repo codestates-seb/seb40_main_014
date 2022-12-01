@@ -25,6 +25,10 @@ const ModalContaincer = styled.div`
 	left: 50%;
 	transform: translate(-50%, -50%);
 	z-index: 8888;
+	@media screen and (max-width: 640px) {
+		width: 350px;
+		height: 500px;
+	}
 `;
 
 const ModalHeader = styled.div`
@@ -58,17 +62,18 @@ export const ExitBtn = styled.button`
 	font-size: ${(props) => props.theme.fontSize.medium};
 `;
 
-const UpdateRoomModal = ({ modalOpen, setModalOpen, setTitle }) => {
+const UpdateRoomModal = ({ modalOpen, setModalOpen, setTitle, title }) => {
 	const onClick = () => {
 		setModalOpen(!modalOpen);
 	};
 
+	// 모달 오픈시 스크롤 막기
 	useEffect(() => {
 		document.body.style.cssText = `
       position: fixed; 
       top: -${window.scrollY}px;
       overflow-y: scroll;
-      width: 100%;`;
+      width: 100vw;`;
 		return () => {
 			const scrollY = document.body.style.top;
 			document.body.style.cssText = '';
@@ -90,6 +95,7 @@ const UpdateRoomModal = ({ modalOpen, setModalOpen, setTitle }) => {
 					</HeaderContent>
 				</ModalHeader>
 				<RoomUpdateForm
+					title={title}
 					setTitle={setTitle}
 					modalOpen={modalOpen}
 					setModalOpen={setModalOpen}
