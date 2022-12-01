@@ -49,12 +49,19 @@ const RoomList = () => {
 
 	useEffect(() => {
 		getRoomsByView(1, 7).then((res) => {
-			console.log('rooms by view res', res.data);
-			setRoomsByView(res.data);
+			console.log('getRoomsByView res', res);
+
+			if (res.data) {
+				setRoomsByView(res.data);
+			}
 		});
+
 		getRoomsByDj(1, 7).then((res) => {
-			console.log('rooms by dj res', res);
-			setRoomsByDj(res.data);
+			console.log('getRoomsByDj res', res);
+
+			if (res.data) {
+				setRoomsByDj(res.data);
+			}
 		});
 	}, []);
 
@@ -66,11 +73,14 @@ const RoomList = () => {
 	const fetch = useCallback(() => {
 		getRooms(currentPage.current, 6).then((res) => {
 			console.log('getRooms res', res);
-			const data = res.data;
-			const { page, totalPages } = res.pageInfo;
-			setRooms((prevRooms) => [...prevRooms, ...data]);
-			setHasNextPage(page !== totalPages);
-			if (hasNextPage) currentPage.current += 1;
+
+			if (res.data) {
+				const data = res.data;
+				const { page, totalPages } = res.pageInfo;
+				setRooms((prevRooms) => [...prevRooms, ...data]);
+				setHasNextPage(page !== totalPages);
+				if (hasNextPage) currentPage.current += 1;
+			}
 		});
 	}, []);
 
