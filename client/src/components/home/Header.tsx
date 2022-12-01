@@ -228,8 +228,8 @@ export const LoginButton = styled.button`
 		color: ${(props) => props.theme.colors.white};
 	}
 
-	// Mobile
-	@media screen and (max-width: 640px) {
+	// Tablet, Mobile
+	@media screen and (max-width: 980px) {
 		color: ${(props) => props.theme.colors.gray800};
 		:hover {
 			color: ${(props) => props.theme.colors.purple};

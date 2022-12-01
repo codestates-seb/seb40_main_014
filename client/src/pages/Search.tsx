@@ -53,7 +53,7 @@ const Search = () => {
 				setType2Title('유저명');
 			}
 		}
-	}, [type1, type2]);
+	}, [type1, type2, q]);
 
 	//* 무한 스크롤
 	const [hasNextPage, setHasNextPage] = useState(true);
@@ -106,7 +106,7 @@ const Search = () => {
 					console.log(err);
 				});
 		}
-	}, []);
+	}, [type1, type2, q]);
 
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;
