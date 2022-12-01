@@ -326,7 +326,6 @@ export const NextButton = styled.button`
 
 export const ListStyle = styled.div`
 	display: flex;
-	justify-content: center;
 	flex-wrap: wrap;
 	z-index: 1111;
 

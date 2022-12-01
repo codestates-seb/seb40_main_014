@@ -13,7 +13,7 @@ const LoginModal = ({ handleOpenModal }: LoginModalType) => {
 		  position: fixed;
 		  top: -${window.scrollY}px;
 		  overflow-y: scroll;
-		  width: 100%;`;
+		  width: 100vw;`;
 		return () => {
 			const scrollY = document.body.style.top;
 			document.body.style.cssText = '';

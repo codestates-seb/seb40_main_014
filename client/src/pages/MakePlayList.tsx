@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 import {
 	createPlayList,
 	getPlayList,
@@ -41,7 +42,13 @@ const MakePlayList = () => {
 
 	useEffect(() => {
 		if (!isLogin) {
-			navigate('/');
+			Swal.fire({
+				icon: 'warning',
+				text: '로그인 후 이동하실 수 있습니다.',
+				confirmButtonText: '뒤로가기',
+			}).then(() => {
+				navigate(-1);
+			});
 		} else {
 			if (type === 'modify') {
 				getPlayList(id).then((res) => {

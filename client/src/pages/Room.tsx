@@ -369,9 +369,11 @@ const Room = () => {
 		} else {
 			Swal.fire({
 				icon: 'warning',
-				text: '채팅방은 로그인 후 입장가능합니다!',
+				text: '로그인 후 입장하실 수 있습니다.',
+				confirmButtonText: '뒤로가기',
+			}).then(() => {
+				navigate(-1);
 			});
-			navigate('/');
 		}
 	}, []);
 

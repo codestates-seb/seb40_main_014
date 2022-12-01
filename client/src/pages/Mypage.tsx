@@ -1,14 +1,17 @@
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getBookmarkList, getFollowList, getUserInfo } from '../api/userApi';
 import MypageContents from '../components/Mypage/MypageContents';
 import MypageInfo from '../components/Mypage/MypageInfo';
 import {
 	myInitialStateValue,
 	MyInitialStateValue,
+	myLogin,
 	myValue,
 } from '../slices/mySlice';
 import { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
+import { MinHeightWrapper } from './RoomList';
 
 type content = {
 	id: number;
@@ -17,9 +20,11 @@ type content = {
 };
 
 const Mypage = () => {
+	const navigate = useNavigate();
 	const { userId } = useParams();
 
 	const myId = useSelector(myValue).memberId;
+	const isLogin = useSelector(myLogin);
 
 	const [userInfo, setUserInfo] =
 		useState<MyInitialStateValue>(myInitialStateValue);
@@ -31,56 +36,70 @@ const Mypage = () => {
 	]);
 
 	useEffect(() => {
-		//유저 정보 + 유저 플레이 리스트
-		getUserInfo(Number(userId)).then((res) => {
-			if (res.data) {
-				console.log('getUserInfo res', res);
+		if (!isLogin) {
+			Swal.fire({
+				icon: 'warning',
+				text: '로그인 후 이동하실 수 있습니다.',
+				confirmButtonText: '뒤로가기',
+			}).then(() => {
+				navigate(-1);
+			});
+		} else {
+			//유저 정보 + 유저 플레이 리스트
+			getUserInfo(Number(userId)).then((res) => {
+				if (res.data) {
+					console.log('getUserInfo res', res);
 
-				setUserInfo(res.data);
-				setContentList((prev) => {
-					const copy = [...prev];
-					copy[0].title = `${res.data.name}님의 플레이리스트`;
-					copy[0].contents = res.data.playlist.data;
-					return copy;
-				});
-			}
-		});
-		//유저가 보관한 플레이리스트
-		getBookmarkList(Number(userId)).then((res) => {
-			if (res.data) {
-				setContentList((prev) => {
-					const copy = [...prev];
-					copy[1].contents = res.data;
-					return copy;
-				});
-			}
-		});
-		//유저가 팔로우 한 사람들
-		getFollowList(Number(userId)).then((res) => {
-			if (res.data) {
-				setContentList((prev) => {
-					const copy = [...prev];
-					copy[2].contents = res.data;
-					return copy;
-				});
-			}
-		});
+					setUserInfo(res.data);
+					setContentList((prev) => {
+						const copy = [...prev];
+						copy[0].title = `${res.data.name}님의 플레이리스트`;
+						copy[0].contents = res.data.playlist.data;
+						return copy;
+					});
+				}
+			});
+			//유저가 보관한 플레이리스트
+			getBookmarkList(Number(userId)).then((res) => {
+				if (res.data) {
+					setContentList((prev) => {
+						const copy = [...prev];
+						copy[1].contents = res.data;
+						return copy;
+					});
+				}
+			});
+			//유저가 팔로우 한 사람들
+			getFollowList(Number(userId)).then((res) => {
+				if (res.data) {
+					setContentList((prev) => {
+						const copy = [...prev];
+						copy[2].contents = res.data;
+						return copy;
+					});
+				}
+			});
+		}
 	}, [userId]);
 
 	return (
-		<>
-			<MypageInfo userInfo={userInfo} myId={myId} />
-			{contentList.map((ele) => {
-				return (
-					<MypageContents
-						key={ele.id}
-						id={ele.id}
-						title={ele.title}
-						contents={ele.contents}
-					/>
-				);
-			})}
-		</>
+		<MinHeightWrapper>
+			{isLogin && (
+				<>
+					<MypageInfo userInfo={userInfo} myId={myId} />
+					{contentList.map((ele) => {
+						return (
+							<MypageContents
+								key={ele.id}
+								id={ele.id}
+								title={ele.title}
+								contents={ele.contents}
+							/>
+						);
+					})}
+				</>
+			)}
+		</MinHeightWrapper>
 	);
 };
 

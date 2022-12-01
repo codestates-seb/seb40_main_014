@@ -3,7 +3,6 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
-    /* letter-spacing: -0.01em; */
   }
 
   body {
@@ -50,9 +49,10 @@ const GlobalStyle = createGlobalStyle`
     font-size: inherit;
     color: inherit;
   }
+
   .swal2-container {
-  z-index: 20000 !important;
-  white-space: pre-line
+    z-index: 5555 !important;
+    white-space: pre-line
   }
 `;
 

@@ -280,7 +280,7 @@ const ProfileUl = styled.ul`
 	box-shadow: 1px 1px 10px 2px rgba(30, 30, 30, 0.185);
 	z-index: 6666;
 
-	> * {
+	> *:not(:first-child) {
 		padding: 5px;
 
 		span {
@@ -309,10 +309,6 @@ const Triangle = styled.div`
 	padding: 15px 68px 0 68px;
 	color: ${(props) => props.theme.colors.background};
 	font-size: ${(props) => props.theme.fontSize.small};
-
-	:hover {
-		color: ${(props) => props.theme.colors.background};
-	}
 
 	// Mobile
 	@media screen and (max-width: 640px) {

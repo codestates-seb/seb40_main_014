@@ -1,10 +1,13 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 import { getPlayList } from '../api/playlistApi';
 import { getUserInfo } from '../api/userApi';
 import MusicList from '../components/playlist/MusicList';
 import PlayListInfo from '../components/playlist/PlayListInfo';
+import { myLogin } from '../slices/mySlice';
 import { musicInfoType } from './MakePlayList';
 import { MinHeightWrapper } from './RoomList';
 
@@ -30,19 +33,33 @@ export type PlayListInfoProps = {
 };
 
 const PlayListDetail = () => {
+	const navigate = useNavigate();
+
+	const isLogin = useSelector(myLogin);
+
 	const [playListInfo, setPlayListInfo] = useState<plinfo>();
 	const [picture, setPicture] = useState<string>();
 
 	const { id } = useParams();
 	useEffect(() => {
-		getPlayList(id).then((res) => {
-			if (res.data) {
-				setPlayListInfo(res.data);
-				getUserInfo(res.data.memberId).then((res) =>
-					setPicture(res.data.picture),
-				);
-			}
-		});
+		if (!isLogin) {
+			Swal.fire({
+				icon: 'warning',
+				text: '로그인 후 이동하실 수 있습니다.',
+				confirmButtonText: '뒤로가기',
+			}).then(() => {
+				navigate(-1);
+			});
+		} else {
+			getPlayList(id).then((res) => {
+				if (res.data) {
+					setPlayListInfo(res.data);
+					getUserInfo(res.data.memberId).then((res) =>
+						setPicture(res.data.picture),
+					);
+				}
+			});
+		}
 	}, []);
 
 	const props: PlayListInfoProps = {
@@ -52,7 +69,7 @@ const PlayListDetail = () => {
 	};
 	return (
 		<PlayListDetailStyle>
-			{playListInfo && (
+			{isLogin && playListInfo && (
 				<>
 					<PlayListInfo {...props} />
 					<MusicList {...props} />
