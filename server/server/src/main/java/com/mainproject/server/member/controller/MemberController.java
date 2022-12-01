@@ -1,6 +1,6 @@
 package com.mainproject.server.member.controller;
 
-import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
+import com.mainproject.server.chatroom.mapper.ChatRoomMapper;
 import com.mainproject.server.member.mapper.MemberMapper;
 import com.mainproject.server.member.service.FollowService;
 import com.mainproject.server.member.service.MemberService;
@@ -9,7 +9,6 @@ import com.mainproject.server.member.dto.MemberResponseDto;
 import com.mainproject.server.member.dto.RankResponseDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Member;
-import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
 import com.mainproject.server.response.MultiResponseDto;
 import com.mainproject.server.response.SingleResponseDto;

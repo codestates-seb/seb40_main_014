@@ -1,6 +1,6 @@
-package com.mainproject.server.ChatRoom.repository;
+package com.mainproject.server.chatroom.repository;
 
-import com.mainproject.server.ChatRoom.entity.ChatMessage;
+import com.mainproject.server.chatroom.entity.ChatMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

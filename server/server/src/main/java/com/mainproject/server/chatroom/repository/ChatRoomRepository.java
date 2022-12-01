@@ -1,12 +1,10 @@
-package com.mainproject.server.ChatRoom.repository;
+package com.mainproject.server.chatroom.repository;
 
-import com.mainproject.server.ChatRoom.dto.ResponseChatRoomDto;
-import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.chatroom.entity.ChatRoom;
 import com.mainproject.server.member.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

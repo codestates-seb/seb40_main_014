@@ -1,11 +1,10 @@
-package com.mainproject.server.ChatRoom.mapper;
+package com.mainproject.server.chatroom.mapper;
 
-import com.mainproject.server.ChatRoom.dto.ChatRoomPatchDto;
-import com.mainproject.server.ChatRoom.dto.ChatRoomPostDto;
-import com.mainproject.server.ChatRoom.dto.RankResponseChatRoomDto;
-import com.mainproject.server.ChatRoom.dto.ResponseChatRoomDto;
-import com.mainproject.server.ChatRoom.entity.ChatRoom;
-import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
+import com.mainproject.server.chatroom.dto.ChatRoomPatchDto;
+import com.mainproject.server.chatroom.dto.ChatRoomPostDto;
+import com.mainproject.server.chatroom.dto.RankResponseChatRoomDto;
+import com.mainproject.server.chatroom.dto.ResponseChatRoomDto;
+import com.mainproject.server.chatroom.entity.ChatRoom;
 import com.mainproject.server.member.dto.RankChatRoomSimpleDto;
 import com.mainproject.server.member.dto.RankResponseDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;

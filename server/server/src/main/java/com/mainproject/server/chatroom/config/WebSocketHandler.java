@@ -1,8 +1,8 @@
-package com.mainproject.server.ChatRoom.config;
+package com.mainproject.server.chatroom.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mainproject.server.ChatRoom.entity.ChatMessage;
+import com.mainproject.server.chatroom.entity.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

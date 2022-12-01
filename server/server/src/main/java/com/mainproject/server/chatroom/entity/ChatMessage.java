@@ -1,4 +1,4 @@
-package com.mainproject.server.ChatRoom.entity;
+package com.mainproject.server.chatroom.entity;
 
 import lombok.*;
 

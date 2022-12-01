@@ -1,9 +1,9 @@
-package com.mainproject.server.ChatRoom.service;
+package com.mainproject.server.chatroom.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mainproject.server.ChatRoom.config.WebSocketTest;
-import com.mainproject.server.ChatRoom.entity.ChatRoom;
-import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
+import com.mainproject.server.chatroom.config.WebSocketTest;
+import com.mainproject.server.chatroom.entity.ChatRoom;
+import com.mainproject.server.chatroom.repository.ChatRoomRepository;
 import com.mainproject.server.exception.BusinessException;
 import com.mainproject.server.exception.ExceptionCode;
 import com.mainproject.server.member.mapper.MemberMapper;

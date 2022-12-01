@@ -1,6 +1,6 @@
-package com.mainproject.server.ChatRoom.dto;
+package com.mainproject.server.chatroom.dto;
 
-import com.mainproject.server.ChatRoom.entity.ChatRoom;
+import com.mainproject.server.chatroom.entity.ChatRoom;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.playlist.dto.PlaylistResponseDto;
 import lombok.Builder;

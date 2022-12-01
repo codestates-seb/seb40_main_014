@@ -1,8 +1,8 @@
 package com.mainproject.server.playlist.service;
 
-import com.mainproject.server.ChatRoom.entity.ChatRoom;
-import com.mainproject.server.ChatRoom.repository.ChatRoomRepository;
-import com.mainproject.server.ChatRoom.service.ChatService;
+import com.mainproject.server.chatroom.entity.ChatRoom;
+import com.mainproject.server.chatroom.repository.ChatRoomRepository;
+import com.mainproject.server.chatroom.service.ChatService;
 import com.mainproject.server.exception.BusinessException;
 import com.mainproject.server.exception.ExceptionCode;
 import com.mainproject.server.member.entity.Member;

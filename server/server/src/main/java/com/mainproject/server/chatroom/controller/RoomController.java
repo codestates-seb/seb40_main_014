@@ -1,11 +1,10 @@
-package com.mainproject.server.ChatRoom.controller;
+package com.mainproject.server.chatroom.controller;
 
-import com.mainproject.server.ChatRoom.dto.ChatRoomPatchDto;
-import com.mainproject.server.ChatRoom.dto.ChatRoomPostDto;
-import com.mainproject.server.ChatRoom.dto.ResponseChatRoomDto;
-import com.mainproject.server.ChatRoom.entity.ChatRoom;
-import com.mainproject.server.ChatRoom.mapper.ChatRoomMapper;
-import com.mainproject.server.ChatRoom.service.ChatService;
+import com.mainproject.server.chatroom.dto.ChatRoomPatchDto;
+import com.mainproject.server.chatroom.dto.ChatRoomPostDto;
+import com.mainproject.server.chatroom.entity.ChatRoom;
+import com.mainproject.server.chatroom.mapper.ChatRoomMapper;
+import com.mainproject.server.chatroom.service.ChatService;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.entity.Playlist;
@@ -16,9 +15,6 @@ import com.mainproject.server.tx.NeedMemberId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
