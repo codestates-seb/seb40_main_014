@@ -86,6 +86,7 @@ const ModifyButtonStyle = styled.div<ModifyButtonProps>`
 	// Mobile
 	@media screen and (max-width: 640px) {
 		justify-content: flex-end;
+		margin-top: 10px;
 
 		button {
 			margin-left: 10px;

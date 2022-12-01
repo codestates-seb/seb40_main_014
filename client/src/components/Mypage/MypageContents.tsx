@@ -87,17 +87,19 @@ const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 						})}
 					</MyPageSwiperStyle>
 				) : (
-					<NoSwiperStyle>
-						{contents.map((ele, idx) => (
-							<div key={idx}>
-								{id === 3 ? (
-									<Content id={id} followlist={ele} />
-								) : (
-									<Content id={id} playlist={ele} />
-								)}
-							</div>
-						))}
-					</NoSwiperStyle>
+					<MyPageNoSwiperStyle>
+						{contents.map((ele, idx) => {
+							return (
+								<>
+									{id === 3 ? (
+										<Content id={id} followlist={ele} />
+									) : (
+										<Content id={id} playlist={ele} />
+									)}
+								</>
+							);
+						})}
+					</MyPageNoSwiperStyle>
 				)}
 			</Body>
 		</MypageContentsStyle>
@@ -159,6 +161,7 @@ const Roof = styled.div`
 `;
 
 const Body = styled.div`
+	width: 100%;
 	margin-bottom: 60px;
 	padding: 40px 60px;
 	border-bottom-left-radius: ${(props) => props.theme.radius.largeRadius};
@@ -184,8 +187,8 @@ const MyPageSwiperStyle = styled(SwiperStyle)`
 	margin-bottom: 0;
 `;
 
-const NoSwiperStyle = styled.div`
+const MyPageNoSwiperStyle = styled.div`
+	width: 100%;
 	display: flex;
 	justify-content: space-evenly;
-	width: 100%;
 `;

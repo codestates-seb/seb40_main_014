@@ -128,10 +128,12 @@ const CplayListStyle = styled.div`
 		padding: 20px;
 		> *:first-child {
 			width: 100%;
-			margin-bottom: 10px;
 		}
 		> *:last-child {
 			width: 100%;
+		}
+		> div {
+			margin-top: 10px;
 		}
 	}
 `;

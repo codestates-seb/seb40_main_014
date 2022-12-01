@@ -2,16 +2,12 @@ import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
-import { LinkRoom, Thumbnail } from '../home/Room';
+import { Img, LinkRoom, RoomStyle, Thumbnail } from '../home/Room';
 
 type ContentType = {
 	id: number;
 	playlist?: PlaylistInfoType;
 	followlist?: any;
-};
-
-type ImgProps = {
-	follow?: boolean;
 };
 
 const Content = ({ id, playlist, followlist }: ContentType) => {
@@ -21,10 +17,13 @@ const Content = ({ id, playlist, followlist }: ContentType) => {
 				<ContentStyle>
 					<Link to={`/mypage/${followlist.memberId}`}>
 						<LinkRoom>
-							<Thumbnail>
-								<Img src={followlist.picture} alt="프로필" follow />
-							</Thumbnail>
+							<FollowThumbnail>
+								<FollowImg src={followlist.picture} alt="프로필" />
+							</FollowThumbnail>
 							<Name>{followlist.name}</Name>
+							<Intro>
+								{followlist.content || '등록된 자기소개가 없습니다.'}
+							</Intro>
 						</LinkRoom>
 					</Link>
 				</ContentStyle>
@@ -46,51 +45,42 @@ const Content = ({ id, playlist, followlist }: ContentType) => {
 
 export default Content;
 
-const ContentStyle = styled.div`
-	display: flex;
-	flex-direction: column;
+const ContentStyle = styled(RoomStyle)`
+	/* margin-bottom: 0; */
 `;
 
-const Img = styled.img<ImgProps>`
-	width: 230px;
-	@media screen and (max-width: 1350px) {
-		width: 170px;
-	}
-	@media screen and (max-width: 1034px) {
-		width: 140px;
-	}
-	@media screen and (max-width: 668px) {
-		width: 110px;
-	}
-	@media screen and (max-width: 550) {
-		width: 70px;
-	}
+const FollowThumbnail = styled(Thumbnail)`
+	display: flex;
+	justify-content: center;
+`;
 
-	border-radius: ${(props) =>
-		props.follow ? '50%' : props.theme.radius.smallRadius};
+const FollowImg = styled(Img)`
+	width: 80%;
+	max-width: 200px;
+	border-radius: 50%;
+
+	// Tablet, Mobile
+	@media screen and (max-width: 980px) {
+		max-width: 180px;
+	}
 `;
 
 const Name = styled.div`
-	width: 230px;
-	@media screen and (max-width: 1350px) {
-		width: 170px;
-	}
-	@media screen and (max-width: 1034px) {
-		width: 140px;
-	}
-	@media screen and (max-width: 668px) {
-		width: 110px;
-	}
-	@media screen and (max-width: 550) {
-		width: 70px;
-	}
-
 	text-align: center;
-	margin-bottom: 45px;
-	cursor: pointer;
-
+	margin-bottom: 10px;
 	// Mobile
 	@media screen and (max-width: 640px) {
 		font-size: 14px;
+	}
+`;
+
+const Intro = styled.div`
+	color: ${(props) => props.theme.colors.gray500};
+	font-size: 14px;
+	text-align: center;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 12px;
 	}
 `;
