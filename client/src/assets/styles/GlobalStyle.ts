@@ -52,6 +52,7 @@ const GlobalStyle = createGlobalStyle`
   }
   .swal2-container {
   z-index: 20000 !important;
+  white-space: pre-line
   }
 `;
 

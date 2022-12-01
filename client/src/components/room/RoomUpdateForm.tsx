@@ -162,6 +162,7 @@ const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen, title }) => {
 					disabled></PeopleInput>
 			</InputContainer> */}
 			<CreateRoomBtn as="input" type="submit" value="방 수정"></CreateRoomBtn>
+			{/* <CreateRoomBtn type="submit">방 수정</CreateRoomBtn> */}
 		</UpdateForm>
 	);
 };

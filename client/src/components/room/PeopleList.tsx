@@ -5,6 +5,7 @@ import { getRoomById } from '../../api/roomApi';
 import { GiChessKing } from 'react-icons/gi';
 import UserModal from './userModal';
 import { AiTwotoneHome } from 'react-icons/ai';
+import { getAllUserInfo } from '../../api/userApi';
 
 const PeopleSetcion = styled.div`
 	margin-top: 80px;
@@ -64,7 +65,7 @@ const Person = styled.div`
 		height: 20px;
 	}
 
-	:hover {
+	.home {
 		cursor: pointer;
 	}
 
@@ -93,33 +94,35 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 	// const params = useParams();
 	// const roomId = params.id;
 	const userRef = useRef(null);
-	const navigate = useNavigate();
-	const [peopleList, setPeopleList] = useState([]);
-	const filtered = people.reduce((acc, v) => {
-		return acc.includes(v) ? acc : [...acc, v];
-	}, []);
 
 	const onClick = (e) => {
+		// getAllUserInfo(localStorage.getItem('accessToken'))
+		// 	.then((res) => {
+		// 		console.log(res.data);
+		// 		return res.data.filter((e) => e.name === userRef.current.innerText);
+		// 	})
+		// 	.then((data) => console.log(data[0].memberId))
+		// 	.catch((err) => console.log(err));
 		console.log(userRef.current.innerText);
 	};
 
 	const linkMyPage = (e) => {
-		navigate(`/mypage/3`);
-	};
-	useEffect(() => {
-		getRoomById(roomId)
+		getAllUserInfo(localStorage.getItem('accessToken'))
 			.then((res) => {
-				setPeopleList(res.data.userlist);
+				return res.data.filter((e) => e.name === userRef.current.innerText);
 			})
-			.catch((err) => console.log(err));
-	}, []);
+			.then((data) => {
+				window.open(`/mypage/${data[0].memberId}`, '_blank');
+				// navigate(`/mypage/${data[0].memberId}`);
+			});
+	};
 
 	return (
 		<PeopleSetcion>
 			<PeopleContainer>
 				{people.map((e, index) => {
 					return (
-						<Person onClick={onClick} key={index}>
+						<Person key={index}>
 							<div ref={userRef}>
 								{isAdmin ? (
 									<GiChessKing className="option_btn"></GiChessKing>
@@ -128,8 +131,9 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 							</div>
 
 							<div className="option">
-								{/* <span className="follow">팔로우</span> */}
-								<FollowBtn className="follow">팔로우</FollowBtn>
+								<FollowBtn className="follow" onClick={onClick}>
+									팔로우
+								</FollowBtn>
 								<AiTwotoneHome
 									className="option_btn home"
 									onClick={linkMyPage}></AiTwotoneHome>
