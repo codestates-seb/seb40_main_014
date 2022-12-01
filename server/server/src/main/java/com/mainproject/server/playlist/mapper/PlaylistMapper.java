@@ -1,6 +1,5 @@
 package com.mainproject.server.playlist.mapper;
 
-import com.mainproject.server.member.dto.RankPlaylistSimpleDto;
 import com.mainproject.server.member.dto.RankResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.playlist.dto.*;

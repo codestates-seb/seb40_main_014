@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -114,10 +113,9 @@ public class RoomController {
         List<Member> rankContent = roomsRank.getContent();
 
         Page<ChatRoom> chatRoomPage = chatService.findChatRooms(page - 1 , size);
-        List<ChatRoom> content = chatRoomPage.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(chatRoomMapper.chatRoomRankDtotoMember(content, rankContent), chatRoomPage), HttpStatus.OK);
+                new MultiResponseDto<>(chatRoomMapper.chatRoomRankDtotoMember(rankContent), chatRoomPage), HttpStatus.OK);
     }
 
     // 방 검색
