@@ -48,6 +48,10 @@ const BookmarkStyle = styled.div`
 		margin-left: 5px;
 	}
 
+	:hover {
+		opacity: 0.75;
+	}
+
 	// Mobile
 	@media screen and (max-width: 640px) {
 		font-size: 14px !important;

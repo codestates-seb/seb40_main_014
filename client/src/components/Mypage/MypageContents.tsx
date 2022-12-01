@@ -72,33 +72,19 @@ const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 				)}
 			</Roof>
 			<Body>
-				{contents.length > 2 ? (
-					<MyPageSwiperStyle {...settings}>
-						{contents.map((ele, idx) => {
-							return (
-								<SwiperSlide key={idx}>
-									{id === 3 ? (
-										<Content id={id} followlist={ele} />
-									) : (
-										<Content id={id} playlist={ele} />
-									)}
-								</SwiperSlide>
-							);
-						})}
-					</MyPageSwiperStyle>
-				) : (
-					<NoSwiperStyle>
-						{contents.map((ele, idx) => (
-							<div key={idx}>
+				<MyPageSwiperStyle {...settings}>
+					{contents.map((ele, idx) => {
+						return (
+							<SwiperSlide key={idx}>
 								{id === 3 ? (
 									<Content id={id} followlist={ele} />
 								) : (
 									<Content id={id} playlist={ele} />
 								)}
-							</div>
-						))}
-					</NoSwiperStyle>
-				)}
+							</SwiperSlide>
+						);
+					})}
+				</MyPageSwiperStyle>
 			</Body>
 		</MypageContentsStyle>
 	);
@@ -181,11 +167,6 @@ const Body = styled.div`
 `;
 
 const MyPageSwiperStyle = styled(SwiperStyle)`
-	margin-bottom: 0;
-`;
-
-const NoSwiperStyle = styled.div`
-	display: flex;
-	justify-content: space-evenly;
 	width: 100%;
+	margin-bottom: 0;
 `;

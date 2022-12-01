@@ -35,13 +35,17 @@ const Header = () => {
 
 	// 로그아웃
 	const handleLogout = () => {
-		logout().then((res) => {
-			console.log('logout res', res);
-			localStorage.removeItem('accessToken');
-			localStorage.removeItem('refreshToken');
-			dispatch(myLogout());
-			navigate('/');
-		});
+		logout()
+			.then((res) => {
+				console.log('logout res', res);
+				localStorage.removeItem('accessToken');
+				localStorage.removeItem('refreshToken');
+				dispatch(myLogout());
+				navigate('/');
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 
 	//마이페이지 이동
@@ -224,8 +228,8 @@ export const LoginButton = styled.button`
 		color: ${(props) => props.theme.colors.white};
 	}
 
-	// Mobile
-	@media screen and (max-width: 640px) {
+	// Tablet, Mobile
+	@media screen and (max-width: 980px) {
 		color: ${(props) => props.theme.colors.gray800};
 		:hover {
 			color: ${(props) => props.theme.colors.purple};
@@ -281,7 +285,8 @@ const ProfileUl = styled.ul`
 	display: none;
 	position: absolute;
 	top: 45px;
-	left: -11px;
+	/* left: -11px; */
+	right: 0;
 	padding: 20px;
 	width: 150px;
 	background-color: ${(props) => props.theme.colors.background};

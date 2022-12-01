@@ -53,7 +53,7 @@ const Search = () => {
 				setType2Title('유저명');
 			}
 		}
-	}, [type1, type2]);
+	}, [type1, type2, q]);
 
 	//* 무한 스크롤
 	const [hasNextPage, setHasNextPage] = useState(true);
@@ -62,45 +62,51 @@ const Search = () => {
 
 	const fetch = useCallback(() => {
 		if (type1 === 'room') {
-			getSearchRooms(type2, q, currentPage.current, 9).then((res) => {
-				console.log('search rooms res', res);
+			getSearchRooms(type2, q, currentPage.current, 9)
+				.then((res) => {
+					console.log('search rooms res', res);
 
-				if (res.data) {
 					const data = res.data;
 					const { page, totalPages } = res.pageInfo;
 					setPosts((prevPosts) => [...prevPosts, ...data]);
 					setHasNextPage(page !== totalPages);
 					if (hasNextPage) currentPage.current += 1;
-				}
-			});
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		}
 		if (type1 === 'playlist') {
-			getSearchPlaylists(type2, q, currentPage.current, 9).then((res) => {
-				console.log('search playlists res', res);
+			getSearchPlaylists(type2, q, currentPage.current, 9)
+				.then((res) => {
+					console.log('search playlists res', res);
 
-				if (res.data) {
 					const data = res.data;
 					const { page, totalPages } = res.pageInfo;
 					setPosts((prevPosts) => [...prevPosts, ...data]);
 					setHasNextPage(page !== totalPages);
 					if (hasNextPage) currentPage.current += 1;
-				}
-			});
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		}
 		if (type1 === 'user') {
-			getSearchUsers(q, currentPage.current, 30).then((res) => {
-				console.log('search users res', res);
+			getSearchUsers(q, currentPage.current, 30)
+				.then((res) => {
+					console.log('search users res', res);
 
-				if (res.data) {
 					const data = res.data;
 					const { page, totalPages } = res.pageInfo;
 					setPosts((prevPosts) => [...prevPosts, ...data]);
 					setHasNextPage(page !== totalPages);
 					if (hasNextPage) currentPage.current += 1;
-				}
-			});
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		}
-	}, []);
+	}, [type1, type2, q]);
 
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;
@@ -122,7 +128,7 @@ const Search = () => {
 				{type1Title} <IoIosArrowForward /> {type2Title} <IoIosArrowForward />{' '}
 				{q} 의 검색 결과
 			</H2>
-			{posts.length ? (
+			{posts && (
 				<ListStyle>
 					{type1 === 'room' &&
 						posts.map((room: RoomInfoType) => (
@@ -151,7 +157,7 @@ const Search = () => {
 							<User user={user} key={user.memberId} />
 						))}
 				</ListStyle>
-			) : null}
+			)}
 			<div ref={observerTargetEl} />
 		</MinHeightWrapper>
 	);

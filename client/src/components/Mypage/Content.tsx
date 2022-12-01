@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
-import { LinkRoom, Thumbnail } from '../home/Room';
+import { Img, LinkRoom, RoomStyle, Thumbnail } from '../home/Room';
 
 type ContentType = {
 	id: number;
@@ -10,26 +10,25 @@ type ContentType = {
 	followlist?: any;
 };
 
-type ImgProps = {
-	follow?: boolean;
-};
-
 const Content = ({ id, playlist, followlist }: ContentType) => {
 	return (
 		<>
 			{id === 3 ? (
-				<ContentStyle>
+				<RoomStyle>
 					<Link to={`/mypage/${followlist.memberId}`}>
 						<LinkRoom>
-							<Thumbnail>
-								<Img src={followlist.picture} alt="프로필" follow />
-							</Thumbnail>
+							<FollowThumbnail>
+								<FollowImg src={followlist.picture} alt="프로필" />
+							</FollowThumbnail>
 							<Name>{followlist.name}</Name>
+							<Intro>
+								{followlist.content || '등록된 자기소개가 없습니다.'}
+							</Intro>
 						</LinkRoom>
 					</Link>
-				</ContentStyle>
+				</RoomStyle>
 			) : (
-				<ContentStyle>
+				<RoomStyle>
 					<Link to={`/playlistdetail/${playlist.playlistId}`}>
 						<LinkRoom>
 							<Thumbnail>
@@ -38,7 +37,7 @@ const Content = ({ id, playlist, followlist }: ContentType) => {
 							<Name>{playlist.title}</Name>
 						</LinkRoom>
 					</Link>
-				</ContentStyle>
+				</RoomStyle>
 			)}
 		</>
 	);
@@ -46,51 +45,55 @@ const Content = ({ id, playlist, followlist }: ContentType) => {
 
 export default Content;
 
-const ContentStyle = styled.div`
+const FollowThumbnail = styled(Thumbnail)`
 	display: flex;
-	flex-direction: column;
+	justify-content: center;
 `;
 
-const Img = styled.img<ImgProps>`
-	width: 230px;
-	@media screen and (max-width: 1350px) {
-		width: 170px;
-	}
-	@media screen and (max-width: 1034px) {
-		width: 140px;
-	}
-	@media screen and (max-width: 668px) {
-		width: 110px;
-	}
-	@media screen and (max-width: 550) {
-		width: 70px;
-	}
+const FollowImg = styled(Img)`
+	width: 80%;
+	max-width: 200px;
+	border-radius: 50%;
 
-	border-radius: ${(props) =>
-		props.follow ? '50%' : props.theme.radius.smallRadius};
+	// Tablet, Mobile
+	@media screen and (max-width: 980px) {
+		max-width: 180px;
+	}
 `;
 
 const Name = styled.div`
-	width: 230px;
-	@media screen and (max-width: 1350px) {
-		width: 170px;
-	}
-	@media screen and (max-width: 1034px) {
-		width: 140px;
-	}
-	@media screen and (max-width: 668px) {
-		width: 110px;
-	}
-	@media screen and (max-width: 550) {
-		width: 70px;
-	}
-
 	text-align: center;
-	margin-bottom: 45px;
-	cursor: pointer;
+	margin-bottom: 10px;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	word-wrap: break-word;
+	word-break: break-all;
 
 	// Mobile
 	@media screen and (max-width: 640px) {
 		font-size: 14px;
+	}
+`;
+
+export const Intro = styled.div`
+	color: ${(props) => props.theme.colors.gray500};
+	font-size: 14px;
+	text-align: center;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	word-wrap: break-word;
+	word-break: break-all;
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		font-size: 12px;
 	}
 `;
