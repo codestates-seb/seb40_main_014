@@ -71,7 +71,11 @@ const PlayListSetting = ({
 						musicInfo.channelTitle = res.items[0].snippet.channelTitle;
 						musicInfo.title = res.items[0].snippet.title;
 						console.log(res.items[0].snippet.thumbnails);
-						musicInfo.thumbnail = res.items[0].snippet.thumbnails.maxres.url;
+						if (res.items[0].snippet.thumbnails.maxres) {
+							musicInfo.thumbnail = res.items[0].snippet.thumbnails.maxres.url;
+						} else {
+							musicInfo.thumbnail = res.items[0].snippet.thumbnails.medium.url;
+						}
 					} else {
 						return setPlaylistDetailError('찾으시는 곡의 정보가 없습니다.');
 					}
@@ -86,10 +90,12 @@ const PlayListSetting = ({
 	};
 
 	const getVideoId = (url: string) => {
-		if (url.indexOf('/watch') > -1 && url.indexOf('&') === -1) {
-			return url.split('?')[1].replace('v=', '');
+		if (url.indexOf('/watch') > -1) {
+			const arr = url.replaceAll(/=|&/g, '?').split('?');
+			return arr[arr.indexOf('v') + 1];
 		} else if (url.indexOf('/youtu.be') > -1) {
-			return url.split('/youtu.be/')[1];
+			const arr = url.replaceAll(/=|&|\//g, '?').split('?');
+			return arr[arr.indexOf('youtu.be') + 1];
 		} else {
 			setPlaylistDetailError('URL형식이 올바르지 않습니다.');
 			return 'none';
