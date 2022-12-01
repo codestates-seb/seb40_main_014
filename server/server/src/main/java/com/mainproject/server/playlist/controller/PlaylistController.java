@@ -126,6 +126,12 @@ public class PlaylistController {
         followService.getGrade(playlist.getMember());
 
         Boolean likeState = playlistService.likeState(playlistId, authMemberId);
+        if (likeState == true) {
+            playlist.setLikePlus(playlist.getLikePlus() + 1);
+        }
+        else if (likeState == false) {
+            playlist.setLikePlus(playlist.getLikePlus() - 1);
+        }
         Boolean bookmarkState = playlistService.BookmarkState(playlistId, authMemberId);
 
         // Like했을 때, likecount가 반대로 되는 현상이 있어서 memberToFollowMemberResponseDto 추가로 만듦
@@ -180,11 +186,15 @@ public class PlaylistController {
 //    @GetMapping("/topDj")
 //    public ResponseEntity findPlTopDj(@Positive @RequestParam(required = false, defaultValue = "1") int page,
 //                                      @Positive @RequestParam(required = false, defaultValue = "10") int size) {
-//        Page<Member> pagePlList = playlistService.findPlTopDjSort(page - 1, size);
-//        List<Member> playlists = pagePlList.getContent();
+//
+//        Page<Member> djListPage = memberService.findPlTopDjList(page - 1, size);
+//        List<Member> rankPage = djListPage.getContent();
+//
+//        Page<Playlist> playlistPage = playlistService.findPlTopDjSort(page - 1, size);
+//        List<Playlist> content = playlistPage.getContent();
 //
 //        return new ResponseEntity<>(
-//                new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(playlists), pagePlList), HttpStatus.OK);
+//                new MultiResponseDto<>(mapper.playlistToPlaylistResponseDtoList(rankPage, content), playlistPage), HttpStatus.OK);
 //
 //    }
 

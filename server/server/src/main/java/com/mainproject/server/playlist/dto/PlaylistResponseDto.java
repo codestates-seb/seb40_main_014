@@ -38,6 +38,4 @@ public class PlaylistResponseDto {
 
     private LocalDateTime modifiedAt;
 
-//    private List<PlaylistResponseDto> playlistList;
-
 }

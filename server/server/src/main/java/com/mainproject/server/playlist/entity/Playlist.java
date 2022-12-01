@@ -48,7 +48,7 @@ public class Playlist extends Auditable {
     private ChatRoom chatRoom;
 
     @Column
-    private int likePlus;
+    private int likePlus = 0;
 
 
 }
