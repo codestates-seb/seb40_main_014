@@ -72,7 +72,6 @@ const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 				)}
 			</Roof>
 			<Body>
-				{/* {contents.length > 2 ? ( */}
 				<MyPageSwiperStyle {...settings}>
 					{contents.map((ele, idx) => {
 						return (
@@ -86,21 +85,6 @@ const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 						);
 					})}
 				</MyPageSwiperStyle>
-				{/* ) : (
-					<MyPageNoSwiperStyle>
-						{contents.map((ele, idx) => {
-							return (
-								<div key={idx}>
-									{id === 3 ? (
-										<Content id={id} followlist={ele} />
-									) : (
-										<Content id={id} playlist={ele} />
-									)}
-								</div>
-							);
-						})}
-					</MyPageNoSwiperStyle>
-				)} */}
 			</Body>
 		</MypageContentsStyle>
 	);

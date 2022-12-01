@@ -144,6 +144,14 @@ const Img = styled.img<ImgProps>`
 `;
 
 export const Title = styled.h4`
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	word-wrap: break-word;
+	word-break: break-all;
+
 	// Mobile
 	@media screen and (max-width: 640px) {
 		font-size: 14px;
@@ -152,6 +160,13 @@ export const Title = styled.h4`
 
 const Detail = styled(Intro)`
 	margin-left: 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	word-wrap: break-word;
+	word-break: break-all;
 
 	// Mobile
 	@media screen and (max-width: 640px) {
