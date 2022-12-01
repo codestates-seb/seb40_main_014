@@ -464,7 +464,6 @@ const Room = () => {
 		process.env.REACT_APP_ADMIN_EMAIL_01,
 		process.env.REACT_APP_ADMIN_EMAIL_02,
 	];
-	console.log(AdminEmailList.includes('wnsah0173@gmail.com'));
 
 	const onClick = (e) => {
 		if (userLength !== 1) {
