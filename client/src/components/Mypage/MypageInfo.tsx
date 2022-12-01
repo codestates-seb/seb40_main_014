@@ -65,7 +65,7 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 		<>
 			<Wrapper>
 				<Top>
-					<Img src={picture} alt="profile" />
+					<Img src={picture} alt="프로필" />
 					<Info>
 						<Badge grade={grade} margin="0px 0px 15px 0px" />
 						<div>

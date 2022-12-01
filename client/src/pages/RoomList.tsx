@@ -21,7 +21,8 @@ import 'swiper/css/navigation';
 
 export type RoomInfoType = {
 	maxCount: number;
-	memberResponseDto: HostType;
+	rankChatRoomSimpleDto?: HostType;
+	memberResponseDto?: HostType;
 	playlistResponseDto: PlaylistInfoType;
 	pwd: string;
 	roomId: string;
@@ -52,26 +53,36 @@ const RoomList = () => {
 	const [roomsByDj, setRoomsByDj] = useState<RoomInfoType[]>([]);
 
 	useEffect(() => {
-		// getRoomsByView(1, 7)
-		// 	.then((res) => {
-		// 		return res.data.filter((e) => {
-		// 			if (!e.playlistResponseDto) {
-		// 				deleteRoom(e.roomId);
-		// 			}
-		// 			return e.playlistResponseDto !== null;
-		// 		});
-		// 	})
-		// 	.then((data) => {
-		// 		console.log('rooms by view res', data);
-		// 		setRoomsByView(data);
-		// 	});
-
-		getRoomsByView(1, 7).then((res) => {
-			console.log('rooms by view res', res.data);
-
-			setRoomsByView(res.data);
-		});
-
+		getRoomsByView(1, 7)
+			.then((res) => {
+				return res.data.filter((e) => {
+					if (!e.playlistResponseDto) {
+						deleteRoom(e.roomId);
+					}
+					return e.playlistResponseDto !== null;
+				});
+			})
+			.then((data) => {
+				console.log('rooms by view res', data);
+				setRoomsByView(data);
+			});
+		getRoomsByDj(1, 7)
+			.then((res) => {
+				return res.data.filter((e) => {
+					if (!e.playlistResponseDto) {
+						deleteRoom(e.roomId);
+					}
+					return e.playlistResponseDto !== null;
+				});
+			})
+			.then((data) => {
+				console.log('rooms by dj res', data);
+				setRoomsByDj(data);
+			});
+		// getRoomsByView(1, 7).then((res) => {
+		// 	console.log('rooms by view res', res.data);
+		// 	setRoomsByView(res.data);
+		// });
 		// getRoomsByDj(1, 7).then((res) => {
 		// 	console.log('rooms by dj res', res);
 		// 	setRoomsByDj(res.data);

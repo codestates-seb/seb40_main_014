@@ -30,10 +30,7 @@ const PlayListInfo = ({
 		<PlayListInfoStyle>
 			<div className="info">
 				<Img>
-					<img
-						src={playListInfo.playlistItems[0].thumbnail}
-						alt="플레이리스트 이미지"
-					/>
+					<img src={playListInfo.playlistItems[0].thumbnail} alt="썸네일" />
 				</Img>
 				<Info>
 					<div className="title">
@@ -53,7 +50,7 @@ const PlayListInfo = ({
 						<div>
 							<div>
 								<Link to={`/mypage/${playListInfo.memberId}`}>
-									<img src={picture} alt={playListInfo.name} />
+									<img src={picture} alt="프로필" />
 									<button>{playListInfo.name}</button>
 								</Link>
 							</div>

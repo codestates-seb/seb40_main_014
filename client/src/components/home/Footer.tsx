@@ -10,7 +10,7 @@ const Footer = () => {
 		<>
 			{pathname.slice(0, 6) === '/rooms' ? null : (
 				<FooterStyle>
-					<img src={LogoImg} alt="logo" /> 러플리 LUVPLI · 하리보 싱싱 · 40th
+					<img src={LogoImg} alt="로고" /> 러플리 LUVPLI · 하리보 싱싱 · 40th
 					Code States
 				</FooterStyle>
 			)}

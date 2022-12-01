@@ -16,7 +16,7 @@ const User = ({ user }: SearchUserType) => {
 			<Link to={`/mypage/${memberId}`}>
 				<LinkUser>
 					<Profile>
-						<img src={picture} alt="thumbnail" />
+						<img src={picture} alt="프로필" />
 					</Profile>
 					<div>
 						<Badge grade={grade} margin="0 0 8px 0" />

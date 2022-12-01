@@ -2,21 +2,21 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 import Loading from '../components/common/Loading';
 import Layout from '../components/common/Layout';
-import PlaylistList from '../pages/PlaylistList';
-import Room from '../pages/Room';
-import EditProfile from '../pages/EditProfile';
 import ScrollToTop from '../components/common/ScrollToTop';
+import Room from '../pages/Room';
 
-// const Main = lazy(() => import('../pages/Main'));
 const LoginCallback = lazy(() => import('../pages/LoginCallback'));
-const PlayListDetail = lazy(() => import('../pages/PlayListDetail'));
-const RoomList = lazy(() => import('../pages/RoomList'));
-const RankingList = lazy(() => import('../pages/RankingList'));
-const MakePlayList = lazy(() => import('../pages/MakePlayList'));
 const Mypage = lazy(() => import('../pages/Mypage'));
-const PlayListCollection = lazy(() => import('../pages/PlayListCollection'));
 const SearchBar = lazy(() => import('../pages/SearchBar'));
 const Search = lazy(() => import('../pages/Search'));
+const RankingList = lazy(() => import('../pages/RankingList'));
+
+const RoomList = lazy(() => import('../pages/RoomList'));
+
+const PlaylistList = lazy(() => import('../pages/PlaylistList'));
+const PlayListDetail = lazy(() => import('../pages/PlayListDetail'));
+const PlayListCollection = lazy(() => import('../pages/PlayListCollection'));
+const MakePlayList = lazy(() => import('../pages/MakePlayList'));
 
 const AppRouter = () => {
 	return (
@@ -32,7 +32,6 @@ const AppRouter = () => {
 						<Route path="/searchbar" element={<SearchBar />} />
 						<Route path="/search" element={<Search />} />
 						<Route path="/mypage/:userId" element={<Mypage />} />
-						<Route path="/editProfile" element={<EditProfile />} />
 						{/* 플레이리스트 */}
 						<Route path="/playlistdetail/:id" element={<PlayListDetail />} />
 						<Route path="/makeplaylist/:type" element={<MakePlayList />} />

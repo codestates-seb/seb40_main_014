@@ -26,7 +26,7 @@ const CategoryStyle = styled.button<CategoryProps>`
 			? '#f03e3e'
 			: props.category === '힙합'
 			? '#f76707'
-			: props.category === 'R&B'
+			: props.category === '알앤비'
 			? '#1c7ed6'
 			: props.category === '인디'
 			? '#37b24d'

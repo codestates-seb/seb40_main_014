@@ -94,7 +94,7 @@ const Header = () => {
 				<HeaderStyle position={position}>
 					<Logo>
 						<Link to="/">
-							<img src={LogoImg} alt="logo" />
+							<img src={LogoImg} alt="로고" />
 						</Link>
 					</Logo>
 					<div className="on-pc">
@@ -112,7 +112,7 @@ const Header = () => {
 					{isLogin ? (
 						<>
 							<Profile ref={profileRef}>
-								<Img src={picture} alt="profile" />
+								<Img src={picture} alt="프로필" />
 								<div className="on-pc">{name}</div>
 								<ProfileUl ref={profileUlRef}>
 									<Triangle>
@@ -162,6 +162,7 @@ const Header = () => {
 export default Header;
 
 const HeaderStyle = styled.div<{ position: string }>`
+	height: 74px;
 	position: ${(props) =>
 		props.position === 'relative' ? 'relative' : 'fixed'};
 	top: 0;
@@ -183,10 +184,12 @@ const HeaderStyle = styled.div<{ position: string }>`
 
 	// Tablet
 	@media screen and (max-width: 980px) {
+		height: 72.406px;
 		padding: 20px 80px;
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
+		height: 72.406px;
 		padding: 20px 40px;
 		font-size: ${(props) => props.theme.fontSize.medium};
 		z-index: 6666;

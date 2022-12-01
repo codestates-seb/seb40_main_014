@@ -39,7 +39,7 @@ const Playlist = ({ playList, swiper }: PlaylistType) => {
 			<Link to={`/playlistdetail/${playlistId}`}>
 				<LinkRoom>
 					<Thumbnail>
-						<Img src={playlistItems[0].thumbnail} alt="thumbnail" />
+						<Img src={playlistItems[0].thumbnail} alt="썸네일" />
 						<PlaylistCount swiper={swiper}>
 							<IoMdMusicalNote />
 							{playlistItems.length}

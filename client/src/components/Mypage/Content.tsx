@@ -22,7 +22,7 @@ const Content = ({ id, playlist, followlist }: ContentType) => {
 					<Link to={`/mypage/${followlist.memberId}`}>
 						<LinkRoom>
 							<Thumbnail>
-								<Img src={followlist.picture} alt="thumbnail" follow />
+								<Img src={followlist.picture} alt="프로필" follow />
 							</Thumbnail>
 							<Name>{followlist.name}</Name>
 						</LinkRoom>
@@ -33,10 +33,7 @@ const Content = ({ id, playlist, followlist }: ContentType) => {
 					<Link to={`/playlistdetail/${playlist.playlistId}`}>
 						<LinkRoom>
 							<Thumbnail>
-								<Img
-									src={playlist.playlistItems[0].thumbnail}
-									alt="thumbnail"
-								/>
+								<Img src={playlist.playlistItems[0].thumbnail} alt="썸네일" />
 							</Thumbnail>
 							<Name>{playlist.title}</Name>
 						</LinkRoom>

@@ -49,14 +49,14 @@ const CplayList = ({
 			{id === 1 || id === 2 ? (
 				<Link to={`/playlistdetail/${playList.playlistId}`}>
 					<LinkCollection>
-						<Img src={playList.playlistItems[0].thumbnail} alt="thumbnail" />
+						<Img src={playList.playlistItems[0].thumbnail} alt="썸네일" />
 						<Title className="title">{playList.title}</Title>
 					</LinkCollection>
 				</Link>
 			) : (
 				<Link to={`/mypage/${followList.memberId}`}>
 					<LinkCollection>
-						<Img src={followList.picture} alt="userPicture" follow />
+						<Img src={followList.picture} alt="프로필" follow />
 						<Title className="title">{followList.name}</Title>{' '}
 					</LinkCollection>
 				</Link>
