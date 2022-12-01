@@ -63,9 +63,10 @@ const RoomList = () => {
 				});
 			})
 			.then((data) => {
-				console.log('rooms by view res', data);
+				console.log('getRoomsByView res', data);
 				setRoomsByView(data);
 			});
+
 		getRoomsByDj(1, 7)
 			.then((res) => {
 				return res.data.filter((e) => {
@@ -76,9 +77,10 @@ const RoomList = () => {
 				});
 			})
 			.then((data) => {
-				console.log('rooms by dj res', data);
+				console.log('getRoomsByViewDj res', data);
 				setRoomsByDj(data);
 			});
+
 		// getRoomsByView(1, 7).then((res) => {
 		// 	console.log('rooms by view res', res.data);
 		// 	setRoomsByView(res.data);

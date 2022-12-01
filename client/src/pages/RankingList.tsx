@@ -23,7 +23,9 @@ const RankingList = () => {
 		getRanking().then((res) => {
 			console.log('ranking res', res);
 
-			setRankings(res.data);
+			if (res.data) {
+				setRankings(res.data);
+			}
 		});
 	}, []);
 

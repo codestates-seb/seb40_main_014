@@ -15,7 +15,7 @@ export const getSearchRooms = async (
 		);
 		return result.data;
 	} catch (err) {
-		return err;
+		console.log(err);
 	}
 };
 
@@ -34,7 +34,7 @@ export const getSearchPlaylists = async (
 		);
 		return result.data;
 	} catch (err) {
-		return err;
+		console.log(err);
 	}
 };
 
@@ -52,6 +52,6 @@ export const getSearchUsers = async (
 		);
 		return result.data;
 	} catch (err) {
-		return err;
+		console.log(err);
 	}
 };
