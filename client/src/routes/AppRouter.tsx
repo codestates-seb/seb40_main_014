@@ -41,6 +41,8 @@ const AppRouter = () => {
 							element={<PlayListCollection />}
 						/>
 					</Route>
+					{/* 방 */}
+					<Route path="/rooms/:id" element={<Room />} />
 					<Route path="/loginCallback" element={<LoginCallback />} />
 					<Route path="*" element={<Navigate to="/" replace />} />
 					{/* 방 */}

@@ -91,61 +91,59 @@ const Header = () => {
 
 	return (
 		<>
-			{pathname.slice(0, 6) === '/rooms' ? null : (
-				<HeaderStyle position={position}>
-					<Logo>
-						<Link to="/">
-							<img src={LogoImg} alt="로고" />
-						</Link>
-					</Logo>
-					<div className="on-pc">
-						<PcUl currentMenu={currentMenu} />
+			<HeaderStyle position={position}>
+				<Logo>
+					<Link to="/">
+						<img src={LogoImg} alt="logo" />
+					</Link>
+				</Logo>
+				<div className="on-pc">
+					<PcUl currentMenu={currentMenu} />
+				</div>
+				{isOpenSide && (
+					<div className="on-mobile">
+						<MobileUl
+							currentMenu={currentMenu}
+							setOpenModal={setOpenModal}
+							handleOpenSide={handleOpenSide}
+						/>
 					</div>
-					{isOpenSide && (
-						<div className="on-mobile">
-							<MobileUl
-								currentMenu={currentMenu}
-								setOpenModal={setOpenModal}
-								handleOpenSide={handleOpenSide}
-							/>
-						</div>
-					)}
-					{isLogin ? (
-						<>
-							<Profile ref={profileRef}>
-								<Img src={picture} alt="프로필" />
-								<div className="on-pc">{name}</div>
-								<ProfileUl ref={profileUlRef}>
-									<Triangle>
-										<BsFillTriangleFill />
-									</Triangle>
-									<MyPageLink>
-										<BiUser />
-										<span role="presentation" onClick={handleMypage}>
-											마이페이지
-										</span>
-									</MyPageLink>
-									<LogoutButton
-										onClick={() => {
-											handleLogout();
-											profileUlRef.current.style.display = 'none';
-										}}>
-										<MdLogout />
-										<span>로그아웃</span>
-									</LogoutButton>
-								</ProfileUl>
-							</Profile>
-						</>
-					) : (
-						<LoginButton onClick={handleOpenModal} className="on-pc">
-							로그인
-						</LoginButton>
-					)}
-					<Hambuger className="on-mobile" onClick={handleOpenSide}>
-						{isOpenSide ? <RiMenuUnfoldLine /> : <RiMenuFoldLine />}
-					</Hambuger>
-				</HeaderStyle>
-			)}
+				)}
+				{isLogin ? (
+					<>
+						<Profile ref={profileRef}>
+							<Img src={picture} alt="profile" />
+							<div className="on-pc">{name}</div>
+							<ProfileUl ref={profileUlRef}>
+								<Triangle>
+									<BsFillTriangleFill />
+								</Triangle>
+								<MyPageLink>
+									<BiUser />
+									<span role="presentation" onClick={handleMypage}>
+										마이페이지
+									</span>
+								</MyPageLink>
+								<LogoutButton
+									onClick={() => {
+										handleLogout();
+										profileUlRef.current.style.display = 'none';
+									}}>
+									<MdLogout />
+									<span>로그아웃</span>
+								</LogoutButton>
+							</ProfileUl>
+						</Profile>
+					</>
+				) : (
+					<LoginButton onClick={handleOpenModal} className="on-pc">
+						로그인
+					</LoginButton>
+				)}
+				<Hambuger className="on-mobile" onClick={handleOpenSide}>
+					{isOpenSide ? <RiMenuUnfoldLine /> : <RiMenuFoldLine />}
+				</Hambuger>
+			</HeaderStyle>
 
 			{isOpenModal && <LoginModal handleOpenModal={handleOpenModal} />}
 			{isOpenSide && (
