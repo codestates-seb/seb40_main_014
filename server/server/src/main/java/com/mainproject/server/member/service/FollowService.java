@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -57,7 +58,7 @@ public class FollowService {
                     .findAny().get();
 
             followRepository.delete(followMember);
-            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size() + Score) - 1);
+            member.setScore(member.getFollows().size() + Score - 1);
         } else {
             Follow followMember = new Follow();
             followMember.setFollowerId(authMemberId);
@@ -65,24 +66,22 @@ public class FollowService {
             followMember.setMember(member); // follow 당하는 멤버를 저장
 
             followRepository.save(followMember);
-            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size() + Score) + 1);
+            member.setScore(member.getFollows().size() + Score + 1);
         }
     }
 
     public Page<Member> getRankings() {
 
-        Set<String> range = zSetOperations.reverseRange(KEY, 0, 7);
-        List<String> rankList = new ArrayList<>(range);
-
-        List<Member> memberList = new ArrayList<>();
+        List<Member> memberList = memberRepository.findAllByOrderByScoreDesc().stream()
+                .limit(7)
+                .collect(Collectors.toList());
 
         int index = 1;
-        for (String email : rankList) {
-            Member member = memberRepository.findByEmail(email).get();
+        for (Member member : memberList) {
+            System.out.println("Score = " + member.getName() + member.getScore());
             getGrade(member);
             member.setRanking(index);
             memberRepository.save(member);
-            memberList.add(member);
             index++;
         }
 
@@ -166,7 +165,7 @@ public class FollowService {
 
     public void getGrade(Member member){
 
-        int score = zSetOperations.score(KEY, member.getEmail()).intValue();
+        int score = member.getScore();
         if (score >= 2){ member.setGrade("LUVIP");}
         else if (score >= 1){ member.setGrade("GOLD");}
         else {member.setGrade("SILVER");}

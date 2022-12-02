@@ -50,6 +50,9 @@ public class Member extends Auditable implements UserDetails {
     @Column
     private Integer ranking;
 
+    @Column
+    private Integer score=0;
+
     @Enumerated(EnumType.STRING)
     @Column
     private Role role;
