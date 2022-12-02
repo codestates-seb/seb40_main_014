@@ -103,6 +103,7 @@ export const H2 = styled.h2`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
+		margin-bottom: 40px;
 		font-size: 24px;
 	}
 `;
