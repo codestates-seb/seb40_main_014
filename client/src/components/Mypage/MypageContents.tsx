@@ -125,14 +125,14 @@ const Roof = styled.div`
 	// Tablet
 	@media screen and (max-width: 980px) {
 		button {
-			font-size: 14px;
+			font-size: ${(props) => props.theme.fontSize.small};
 		}
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
 		padding: 10px 15px;
 		.title {
-			font-size: 14px;
+			font-size: ${(props) => props.theme.fontSize.small};
 		}
 		.button-wrapper {
 			display: flex;
@@ -140,7 +140,7 @@ const Roof = styled.div`
 		}
 		button {
 			margin-left: 10px;
-			font-size: 12px;
+			font-size: ${(props) => props.theme.fontSize.xSmall};
 		}
 		.create-btn {
 			margin-bottom: 5px;

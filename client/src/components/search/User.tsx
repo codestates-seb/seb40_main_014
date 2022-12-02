@@ -80,7 +80,7 @@ const Name = styled.div`
 
 const Email = styled.div`
 	color: ${(props) => props.theme.colors.gray600};
-	font-size: 12px;
+	font-size: ${(props) => props.theme.fontSize.xSmall};
 `;
 
 export default User;

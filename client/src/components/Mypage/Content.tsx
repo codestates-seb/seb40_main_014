@@ -78,13 +78,13 @@ const Name = styled.div`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 14px;
+		font-size: ${(props) => props.theme.fontSize.small};
 	}
 `;
 
 export const Detail = styled.div`
 	color: ${(props) => props.theme.colors.gray500};
-	font-size: 14px;
+	font-size: ${(props) => props.theme.fontSize.small};
 	text-align: center;
 
 	overflow: hidden;
@@ -97,6 +97,6 @@ export const Detail = styled.div`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 12px;
+		font-size: ${(props) => props.theme.fontSize.xSmall};
 	}
 `;

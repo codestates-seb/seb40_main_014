@@ -104,7 +104,7 @@ const PlayListsWrapper = styled.div`
 	width: 100%;
 	max-width: 700px;
 	box-shadow: 0 0 10px #00000013;
-	border-radius: 10px;
+	border-radius: ${(props) => props.theme.radius.largeRadius};
 	overflow-y: scroll;
 
 	// 스크롤바
@@ -118,11 +118,11 @@ const PlayListsWrapper = styled.div`
 	::-webkit-scrollbar-thumb {
 		height: 30%;
 		background-color: ${(props) => props.theme.colors.gray400};
-		border-radius: 10px;
+		border-radius: ${(props) => props.theme.radius.largeRadius};
 	}
 	::-webkit-scrollbar-track {
 		background-color: ${(props) => props.theme.colors.gray300};
-		border-radius: 10px;
+		border-radius: ${(props) => props.theme.radius.largeRadius};
 	}
 
 	> div:first-of-type {

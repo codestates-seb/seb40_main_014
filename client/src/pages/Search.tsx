@@ -169,7 +169,7 @@ const H2 = styled.h2`
 	display: flex;
 	align-items: center;
 	margin-bottom: 60px;
-	font-size: 20px;
+	font-size: ${(props) => props.theme.fontSize.large};
 	font-weight: 500;
 
 	> svg {
@@ -183,7 +183,7 @@ const H2 = styled.h2`
 		font-size: 18px;
 		margin-bottom: 30px;
 		> svg {
-			font-size: 16px;
+			font-size: ${(props) => props.theme.fontSize.medium};
 			margin: 0 2px;
 		}
 	}

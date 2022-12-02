@@ -200,7 +200,7 @@ const SearchBarStyle = styled.div`
 		}
 		> select:not(:nth-of-type(3)) {
 			width: 25%;
-			font-size: 14px;
+			font-size: ${(props) => props.theme.fontSize.small};
 		}
 		> input,
 		select:nth-of-type(3) {
@@ -237,7 +237,7 @@ const SearchBarStyle = styled.div`
 			margin-bottom: 20px;
 			> select {
 				width: 20%;
-				font-size: 12px;
+				font-size: ${(props) => props.theme.fontSize.xSmall};
 			}
 			> input {
 				width: 60%;

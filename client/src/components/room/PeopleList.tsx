@@ -44,12 +44,12 @@ const PeopleContainer = styled.div`
 			height: 30%;
 			background-color: ${(props) => props.theme.colors.gray300};
 
-			border-radius: 10px;
+			border-radius: ${(props) => props.theme.radius.largeRadius};
 		}
 
 		::-webkit-scrollbar-track {
 			background: rgba(33, 122, 244, 0.1);
-			border-radius: 10px;
+			border-radius: ${(props) => props.theme.radius.largeRadius};
 		}
 	}
 	@media screen and (max-width: 640px) {

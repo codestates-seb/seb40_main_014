@@ -38,7 +38,7 @@ const ToggleBtn = styled.button<{ toggle: boolean }>`
 `;
 
 const Circle = styled.div<{ toggle: boolean }>`
-	background-color: white;
+	background-color: ${(props) => props.theme.colors.white};
 	width: 16px;
 	height: 16px;
 	border-radius: 50%;

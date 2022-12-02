@@ -254,12 +254,12 @@ export const SwiperStyle = styled(Swiper)`
 	}
 	.swiper-button-prev:after,
 	.swiper-button-next:after {
-		font-size: 28px;
+		font-size: ${(props) => props.theme.fontSize.xLarge};
 		font-weight: 900;
 
 		// Tablet, Mobile
 		@media screen and (max-width: 980px) {
-			font-size: 20px;
+			font-size: ${(props) => props.theme.fontSize.large};
 		}
 	}
 

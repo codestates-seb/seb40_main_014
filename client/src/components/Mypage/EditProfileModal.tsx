@@ -145,14 +145,14 @@ const EPWhiteBox = styled(WhiteBox)`
 `;
 
 const H3 = styled.h3`
-	font-size: 16px;
+	font-size: ${(props) => props.theme.fontSize.medium};
 	font-weight: 600;
 	margin-bottom: 15px;
 
 	span {
 		margin-left: 3px;
 		color: ${(props) => props.theme.colors.gray500};
-		font-size: 14px;
+		font-size: ${(props) => props.theme.fontSize.small};
 	}
 `;
 

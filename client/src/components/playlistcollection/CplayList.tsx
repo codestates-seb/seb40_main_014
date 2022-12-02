@@ -153,14 +153,14 @@ export const Title = styled.h4`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 14px;
+		font-size: ${(props) => props.theme.fontSize.small};
 	}
 `;
 
 const Detail = styled.div`
 	margin-left: 10px;
 	color: ${(props) => props.theme.colors.gray500};
-	font-size: 14px;
+	font-size: ${(props) => props.theme.fontSize.small};
 
 	overflow: hidden;
 	text-overflow: ellipsis;

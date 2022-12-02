@@ -53,6 +53,6 @@ const BookmarkStyle = styled.button`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 14px !important;
+		font-size: ${(props) => props.theme.fontSize.small} !important;
 	}
 `;

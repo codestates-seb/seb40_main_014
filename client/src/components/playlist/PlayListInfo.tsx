@@ -200,7 +200,7 @@ const Info = styled.div`
 				// Mobile
 				@media screen and (max-width: 640px) {
 					span {
-						font-size: 14px;
+						font-size: ${(props) => props.theme.fontSize.small};
 					}
 				}
 			}
