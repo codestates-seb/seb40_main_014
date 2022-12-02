@@ -7,8 +7,6 @@ import { useSelector } from 'react-redux';
 import { myLogin } from '../../slices/mySlice';
 import Swal from 'sweetalert2';
 import { AiTwotoneLock } from 'react-icons/ai';
-import { getRoomById } from '../../api/roomApi';
-import { useState } from 'react';
 
 type RoomType = {
 	room: RoomInfoType;
@@ -44,6 +42,8 @@ const Room = ({ room, swiper }: RoomType) => {
 						autocapitalize: 'off',
 					},
 					confirmButtonText: '확인',
+					showCancelButton: true,
+					cancelButtonText: '취소',
 					showLoaderOnConfirm: true,
 					preConfirm: (password) => {
 						return password;
@@ -52,6 +52,8 @@ const Room = ({ room, swiper }: RoomType) => {
 				}).then((result) => {
 					if (result.value === pwd) {
 						navigate(`/rooms/${roomId}`);
+					} else if (result.dismiss === Swal.DismissReason.cancel) {
+						return;
 					} else {
 						Swal.fire({
 							text: '비밀번호를 다시 확인하세요.',
@@ -61,7 +63,6 @@ const Room = ({ room, swiper }: RoomType) => {
 			} else {
 				navigate(`/rooms/${roomId}`);
 			}
-			// getRoomById(roomId).then((res) => console.log(res));
 		}
 	};
 

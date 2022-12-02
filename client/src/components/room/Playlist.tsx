@@ -268,7 +268,7 @@ const PlaylistPart = ({ playlist }) => {
 				) : (
 					<>
 						<YouTube
-							// videoId={playlist[0].videoId}
+							videoId={playlist[0].videoId}
 							opts={opts}
 							onReady={onReady}
 							onPlay={onPlay}
