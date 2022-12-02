@@ -297,7 +297,7 @@ const Room = () => {
 		setMessageObject(MessageObj);
 	}, []);
 
-	const onValid = (e) => {
+	const onValid = () => {
 		reset();
 		send();
 	};
@@ -466,7 +466,7 @@ const Room = () => {
 		process.env.REACT_APP_ADMIN_EMAIL_02,
 	];
 
-	const onClick = (e) => {
+	const onClick = () => {
 		if (userLength !== 1) {
 			leave();
 			navigate('/');
@@ -544,7 +544,7 @@ const Room = () => {
 						</ChatLeft>
 						<ChatRight>
 							<PlaylistPart playlist={playlist} />
-							<PeoplePart roomId={roomId} people={people} isAdmin={isAdmin} />
+							<PeoplePart roomId={roomId} people={people} />
 						</ChatRight>
 					</ChatRoomContainer>
 					<ChatFooter>

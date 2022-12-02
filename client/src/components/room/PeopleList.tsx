@@ -104,7 +104,7 @@ const EmptyDiv = styled.div`
 	padding: 2px;
 `;
 
-const PeoplePart = ({ people, isAdmin, roomId }) => {
+const PeoplePart = ({ people, roomId }) => {
 	// const [people, setPeople] = useState([]);
 	// const params = useParams();
 	// const roomId = params.id;
@@ -133,7 +133,7 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 								showCancelButton: true,
 							}).then((res) => {
 								if (res.isConfirmed) {
-									followUser(data[0].memberId).then((res) => {
+									followUser(data[0].memberId).then(() => {
 										Swal.fire({
 											// icon: 'warning',
 											text: '해당 유저를 언팔로우하였습니다.',
@@ -147,7 +147,7 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 								}
 							});
 						} else {
-							followUser(data[0].memberId).then((res) => {
+							followUser(data[0].memberId).then(() => {
 								Swal.fire({
 									// icon: 'warning',
 									text: '해당 유저를 팔로우하였습니다.',
