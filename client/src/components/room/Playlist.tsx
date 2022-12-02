@@ -145,7 +145,7 @@ const PlaylistPart = ({ playlist }) => {
 		height: '0',
 		width: '0',
 		// playerVars: {
-		// 	autoPlay: 1,
+		// 	autoplay: 1,
 		// },
 	};
 	const onReady = (event) => {
