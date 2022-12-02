@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getRoomById } from '../../api/roomApi';
 import { GiChessKing, GiConsoleController } from 'react-icons/gi';
-import UserModal from './userModal';
 import { AiTwotoneHome } from 'react-icons/ai';
 import { followUser, getAllUserInfo, getFollowList } from '../../api/userApi';
 import { useSelector } from 'react-redux';
@@ -126,11 +125,8 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 			.then((data) => {
 				getFollowList(userInfo.memberId)
 					.then((response) => {
-						console.log('데이터', data);
-
 						const followlist = response.data.map((e) => e.name);
-						console.log('팔로리스트', followlist);
-						// console.log('data', data);
+
 						if (followlist.includes(data[0].name)) {
 							Swal.fire({
 								// icon: 'warning',
@@ -166,7 +162,6 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 	};
 
 	const linkMyPage = (e) => {
-		console.log();
 		getAllUserInfo(localStorage.getItem('accessToken'))
 			.then((res) => {
 				return res.data.filter(

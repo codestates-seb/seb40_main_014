@@ -427,7 +427,7 @@ const Room = () => {
 			]);
 		}
 
-		console.log('subscribe msg', receiveMessage, receiveUser);
+		// console.log('subscribe msg', receiveMessage, receiveUser);
 		if (receiveType === `ENTER` || receiveType === `LEAVE`) {
 			getRoomById(roomId)
 				.then((res) => {

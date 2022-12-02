@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { myLogin } from '../../slices/mySlice';
 import Swal from 'sweetalert2';
 import { AiTwotoneLock } from 'react-icons/ai';
+import { getRoomById } from '../../api/roomApi';
+import { useState } from 'react';
 
 type RoomType = {
 	room: RoomInfoType;
@@ -34,8 +36,32 @@ const Room = ({ room, swiper }: RoomType) => {
 				text: '로그인 후 입장하실 수 있습니다.',
 			});
 		} else {
-			console.log('나야', e);
-			navigate(`/rooms/${roomId}`);
+			if (pwd) {
+				Swal.fire({
+					text: '비밀번호가 존재하는 방입니다.\n방 비밀번호를 입력해주세요.',
+					input: 'text',
+					inputAttributes: {
+						autocapitalize: 'off',
+					},
+					confirmButtonText: '확인',
+					showLoaderOnConfirm: true,
+					preConfirm: (password) => {
+						return password;
+					},
+					allowOutsideClick: () => !Swal.isLoading(),
+				}).then((result) => {
+					if (result.value === pwd) {
+						navigate(`/rooms/${roomId}`);
+					} else {
+						Swal.fire({
+							text: '비밀번호를 다시 확인하세요.',
+						});
+					}
+				});
+			} else {
+				navigate(`/rooms/${roomId}`);
+			}
+			// getRoomById(roomId).then((res) => console.log(res));
 		}
 	};
 
@@ -56,6 +82,13 @@ const Room = ({ room, swiper }: RoomType) => {
 				<Thumbnail>
 					<Img src={playlistItems[0].thumbnail} alt="썸네일" />
 					<Onair swiper={swiper}>ON AIR</Onair>
+					<Lock className="lock">
+						{pwd ? (
+							<span>
+								<AiTwotoneLock className="lock" />
+							</span>
+						) : null}
+					</Lock>
 				</Thumbnail>
 				<Title swiper={swiper}>{title}</Title>
 			</LinkRoom>
@@ -63,13 +96,6 @@ const Room = ({ room, swiper }: RoomType) => {
 			<Name swiper={swiper} onClick={onClickLinkName}>
 				{name}
 			</Name>
-			<Lock>
-				{pwd ? (
-					<span>
-						<AiTwotoneLock className="lock" />
-					</span>
-				) : null}
-			</Lock>
 
 			<Detail>
 				<Categorys>
@@ -125,6 +151,7 @@ export const LinkRoom = styled.div`
 export const Thumbnail = styled.div`
 	position: relative;
 	margin-bottom: 15px;
+	display: flex;
 `;
 
 export const Img = styled.img`
@@ -228,8 +255,23 @@ const RoomCount = styled.div<SwiperTrueType>`
 		font-size: 14px;
 	}
 `;
-const Lock = styled.span`
+const Lock = styled.div`
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	font-size: 23px;
 	.lock {
-		color: #ecb462;
+		color: #f7ff04;
+	}
+
+	@media screen and (max-width: 980px) {
+		top: 12px;
+		right: 12px;
+		font-size: 20px;
+	}
+	@media screen and (max-width: 640px) {
+		top: 8px;
+		right: 8px;
+		font-size: 15px;
 	}
 `;

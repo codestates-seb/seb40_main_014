@@ -68,8 +68,8 @@ const Message = () => {
 			memberId: 1,
 			message: e.message,
 		};
-		console.log('mes_obj', JSON.stringify(MessageObj));
-		console.log(`${process.env.REACT_APP_STACK_WS_SERVER}`);
+		// console.log('mes_obj', JSON.stringify(MessageObj));
+		// console.log(`${process.env.REACT_APP_STACK_WS_SERVER}`);
 		axios
 			.post(
 				`${process.env.REACT_APP_STACK_WS_SERVER}/chat`,
@@ -77,7 +77,7 @@ const Message = () => {
 			)
 			.then((res) => console.log(res))
 			.catch((err) => console.log(err));
-		console.log(e.message);
+		// console.log(e.message);
 		reset();
 	};
 
