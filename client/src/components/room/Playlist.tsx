@@ -9,6 +9,7 @@ import Loading from '../common/Loading';
 import { useEffect, useState } from 'react';
 import playSvg from '../../assets/images/play.json';
 import Lottie from 'lottie-react';
+import { YouTubePlayerProps } from 'react-player/youtube';
 
 const PlaylistSection = styled.div`
 	width: 230px;
@@ -134,7 +135,7 @@ const LottieContainer = styled.span`
 `;
 
 const PlaylistPart = ({ playlist }) => {
-	const [player, setPlayer] = useState<any>(null);
+	const [player, setPlayer] = useState<YouTubePlayerProps>(null);
 	const [play, setPlay] = useState<boolean>(false);
 	const [playlistIdList, setPlaylistIdList] = useState<string[]>([]);
 	const [isMute, setIsMute] = useState<boolean>(false);

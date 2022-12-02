@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Content from './Content';
+import Content, { FollowList } from './Content';
 import { useNavigate, useParams } from 'react-router-dom';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -8,18 +8,12 @@ import { Pagination, Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { SwiperStyle } from '../../pages/RoomList';
 import { useSelector } from 'react-redux';
 import { myValue } from '../../slices/mySlice';
+import { content } from '../../pages/Mypage';
 
-type MypageContentsType = {
-	title?: string;
-	contents?: Array<PlaylistInfoType>;
-	id: number;
-};
-
-const MypageContents = ({ id, title, contents }: MypageContentsType) => {
+const MypageContents = ({ id, title, contents }: content) => {
 	const navigate = useNavigate();
 	const { userId } = useParams();
 
