@@ -6,12 +6,13 @@ import { followUser } from '../../api/userApi';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { myLogin } from '../../slices/mySlice';
 import BookMark from '../common/BookMark';
+import { FollowList } from '../mypage/Content';
 import { Follower } from '../mypage/MypageInfo';
 import ModifyButton from './ModifyButton';
 
 type PlaylistType = {
 	playList?: PlaylistInfoType;
-	followList?: any;
+	followList?: FollowList;
 	id: number;
 	userId: number;
 	memberId: number;

@@ -13,11 +13,14 @@ import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { MinHeightWrapper } from './RoomList';
 import Loading from '../components/common/Loading';
+import { PlaylistInfoType } from './PlaylistList';
+import { FollowList } from '../components/mypage/Content';
 
-type content = {
+export type content = {
 	id: number;
 	title: string;
-	contents: Array<any>;
+	contents: Array<PlaylistInfoType> | Array<FollowList>;
+	userInfo?: MyInitialStateValue;
 };
 
 const Mypage = () => {

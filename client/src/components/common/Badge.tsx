@@ -4,7 +4,6 @@ import { IoMdHeart } from 'react-icons/io';
 type BadgeProps = {
 	margin?: string;
 	height?: string;
-	children?: any;
 	grade?: string;
 };
 

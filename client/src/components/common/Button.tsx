@@ -3,7 +3,7 @@ import styled from 'styled-components';
 type ButtonProps = {
 	width?: string;
 	height?: string;
-	children?: any;
+	children?: string;
 	fontSize?: string;
 	onClick?: () => void;
 	margin?: string;

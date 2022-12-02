@@ -6,24 +6,12 @@ import { Pagination, Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { SwiperStyle } from '../../pages/RoomList';
 import { useSelector } from 'react-redux';
-import { MyInitialStateValue, myValue } from '../../slices/mySlice';
+import { myValue } from '../../slices/mySlice';
+import { content } from '../../pages/Mypage';
 
-type MypageContentsType = {
-	title?: string;
-	contents?: Array<PlaylistInfoType>;
-	id: number;
-	userInfo: MyInitialStateValue;
-};
-
-const MypageContents = ({
-	id,
-	title,
-	contents,
-	userInfo,
-}: MypageContentsType) => {
+const MypageContents = ({ id, title, contents, userInfo }: content) => {
 	const navigate = useNavigate();
 	const { userId } = useParams();
 

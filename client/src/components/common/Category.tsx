@@ -1,9 +1,10 @@
+import React from 'react';
 import styled from 'styled-components';
 
 type CategoryProps = {
 	margin?: string;
 	height?: string;
-	children?: any;
+	children?: string;
 	category?: string;
 	swiper?: boolean;
 };

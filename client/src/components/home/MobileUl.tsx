@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch } from 'react';
 import { Link } from 'react-router-dom';
 import { LoginButton } from './Header';
 import styled from 'styled-components';
@@ -8,7 +8,7 @@ import { myLogin } from '../../slices/mySlice';
 
 export type MobileUlType = {
 	currentMenu: string;
-	setOpenModal: Dispatch<SetStateAction<boolean>>;
+	setOpenModal: Dispatch<boolean>;
 	handleOpenSide: () => void;
 };
 

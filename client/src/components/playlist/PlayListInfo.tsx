@@ -38,12 +38,14 @@ const PlayListInfo = ({
 						{playListInfo.title}
 						<div className="categoryBox">
 							{playListInfo.categoryList &&
-								playListInfo.categoryList.map((ele, idx) => (
-									<Category key={idx} category={ele} margin="0 10px 0 0">
-										<Link to={`/search?type1=playlist&type2=category&q=${ele}`}>
+								playListInfo.categoryList.map((ele: string, idx) => (
+									<Link
+										key={idx}
+										to={`/search?type1=playlist&type2=category&q=${ele}`}>
+										<Category category={ele} margin="0 10px 0 0">
 											{ele}
-										</Link>
-									</Category>
+										</Category>
+									</Link>
 								))}
 						</div>
 					</div>

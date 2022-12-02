@@ -8,8 +8,15 @@ import { Img, LinkRoom, RoomStyle, Thumbnail } from '../home/Room';
 type ContentType = {
 	id: number;
 	playlist?: PlaylistInfoType;
-	followlist?: any;
 	userInfo?: MyInitialStateValue;
+	followlist?: FollowList;
+};
+
+export type FollowList = {
+	memberId: number;
+	name: string;
+	picture: string;
+	content: string;
 };
 
 const Content = ({ id, playlist, followlist, userInfo }: ContentType) => {
