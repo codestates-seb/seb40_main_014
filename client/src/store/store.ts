@@ -2,7 +2,6 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import mySlice from '../slices/mySlice';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import roomSlice from '../slices/roomSlice';
 
 const persistConfig = {
 	key: 'root',
@@ -14,7 +13,6 @@ const persistedMySlice = persistReducer(persistConfig, mySlice);
 const store = configureStore({
 	reducer: {
 		my: persistedMySlice,
-		room: roomSlice,
 	},
 	middleware: getDefaultMiddleware({
 		serializableCheck: false,

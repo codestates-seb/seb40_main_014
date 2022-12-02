@@ -1,9 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import * as StompJS from '@stomp/stompjs';
+import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
 
 const ChatContainer = styled.div`
 	margin: 10px;
