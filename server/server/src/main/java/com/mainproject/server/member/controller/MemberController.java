@@ -6,6 +6,7 @@ import com.mainproject.server.member.mapper.MemberMapper;
 import com.mainproject.server.member.service.FollowService;
 import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.member.entity.Member;
+import com.mainproject.server.member.service.RankingScheduler;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
 import com.mainproject.server.response.MultiResponseDto;
 import com.mainproject.server.response.SingleResponseDto;
@@ -34,6 +35,7 @@ public class MemberController {
     private final ChatRoomMapper chatRoomMapper;
     private final PlaylistMapper playlistMapper;
     private final FollowService followService;
+    private final RankingScheduler rankingScheduler;
 
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") Long memberId,
@@ -56,9 +58,9 @@ public class MemberController {
         Member findMember = service.findMember(memberId);
 
         Boolean followState = followService.followState(memberId, authMemberId);
-        Integer rank = followService.findRank(findMember);
+//        Integer rank = followService.findRank(findMember);
 
-        MemberResponseDto response = mapper.memberToMemberResponseDto(findMember, followState, playlistMapper, rank);
+        MemberResponseDto response = mapper.memberToMemberResponseDto(findMember, followState, playlistMapper);
         SingleResponseDto<MemberResponseDto> singleResponseDto = new SingleResponseDto<>(response);
 
         return new ResponseEntity(singleResponseDto, HttpStatus.OK);
@@ -123,14 +125,27 @@ public class MemberController {
     public ResponseEntity refreshToken(HttpServletRequest request, HttpServletResponse response) {
         return service.refresh(request, response);
     }
-    @GetMapping("/ranking")
-    public ResponseEntity ranking() {
+
+    @GetMapping("/ranking/now")
+    public ResponseEntity rankingNow() {
         Page<Member> rankPage = followService.getRankings();
 
         List<Member> members = rankPage.getContent();
 
         MultiResponseDto<RankResponseDto> multiResponseDto =
                 new MultiResponseDto<>(mapper.memberListToRankResponseDtoList(members), rankPage);
+
+        return new ResponseEntity(multiResponseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/ranking")
+    public ResponseEntity ranking() {
+        Page<Member> rankPage = followService.getRankingScheduler();
+
+        List<Member> members = rankPage.getContent();
+
+        MultiResponseDto<RankResponseDto> multiResponseDto =
+                new MultiResponseDto<>(rankingScheduler.memberListToRankResponseDtoList(members), rankPage);
 
         return new ResponseEntity(multiResponseDto, HttpStatus.OK);
     }
@@ -143,7 +158,7 @@ public class MemberController {
         List<Boolean> followStates = followService.followStates(memberId, authMemberId);
 
         MultiResponseDto<MemberResponseDto> multiResponseDto =
-                new MultiResponseDto<>(mapper.memberListToMemberResponseDtoList(members, followStates, playlistMapper, 0), followingMembers);
+                new MultiResponseDto<>(mapper.memberListToMemberResponseDtoList(members, followStates, playlistMapper), followingMembers);
 
         return new ResponseEntity(multiResponseDto, HttpStatus.OK);
     }
