@@ -144,14 +144,18 @@ const PlaylistPart = ({ playlist }) => {
 		height: '0',
 		width: '0',
 		// playerVars: {
-		// 	autoplay: 1,
+		// 	autoPlay: 1,
 		// },
 	};
 	const onReady = (event) => {
 		// access to player in all event handlers via event.target
+		event.target.h.sandbox =
+			'allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation';
 		setPlayer(event.target);
+
 		// event.target.loadPlaylist({ playlist: playlistIdList, startSeconds: 1 });
 		event.target.cuePlaylist({ playlist: playlistIdList, startSeconds: 1 });
+		console.log(event.target.h.sandbox);
 		// event.target.playVideo();
 	};
 
@@ -172,6 +176,7 @@ const PlaylistPart = ({ playlist }) => {
 	const next = () => {
 		if (player) {
 			player.nextVideo();
+			player.seekTo(1);
 			setPlay(true);
 		}
 	};
