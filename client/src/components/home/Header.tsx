@@ -275,7 +275,7 @@ const ProfileUl = styled.ul`
 	display: none;
 	position: absolute;
 	top: 45px;
-	left: -11px;
+	right: 0;
 	padding: 20px;
 	width: 150px;
 	background-color: ${(props) => props.theme.colors.background};
@@ -296,6 +296,10 @@ const ProfileUl = styled.ul`
 		}
 	}
 
+	// Tablet
+	@media screen and (max-width: 980px) {
+		left: -59px;
+	}
 	// Mobile
 	@media screen and (max-width: 640px) {
 		top: 46px;

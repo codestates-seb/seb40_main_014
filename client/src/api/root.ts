@@ -56,9 +56,9 @@ instance.interceptors.response.use(
 						window.location.href = '/logout';
 					}
 				});
+		} else {
+			return Promise.reject(error);
 		}
-
-		return Promise.reject(error);
 	},
 );
 
