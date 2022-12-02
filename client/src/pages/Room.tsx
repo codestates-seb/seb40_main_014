@@ -1,16 +1,14 @@
 import styled from 'styled-components';
-import { ImExit } from 'react-icons/im';
 import PlaylistPart from '../components/room/Playlist';
 import PeoplePart from '../components/room/PeopleList';
 import Chatting from '../components/room/Chatting';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
 import UpdateRoomModal from '../components/room/updateModal';
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { useForm } from 'react-hook-form';
-import instance from '../api/root';
 import { checkRoomByName, deleteRoom, getRoomById } from '../api/roomApi';
 import * as StompJS from '@stomp/stompjs';
 import { myLogin } from '../slices/mySlice';
@@ -249,7 +247,6 @@ const Room = () => {
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [playlist, setPlaylist] = useState<PlayListInfoProps[]>([]);
 	const [userLength, setUserLength] = useState<number>(0);
-	// const [isConnect, setIsConnect] = useState(true);
 	const navigate = useNavigate();
 	const modalClose = () => {
 		if (isAdmin) {
@@ -259,7 +256,6 @@ const Room = () => {
 				icon: 'warning',
 				text: '방 수정은 방장만 가능합니다.',
 			});
-			// alert('방 수정은 방장만 가능합니다!');
 		}
 	};
 	const [people, setPeople] = useState<string[]>([]);
@@ -400,18 +396,18 @@ const Room = () => {
 	}
 
 	const send = () => {
-		// setTimeout(
-		// 	() =>
-		// 		client.publish({
-		// 			destination: `/pub/chat/sendMessage/${roomId}`,
-		// 			body: JSON.stringify(messageObject),
-		// 		}),
-		// 	300,
-		// );
-		client.publish({
-			destination: `/pub/chat/sendMessage/${roomId}`,
-			body: JSON.stringify(messageObject),
-		});
+		setTimeout(
+			() =>
+				client.publish({
+					destination: `/pub/chat/sendMessage/${roomId}`,
+					body: JSON.stringify(messageObject),
+				}),
+			300,
+		);
+		// client.publish({
+		// 	destination: `/pub/chat/sendMessage/${roomId}`,
+		// 	body: JSON.stringify(messageObject),
+		// });
 
 		// console.log('연결 상태', client.connected);
 	};
@@ -465,7 +461,6 @@ const Room = () => {
 		});
 	};
 
-	// getRoomById(roomId).then((res) => console.log(res.data.memberResponseDto.email));
 	const AdminEmailList = [
 		process.env.REACT_APP_ADMIN_EMAIL_01,
 		process.env.REACT_APP_ADMIN_EMAIL_02,
