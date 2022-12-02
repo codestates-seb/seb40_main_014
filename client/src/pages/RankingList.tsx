@@ -22,7 +22,7 @@ const RankingList = () => {
 	useEffect(() => {
 		getRanking()
 			.then((res) => {
-				console.log('ranking res', res);
+				// console.log('ranking res', res);
 
 				setRankings(res.data);
 			})

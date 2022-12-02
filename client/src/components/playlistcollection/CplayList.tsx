@@ -39,7 +39,7 @@ const CplayList = ({
 
 	const handleFollow = () => {
 		followUser(followList.memberId).then((res) => {
-			console.log('follow res', res);
+			// console.log('follow res', res);
 
 			const { followState } = res.data;
 

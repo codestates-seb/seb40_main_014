@@ -118,7 +118,7 @@ const MakePlayList = () => {
 
 	const createPl = () => {
 		if (validation(data)) {
-			console.log(data);
+			// console.log(data);
 			createPlayList(data)
 				.then(() => {
 					navigate(`/mypage/${myvalue.memberId}`);
