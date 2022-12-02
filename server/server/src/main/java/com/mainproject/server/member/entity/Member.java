@@ -1,26 +1,22 @@
 package com.mainproject.server.member.entity;
 
-import com.mainproject.server.chatroom.entity.ChatRoom;
 import com.mainproject.server.auditable.Auditable;
+import com.mainproject.server.chatroom.entity.ChatRoom;
 import com.mainproject.server.playlist.entity.Playlist;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-public class Member extends Auditable implements UserDetails {
+public class Member extends Auditable {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -51,14 +47,14 @@ public class Member extends Auditable implements UserDetails {
     private Integer ranking;
 
     @Column
-    private Integer score=0;
+    private Integer score = 0;
 
     @Enumerated(EnumType.STRING)
     @Column
     private Role role;
 
     @Builder
-    public Member(Long memberId, String email, String name, String pwd, String picture, Role role, String content){
+    public Member(Long memberId, String email, String name, String pwd, String picture, Role role, String content) {
         this.memberId = memberId;
         this.email = email;
         this.name = name;
@@ -75,7 +71,7 @@ public class Member extends Auditable implements UserDetails {
     private List<ChatRoom> chatRooms = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private List<Follow> follows  = new ArrayList<>();
+    private List<Follow> follows = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "member")
 //    private List<ChatMessage> messages  = new ArrayList<>();
@@ -89,45 +85,6 @@ public class Member extends Auditable implements UserDetails {
 
     public String getRoleKey() {
         return this.role.getKey();
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        List<GrantedAuthority> authorities = new SimpleGrantedAuthority("ROLE_"+this.getRole().toString());
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_"+getRole());
-        List<GrantedAuthority> authorities = List.of(simpleGrantedAuthority);
-
-        return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.getPwd();
-    }
-
-    @Override
-    public String getUsername() {
-        return this.getEmail();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 }
 

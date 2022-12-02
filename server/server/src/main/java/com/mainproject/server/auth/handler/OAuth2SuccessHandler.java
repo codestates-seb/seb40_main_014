@@ -132,6 +132,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 .newInstance()
                 .scheme("http")
                 .host("localhost")
+//                .scheme("https")
+//                .host("luvpli.link")
                 .port(3000)
                 .path("/loginCallback")
                 .queryParams(queryParams)
