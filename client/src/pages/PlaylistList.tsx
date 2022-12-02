@@ -19,6 +19,7 @@ import { musicInfoType } from './MakePlayList';
 import { myLogin, myValue } from '../slices/mySlice';
 import { SwiperSlide } from 'swiper/react';
 import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
+import Loading from '../components/common/Loading';
 
 export type PlaylistInfoType = {
 	memberId: number;
@@ -37,6 +38,7 @@ const PlaylistList = () => {
 	const isLogin = useSelector(myLogin);
 	const { memberId } = useSelector(myValue);
 
+	const [isLoading, setLoading] = useState(true);
 	const [playlists, setPlayLists] = useState<PlaylistInfoType[]>([]);
 	const [palylistsByLike, setPlaylistsByLike] = useState<PlaylistInfoType[]>(
 		[],
@@ -71,6 +73,8 @@ const PlaylistList = () => {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
+		setLoading(true);
+
 		getPlaylists(currentPage.current, 6)
 			.then((res) => {
 				console.log('getPlaylists res', res);
@@ -80,6 +84,8 @@ const PlaylistList = () => {
 				setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
 				setHasNextPage(page !== totalPages);
 				if (hasNextPage) currentPage.current += 1;
+
+				setLoading(false);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -248,6 +254,7 @@ const PlaylistList = () => {
 					})}
 				<div ref={observerTargetEl} />
 			</ListStyle>
+			{isLoading && <Loading />}
 		</MinHeightWrapper>
 	);
 };

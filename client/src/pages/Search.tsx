@@ -13,6 +13,7 @@ import { PlaylistInfoType } from './PlaylistList';
 import { ListStyle, MinHeightWrapper, RoomInfoType } from './RoomList';
 import { MyInitialStateValue, myValue } from '../slices/mySlice';
 import { IoIosArrowForward } from 'react-icons/io';
+import Loading from '../components/common/Loading';
 
 const Search = () => {
 	const params = new URLSearchParams(location.search);
@@ -23,6 +24,7 @@ const Search = () => {
 
 	const { memberId } = useSelector(myValue);
 
+	const [isLoading, setLoading] = useState(true);
 	const [posts, setPosts] = useState([]);
 
 	const [type1Title, setType1Title] = useState(type1);
@@ -61,6 +63,8 @@ const Search = () => {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
+		setLoading(true);
+
 		if (type1 === 'room') {
 			getSearchRooms(type2, q, currentPage.current, 9)
 				.then((res) => {
@@ -71,6 +75,8 @@ const Search = () => {
 					setPosts((prevPosts) => [...prevPosts, ...data]);
 					setHasNextPage(page !== totalPages);
 					if (hasNextPage) currentPage.current += 1;
+
+					setLoading(false);
 				})
 				.catch((err) => {
 					console.log(err);
@@ -86,6 +92,8 @@ const Search = () => {
 					setPosts((prevPosts) => [...prevPosts, ...data]);
 					setHasNextPage(page !== totalPages);
 					if (hasNextPage) currentPage.current += 1;
+
+					setLoading(false);
 				})
 				.catch((err) => {
 					console.log(err);
@@ -101,6 +109,8 @@ const Search = () => {
 					setPosts((prevPosts) => [...prevPosts, ...data]);
 					setHasNextPage(page !== totalPages);
 					if (hasNextPage) currentPage.current += 1;
+
+					setLoading(false);
 				})
 				.catch((err) => {
 					console.log(err);
@@ -161,6 +171,7 @@ const Search = () => {
 				'검색 결과가 없습니다.'
 			)}
 			<div ref={observerTargetEl} />
+			{isLoading && <Loading />}
 		</MinHeightWrapper>
 	);
 };

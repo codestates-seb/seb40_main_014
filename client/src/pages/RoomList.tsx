@@ -12,6 +12,7 @@ import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import Loading from '../components/common/Loading';
 
 export type RoomInfoType = {
 	maxCount: number;
@@ -42,6 +43,7 @@ export type HostType = {
 const RoomList = () => {
 	const isLogin = useSelector(myLogin);
 
+	const [isLoading, setLoading] = useState(true);
 	const [rooms, setRooms] = useState<RoomInfoType[]>([]);
 	const [roomsByView, setRoomsByView] = useState<RoomInfoType[]>([]);
 	const [roomsByDj, setRoomsByDj] = useState<RoomInfoType[]>([]);
@@ -74,6 +76,7 @@ const RoomList = () => {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
+		setLoading(true);
 		getRooms(currentPage.current, 6)
 			.then((res) => {
 				console.log('getRooms res', res);
@@ -83,6 +86,8 @@ const RoomList = () => {
 				setRooms((prevRooms) => [...prevRooms, ...data]);
 				setHasNextPage(page !== totalPages);
 				if (hasNextPage) currentPage.current += 1;
+
+				setLoading(false);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -197,6 +202,7 @@ const RoomList = () => {
 					))}
 				<div ref={observerTargetEl} />
 			</ListStyle>
+			{isLoading && <Loading />}
 		</MinHeightWrapper>
 	);
 };
