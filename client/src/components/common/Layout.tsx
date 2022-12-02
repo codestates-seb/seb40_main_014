@@ -30,6 +30,6 @@ const MainWrapper = styled.div`
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		margin: 60px 40px;
+		margin: 40px 40px;
 	}
 `;

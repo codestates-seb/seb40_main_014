@@ -156,13 +156,13 @@ const RoomList = () => {
 		<MinHeightWrapper>
 			{isLogin && (
 				<ButtonWrapper>
-					<DefaultButton
+					<MainDefaultButton
 						fontSize="16px"
 						width="105px"
 						height="42px"
 						onClick={modalClose}>
 						방 만들기
-					</DefaultButton>
+					</MainDefaultButton>
 					{modalOpen && (
 						<CreateModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
 					)}
@@ -218,7 +218,7 @@ export const MinHeightWrapper = styled.div`
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		min-height: calc(100vh - 72.406px - 120px - 212px);
+		min-height: calc(100vh - 72.406px - 80px - 212px);
 	}
 `;
 
@@ -226,6 +226,15 @@ export const ButtonWrapper = styled.div`
 	display: flex;
 	justify-content: flex-end;
 	margin-bottom: 40px;
+`;
+
+export const MainDefaultButton = styled(DefaultButton)`
+	// Mobile
+	@media screen and (max-width: 640px) {
+		width: 90px;
+		height: 40px;
+		font-size: 14px;
+	}
 `;
 
 export const H2 = styled.h2`

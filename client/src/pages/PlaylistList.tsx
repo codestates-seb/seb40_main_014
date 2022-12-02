@@ -6,6 +6,7 @@ import {
 	ButtonWrapper,
 	H2,
 	ListStyle,
+	MainDefaultButton,
 	MinHeightWrapper,
 	SwiperStyle,
 } from './RoomList';
@@ -148,9 +149,9 @@ const PlaylistList = () => {
 			{isLogin && (
 				<ButtonWrapper>
 					<Link to="/makeplaylist/create">
-						<DefaultButton fontSize="16px" width="105px" height="42px">
+						<MainDefaultButton fontSize="16px" width="105px" height="42px">
 							플리 만들기
-						</DefaultButton>
+						</MainDefaultButton>
 					</Link>
 				</ButtonWrapper>
 			)}
