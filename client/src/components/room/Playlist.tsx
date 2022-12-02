@@ -142,16 +142,14 @@ const PlaylistPart = ({ playlist }) => {
 	const [nowVideo, setNowVideo] = useState('');
 
 	const opts: YouTubeProps['opts'] = {
-		height: '0',
-		width: '0',
+		height: '1',
+		width: '1',
 		// playerVars: {
 		// 	autoplay: 1,
 		// },
 	};
 	const onReady = (event) => {
 		// access to player in all event handlers via event.target
-		event.target.h.sandbox =
-			'allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation';
 		setPlayer(event.target);
 
 		// event.target.loadPlaylist({ playlist: playlistIdList, startSeconds: 1 });
@@ -274,12 +272,14 @@ const PlaylistPart = ({ playlist }) => {
 					<Loading />
 				) : (
 					<>
-						<YouTube
-							videoId={playlist[0].videoId}
-							opts={opts}
-							onReady={onReady}
-							onPlay={onPlay}
-						/>
+						<Test>
+							<YouTube
+								videoId={playlist[0].videoId}
+								opts={opts}
+								onReady={onReady}
+								onPlay={onPlay}
+							/>
+						</Test>
 					</>
 				)}
 			</OptionContainer>
@@ -288,3 +288,7 @@ const PlaylistPart = ({ playlist }) => {
 };
 
 export default PlaylistPart;
+
+const Test = styled.div`
+	visibility: hidden;
+`;
