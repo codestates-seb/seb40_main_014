@@ -35,18 +35,6 @@ public class MemberController {
     private final PlaylistMapper playlistMapper;
     private final FollowService followService;
 
-    @PostMapping
-    public ResponseEntity postMember(@Valid @RequestBody MemberPostDto memberPostDto) {
-
-        Member member = mapper.memberPostDtoToMember(memberPostDto);
-        Member createdMember = service.createMember(member);
-
-        SimpleMemberResponseDto response = mapper.memberToSimpleMemberResponseDto(createdMember);
-        SingleResponseDto<SimpleMemberResponseDto> singleResponseDto = new SingleResponseDto<>(response);
-
-        return new ResponseEntity<>(singleResponseDto, HttpStatus.OK);
-    }
-
     @PatchMapping("/{member-id}")
     public ResponseEntity patchMember(@PathVariable("member-id") Long memberId,
                                       @Valid @RequestBody MemberPatchDto memberPatchDto) {
