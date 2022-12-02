@@ -14,48 +14,52 @@ import { ListStyle, MinHeightWrapper, RoomInfoType } from './RoomList';
 import { MyInitialStateValue, myValue } from '../slices/mySlice';
 import { IoIosArrowForward } from 'react-icons/io';
 import Loading from '../components/common/Loading';
+import queryString from 'query-string';
 
 const Search = () => {
-	const params = new URLSearchParams(location.search);
+	const searchParams = location.search;
+	const query = queryString.parse(searchParams);
 
-	const type1 = params.get('type1');
-	const type2 = params.get('type2');
-	const q = params.get('q');
+	// const params = new URLSearchParams(location.search);
+	// const type1 = params.get('type1');
+	// const type2 = params.get('type2');
+	// const q = params.get('q');
 
 	const { memberId } = useSelector(myValue);
 
 	const [isLoading, setLoading] = useState(true);
 	const [posts, setPosts] = useState([]);
 
-	const [type1Title, setType1Title] = useState(type1);
-	const [type2Title, setType2Title] = useState(type2);
+	const [type1Title, setType1Title] = useState(query.type1);
+	const [type2Title, setType2Title] = useState(query.type2);
 
 	useEffect(() => {
-		if (type1 === 'room') {
+		console.log('#1', query, query.type1, query.type2, query.q);
+		if (query.type1 === 'room') {
 			setType1Title('방');
-			if (type2 === 'title') {
+			if (query.type2 === 'title') {
 				setType2Title('방 제목');
-			} else if (type2 === 'category') {
+			} else if (query.type2 === 'category') {
 				setType2Title('방 장르');
-			} else if (type2 === 'name') {
+			} else if (query.type2 === 'name') {
 				setType2Title('방장명');
 			}
-		} else if (type1 === 'playlist') {
+		} else if (query.type1 === 'playlist') {
 			setType1Title('플레이리스트');
-			if (type2 === 'title') {
+			if (query.type2 === 'title') {
 				setType2Title('플레이리스트 제목');
-			} else if (type2 === 'category') {
+			} else if (query.type2 === 'category') {
 				setType2Title('플레이리스트 장르');
-			} else if (type2 === 'name') {
+			} else if (query.type2 === 'name') {
 				setType2Title('작성자명');
 			}
-		} else if (type1 === 'user') {
+		} else if (query.type1 === 'user') {
 			setType1Title('유저');
-			if (type2 === 'name') {
+			if (query.type2 === 'name') {
 				setType2Title('유저명');
 			}
 		}
-	}, [type1, type2, q]);
+	}, [query]);
 
 	//* 무한 스크롤
 	const [hasNextPage, setHasNextPage] = useState(true);
@@ -63,10 +67,17 @@ const Search = () => {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
+		console.log('#2', query, query.type1, query.type2, query.q);
+
 		setLoading(true);
 
-		if (type1 === 'room') {
-			getSearchRooms(type2, q, currentPage.current, 9)
+		if (query.type1 === 'room') {
+			getSearchRooms(
+				query.type2 as string,
+				query.q as string,
+				currentPage.current,
+				9,
+			)
 				.then((res) => {
 					console.log('search rooms res', res);
 
@@ -82,8 +93,13 @@ const Search = () => {
 					console.log(err);
 				});
 		}
-		if (type1 === 'playlist') {
-			getSearchPlaylists(type2, q, currentPage.current, 9)
+		if (query.type1 === 'playlist') {
+			getSearchPlaylists(
+				query.type2 as string,
+				query.q as string,
+				currentPage.current,
+				9,
+			)
 				.then((res) => {
 					console.log('search playlists res', res);
 
@@ -99,8 +115,8 @@ const Search = () => {
 					console.log(err);
 				});
 		}
-		if (type1 === 'user') {
-			getSearchUsers(q, currentPage.current, 30)
+		if (query.type1 === 'user') {
+			getSearchUsers(query.q as string, currentPage.current, 30)
 				.then((res) => {
 					console.log('search users res', res);
 
@@ -116,7 +132,7 @@ const Search = () => {
 					console.log(err);
 				});
 		}
-	}, [type1, type2, q]);
+	}, [query]);
 
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;
@@ -136,15 +152,15 @@ const Search = () => {
 		<MinHeightWrapper>
 			<H2>
 				{type1Title} <IoIosArrowForward /> {type2Title} <IoIosArrowForward />{' '}
-				{q} 의 검색 결과
+				{query.q} 의 검색 결과
 			</H2>
 			{posts.length ? (
 				<ListStyle>
-					{type1 === 'room' &&
+					{query.type1 === 'room' &&
 						posts.map((room: RoomInfoType) => (
 							<Room room={room} key={room.roomId} />
 						))}
-					{type1 === 'playlist' &&
+					{query.type1 === 'playlist' &&
 						posts.map((playlist: PlaylistInfoType) => {
 							// 본인이 쓴 글
 							if (playlist.memberId === memberId) {
@@ -162,7 +178,7 @@ const Search = () => {
 								}
 							}
 						})}
-					{type1 === 'user' &&
+					{query.type1 === 'user' &&
 						posts.map((user: MyInitialStateValue) => (
 							<User user={user} key={user.memberId} />
 						))}
