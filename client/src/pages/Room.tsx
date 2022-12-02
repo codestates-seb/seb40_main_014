@@ -396,18 +396,18 @@ const Room = () => {
 	}
 
 	const send = () => {
-		// setTimeout(
-		// 	() =>
-		// 		client.publish({
-		// 			destination: `/pub/chat/sendMessage/${roomId}`,
-		// 			body: JSON.stringify(messageObject),
-		// 		}),
-		// 	300,
-		// );
-		client.publish({
-			destination: `/pub/chat/sendMessage/${roomId}`,
-			body: JSON.stringify(messageObject),
-		});
+		setTimeout(
+			() =>
+				client.publish({
+					destination: `/pub/chat/sendMessage/${roomId}`,
+					body: JSON.stringify(messageObject),
+				}),
+			300,
+		);
+		// client.publish({
+		// 	destination: `/pub/chat/sendMessage/${roomId}`,
+		// 	body: JSON.stringify(messageObject),
+		// });
 
 		// console.log('연결 상태', client.connected);
 	};
