@@ -140,8 +140,6 @@ const RoomCreateForm = () => {
 			playlistId: selectedPlaylist.playlistId,
 			maxCount: 100,
 		};
-		console.log('생성될 방의 정보', CreateRoomInfo);
-
 		if (!isLogin) {
 			Swal.fire({
 				icon: 'warning',
