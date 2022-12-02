@@ -93,7 +93,7 @@ const RoomList = () => {
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;
 
-		const io = new IntersectionObserver((entries, observer) => {
+		const io = new IntersectionObserver((entries) => {
 			if (entries[0].isIntersecting) fetch();
 		});
 
