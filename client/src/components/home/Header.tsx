@@ -48,7 +48,6 @@ const Header = () => {
 	const handleMypage = () => {
 		navigate(`/mypage/${memberId}`);
 		profileUlRef.current.style.display = 'none';
-		// window.location.reload();
 	};
 
 	const handleOpenModal = useCallback(() => {
