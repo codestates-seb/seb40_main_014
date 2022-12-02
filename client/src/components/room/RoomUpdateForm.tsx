@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import axios from 'axios';
 import { updateRoom } from '../../api/roomApi';
 import { useParams } from 'react-router-dom';
 
@@ -60,7 +59,6 @@ const TitleInput = styled(DefaultInput)``;
 const PasswordInput = styled(DefaultInput)``;
 const PasswordCheckInput = styled.input``;
 const PlaylistInput = styled(DefaultInput)``;
-const PeopleInput = styled(DefaultInput)``;
 
 const CreateRoomBtn = styled.button`
 	background-color: ${(props) => props.theme.colors.purple};

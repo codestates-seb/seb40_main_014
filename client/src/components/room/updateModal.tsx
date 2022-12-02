@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { ImExit } from 'react-icons/im';
-import RoomCreateForm from './RoomCreateForm';
 import RoomUpdateForm from './RoomUpdateForm';
 import { ModalBackdrop } from '../home/LoginModal';
 import { useEffect } from 'react';
@@ -48,15 +46,6 @@ const HeaderContent = styled.div`
 	margin: 15px;
 	font-size: ${(props) => props.theme.fontSize.small};
 `;
-// const ModalOverlay = styled.div`
-// 	top: 0;
-// 	left: 0;
-// 	width: 100vw;
-// 	height: 100vh;
-// 	backdrop-filter: blur(2px);
-// 	z-index: 1;
-// 	position: fixed;
-// `;
 
 export const ExitBtn = styled.button`
 	font-size: ${(props) => props.theme.fontSize.medium};
