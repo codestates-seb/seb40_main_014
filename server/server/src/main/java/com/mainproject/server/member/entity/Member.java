@@ -29,9 +29,6 @@ public class Member extends Auditable {
     private String name;
 
     @Column
-    private String pwd;
-
-    @Column
     private String picture;
 
     @Column
@@ -40,11 +37,8 @@ public class Member extends Auditable {
     @Column
     private String grade = "SILVER";
 
-//    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
-//    private Ranking ranking;
-
     @Column
-    private Integer ranking;
+    private Integer ranking = 0;
 
     @Column
     private Integer score = 0;
@@ -54,11 +48,10 @@ public class Member extends Auditable {
     private Role role;
 
     @Builder
-    public Member(Long memberId, String email, String name, String pwd, String picture, Role role, String content) {
+    public Member(Long memberId, String email, String name, String picture, Role role, String content) {
         this.memberId = memberId;
         this.email = email;
         this.name = name;
-        this.pwd = pwd;
         this.picture = picture;
         this.role = role;
         this.content = content;
@@ -72,16 +65,6 @@ public class Member extends Auditable {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Follow> follows = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "member")
-//    private List<ChatMessage> messages  = new ArrayList<>();
-
-//    public Member update(String name, String picture) {
-//        this.name = name;
-//        this.picture  = picture;
-//
-//        return this;
-//    }
 
     public String getRoleKey() {
         return this.role.getKey();
