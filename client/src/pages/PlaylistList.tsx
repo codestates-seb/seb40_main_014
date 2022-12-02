@@ -1,11 +1,11 @@
 import Playlist from '../components/home/Playlist';
-import { useState, useEffect, useRef, useCallback, Ref } from 'react';
-import { DefaultButton } from '../components/common/Button';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	ButtonWrapper,
 	H2,
 	ListStyle,
+	MainDefaultButton,
 	MinHeightWrapper,
 	SwiperStyle,
 } from './RoomList';
@@ -17,10 +17,9 @@ import {
 import { useSelector } from 'react-redux';
 import { musicInfoType } from './MakePlayList';
 import { myLogin, myValue } from '../slices/mySlice';
-
-// Import Swiper React components
 import { SwiperSlide } from 'swiper/react';
 import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
+import Loading from '../components/common/Loading';
 
 export type PlaylistInfoType = {
 	memberId: number;
@@ -39,6 +38,7 @@ const PlaylistList = () => {
 	const isLogin = useSelector(myLogin);
 	const { memberId } = useSelector(myValue);
 
+	const [isLoading, setLoading] = useState(true);
 	const [playlists, setPlayLists] = useState<PlaylistInfoType[]>([]);
 	const [palylistsByLike, setPlaylistsByLike] = useState<PlaylistInfoType[]>(
 		[],
@@ -52,7 +52,7 @@ const PlaylistList = () => {
 
 				setPlaylistsByLike(res.data);
 			})
-			.then((err) => {
+			.catch((err) => {
 				console.log(err);
 			});
 
@@ -73,6 +73,8 @@ const PlaylistList = () => {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
+		setLoading(true);
+
 		getPlaylists(currentPage.current, 6)
 			.then((res) => {
 				console.log('getPlaylists res', res);
@@ -82,6 +84,8 @@ const PlaylistList = () => {
 				setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
 				setHasNextPage(page !== totalPages);
 				if (hasNextPage) currentPage.current += 1;
+
+				setLoading(false);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -91,7 +95,7 @@ const PlaylistList = () => {
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;
 
-		const io = new IntersectionObserver((entries, observer) => {
+		const io = new IntersectionObserver((entries) => {
 			if (entries[0].isIntersecting) fetch();
 		});
 
@@ -144,9 +148,9 @@ const PlaylistList = () => {
 			{isLogin && (
 				<ButtonWrapper>
 					<Link to="/makeplaylist/create">
-						<DefaultButton fontSize="16px" width="105px" height="42px">
+						<MainDefaultButton fontSize="16px" width="105px" height="42px">
 							플리 만들기
-						</DefaultButton>
+						</MainDefaultButton>
 					</Link>
 				</ButtonWrapper>
 			)}
@@ -250,6 +254,7 @@ const PlaylistList = () => {
 					})}
 				<div ref={observerTargetEl} />
 			</ListStyle>
+			{isLoading && <Loading />}
 		</MinHeightWrapper>
 	);
 };

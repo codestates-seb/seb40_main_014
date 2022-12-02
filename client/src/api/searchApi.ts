@@ -7,9 +7,6 @@ export const getSearchRooms = async (
 	size: number,
 ) => {
 	try {
-		//test
-		// const result = await instance.get(`/rooms`);
-		//real
 		const result = await instance.get(
 			`/rooms/search?type=${type}&name=${name}&page=${page}&size=${size}`,
 		);
@@ -26,9 +23,6 @@ export const getSearchPlaylists = async (
 	size: number,
 ) => {
 	try {
-		//test
-		// const result = await instance.get(`/rooms`);
-		//real
 		const result = await instance.get(
 			`/api/playlists/search?type=${type}&name=${name}&page=${page}&size=${size}`,
 		);
@@ -44,9 +38,6 @@ export const getSearchUsers = async (
 	size: number,
 ) => {
 	try {
-		//test
-		// const result = await instance.get(`/rooms`);
-		//real
 		const result = await instance.get(
 			`/api/members/search?name=${name}&page=${page}&size=${size}`,
 		);

@@ -19,7 +19,7 @@ export const getPlaylists = async (page?: number, size?: number) => {
 export const getPlaylistsByLike = async (page: number, size: number) => {
 	try {
 		const result = await instance.get(
-			`/api/playlists/likeSort?type=${page}&name=${size}`,
+			`/api/playlists/likeSort?page=${page}&size=${size}`,
 		);
 		return result.data;
 	} catch (err) {
@@ -30,7 +30,7 @@ export const getPlaylistsByLike = async (page: number, size: number) => {
 export const getPlaylistsByDj = async (page: number, size: number) => {
 	try {
 		const result = await instance.get(
-			`/api/playlists/topDj?type=${page}&name=${size}`,
+			`/api/playlists/topDj?page=${page}&size=${size}`,
 		);
 		return result.data;
 	} catch (err) {

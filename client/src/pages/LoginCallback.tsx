@@ -18,14 +18,14 @@ const LoginCallback = () => {
 			localStorage.setItem('accessToken', accessToken);
 			localStorage.setItem('refreshToken', refreshToken);
 
-			getMyInfo(Number(memberId), accessToken).then((res) => {
-				console.log('getMyInfo res', res);
+			getMyInfo(Number(memberId), localStorage.getItem('accessToken')).then(
+				(res) => {
+					console.log('getMyInfo res', res);
 
-				dispatch(myInfo(res.data));
-
-				// navigate('/');
-				window.location.href = '/';
-			});
+					dispatch(myInfo(res.data));
+					navigate('/');
+				},
+			);
 		}
 	}, []);
 

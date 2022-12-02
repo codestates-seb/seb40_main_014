@@ -1,10 +1,10 @@
+import { Dispatch } from 'react';
 import { Link } from 'react-router-dom';
 import { LoginButton } from './Header';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { FaSearch } from 'react-icons/fa';
 import { myLogin } from '../../slices/mySlice';
-import { Dispatch } from 'react';
 
 export type MobileUlType = {
 	currentMenu: string;

@@ -6,7 +6,7 @@ import Like from '../common/Like';
 import ModifyButton from '../playlistcollection/ModifyButton';
 import { useSelector } from 'react-redux';
 import { myLogin, myValue } from '../../slices/mySlice';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const PlayListInfo = ({
 	playListInfo,
@@ -15,7 +15,6 @@ const PlayListInfo = ({
 }: PlayListInfoProps) => {
 	const isLogin = useSelector(myLogin);
 	const loginId = useSelector(myValue).memberId;
-	const navigate = useNavigate();
 
 	const likeBookmarkProps = {
 		setPlayListInfo,
@@ -25,6 +24,7 @@ const PlayListInfo = ({
 		playlistId: playListInfo.playlistId,
 		likeState: playListInfo.likeState,
 		bookmarkState: playListInfo.bookmarkState,
+		likeCount: playListInfo.like,
 	};
 	return (
 		<PlayListInfoStyle>
@@ -57,10 +57,7 @@ const PlayListInfo = ({
 								</Link>
 							</div>
 							<div>
-								<button>
-									<Like {...likeBookmarkProps} />
-									<span>{playListInfo.like}</span>
-								</button>
+								<Like {...likeBookmarkProps} />
 								<BookMark {...likeBookmarkProps} />
 							</div>
 						</div>
@@ -204,7 +201,7 @@ const Info = styled.div`
 				// Mobile
 				@media screen and (max-width: 640px) {
 					span {
-						font-size: 14px;
+						font-size: ${(props) => props.theme.fontSize.small};
 					}
 				}
 			}

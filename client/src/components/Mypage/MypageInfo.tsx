@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MyInitialStateValue, myLogin, myValue } from '../../slices/mySlice';
+import { MyInitialStateValue, myValue } from '../../slices/mySlice';
 import { AiFillEdit } from 'react-icons/ai';
 import { useState, useCallback, useEffect } from 'react';
 import { followUser } from '../../api/userApi';
@@ -167,7 +167,7 @@ const Name = styled.div`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 20px;
+		font-size: ${(props) => props.theme.fontSize.large};
 	}
 `;
 
@@ -183,7 +183,7 @@ const Edit = styled.button`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 16px;
+		font-size: ${(props) => props.theme.fontSize.medium};
 	}
 `;
 
@@ -209,7 +209,6 @@ export const Follower = styled.div`
 		border-radius: ${(props) => props.theme.radius.smallRadius};
 		transition: 0.1s;
 
-		// 임시
 		:hover {
 			opacity: 0.75;
 		}
@@ -223,19 +222,19 @@ export const Follower = styled.div`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 14px;
+		font-size: ${(props) => props.theme.fontSize.small};
 	}
 `;
 
 const Email = styled.div`
 	margin-bottom: 40px;
 	color: ${(props) => props.theme.colors.gray600};
-	font-size: 14px;
+	font-size: ${(props) => props.theme.fontSize.small};
 	font-weight: 300;
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 12px;
+		font-size: ${(props) => props.theme.fontSize.xSmall};
 	}
 `;
 

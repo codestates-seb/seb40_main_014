@@ -309,12 +309,12 @@ const Title = styled.h3`
 		span {
 			margin-left: 5px;
 			color: red;
-			font-size: 16px;
+			font-size: ${(props) => props.theme.fontSize.medium};
 		}
 	}
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 16px;
+		font-size: ${(props) => props.theme.fontSize.medium};
 	}
 `;

@@ -20,7 +20,7 @@ const Background = styled.div`
 	height: 100vh;
 	top: 0;
 	left: 0;
-	background: #ffffffb7;
+	background-color: #ffffffb7;
 	z-index: 9998;
 	display: flex;
 	flex-direction: column;

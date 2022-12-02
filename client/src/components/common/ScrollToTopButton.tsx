@@ -42,12 +42,9 @@ const ScrollToTopButtonStyle = styled.button`
 	bottom: 80px;
 	width: 50px;
 	height: 50px;
-	/* background-color: ${(props) => props.theme.colors.white}; */
 	background-color: #00000069;
 	color: ${(props) => props.theme.colors.white};
 	font-size: ${(props) => props.theme.fontSize.large};
-	/* border: 2px solid ${(props) => props.theme.colors.gray700}; */
-	/* box-shadow: 0 0 1.5px 0 #000000; */
 	border-radius: 50%;
 	transition: 0.2s;
 

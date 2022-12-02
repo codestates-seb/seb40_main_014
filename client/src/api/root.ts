@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// export const root: string | undefined = process.env.REACT_APP_STACK_SERVER_TEST;
 export const root = process.env.REACT_APP_STACK_SERVER;
 
 type config = {
@@ -8,15 +7,10 @@ type config = {
 	baseURL: string | undefined;
 };
 
-const accessToken = localStorage.getItem('accessToken');
-const refreshToken = localStorage.getItem('refreshToken');
-
-console.log('localStorage accessToken ', accessToken);
-
 const axiosConfig: config = {
 	headers: {
 		'Content-Type': 'application/json; charset=UTF-8',
-		Authorization: accessToken,
+		Authorization: localStorage.getItem('accessToken'),
 	},
 	baseURL: root,
 };
@@ -31,25 +25,18 @@ instance.interceptors.response.use(
 	async (error) => {
 		// 액세스 토큰 만료 => 새 액세스 토큰 발급(연장)
 		if (error.response.status === 401) {
-			axios
+			instance
 				.post(
-					`${root}/api/members/refresh`,
+					`/api/members/refresh`,
 					{},
 					{
 						headers: {
-							RefreshToken: refreshToken,
+							RefreshToken: localStorage.getItem('refreshToken'),
 						},
 					},
 				)
 				.then((res) => {
-					const newAccessToken = res.headers.authorization;
-
-					axiosConfig.headers = {
-						'Content-Type': 'application/json; charset=UTF-8',
-						Authorization: newAccessToken,
-					};
-
-					localStorage.setItem('accessToken', newAccessToken);
+					localStorage.setItem('accessToken', res.headers.authorization);
 
 					window.alert('로그인이 연장되었습니다. 새로고침됩니다.');
 					window.location.reload();
@@ -62,8 +49,9 @@ instance.interceptors.response.use(
 					}
 				});
 		}
-
-		return Promise.reject(error);
+		// else {
+		// 	return Promise.reject(error);
+		// }
 	},
 );
 

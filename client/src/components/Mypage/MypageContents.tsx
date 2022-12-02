@@ -1,10 +1,8 @@
 import styled from 'styled-components';
-import Content, { FollowList } from './Content';
+import Content from './Content';
 import { useNavigate, useParams } from 'react-router-dom';
-// Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { SwiperSlide } from 'swiper/react';
 import { Pagination, Navigation } from 'swiper';
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -13,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { myValue } from '../../slices/mySlice';
 import { content } from '../../pages/Mypage';
 
-const MypageContents = ({ id, title, contents }: content) => {
+const MypageContents = ({ id, title, contents, userInfo }: content) => {
 	const navigate = useNavigate();
 	const { userId } = useParams();
 
@@ -73,7 +71,7 @@ const MypageContents = ({ id, title, contents }: content) => {
 								{id === 3 ? (
 									<Content id={id} followlist={ele} />
 								) : (
-									<Content id={id} playlist={ele} />
+									<Content id={id} playlist={ele} userInfo={userInfo} />
 								)}
 							</SwiperSlide>
 						);
@@ -115,14 +113,14 @@ const Roof = styled.div`
 	// Tablet
 	@media screen and (max-width: 980px) {
 		button {
-			font-size: 14px;
+			font-size: ${(props) => props.theme.fontSize.small};
 		}
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
 		padding: 10px 15px;
 		.title {
-			font-size: 14px;
+			font-size: ${(props) => props.theme.fontSize.small};
 		}
 		.button-wrapper {
 			display: flex;
@@ -130,7 +128,7 @@ const Roof = styled.div`
 		}
 		button {
 			margin-left: 10px;
-			font-size: 12px;
+			font-size: ${(props) => props.theme.fontSize.xSmall};
 		}
 		.create-btn {
 			margin-bottom: 5px;

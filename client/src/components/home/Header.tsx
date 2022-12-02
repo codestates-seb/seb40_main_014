@@ -35,24 +35,19 @@ const Header = () => {
 
 	// 로그아웃
 	const handleLogout = () => {
-		logout()
-			.then((res) => {
-				console.log('logout res', res);
-				localStorage.removeItem('accessToken');
-				localStorage.removeItem('refreshToken');
-				dispatch(myLogout());
-				navigate('/');
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		logout().then((res) => {
+			console.log('logout res', res);
+			localStorage.removeItem('accessToken');
+			localStorage.removeItem('refreshToken');
+			dispatch(myLogout());
+			navigate('/');
+		});
 	};
 
 	//마이페이지 이동
 	const handleMypage = () => {
 		navigate(`/mypage/${memberId}`);
 		profileUlRef.current.style.display = 'none';
-		// window.location.reload();
 	};
 
 	const handleOpenModal = useCallback(() => {
@@ -117,7 +112,7 @@ const Header = () => {
 					<>
 						<Profile ref={profileRef}>
 							<Img src={picture} alt="profile" />
-							<div className="on-pc">{name}</div>
+							<Name>{name}</Name>
 							<ProfileUl ref={profileUlRef}>
 								<Triangle>
 									<BsFillTriangleFill />
@@ -189,14 +184,6 @@ const HeaderStyle = styled.div<{ position: string }>`
 	@media screen and (max-width: 980px) {
 		height: 72.406px;
 		padding: 20px 80px;
-		font-size: ${(props) => props.theme.fontSize.medium};
-		z-index: 6666;
-		.on-pc {
-			display: none;
-		}
-		.on-mobile {
-			display: block;
-		}
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
@@ -228,8 +215,8 @@ export const LoginButton = styled.button`
 		color: ${(props) => props.theme.colors.white};
 	}
 
-	// Tablet, Mobile
-	@media screen and (max-width: 980px) {
+	// Mobile
+	@media screen and (max-width: 640px) {
 		color: ${(props) => props.theme.colors.gray800};
 		:hover {
 			color: ${(props) => props.theme.colors.purple};
@@ -257,13 +244,16 @@ const Profile = styled.div`
 	cursor: pointer;
 
 	// Mobile
-	@media screen and (max-width: 980px) {
-		position: absolute;
-		right: 96px;
-	}
 	@media screen and (max-width: 640px) {
 		position: absolute;
 		right: 68px;
+	}
+`;
+
+const Name = styled.div`
+	// Tablet, Mobile
+	@media screen and (max-width: 980px) {
+		display: none;
 	}
 `;
 
@@ -285,7 +275,6 @@ const ProfileUl = styled.ul`
 	display: none;
 	position: absolute;
 	top: 45px;
-	/* left: -11px; */
 	right: 0;
 	padding: 20px;
 	width: 150px;
@@ -307,8 +296,12 @@ const ProfileUl = styled.ul`
 		}
 	}
 
-	// Mobile
+	// Tablet
 	@media screen and (max-width: 980px) {
+		left: -59px;
+	}
+	// Mobile
+	@media screen and (max-width: 640px) {
 		top: 46px;
 		left: -52px;
 		padding: 17px;

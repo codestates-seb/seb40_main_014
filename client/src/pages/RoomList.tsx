@@ -7,12 +7,12 @@ import Room from '../components/home/Room';
 import CreateModal from '../components/room/createModal';
 import { myLogin } from '../slices/mySlice';
 import { PlaylistInfoType } from './PlaylistList';
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import Loading from '../components/common/Loading';
 
 export type RoomInfoType = {
 	maxCount: number;
@@ -43,6 +43,7 @@ export type HostType = {
 const RoomList = () => {
 	const isLogin = useSelector(myLogin);
 
+	const [isLoading, setLoading] = useState(true);
 	const [rooms, setRooms] = useState<RoomInfoType[]>([]);
 	const [roomsByView, setRoomsByView] = useState<RoomInfoType[]>([]);
 	const [roomsByDj, setRoomsByDj] = useState<RoomInfoType[]>([]);
@@ -75,6 +76,7 @@ const RoomList = () => {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
+		setLoading(true);
 		getRooms(currentPage.current, 6)
 			.then((res) => {
 				console.log('getRooms res', res);
@@ -84,6 +86,8 @@ const RoomList = () => {
 				setRooms((prevRooms) => [...prevRooms, ...data]);
 				setHasNextPage(page !== totalPages);
 				if (hasNextPage) currentPage.current += 1;
+
+				setLoading(false);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -152,13 +156,13 @@ const RoomList = () => {
 		<MinHeightWrapper>
 			{isLogin && (
 				<ButtonWrapper>
-					<DefaultButton
+					<MainDefaultButton
 						fontSize="16px"
 						width="105px"
 						height="42px"
 						onClick={modalClose}>
 						방 만들기
-					</DefaultButton>
+					</MainDefaultButton>
 					{modalOpen && (
 						<CreateModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
 					)}
@@ -198,6 +202,7 @@ const RoomList = () => {
 					))}
 				<div ref={observerTargetEl} />
 			</ListStyle>
+			{isLoading && <Loading />}
 		</MinHeightWrapper>
 	);
 };
@@ -213,7 +218,7 @@ export const MinHeightWrapper = styled.div`
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		min-height: calc(100vh - 72.406px - 120px - 212px);
+		min-height: calc(100vh - 72.406px - 80px - 212px);
 	}
 `;
 
@@ -221,6 +226,15 @@ export const ButtonWrapper = styled.div`
 	display: flex;
 	justify-content: flex-end;
 	margin-bottom: 40px;
+`;
+
+export const MainDefaultButton = styled(DefaultButton)`
+	// Mobile
+	@media screen and (max-width: 640px) {
+		width: 90px;
+		height: 40px;
+		font-size: 14px;
+	}
 `;
 
 export const H2 = styled.h2`
@@ -255,12 +269,12 @@ export const SwiperStyle = styled(Swiper)`
 	}
 	.swiper-button-prev:after,
 	.swiper-button-next:after {
-		font-size: 28px;
+		font-size: ${(props) => props.theme.fontSize.xLarge};
 		font-weight: 900;
 
 		// Tablet, Mobile
 		@media screen and (max-width: 980px) {
-			font-size: 20px;
+			font-size: ${(props) => props.theme.fontSize.large};
 		}
 	}
 

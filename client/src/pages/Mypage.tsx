@@ -12,6 +12,7 @@ import {
 import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { MinHeightWrapper } from './RoomList';
+import Loading from '../components/common/Loading';
 import { PlaylistInfoType } from './PlaylistList';
 import { FollowList } from '../components/mypage/Content';
 
@@ -19,6 +20,7 @@ export type content = {
 	id: number;
 	title: string;
 	contents: Array<PlaylistInfoType> | Array<FollowList>;
+	userInfo?: MyInitialStateValue;
 };
 
 const Mypage = () => {
@@ -28,6 +30,7 @@ const Mypage = () => {
 	const myId = useSelector(myValue).memberId;
 	const isLogin = useSelector(myLogin);
 
+	const [isLoading, setLoading] = useState(true);
 	const [userInfo, setUserInfo] =
 		useState<MyInitialStateValue>(myInitialStateValue);
 
@@ -47,6 +50,7 @@ const Mypage = () => {
 				navigate(-1);
 			});
 		} else {
+			setLoading(true);
 			//유저 정보 + 유저 플레이 리스트
 			getUserInfo(Number(userId))
 				.then((res) => {
@@ -59,6 +63,8 @@ const Mypage = () => {
 						copy[0].contents = res.data.playlist.data;
 						return copy;
 					});
+
+					setLoading(false);
 				})
 				.catch((err) => {
 					console.log(err);
@@ -96,7 +102,7 @@ const Mypage = () => {
 
 	return (
 		<MinHeightWrapper>
-			{isLogin && (
+			{!isLoading && isLogin && (
 				<>
 					<MypageInfo userInfo={userInfo} myId={myId} />
 					{contentList.map((ele) => {
@@ -106,11 +112,13 @@ const Mypage = () => {
 								id={ele.id}
 								title={ele.title}
 								contents={ele.contents}
+								userInfo={userInfo}
 							/>
 						);
 					})}
 				</>
 			)}
+			{isLoading && <Loading />}
 		</MinHeightWrapper>
 	);
 };

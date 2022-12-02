@@ -249,7 +249,7 @@ const RoomCount = styled.div<SwiperTrueType>`
 	// Mobile
 	@media screen and (max-width: 640px) {
 		display: ${(props) => (props.swiper ? 'none' : 'block')};
-		font-size: 14px;
+		font-size: ${(props) => props.theme.fontSize.small};
 	}
 `;
 const Lock = styled.div`
@@ -264,7 +264,7 @@ const Lock = styled.div`
 	@media screen and (max-width: 980px) {
 		top: 12px;
 		right: 12px;
-		font-size: 20px;
+		font-size: ${(props) => props.theme.fontSize.large};
 	}
 	@media screen and (max-width: 640px) {
 		top: 8px;

@@ -131,6 +131,6 @@ const Like = styled.span<SwiperTrueType>`
 	// Mobile
 	@media screen and (max-width: 640px) {
 		display: ${(props) => (props.swiper ? 'none' : 'block')};
-		font-size: 14px;
+		font-size: ${(props) => props.theme.fontSize.small};
 	}
 `;
