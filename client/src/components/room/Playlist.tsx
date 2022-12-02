@@ -150,9 +150,13 @@ const PlaylistPart = ({ playlist }) => {
 	};
 	const onReady = (event) => {
 		// access to player in all event handlers via event.target
+		event.target.h.sandbox =
+			'allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation';
 		setPlayer(event.target);
+
 		// event.target.loadPlaylist({ playlist: playlistIdList, startSeconds: 1 });
 		event.target.cuePlaylist({ playlist: playlistIdList, startSeconds: 1 });
+		console.log(event.target.h.sandbox);
 		// event.target.playVideo();
 	};
 
@@ -173,6 +177,7 @@ const PlaylistPart = ({ playlist }) => {
 	const next = () => {
 		if (player) {
 			player.nextVideo();
+			player.seekTo(1);
 			setPlay(true);
 		}
 	};
@@ -180,6 +185,7 @@ const PlaylistPart = ({ playlist }) => {
 	const previous = () => {
 		if (player) {
 			player.previousVideo();
+			player.seekTo(1);
 			setPlay(true);
 		}
 	};
