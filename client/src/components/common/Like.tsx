@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { HiHeart, HiOutlineHeart } from 'react-icons/hi';
+import styled from 'styled-components';
 import { postLike } from '../../api/playlistApi';
 import { plinfo } from '../../pages/PlayListDetail';
 
@@ -11,15 +12,15 @@ export type LikebookmarkType = {
 	memberId: number;
 	likeState?: boolean;
 	bookmarkState?: boolean;
+	likeCount?: number;
 };
 
 const Like = ({
 	playlistId,
 	setPlayListInfo,
 	isLogin,
-	loginId,
-	memberId,
 	likeState,
+	likeCount,
 }: LikebookmarkType) => {
 	const onClickLike = () => {
 		postLike(playlistId).then((res) =>
@@ -35,19 +36,15 @@ const Like = ({
 		<>
 			{isLogin ? (
 				likeState ? (
-					<HiHeart
-						color="#f783ac"
-						size="24"
-						onClick={onClickLike}
-						cursor={'pointer'}
-					/>
+					<LikeStyle onClick={onClickLike}>
+						<HiHeart color="#f783ac" size="24" />
+						<span>{likeCount}</span>
+					</LikeStyle>
 				) : (
-					<HiOutlineHeart
-						color="#f783ac"
-						size="24"
-						onClick={onClickLike}
-						cursor={'pointer'}
-					/>
+					<LikeStyle onClick={onClickLike}>
+						<HiOutlineHeart color="#f783ac" size="24" />
+						<span>{likeCount}</span>
+					</LikeStyle>
 				)
 			) : (
 				<HiHeart color="#f783ac" size="24" />
@@ -57,3 +54,5 @@ const Like = ({
 };
 
 export default Like;
+
+const LikeStyle = styled.button``;

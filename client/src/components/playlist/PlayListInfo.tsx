@@ -25,6 +25,7 @@ const PlayListInfo = ({
 		playlistId: playListInfo.playlistId,
 		likeState: playListInfo.likeState,
 		bookmarkState: playListInfo.bookmarkState,
+		likeCount: playListInfo.like,
 	};
 	return (
 		<PlayListInfoStyle>
@@ -55,10 +56,7 @@ const PlayListInfo = ({
 								</Link>
 							</div>
 							<div>
-								<button>
-									<Like {...likeBookmarkProps} />
-									<span>{playListInfo.like}</span>
-								</button>
+								<Like {...likeBookmarkProps} />
 								<BookMark {...likeBookmarkProps} />
 							</div>
 						</div>

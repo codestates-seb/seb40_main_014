@@ -47,7 +47,7 @@ instance.interceptors.response.use(
 					// };
 
 					window.alert('로그인이 연장되었습니다. 새로고침됩니다.');
-					// window.location.reload();
+					window.location.reload();
 				})
 				.catch((err) => {
 					// 리프레시 토큰 만료 => 로그아웃

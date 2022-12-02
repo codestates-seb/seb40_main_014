@@ -39,10 +39,9 @@ const BookMark = ({
 
 export default BookMark;
 
-const BookmarkStyle = styled.div`
+const BookmarkStyle = styled.button`
 	display: flex;
 	align-items: center;
-	cursor: pointer;
 
 	span {
 		margin-left: 5px;
