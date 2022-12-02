@@ -10,7 +10,6 @@ type config = {
 const axiosConfig: config = {
 	headers: {
 		'Content-Type': 'application/json; charset=UTF-8',
-		Authorization: localStorage.getItem('accessToken'),
 	},
 	baseURL: root,
 };
@@ -38,12 +37,7 @@ instance.interceptors.response.use(
 				.then((res) => {
 					const newAccessToken = res.headers.authorization;
 
-					axiosConfig.headers = {
-						'Content-Type': 'application/json; charset=UTF-8',
-						Authorization: newAccessToken,
-					};
-
-					localStorage.setItem('accessToken', newAccessToken);
+					instance.defaults.headers.Authorization = newAccessToken;
 
 					window.alert('로그인이 연장되었습니다. 새로고침됩니다.');
 					window.location.reload();

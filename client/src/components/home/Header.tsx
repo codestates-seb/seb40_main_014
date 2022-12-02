@@ -184,12 +184,12 @@ const HeaderStyle = styled.div<{ position: string }>`
 	@media screen and (max-width: 980px) {
 		height: 72.406px;
 		padding: 20px 80px;
+		font-size: ${(props) => props.theme.fontSize.medium};
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
 		height: 72.406px;
 		padding: 20px 40px;
-		font-size: ${(props) => props.theme.fontSize.medium};
 		z-index: 6666;
 
 		.on-pc {
