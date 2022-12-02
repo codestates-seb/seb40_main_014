@@ -59,7 +59,7 @@ const Search = () => {
 				setType2Title('유저명');
 			}
 		}
-	}, [query]);
+	}, [query.type1, query.type2, query.q]);
 
 	//* 무한 스크롤
 	const [hasNextPage, setHasNextPage] = useState(true);
@@ -132,12 +132,12 @@ const Search = () => {
 					console.log(err);
 				});
 		}
-	}, [query]);
+	}, [query.type1, query.type2, query.q]);
 
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;
 
-		const io = new IntersectionObserver((entries, observer) => {
+		const io = new IntersectionObserver((entries) => {
 			if (entries[0].isIntersecting) fetch();
 		});
 

@@ -1,6 +1,5 @@
 import Playlist from '../components/home/Playlist';
-import { useState, useEffect, useRef, useCallback, Ref } from 'react';
-import { DefaultButton } from '../components/common/Button';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	ButtonWrapper,
@@ -96,7 +95,7 @@ const PlaylistList = () => {
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;
 
-		const io = new IntersectionObserver((entries, observer) => {
+		const io = new IntersectionObserver((entries) => {
 			if (entries[0].isIntersecting) fetch();
 		});
 

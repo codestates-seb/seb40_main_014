@@ -6,7 +6,7 @@ import Like from '../common/Like';
 import ModifyButton from '../playlistcollection/ModifyButton';
 import { useSelector } from 'react-redux';
 import { myLogin, myValue } from '../../slices/mySlice';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const PlayListInfo = ({
 	playListInfo,
@@ -15,7 +15,6 @@ const PlayListInfo = ({
 }: PlayListInfoProps) => {
 	const isLogin = useSelector(myLogin);
 	const loginId = useSelector(myValue).memberId;
-	const navigate = useNavigate();
 
 	const likeBookmarkProps = {
 		setPlayListInfo,

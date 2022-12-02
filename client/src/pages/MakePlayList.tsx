@@ -120,7 +120,7 @@ const MakePlayList = () => {
 		if (validation(data)) {
 			console.log(data);
 			createPlayList(data)
-				.then((res) => {
+				.then(() => {
 					navigate(`/mypage/${myvalue.memberId}`);
 				})
 				.catch((err) => {
@@ -133,7 +133,7 @@ const MakePlayList = () => {
 		if (validation(data)) {
 			data.playlistId = plId;
 			modifyPlayList(data)
-				.then((res) => {
+				.then(() => {
 					navigate(-1);
 				})
 				.catch((err) => {
