@@ -55,7 +55,7 @@ const RoomList = () => {
 	useEffect(() => {
 		getRoomsByView(1, 7)
 			.then((res) => {
-				console.log('getRoomsByView res', res);
+				// console.log('getRoomsByView res', res);
 
 				setRoomsByView(res.data);
 			})
@@ -65,7 +65,7 @@ const RoomList = () => {
 
 		getRoomsByDj(1, 7)
 			.then((res) => {
-				console.log('getRoomsByDj res', res);
+				// console.log('getRoomsByDj res', res);
 
 				setRoomsByDj(res.data);
 			})
@@ -83,7 +83,7 @@ const RoomList = () => {
 		setLoading(true);
 		getRooms(currentPage.current, 6)
 			.then((res) => {
-				console.log('getRooms res', res);
+				// console.log('getRooms res', res);
 
 				const data = res.data;
 				const { page, totalPages } = res.pageInfo;

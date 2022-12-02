@@ -22,7 +22,7 @@ const Header = () => {
 	const isLogin = useSelector(myLogin);
 
 	useEffect(() => {
-		console.log('isLogin', isLogin);
+		// console.log('isLogin', isLogin);
 	}, [isLogin]);
 
 	const profileRef = useRef<HTMLDivElement>(null);
@@ -35,8 +35,8 @@ const Header = () => {
 
 	// 로그아웃
 	const handleLogout = () => {
-		logout().then((res) => {
-			console.log('logout res', res);
+		logout().then(() => {
+			// console.log('logout res', res);
 			localStorage.removeItem('accessToken');
 			localStorage.removeItem('refreshToken');
 			dispatch(myLogout());

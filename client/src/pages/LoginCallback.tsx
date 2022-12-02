@@ -21,7 +21,7 @@ const LoginCallback = () => {
 			instance.defaults.headers.Authorization = accessToken;
 
 			getUserInfo(Number(memberId)).then((res) => {
-				console.log('getMyInfo res', res);
+				// console.log('getMyInfo res', res);
 
 				dispatch(myInfo(res.data));
 				navigate('/');

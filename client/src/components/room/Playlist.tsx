@@ -154,7 +154,7 @@ const PlaylistPart = ({ playlist }) => {
 
 		// event.target.loadPlaylist({ playlist: playlistIdList, startSeconds: 1 });
 		event.target.cuePlaylist({ playlist: playlistIdList, startSeconds: 1 });
-		console.log(event.target.h.sandbox);
+		// console.log(event.target.h.sandbox);
 		// event.target.playVideo();
 	};
 

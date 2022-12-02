@@ -55,7 +55,7 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 
 	const handleFollow = () => {
 		followUser(memberId).then((res) => {
-			console.log('follow res', res);
+			// console.log('follow res', res);
 
 			const { follow, followState } = res.data;
 
