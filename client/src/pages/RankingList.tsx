@@ -20,13 +20,15 @@ const RankingList = () => {
 	const [rankings, setRankings] = useState<RankingInfoType[]>([]);
 
 	useEffect(() => {
-		getRanking().then((res) => {
-			console.log('ranking res', res);
+		getRanking()
+			.then((res) => {
+				console.log('ranking res', res);
 
-			if (res.data) {
 				setRankings(res.data);
-			}
-		});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}, []);
 
 	return (
@@ -41,11 +43,10 @@ const RankingList = () => {
 					<div>팔로워</div>
 					<div>플리 좋아요</div>
 				</Title>
-				{rankings.length
-					? rankings.map((ranking, idx) => (
-							<Ranking ranking={ranking} key={idx} />
-					  ))
-					: null}
+				{rankings &&
+					rankings.map((ranking, idx) => (
+						<Ranking ranking={ranking} key={idx} />
+					))}
 			</Rankings>
 		</RankingListStyle>
 	);

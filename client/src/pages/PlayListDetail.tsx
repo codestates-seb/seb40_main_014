@@ -51,14 +51,16 @@ const PlayListDetail = () => {
 				navigate(-1);
 			});
 		} else {
-			getPlayList(id).then((res) => {
-				if (res.data) {
+			getPlayList(id)
+				.then((res) => {
 					setPlayListInfo(res.data);
 					getUserInfo(res.data.memberId).then((res) =>
 						setPicture(res.data.picture),
 					);
-				}
-			});
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		}
 	}, []);
 

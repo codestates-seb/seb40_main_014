@@ -48,21 +48,25 @@ const RoomList = () => {
 	const [roomsByDj, setRoomsByDj] = useState<RoomInfoType[]>([]);
 
 	useEffect(() => {
-		getRoomsByView(1, 7).then((res) => {
-			console.log('getRoomsByView res', res);
+		getRoomsByView(1, 7)
+			.then((res) => {
+				console.log('getRoomsByView res', res);
 
-			if (res.data) {
 				setRoomsByView(res.data);
-			}
-		});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 
-		getRoomsByDj(1, 7).then((res) => {
-			console.log('getRoomsByDj res', res);
+		getRoomsByDj(1, 7)
+			.then((res) => {
+				console.log('getRoomsByDj res', res);
 
-			if (res.data) {
 				setRoomsByDj(res.data);
-			}
-		});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}, []);
 
 	//* 무한 스크롤
@@ -71,17 +75,19 @@ const RoomList = () => {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
-		getRooms(currentPage.current, 6).then((res) => {
-			console.log('getRooms res', res);
+		getRooms(currentPage.current, 6)
+			.then((res) => {
+				console.log('getRooms res', res);
 
-			if (res.data) {
 				const data = res.data;
 				const { page, totalPages } = res.pageInfo;
 				setRooms((prevRooms) => [...prevRooms, ...data]);
 				setHasNextPage(page !== totalPages);
 				if (hasNextPage) currentPage.current += 1;
-			}
-		});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}, []);
 
 	useEffect(() => {
@@ -159,7 +165,7 @@ const RoomList = () => {
 				</ButtonWrapper>
 			)}
 			<H2>가장 많은 청취자가 있는 방송</H2>
-			{roomsByView.length ? (
+			{roomsByView && (
 				<SwiperStyle {...settings} onInit={onInit1}>
 					{roomsByView.map((room: RoomInfoType) => (
 						<SwiperSlide
@@ -170,9 +176,9 @@ const RoomList = () => {
 						</SwiperSlide>
 					))}
 				</SwiperStyle>
-			) : null}
+			)}
 			<H2>인기 DJ 방송</H2>
-			{roomsByDj.length ? (
+			{roomsByDj && (
 				<SwiperStyle {...settings} onInit={onInit2}>
 					{roomsByDj.map((room: RoomInfoType) => (
 						<SwiperSlide
@@ -183,14 +189,13 @@ const RoomList = () => {
 						</SwiperSlide>
 					))}
 				</SwiperStyle>
-			) : null}
+			)}
 			<H2>전체</H2>
 			<ListStyle>
-				{rooms.length
-					? rooms.map((room: RoomInfoType) => (
-							<Room room={room} key={room.roomId} />
-					  ))
-					: null}
+				{rooms &&
+					rooms.map((room: RoomInfoType) => (
+						<Room room={room} key={room.roomId} />
+					))}
 				<div ref={observerTargetEl} />
 			</ListStyle>
 		</MinHeightWrapper>

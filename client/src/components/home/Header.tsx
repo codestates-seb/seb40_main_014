@@ -35,13 +35,17 @@ const Header = () => {
 
 	// 로그아웃
 	const handleLogout = () => {
-		logout().then((res) => {
-			console.log('logout res', res);
-			localStorage.removeItem('accessToken');
-			localStorage.removeItem('refreshToken');
-			dispatch(myLogout());
-			navigate('/');
-		});
+		logout()
+			.then((res) => {
+				console.log('logout res', res);
+				localStorage.removeItem('accessToken');
+				localStorage.removeItem('refreshToken');
+				dispatch(myLogout());
+				navigate('/');
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	};
 
 	//마이페이지 이동
@@ -185,6 +189,14 @@ const HeaderStyle = styled.div<{ position: string }>`
 	@media screen and (max-width: 980px) {
 		height: 72.406px;
 		padding: 20px 80px;
+		font-size: ${(props) => props.theme.fontSize.medium};
+		z-index: 6666;
+		.on-pc {
+			display: none;
+		}
+		.on-mobile {
+			display: block;
+		}
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
@@ -216,8 +228,8 @@ export const LoginButton = styled.button`
 		color: ${(props) => props.theme.colors.white};
 	}
 
-	// Mobile
-	@media screen and (max-width: 640px) {
+	// Tablet, Mobile
+	@media screen and (max-width: 980px) {
 		color: ${(props) => props.theme.colors.gray800};
 		:hover {
 			color: ${(props) => props.theme.colors.purple};
@@ -245,6 +257,10 @@ const Profile = styled.div`
 	cursor: pointer;
 
 	// Mobile
+	@media screen and (max-width: 980px) {
+		position: absolute;
+		right: 96px;
+	}
 	@media screen and (max-width: 640px) {
 		position: absolute;
 		right: 68px;
@@ -269,7 +285,8 @@ const ProfileUl = styled.ul`
 	display: none;
 	position: absolute;
 	top: 45px;
-	left: -11px;
+	/* left: -11px; */
+	right: 0;
 	padding: 20px;
 	width: 150px;
 	background-color: ${(props) => props.theme.colors.background};
@@ -291,7 +308,7 @@ const ProfileUl = styled.ul`
 	}
 
 	// Mobile
-	@media screen and (max-width: 640px) {
+	@media screen and (max-width: 980px) {
 		top: 46px;
 		left: -52px;
 		padding: 17px;

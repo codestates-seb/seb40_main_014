@@ -45,11 +45,13 @@ const ModifyButton = ({
 							navigate(-1);
 						}
 						if (pathname === 'playlistcollection') {
-							getUserInfo(Number(userId)).then((res) => {
-								if (res.data) {
+							getUserInfo(Number(userId))
+								.then((res) => {
 									setPlayLists(res.data.playlist.data);
-								}
-							});
+								})
+								.catch((err) => {
+									console.log(err);
+								});
 						}
 					}
 				});
@@ -86,6 +88,7 @@ const ModifyButtonStyle = styled.div<ModifyButtonProps>`
 	// Mobile
 	@media screen and (max-width: 640px) {
 		justify-content: flex-end;
+		margin-top: 10px;
 
 		button {
 			margin-left: 10px;
