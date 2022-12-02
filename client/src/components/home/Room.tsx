@@ -102,15 +102,11 @@ const Room = ({ room, swiper }: RoomType) => {
 				<Categorys>
 					{categoryList &&
 						categoryList.map((el, idx) => (
-							<Category
-								category={el}
-								margin="0 4px 0 0"
-								key={idx}
-								swiper={swiper}>
-								<Link to={`/search?type1=room&type2=category&q=${el}`}>
+							<Link key={idx} to={`/search?type1=room&type2=category&q=${el}`}>
+								<Category category={el} margin="0 4px 0 0" swiper={swiper}>
 									{el}
-								</Link>
-							</Category>
+								</Category>
+							</Link>
 						))}
 				</Categorys>
 				<RoomCount swiper={swiper}>

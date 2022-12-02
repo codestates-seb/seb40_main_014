@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { PlaylistInfoType } from '../pages/PlaylistList';
 import { RootState } from '../store/store';
 
 export type MyInitialStateValue = {
@@ -13,7 +14,7 @@ export type MyInitialStateValue = {
 	role: string;
 	createdAt: string;
 	modifiedAt: string;
-	playlist: any;
+	playlist: Array<PlaylistInfoType>;
 	content: string;
 };
 

@@ -24,7 +24,7 @@ export type RoomInfoType = {
 	secreat: boolean;
 	title: string;
 	userCount: number;
-	userlist: any;
+	userlist: Array<string>;
 };
 
 export type HostType = {
