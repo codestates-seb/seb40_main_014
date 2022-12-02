@@ -50,7 +50,7 @@ const PlaylistList = () => {
 
 				setPlaylistsByLike(res.data);
 			})
-			.then((err) => {
+			.catch((err) => {
 				console.log(err);
 			});
 

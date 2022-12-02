@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { myLogout } from '../slices/mySlice';
 
 // export const root: string | undefined = process.env.REACT_APP_STACK_SERVER_TEST;
 export const root = process.env.REACT_APP_STACK_SERVER;
@@ -44,14 +42,14 @@ instance.interceptors.response.use(
 					},
 				)
 				.then((res) => {
-					const newAccessToken = res.headers.authorization;
+					// const newAccessToken = res.headers.authorization;
 
-					axiosConfig.headers = {
-						'Content-Type': 'application/json; charset=UTF-8',
-						Authorization: newAccessToken,
-					};
+					// axiosConfig.headers = {
+					// 	'Content-Type': 'application/json; charset=UTF-8',
+					// 	Authorization: newAccessToken,
+					// };
 
-					localStorage.setItem('accessToken', newAccessToken);
+					localStorage.setItem('accessToken', res.headers.authorization);
 
 					window.alert('로그인이 연장되었습니다. 새로고침됩니다.');
 					window.location.reload();

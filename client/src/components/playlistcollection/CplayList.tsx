@@ -6,7 +6,6 @@ import { followUser } from '../../api/userApi';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { myLogin } from '../../slices/mySlice';
 import BookMark from '../common/BookMark';
-import { Intro } from '../mypage/Content';
 import { Follower } from '../mypage/MypageInfo';
 import ModifyButton from './ModifyButton';
 
@@ -158,8 +157,11 @@ export const Title = styled.h4`
 	}
 `;
 
-const Detail = styled(Intro)`
+const Detail = styled.div`
 	margin-left: 10px;
+	color: ${(props) => props.theme.colors.gray500};
+	font-size: 14px;
+
 	overflow: hidden;
 	text-overflow: ellipsis;
 	display: -webkit-box;

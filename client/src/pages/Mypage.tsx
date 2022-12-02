@@ -104,6 +104,7 @@ const Mypage = () => {
 								id={ele.id}
 								title={ele.title}
 								contents={ele.contents}
+								userInfo={userInfo}
 							/>
 						);
 					})}

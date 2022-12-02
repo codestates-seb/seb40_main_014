@@ -2,15 +2,17 @@ import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
+import { MyInitialStateValue } from '../../slices/mySlice';
 import { Img, LinkRoom, RoomStyle, Thumbnail } from '../home/Room';
 
 type ContentType = {
 	id: number;
 	playlist?: PlaylistInfoType;
 	followlist?: any;
+	userInfo?: MyInitialStateValue;
 };
 
-const Content = ({ id, playlist, followlist }: ContentType) => {
+const Content = ({ id, playlist, followlist, userInfo }: ContentType) => {
 	return (
 		<>
 			{id === 3 ? (
@@ -21,9 +23,9 @@ const Content = ({ id, playlist, followlist }: ContentType) => {
 								<FollowImg src={followlist.picture} alt="프로필" />
 							</FollowThumbnail>
 							<Name>{followlist.name}</Name>
-							<Intro>
+							<Detail>
 								{followlist.content || '등록된 자기소개가 없습니다.'}
-							</Intro>
+							</Detail>
 						</LinkRoom>
 					</Link>
 				</RoomStyle>
@@ -35,6 +37,7 @@ const Content = ({ id, playlist, followlist }: ContentType) => {
 								<Img src={playlist.playlistItems[0].thumbnail} alt="썸네일" />
 							</Thumbnail>
 							<Name>{playlist.title}</Name>
+							<Detail>{userInfo.name || playlist.name}</Detail>
 						</LinkRoom>
 					</Link>
 				</RoomStyle>
@@ -79,7 +82,7 @@ const Name = styled.div`
 	}
 `;
 
-export const Intro = styled.div`
+export const Detail = styled.div`
 	color: ${(props) => props.theme.colors.gray500};
 	font-size: 14px;
 	text-align: center;

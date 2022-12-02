@@ -9,15 +9,21 @@ import 'swiper/css/navigation';
 import { PlaylistInfoType } from '../../pages/PlaylistList';
 import { SwiperStyle } from '../../pages/RoomList';
 import { useSelector } from 'react-redux';
-import { myValue } from '../../slices/mySlice';
+import { MyInitialStateValue, myValue } from '../../slices/mySlice';
 
 type MypageContentsType = {
 	title?: string;
 	contents?: Array<PlaylistInfoType>;
 	id: number;
+	userInfo: MyInitialStateValue;
 };
 
-const MypageContents = ({ id, title, contents }: MypageContentsType) => {
+const MypageContents = ({
+	id,
+	title,
+	contents,
+	userInfo,
+}: MypageContentsType) => {
 	const navigate = useNavigate();
 	const { userId } = useParams();
 
@@ -77,7 +83,7 @@ const MypageContents = ({ id, title, contents }: MypageContentsType) => {
 								{id === 3 ? (
 									<Content id={id} followlist={ele} />
 								) : (
-									<Content id={id} playlist={ele} />
+									<Content id={id} playlist={ele} userInfo={userInfo} />
 								)}
 							</SwiperSlide>
 						);
