@@ -16,7 +16,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
 
-    Member memberPostDtoToMember(MemberPostDto memberPostDto);
     Member memberPatchDtoToMember(MemberPatchDto memberPatchDto);
 
     List<MemberResponseDto> memberListToMemberResponseDtoList(List<Member> memberList);
@@ -97,17 +96,11 @@ public interface MemberMapper {
         if (followState == false) {
             memberResponseDto.follow(member.getFollows().size() - 1);
         }
-
-//        memberResponseDto.rank( member.getRanking().getRank() );
         memberResponseDto.role(member.getRole());
         memberResponseDto.createdAt(member.getCreatedAt());
         memberResponseDto.modifiedAt(member.getModifiedAt());
 
         List<Playlist> playlistList = member.getPlaylists();
-//                .stream()
-//                .skip(5 * playlistPage)
-//                .limit(5)
-//                .collect(Collectors.toList());
 
         PageImpl page = new PageImpl<>(playlistList);
         MultiResponseDto<SimplePlaylistResponseDto> multiResponseDto =

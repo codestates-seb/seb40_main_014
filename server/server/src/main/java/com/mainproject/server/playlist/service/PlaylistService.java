@@ -39,10 +39,6 @@ public class PlaylistService {
     private final MemberRepository memberRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatService chatService;
-    private final String KEY = "Ranking";
-
-    @Resource(name = "redisTemplate")
-    private ZSetOperations<String, String> zSetOperations;
 
     // 플리 생성
     public Playlist createPlaylist(Playlist playlist, PlaylistPostDto playlistPostDto) {
@@ -167,7 +163,7 @@ public class PlaylistService {
             // Repository에서 삭제
             likeRepository.delete(LikePlaylist);
             // 랭킹합산에서 점수 - 1
-            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size() + Score - 1));
+            member.setScore(member.getFollows().size() + Score - 1);
         }
         // Like 처리 LikeCount != 1
         else {
@@ -180,7 +176,7 @@ public class PlaylistService {
             likeRepository.save(LikePlaylist);
 
             // 랭킹합산에서도 점수 + 1
-            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size() + Score + 1));
+            member.setScore(member.getFollows().size() + Score + 1);
         }
     }
 
