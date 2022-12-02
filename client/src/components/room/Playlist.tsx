@@ -185,6 +185,7 @@ const PlaylistPart = ({ playlist }) => {
 	const previous = () => {
 		if (player) {
 			player.previousVideo();
+			player.seekTo(1);
 			setPlay(true);
 		}
 	};
