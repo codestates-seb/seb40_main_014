@@ -20,7 +20,7 @@ const LoginCallback = () => {
 
 			getMyInfo(Number(memberId), localStorage.getItem('accessToken')).then(
 				(res) => {
-					console.log('getMyInfo res', res);
+					// console.log('getMyInfo res', res);
 
 					dispatch(myInfo(res.data));
 					navigate('/');

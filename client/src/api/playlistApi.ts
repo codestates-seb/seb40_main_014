@@ -56,7 +56,7 @@ export const createPlayList = async (playlistInfo: plinfo) => {
 	try {
 		let result;
 		if (isTest) {
-			console.log(isTest);
+			// console.log(isTest);
 			result = await instance.post('/playlist', playlistInfo);
 		} else {
 			result = await instance.post(`/api/playlists`, playlistInfo);

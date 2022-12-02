@@ -54,7 +54,7 @@ const Mypage = () => {
 			//유저 정보 + 유저 플레이 리스트
 			getUserInfo(Number(userId))
 				.then((res) => {
-					console.log('getUserInfo res', res);
+					// console.log('getUserInfo res', res);
 
 					setUserInfo(res.data);
 					setContentList((prev) => {
@@ -72,7 +72,7 @@ const Mypage = () => {
 			//유저가 보관한 플레이리스트
 			getBookmarkList(Number(userId))
 				.then((res) => {
-					console.log('getBookmarkList res', res);
+					// console.log('getBookmarkList res', res);
 
 					setContentList((prev) => {
 						const copy = [...prev];
@@ -86,7 +86,7 @@ const Mypage = () => {
 			//유저가 팔로우 한 사람들
 			getFollowList(Number(userId))
 				.then((res) => {
-					console.log('getFollowList res', res);
+					// console.log('getFollowList res', res);
 
 					setContentList((prev) => {
 						const copy = [...prev];
