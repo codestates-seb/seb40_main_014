@@ -52,7 +52,7 @@ const BadgeStyle = styled.div<BadgeProps>`
 		height: 12px;
 		border-radius: 50%;
 		background-color: ${(props) =>
-			props.grade === 'silver'
+			props.grade === 'SILVER'
 				? props.theme.colors.gray600
 				: props.grade === 'GOLD'
 				? '#fab005'

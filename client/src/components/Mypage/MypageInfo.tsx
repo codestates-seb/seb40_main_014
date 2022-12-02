@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import { MyInitialStateValue, myValue } from '../../slices/mySlice';
-import { AiFillEdit } from 'react-icons/ai';
-import { useState, useCallback, useEffect } from 'react';
+import { AiFillEdit, AiFillInfoCircle } from 'react-icons/ai';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { followUser } from '../../api/userApi';
 import Badge from '../common/Badge';
 import EditProfileModal from './EditProfileModal';
 import { ModalBackdrop } from '../home/LoginModal';
 import { useSelector } from 'react-redux';
+import { Info, InfoText, Title } from '../../pages/RoomList';
 
 type MypageInfoType = {
 	userInfo: MyInitialStateValue;
@@ -14,6 +15,9 @@ type MypageInfoType = {
 };
 
 const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
+	const infoRef = useRef(null);
+	const infoTextRef = useRef(null);
+
 	const {
 		memberId,
 		name,
@@ -60,13 +64,60 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 		});
 	};
 
+	//* 등급 정보창 오픈
+	const handleOpenInfoText = ({ target }) => {
+		if (!infoRef.current) return;
+
+		if (infoRef.current.contains(target)) {
+			infoTextRef.current.style.display = 'block';
+		} else {
+			infoTextRef.current.style.display = 'none';
+		}
+	};
+
+	useEffect(() => {
+		window.addEventListener('mouseover', handleOpenInfoText);
+		return () => {
+			window.removeEventListener('mouseover', handleOpenInfoText);
+		};
+	});
+
 	return (
 		<>
 			<Wrapper>
 				<Top>
 					<Img src={picture} alt="프로필" />
-					<Info>
-						<Badge grade={grade} margin="0px 0px 15px 0px" />
+					<MyInfo>
+						<Title>
+							<Badge grade={grade} margin="0px 0px 15px 0px" />
+							<Info ref={infoRef}>
+								<AiFillInfoCircle
+									color="#a3a3a3"
+									cursor="pointer"
+									fontSize="14px"
+								/>
+								<InfoText ref={infoTextRef}>
+									<BadgeInfo>
+										<div>
+											<Badge grade="SILVER" />
+											<span>이상</span>
+										</div>
+										<div>
+											<Badge grade="GOLD" />
+											<span>이상</span>
+										</div>
+										<div>
+											<Badge grade="VIP" />
+											<span>이상</span>
+										</div>
+										<div>
+											<Badge grade="LUVIP" />
+											<span>이상</span>
+										</div>
+									</BadgeInfo>
+								</InfoText>
+							</Info>
+						</Title>
 						<div>
 							<Name>{myId === memberId ? myName : name}</Name>
 							{myId === memberId && (
@@ -85,7 +136,7 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 								</button>
 							)}
 						</Follower>
-					</Info>
+					</MyInfo>
 				</Top>
 				<Bottom>
 					{myId === memberId && (
@@ -153,10 +204,34 @@ const Img = styled.img`
 	}
 `;
 
-const Info = styled.div`
+const MyInfo = styled.div`
 	> div:nth-of-type(2) {
 		display: flex;
 		margin-bottom: 15px;
+	}
+`;
+
+const BadgeInfo = styled.div`
+	> div {
+		display: flex;
+		> *:first-of-type {
+			width: 61.198px;
+		}
+		span {
+			margin-left: 7px;
+		}
+	}
+	> div:nth-of-type(1) {
+		color: ${(props) => props.theme.colors.gray600};
+	}
+	> div:nth-of-type(2) {
+		color: #f59f00;
+	}
+	> div:nth-of-type(3) {
+		color: ${(props) => props.theme.colors.purple};
+	}
+	> div:nth-of-type(4) {
+		color: ${(props) => props.theme.colors.pink};
 	}
 `;
 
