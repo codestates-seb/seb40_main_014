@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getBookmarkList, getFollowList, getUserInfo } from '../api/userApi';
-import MypageContents from '../components/Mypage/MypageContents';
-import MypageInfo from '../components/Mypage/MypageInfo';
+import MypageContents from '../components/mypage/MypageContents';
+import MypageInfo from '../components/mypage/MypageInfo';
 import {
 	myInitialStateValue,
 	MyInitialStateValue,

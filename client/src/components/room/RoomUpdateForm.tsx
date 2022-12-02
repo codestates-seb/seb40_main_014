@@ -101,13 +101,6 @@ const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen, title }) => {
 			})
 			.then(() => setModalOpen(!modalOpen))
 			.catch((err) => console.log(err));
-		// axios
-		// 	.post(
-		// 		`${process.env.REACT_APP_STACK_SERVER_TEST}/rooms/update`,
-		// 		UpdateRoomInfo,
-		// 	)
-		// 	.then((res) => console.log(res))
-		// 	.catch((err) => console.log(err));
 	};
 
 	const onCheck = () => {
