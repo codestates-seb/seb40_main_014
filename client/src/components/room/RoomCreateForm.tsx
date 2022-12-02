@@ -4,14 +4,11 @@ import styled from 'styled-components';
 import AddModal from './addModal';
 import { DefaultButton } from '../common/Button';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { myLogin } from '../../slices/mySlice';
-import { currentRoomInfo } from '../../slices/roomSlice';
-import instance, { root } from '../../api/root';
 import { createRoom } from '../../api/roomApi';
-import { getMyInfo, getBookmarkList, getUserInfo } from '../../api/userApi';
+import { getBookmarkList, getUserInfo } from '../../api/userApi';
 import Swal from 'sweetalert2';
 
 export type roomInfo = {
@@ -145,13 +142,7 @@ const RoomCreateForm = () => {
 				icon: 'warning',
 				text: '로그인 후 생성하실 수 있습니다.',
 			});
-			// alert('로그인 후 생성하실 수 있습니다.');
 		} else {
-			// createRoom(CreateRoomInfo).then((res) => {
-			// 	if (res.data) {
-			// 		navigate(`rooms/${res.data.roomId}`);
-			// 	}
-			// });
 			createRoom(CreateRoomInfo)
 				.then((res) => {
 					navigate(`rooms/${res.data.roomId}`);
@@ -213,10 +204,6 @@ const RoomCreateForm = () => {
 							value: 4,
 							message: '비밀번호는 4자 이하여야 합니다.',
 						},
-						// pattern: {
-						// 	value: /[0,9]/,
-						// 	message: '비밀번호는 4자 이하의 숫자여야 합니다.',
-						// },
 					})}
 					placeholder="비밀번호 설정 시 4자 이하여야 합니다."
 					autoComplete="off"

@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getRoomById } from '../../api/roomApi';
-import { GiChessKing, GiConsoleController } from 'react-icons/gi';
+import { GiChessKing } from 'react-icons/gi';
 import { AiTwotoneHome } from 'react-icons/ai';
 import { followUser, getAllUserInfo, getFollowList } from '../../api/userApi';
 import { useSelector } from 'react-redux';

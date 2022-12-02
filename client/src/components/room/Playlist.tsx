@@ -6,11 +6,9 @@ import { TbPlayerPause } from 'react-icons/tb';
 import { GoMute } from 'react-icons/go';
 import YouTube, { YouTubeProps } from 'react-youtube';
 import Loading from '../common/Loading';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import playSvg from '../../assets/images/play.json';
 import Lottie from 'lottie-react';
-
-// import ReactPlayer from 'react-player/youtube';
 
 const PlaylistSection = styled.div`
 	width: 230px;
@@ -136,23 +134,6 @@ const LottieContainer = styled.span`
 `;
 
 const PlaylistPart = ({ playlist }) => {
-	// const [playlist, setPlaylist] = useState<PlayListInfoProps[]>([]);
-	// const [videoId, setVideoId] = useState<string>('');
-	// const [play, setPlay] = useState(false);
-	// const params = useParams();
-	// const roomId = params.id;
-
-	// useEffect(() => {
-	// 	getRoomById(roomId)
-	// 		.then((res) =>
-	// 			setPlaylist(res.data.playlistResponseDto.playlistItems),
-	// 		)
-	// 		.then(() => {
-	// 			setThumbnail(playlist[0].thumbnail);
-	// 			setVideoId(playlist[0].videoId);
-	// 		})
-	// 		.catch((err) => console.log(err));
-	// }, []);
 	const [player, setPlayer] = useState<any>(null);
 	const [play, setPlay] = useState<boolean>(false);
 	const [playlistIdList, setPlaylistIdList] = useState<string[]>([]);
@@ -173,14 +154,6 @@ const PlaylistPart = ({ playlist }) => {
 		event.target.cuePlaylist({ playlist: playlistIdList, startSeconds: 1 });
 		// event.target.playVideo();
 	};
-
-	// useEffect(() => {
-	// 	if (player) {
-	// 		console.log('reload');
-	// 		player.pauseVideo();
-	// 		setPlay(false);
-	// 	}
-	// }, [player]);
 
 	const pause = () => {
 		if (player) {
@@ -231,20 +204,6 @@ const PlaylistPart = ({ playlist }) => {
 	useEffect(() => {
 		playlist.map((e) => setPlaylistIdList((prev) => [...prev, e.videoId]));
 	}, [playlist]);
-
-	// if (player) {
-	// 	player.loadPlaylist(playlistIdList);
-	// 	console.log('렌더링 되고있음');
-	// }
-
-	// useEffect(() => {
-	// 	if (playlistIdList.length !== 0) {
-	// 		player.loadPlaylist(playlistIdList);
-	// 		console.log('h');
-	// 	} else {
-	// 		return;
-	// 	}
-	// }, playlistIdList);
 
 	return (
 		<PlaylistSection>
