@@ -68,8 +68,8 @@ const Ul = styled.ul`
 		}
 	}
 
-	// Tablet
-	@media screen and (max-width: 980px) {
+	// 14inch, Tablet
+	@media screen and (max-width: 1512px) {
 		li {
 			padding: 5px;
 			margin: 0 10px;
