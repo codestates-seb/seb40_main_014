@@ -1,28 +1,8 @@
-import instance, { isTest } from './root';
-
-export const getMyInfo = async (memberId: number, accessToken: string) => {
-	try {
-		const result = await instance.get(`/api/members/${memberId}`, {
-			headers: {
-				'Content-Type': 'application/json; charset=UTF-8',
-				Authorization: accessToken,
-			},
-		});
-
-		return result.data;
-	} catch (err) {
-		return err;
-	}
-};
+import instance from './root';
 
 export const getUserInfo = async (memberId: number) => {
 	try {
-		let result;
-		if (isTest) {
-			result = await instance.get(`/mypage`);
-		} else {
-			result = await instance.get(`/api/members/${memberId}`);
-		}
+		const result = await instance.get(`/api/members/${memberId}`);
 		return result.data;
 	} catch (err) {
 		return err;
