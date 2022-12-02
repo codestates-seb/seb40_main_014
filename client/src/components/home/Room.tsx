@@ -27,7 +27,7 @@ const Room = ({ room, swiper }: RoomType) => {
 		room.memberResponseDto || room.rankChatRoomSimpleDto;
 	const { categoryList, playlistItems } = room.playlistResponseDto;
 
-	const onClickLinkRoom = (e) => {
+	const onClickLinkRoom = () => {
 		if (!isLogin) {
 			Swal.fire({
 				icon: 'warning',

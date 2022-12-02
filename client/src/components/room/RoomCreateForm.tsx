@@ -62,7 +62,6 @@ const TitleInput = styled(DefaultInput)``;
 const PasswordInput = styled(DefaultInput)``;
 const PasswordCheckInput = styled.input``;
 const PlaylistInput = styled(DefaultInput)``;
-const PeopleInput = styled(DefaultInput)``;
 
 const CreateRoomBtn = styled.button`
 	background-color: ${(props) => props.theme.colors.purple};
@@ -103,7 +102,6 @@ const RoomCreateForm = () => {
 	const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
 	const [playlist, setPlaylist] = useState([]);
 	const [bookMarkPlaylist, setBookMarkPlaylist] = useState([]);
-	const accessToken = localStorage.getItem('accessToken');
 	const [selectedPlaylist, setSelectedPlaylist] = useState({
 		title: '',
 		playlistId: 0,
