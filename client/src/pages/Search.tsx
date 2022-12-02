@@ -128,7 +128,7 @@ const Search = () => {
 				{type1Title} <IoIosArrowForward /> {type2Title} <IoIosArrowForward />{' '}
 				{q} 의 검색 결과
 			</H2>
-			{posts && (
+			{posts.length ? (
 				<ListStyle>
 					{type1 === 'room' &&
 						posts.map((room: RoomInfoType) => (
@@ -157,6 +157,8 @@ const Search = () => {
 							<User user={user} key={user.memberId} />
 						))}
 				</ListStyle>
+			) : (
+				'검색 결과가 없습니다.'
 			)}
 			<div ref={observerTargetEl} />
 		</MinHeightWrapper>

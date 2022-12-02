@@ -9,6 +9,8 @@ const GlobalStyle = createGlobalStyle`
     position: relative;
     width: 100vw;
     height: 100vh;
+    margin: 0 !important;
+    padding: 0 !important;
     background-color: ${(props) => props.theme.colors.background};
     font-family: 'Noto Sans KR', sans-serif;
     color: ${(props) => props.theme.colors.gray900};
@@ -42,7 +44,7 @@ const GlobalStyle = createGlobalStyle`
     color: inherit;
   }
 
-  select{
+  select {
     border: none;
     outline: none;
     font-family: inherit;
@@ -52,7 +54,7 @@ const GlobalStyle = createGlobalStyle`
 
   .swal2-container {
     z-index: 9999 !important;
-    white-space: pre-line
+    white-space: pre-line;
   }
 `;
 
