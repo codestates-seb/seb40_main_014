@@ -158,11 +158,12 @@ export const Img = styled.img`
 
 export const Title = styled.h3<SwiperTrueType>`
 	text-align: left;
-	height: 36px;
+	height: 50.396px;
 	margin-bottom: 10px;
 	font-weight: 600;
 	font-size: 18px;
 	cursor: pointer;
+	line-height: 1.4em;
 
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -178,7 +179,7 @@ export const Title = styled.h3<SwiperTrueType>`
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
-		height: 28px;
+		height: 44.792px;
 		font-size: ${(props) => (props.swiper ? '14px' : '16px')};
 	}
 `;

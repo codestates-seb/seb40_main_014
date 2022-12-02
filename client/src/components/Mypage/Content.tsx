@@ -74,6 +74,7 @@ const FollowImg = styled(Img)`
 const Name = styled.div`
 	text-align: center;
 	margin-bottom: 10px;
+	line-height: 1.4em;
 
 	overflow: hidden;
 	text-overflow: ellipsis;

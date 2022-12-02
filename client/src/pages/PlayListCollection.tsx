@@ -107,6 +107,16 @@ const PlayListsWrapper = styled.div`
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	overflow-y: scroll;
 
+	max-height: calc(100vh - 74px - 120px - 234px - 88px);
+	// Tablet
+	@media screen and (max-width: 980px) {
+		max-height: calc(100vh - 72.406px - 120px - 234px - 88px);
+	}
+	// Mobile
+	@media screen and (max-width: 640px) {
+		max-height: calc(100vh - 72.406px - 80px - 212px - 84px);
+	}
+
 	// 스크롤바
 	::-webkit-scrollbar {
 		display: none;

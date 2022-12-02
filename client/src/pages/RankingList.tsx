@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { getRanking } from '../api/rankingApi';
 import Ranking from '../components/ranking/Ranking';
-import { MinHeightWrapper } from './RoomList';
+import { Info, InfoText, MinHeightWrapper, Title } from './RoomList';
+import { AiFillInfoCircle } from 'react-icons/ai';
 
 export type RankingInfoType = {
 	name: string;
@@ -17,6 +18,9 @@ export type RankingInfoType = {
 };
 
 const RankingList = () => {
+	const infoRef = useRef(null);
+	const infoTextRef = useRef(null);
+
 	const [rankings, setRankings] = useState<RankingInfoType[]>([]);
 
 	useEffect(() => {
@@ -31,18 +35,46 @@ const RankingList = () => {
 			});
 	}, []);
 
+	// 정보창 오픈
+	const handleOpenInfoText = ({ target }) => {
+		if (!infoRef.current) return;
+
+		if (infoRef.current.contains(target)) {
+			infoTextRef.current.style.display = 'block';
+		} else {
+			infoTextRef.current.style.display = 'none';
+		}
+	};
+
+	useEffect(() => {
+		window.addEventListener('mouseover', handleOpenInfoText);
+		return () => {
+			window.removeEventListener('mouseover', handleOpenInfoText);
+		};
+	});
+
 	return (
 		<RankingListStyle>
-			<H2>
-				DJ 랭킹 <span>TOP7</span>
-			</H2>
+			<Title>
+				<H2>
+					DJ 랭킹 <span>TOP7</span>
+				</H2>
+				<Info ref={infoRef}>
+					<AiFillInfoCircle color="#a3a3a3" cursor="pointer" />
+					<InfoText ref={infoTextRef}>
+						랭킹은 팔로워와 플리 좋아요의 합산을 기준으로 계산됩니다.
+						<br />
+						(동점시 가입자순으로 정렬됩니다.)
+					</InfoText>
+				</Info>
+			</Title>
 			<Rankings>
-				<Title>
+				<SubTitle>
 					<div>순위</div>
 					<div>닉네임</div>
 					<div>팔로워</div>
 					<div>플리 좋아요</div>
-				</Title>
+				</SubTitle>
 				{rankings &&
 					rankings.map((ranking, idx) => (
 						<Ranking ranking={ranking} key={idx} />
@@ -71,6 +103,7 @@ export const H2 = styled.h2`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
+		margin-bottom: 40px;
 		font-size: 24px;
 	}
 `;
@@ -84,7 +117,7 @@ const Rankings = styled.div`
 	box-shadow: 0 0 50px 1px ${(props) => props.theme.colors.gray300};
 `;
 
-const Title = styled.div`
+const SubTitle = styled.h3`
 	display: flex;
 	padding: 16px 0;
 	margin-bottom: 9px;
