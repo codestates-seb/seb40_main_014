@@ -15,15 +15,12 @@ import { MyInitialStateValue, myValue } from '../slices/mySlice';
 import { IoIosArrowForward } from 'react-icons/io';
 import Loading from '../components/common/Loading';
 import queryString from 'query-string';
+import { useLocation } from 'react-router-dom';
 
 const Search = () => {
+	const location = useLocation();
 	const searchParams = location.search;
 	const query = queryString.parse(searchParams);
-
-	// const params = new URLSearchParams(location.search);
-	// const type1 = params.get('type1');
-	// const type2 = params.get('type2');
-	// const q = params.get('q');
 
 	const { memberId } = useSelector(myValue);
 
@@ -34,7 +31,10 @@ const Search = () => {
 	const [type2Title, setType2Title] = useState(query.type2);
 
 	useEffect(() => {
-		console.log('#1', query, query.type1, query.type2, query.q);
+		setPosts([]);
+		setHasNextPage(true);
+		currentPage.current = 1;
+
 		if (query.type1 === 'room') {
 			setType1Title('방');
 			if (query.type2 === 'title') {
@@ -59,7 +59,7 @@ const Search = () => {
 				setType2Title('유저명');
 			}
 		}
-	}, [query.type1, query.type2, query.q]);
+	}, [searchParams]);
 
 	//* 무한 스크롤
 	const [hasNextPage, setHasNextPage] = useState(true);
@@ -67,8 +67,6 @@ const Search = () => {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
-		console.log('#2', query, query.type1, query.type2, query.q);
-
 		setLoading(true);
 
 		if (query.type1 === 'room') {
@@ -132,7 +130,7 @@ const Search = () => {
 					console.log(err);
 				});
 		}
-	}, [query.type1, query.type2, query.q]);
+	}, [searchParams]);
 
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;

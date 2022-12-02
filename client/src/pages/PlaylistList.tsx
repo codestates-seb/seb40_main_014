@@ -4,10 +4,13 @@ import { Link } from 'react-router-dom';
 import {
 	ButtonWrapper,
 	H2,
+	Info,
+	InfoText,
 	ListStyle,
 	MainDefaultButton,
 	MinHeightWrapper,
 	SwiperStyle,
+	Title,
 } from './RoomList';
 import {
 	getPlaylists,
@@ -20,6 +23,7 @@ import { myLogin, myValue } from '../slices/mySlice';
 import { SwiperSlide } from 'swiper/react';
 import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
 import Loading from '../components/common/Loading';
+import { AiFillInfoCircle } from 'react-icons/ai';
 
 export type PlaylistInfoType = {
 	memberId: number;
@@ -35,6 +39,9 @@ export type PlaylistInfoType = {
 };
 
 const PlaylistList = () => {
+	const infoRef = useRef(null);
+	const infoTextRef = useRef(null);
+
 	const isLogin = useSelector(myLogin);
 	const { memberId } = useSelector(myValue);
 
@@ -105,6 +112,24 @@ const PlaylistList = () => {
 			io.disconnect();
 		};
 	}, [fetch, hasNextPage]);
+
+	//* 인기 DJ 정보창 오픈
+	const handleOpenInfoText = ({ target }) => {
+		if (!infoRef.current) return;
+
+		if (infoRef.current.contains(target)) {
+			infoTextRef.current.style.display = 'block';
+		} else {
+			infoTextRef.current.style.display = 'none';
+		}
+	};
+
+	useEffect(() => {
+		window.addEventListener('mouseover', handleOpenInfoText);
+		return () => {
+			window.removeEventListener('mouseover', handleOpenInfoText);
+		};
+	});
 
 	//* Swiper
 	const settings = {
@@ -194,7 +219,15 @@ const PlaylistList = () => {
 					})}
 				</SwiperStyle>
 			)}
-			<H2>인기 DJ 플레이리스트</H2>
+			<Title>
+				<H2>인기 DJ 플레이리스트</H2>
+				<Info ref={infoRef}>
+					<AiFillInfoCircle color="#a3a3a3" cursor="pointer" />
+					<InfoText ref={infoTextRef}>
+						인기 DJ는 랭킹을 기준으로 계산됩니다. (유저당 1개)
+					</InfoText>
+				</Info>
+			</Title>
 			{playliistsByDj && (
 				<SwiperStyle {...settings} onInit={onInit2}>
 					{playliistsByDj.map((playlist: PlaylistInfoType) => {
