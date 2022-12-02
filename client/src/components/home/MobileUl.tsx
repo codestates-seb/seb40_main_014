@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { FaSearch } from 'react-icons/fa';
 import { myLogin } from '../../slices/mySlice';
+import { Dispatch } from 'react';
 
 export type MobileUlType = {
 	currentMenu: string;
-	setOpenModal: any;
+	setOpenModal: Dispatch<boolean>;
 	handleOpenSide: () => void;
 };
 
