@@ -63,6 +63,12 @@ dependencies {
     //redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    //log
+    implementation (
+            'ch.qos.logback:logback-classic:1.2.3',
+            'ch.qos.logback:logback-core:1.2.3',
+    )
+
     //test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation("org.junit.vintage:junit-vintage-engine") {

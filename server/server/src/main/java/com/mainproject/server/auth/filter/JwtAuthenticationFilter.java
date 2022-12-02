@@ -1,7 +1,9 @@
-package com.mainproject.server.auth.handler;
+package com.mainproject.server.auth.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.mainproject.server.auth.utils.CustomAuthorityUtil;
+import com.mainproject.server.member.dto.LoginDto;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.jwt.JwtTokenizer;
@@ -9,19 +11,19 @@ import com.mainproject.server.member.jwt.RefreshToken;
 import com.mainproject.server.member.mapper.MemberMapper;
 import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.member.repository.TokenRepository;
-import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,25 +35,41 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Transactional
-@Component
 @RequiredArgsConstructor
-public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
-    private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
+    private final MemberRepository memberRepository;
     private final Gson gson;
-    private final TokenRepository tokenRepository;
     private final CustomAuthorityUtil customAuthorityUtil;
+    private final TokenRepository tokenRepository;
+
+    //검증이 되지 않은 Authentication을 만들어서 AuthenticationManager에게 넘기고, 리턴으로 검증이 된 Authentication을 넘긴다.
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        LoginDto loginDto;
+        try {
+            loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
+
+        return authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+    }
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        var oAuth2User = (OAuth2User)authentication.getPrincipal();
-
-        String email = String.valueOf(oAuth2User.getAttributes().get("email"));
-        Member loginMember = memberRepository.findByEmail(email).get();
-        List<GrantedAuthority> authorities = customAuthorityUtil.stringToGrantedAuthority(loginMember.getRole().toString());
-
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        //JWT 토큰 발행 해야함
+        Member authenticatedMember = (Member) authResult.getPrincipal();
+        String email = authenticatedMember.getEmail();
+        List<GrantedAuthority> authorities = customAuthorityUtil.stringToGrantedAuthority("USER");
         String accessToken = delegateAccessToken(email, authorities);
         String refreshToken = delegateRefreshToken(email, authorities);
 
@@ -64,32 +82,23 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.setHeader("RefreshToken", "bearer"+refreshToken);
 
         //헤더 추가
-        response.addHeader("memberId", loginMember.getMemberId().toString());
+        response.addHeader("memberId", authenticatedMember.getMemberId().toString());
 
         //출력용
         System.out.println("Authorization");
         System.out.println("bearer"+accessToken);
 
-        setResponseBody(response, loginMember);
-
-        redirect(request, response, email, authorities);
+        setResponseBody(response, authenticatedMember);
     }
 
-    private void setResponseBody(HttpServletResponse response, Member loginMember) throws IOException{
+
+    private void setResponseBody(HttpServletResponse response, Member loginMember) throws IOException {
 
         SimpleMemberResponseDto responseDto = memberMapper.memberToSimpleMemberResponseDto(loginMember);
         SingleResponseDto singleResponseDto = new SingleResponseDto(responseDto);
         String content = gson.toJson(singleResponseDto);
         response.getWriter().write(content);
 
-    }
-
-    private void redirect(HttpServletRequest request, HttpServletResponse response, String username, List<GrantedAuthority> authorities) throws IOException {
-        String accessToken = delegateAccessToken(username, authorities);
-        String refreshToken = delegateRefreshToken(username, authorities);
-
-        String uri = createURI(accessToken, refreshToken, username).toString();
-        getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
     private String delegateAccessToken(String email, List<GrantedAuthority> authorities) {
@@ -120,23 +129,4 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         return refreshToken;
     }
-
-    private URI createURI(String accessToken, String refreshToken, String email) {
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        String memberId = memberRepository.findByEmail(email).get().getMemberId().toString();
-        queryParams.add("access_token", "bearer"+accessToken);
-        queryParams.add("refresh_token", "bearer"+refreshToken);
-        queryParams.add("member_id", memberId);
-
-        return UriComponentsBuilder
-                .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
-                .path("/loginCallback")
-                .queryParams(queryParams)
-                .build()
-                .toUri();
-    }
-
 }

@@ -4,6 +4,7 @@ import com.mainproject.server.auth.utils.CustomAuthorityUtil;
 import com.mainproject.server.exception.BusinessException;
 import com.mainproject.server.exception.ExceptionCode;
 import com.mainproject.server.member.entity.Member;
+import com.mainproject.server.member.entity.Role;
 import com.mainproject.server.member.jwt.JwtTokenizer;
 import com.mainproject.server.member.jwt.RefreshToken;
 import com.mainproject.server.member.repository.MemberRepository;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,11 +30,22 @@ public class MemberService {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtil customAuthorityUtil;
     private final TokenRepository tokenRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void savedToken(String token) {
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setRefreshToken(token);
         tokenRepository.save(refreshToken);
+    }
+
+    public Member createMember(Member member) {
+
+        verifyNotExistsMember(member.getEmail(), member.getName());
+        Role role = Role.valueOf("USER");
+        member.setPwd(passwordEncoder.encode(member.getPwd()));
+        member.setRole(role);
+        Member savedMember = memberRepository.save(member);
+        return savedMember;
     }
 
     public Member updateMember(Member member, Long memberId) {
@@ -138,6 +151,17 @@ public class MemberService {
                 PageRequest.of(page, size, Sort.by("ranking")));
 
         return findAllPlaylist;
+    }
+
+    private void verifyNotExistsMember(String email, String name) {
+
+        if (memberRepository.existsByName(name)){
+            throw new BusinessException(ExceptionCode.NAME_ALREADY_EXISTS);
+        }
+        if (memberRepository.existsByEmail(email)){
+            throw new BusinessException(ExceptionCode.EMAIL_ALREADY_EXISTS);
+        }
+
     }
 
 }
