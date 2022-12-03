@@ -418,7 +418,7 @@ const Room = () => {
 				{ user: receiveUser, message: receiveMessage },
 			]);
 		}
-
+		console.log('sub 메세지', receiveMessage, receiveUser);
 		if (receiveType === `ENTER` || receiveType === `LEAVE`) {
 			getRoomById(roomId)
 				.then((res) => {
