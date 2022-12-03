@@ -6,6 +6,7 @@ import com.mainproject.server.member.repository.FollowRepository;
 import com.mainproject.server.member.entity.Follow;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.repository.MemberRepository;
+import com.mainproject.server.member.repository.RankingListRepository;
 import com.mainproject.server.playlist.entity.Playlist;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,22 +17,14 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
-    private final MemberService memberService;
-    private final String KEY = "Ranking";
-    @Value("${spring.redis.host}")
-    private String redisHost;
-
-    @Value("${spring.redis.port}")
-    private int redisPort;
-
-    @Resource(name = "redisTemplate")
-    private ZSetOperations<String, String> zSetOperations;
+    private final RankingListRepository rankingListRepository;
 
     public void followMember(Long memberId, Long authMemberId) {
 
@@ -57,7 +50,7 @@ public class FollowService {
                     .findAny().get();
 
             followRepository.delete(followMember);
-            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size() + Score) - 1);
+            member.setScore(member.getFollows().size() + Score - 1);
         } else {
             Follow followMember = new Follow();
             followMember.setFollowerId(authMemberId);
@@ -65,24 +58,22 @@ public class FollowService {
             followMember.setMember(member); // follow 당하는 멤버를 저장
 
             followRepository.save(followMember);
-            zSetOperations.add(KEY, member.getEmail(), (double) (member.getFollows().size() + Score) + 1);
+            member.setScore(member.getFollows().size() + Score + 1);
         }
     }
 
     public Page<Member> getRankings() {
 
-        Set<String> range = zSetOperations.reverseRange(KEY, 0, 7);
-        List<String> rankList = new ArrayList<>(range);
-
-        List<Member> memberList = new ArrayList<>();
+        List<Member> memberList = memberRepository.findAllByOrderByScoreDesc().stream()
+                .limit(7)
+                .collect(Collectors.toList());
 
         int index = 1;
-        for (String email : rankList) {
-            Member member = memberRepository.findByEmail(email).get();
+        for (Member member : memberList) {
+            System.out.println("Score = " + member.getName() + member.getScore());
             getGrade(member);
             member.setRanking(index);
             memberRepository.save(member);
-            memberList.add(member);
             index++;
         }
 
@@ -91,19 +82,37 @@ public class FollowService {
 
     }
 
-    public Integer findRank(Member member) {
+    public Page<Member> getRankingScheduler() {
 
-        Long ranking = Long.valueOf(0);
+        List<Member> memberList = new ArrayList<>();
 
-        // index가 0부터 시작하니까 +1
-        if (zSetOperations.reverseRank(KEY, member.getEmail()) != null) {
-            ranking = zSetOperations.reverseRank(KEY, member.getEmail()) + 1;
-            if (ranking > 6) {
-                return 0;
-            }
+        List<String> memberNames = rankingListRepository.findById(1L).get().getRankingNames();
+
+        for (String name : memberNames){
+            Member member = memberRepository.findByName(name).get();
+            memberList.add(member);
         }
-        return ranking.intValue();
+
+        Page<Member> memberPage = new PageImpl<>(memberList);
+        return memberPage;
     }
+
+//    public Integer findRank(Member member) {
+//
+//        Long ranking = Long.valueOf(0);
+//
+//        boolean memberList = memberRepository.findAllByOrderByScoreDesc().stream()
+//                .limit(7)
+//                .anyMatch(member1 -> equals(member));
+//        // index가 0부터 시작하니까 +1
+//        if (zSetOperations.reverseRank(KEY, member.getEmail()) != null) {
+//            ranking = zSetOperations.reverseRank(KEY, member.getEmail()) + 1;
+//            if (ranking > 6) {
+//                return 0;
+//            }
+//        }
+//        return ranking.intValue();
+//    }
 
     public Boolean followState(Long memberId, Long authMemberId) {
         Member member = verifyExistsMember(memberId);
@@ -166,8 +175,9 @@ public class FollowService {
 
     public void getGrade(Member member){
 
-        int score = zSetOperations.score(KEY, member.getEmail()).intValue();
-        if (score >= 2){ member.setGrade("LUVIP");}
+        int score = member.getScore();
+        if (score >= 3){ member.setGrade("LUVIP");}
+        else if (score >= 2) { member.setGrade("VIP"); }
         else if (score >= 1){ member.setGrade("GOLD");}
         else {member.setGrade("SILVER");}
 

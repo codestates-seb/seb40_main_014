@@ -1,7 +1,7 @@
 package com.mainproject.server.member.entity;
 
-import com.mainproject.server.chatroom.entity.ChatRoom;
 import com.mainproject.server.auditable.Auditable;
+import com.mainproject.server.chatroom.entity.ChatRoom;
 import com.mainproject.server.playlist.entity.Playlist;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,18 +37,18 @@ public class Member extends Auditable {
     @Column
     private String grade = "SILVER";
 
-//    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
-//    private Ranking ranking;
+    @Column
+    private Integer ranking = 0;
 
     @Column
-    private Integer ranking;
+    private Integer score = 0;
 
     @Enumerated(EnumType.STRING)
     @Column
     private Role role;
 
     @Builder
-    public Member(Long memberId, String email, String name, String picture, Role role, String content){
+    public Member(Long memberId, String email, String name, String picture, Role role, String content) {
         this.memberId = memberId;
         this.email = email;
         this.name = name;
@@ -64,21 +64,10 @@ public class Member extends Auditable {
     private List<ChatRoom> chatRooms = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
-    private List<Follow> follows  = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "member")
-//    private List<ChatMessage> messages  = new ArrayList<>();
-
-//    public Member update(String name, String picture) {
-//        this.name = name;
-//        this.picture  = picture;
-//
-//        return this;
-//    }
+    private List<Follow> follows = new ArrayList<>();
 
     public String getRoleKey() {
         return this.role.getKey();
     }
-
 }
 

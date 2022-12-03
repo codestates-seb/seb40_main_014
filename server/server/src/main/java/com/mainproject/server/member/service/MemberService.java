@@ -140,4 +140,15 @@ public class MemberService {
         return findAllPlaylist;
     }
 
+    private void verifyNotExistsMember(String email, String name) {
+
+        if (memberRepository.existsByName(name)){
+            throw new BusinessException(ExceptionCode.NAME_ALREADY_EXISTS);
+        }
+        if (memberRepository.existsByEmail(email)){
+            throw new BusinessException(ExceptionCode.EMAIL_ALREADY_EXISTS);
+        }
+
+    }
+
 }

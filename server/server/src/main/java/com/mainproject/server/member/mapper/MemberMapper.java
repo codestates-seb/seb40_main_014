@@ -23,7 +23,7 @@ public interface MemberMapper {
     List<SimpleMemberResponseDto> memberListToSimpleMemberResponseDtoList(List<Member> memberList);
 
     default MemberResponseDto memberToMemberResponseDto(Member member, Boolean followState,
-                                                        PlaylistMapper playlistMapper, Integer rank) {
+                                                        PlaylistMapper playlistMapper) {
         if (member == null) {
             return null;
         }
@@ -36,7 +36,7 @@ public interface MemberMapper {
         memberResponseDto.picture(member.getPicture());
         memberResponseDto.grade(member.getGrade());
         memberResponseDto.follow(member.getFollows().size());
-        memberResponseDto.rank( rank );
+        memberResponseDto.rank( member.getRanking() );
         memberResponseDto.role(member.getRole());
         memberResponseDto.createdAt(member.getCreatedAt());
         memberResponseDto.modifiedAt(member.getModifiedAt());
@@ -60,14 +60,14 @@ public interface MemberMapper {
     }
 
     default List<MemberResponseDto> memberListToMemberResponseDtoList(List<Member> memberList, List<Boolean> followStates,
-                                                                      PlaylistMapper playlistMapper, Integer rank) {
+                                                                      PlaylistMapper playlistMapper) {
         if ( memberList == null ) {
             return null;
         }
 
         List<MemberResponseDto> list = new ArrayList<MemberResponseDto>( memberList.size() );
         for ( int i=0; i<memberList.size(); i++ ) {
-            list.add( memberToMemberResponseDto( memberList.get(i), followStates.get(i), playlistMapper, 0 ) );
+            list.add( memberToMemberResponseDto( memberList.get(i), followStates.get(i), playlistMapper) );
         }
 
         return list;
@@ -96,17 +96,11 @@ public interface MemberMapper {
         if (followState == false) {
             memberResponseDto.follow(member.getFollows().size() - 1);
         }
-
-//        memberResponseDto.rank( member.getRanking().getRank() );
         memberResponseDto.role(member.getRole());
         memberResponseDto.createdAt(member.getCreatedAt());
         memberResponseDto.modifiedAt(member.getModifiedAt());
 
         List<Playlist> playlistList = member.getPlaylists();
-//                .stream()
-//                .skip(5 * playlistPage)
-//                .limit(5)
-//                .collect(Collectors.toList());
 
         PageImpl page = new PageImpl<>(playlistList);
         MultiResponseDto<SimplePlaylistResponseDto> multiResponseDto =

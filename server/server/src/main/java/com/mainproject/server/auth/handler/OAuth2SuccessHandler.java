@@ -5,6 +5,7 @@ import com.mainproject.server.auth.utils.CustomAuthorityUtil;
 import com.mainproject.server.member.dto.SimpleMemberResponseDto;
 import com.mainproject.server.member.entity.Member;
 import com.mainproject.server.member.jwt.JwtTokenizer;
+import com.mainproject.server.member.jwt.RefreshToken;
 import com.mainproject.server.member.mapper.MemberMapper;
 import com.mainproject.server.member.repository.MemberRepository;
 import com.mainproject.server.member.repository.TokenRepository;
@@ -42,7 +43,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final Gson gson;
     private final TokenRepository tokenRepository;
     private final CustomAuthorityUtil customAuthorityUtil;
-    private final MemberService memberService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -56,7 +56,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String refreshToken = delegateRefreshToken(email, authorities);
 
         //RefreshToken 저장
-        memberService.savedToken(refreshToken);
+        RefreshToken newRefreshToken = new RefreshToken();
+        newRefreshToken.setRefreshToken(refreshToken);
+        tokenRepository.save(newRefreshToken);
 
         response.setHeader("Authorization", "bearer"+accessToken);
         response.setHeader("RefreshToken", "bearer"+refreshToken);
@@ -130,6 +132,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 .newInstance()
                 .scheme("http")
                 .host("localhost")
+//                .scheme("https")
+//                .host("luvpli.link")
                 .port(3000)
                 .path("/loginCallback")
                 .queryParams(queryParams)
