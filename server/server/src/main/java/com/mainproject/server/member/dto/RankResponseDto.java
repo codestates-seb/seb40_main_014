@@ -2,6 +2,8 @@ package com.mainproject.server.member.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,4 +26,6 @@ public class RankResponseDto {
     private Integer score;
 
     private String content;
+
+    private LocalDateTime modifiedAt;
 }
