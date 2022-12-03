@@ -30,8 +30,8 @@ public class RankingScheduler {
 
     @Transactional
 //    @Scheduled(cron = "0 * * * * *") // 매분
-    @Scheduled(cron = "0 0/3 * * * *") // 3분
-//    @Scheduled(cron = "0 0 * * * *") // 정시
+//    @Scheduled(cron = "0 0/3 * * * *") // 3분
+    @Scheduled(cron = "0 0 * * * *") // 정시
     public void scheduler(){
         List<Member> memberList = memberRepository.findAllByOrderByScoreDesc().stream()
                 .limit(7)
