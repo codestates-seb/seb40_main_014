@@ -67,8 +67,6 @@ const Search = () => {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
-		// console.log('#2', query, query.type1, query.type2, query.q);
-
 		setLoading(true);
 
 		if (query.type1 === 'room') {
@@ -79,8 +77,6 @@ const Search = () => {
 				9,
 			)
 				.then((res) => {
-					// console.log('search rooms res', res);
-
 					const data = res.data;
 					const { page, totalPages } = res.pageInfo;
 					setPosts((prevPosts) => [...prevPosts, ...data]);
@@ -101,8 +97,6 @@ const Search = () => {
 				9,
 			)
 				.then((res) => {
-					// console.log('search playlists res', res);
-
 					const data = res.data;
 					const { page, totalPages } = res.pageInfo;
 					setPosts((prevPosts) => [...prevPosts, ...data]);
@@ -118,8 +112,6 @@ const Search = () => {
 		if (query.type1 === 'user') {
 			getSearchUsers(query.q as string, currentPage.current, 30)
 				.then((res) => {
-					// console.log('search users res', res);
-
 					const data = res.data;
 					const { page, totalPages } = res.pageInfo;
 					setPosts((prevPosts) => [...prevPosts, ...data]);

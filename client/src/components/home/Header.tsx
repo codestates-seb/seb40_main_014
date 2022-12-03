@@ -21,10 +21,6 @@ const Header = () => {
 	const { memberId, name, picture } = useSelector(myValue);
 	const isLogin = useSelector(myLogin);
 
-	useEffect(() => {
-		// console.log('isLogin', isLogin);
-	}, [isLogin]);
-
 	const profileRef = useRef<HTMLDivElement>(null);
 	const profileUlRef = useRef<HTMLUListElement>(null);
 
@@ -36,7 +32,6 @@ const Header = () => {
 	// 로그아웃
 	const handleLogout = () => {
 		logout().then(() => {
-			// console.log('logout res', res);
 			localStorage.removeItem('accessToken');
 			localStorage.removeItem('refreshToken');
 			dispatch(myLogout());

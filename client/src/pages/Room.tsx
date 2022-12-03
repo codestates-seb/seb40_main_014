@@ -379,9 +379,6 @@ const Room = () => {
 			login: 'user',
 			passcode: 'password',
 		},
-		// debug: function (str) {
-		// 	console.log(str);
-		// },
 		reconnectDelay: 200,
 		heartbeatIncoming: 4000,
 		heartbeatOutgoing: 4000,
@@ -404,12 +401,6 @@ const Room = () => {
 				}),
 			300,
 		);
-		// client.publish({
-		// 	destination: `/pub/chat/sendMessage/${roomId}`,
-		// 	body: JSON.stringify(messageObject),
-		// });
-
-		// console.log('연결 상태', client.connected);
 	};
 
 	const message_callback = function (message) {
@@ -423,7 +414,6 @@ const Room = () => {
 			]);
 		}
 
-		// console.log('subscribe msg', receiveMessage, receiveUser);
 		if (receiveType === `ENTER` || receiveType === `LEAVE`) {
 			getRoomById(roomId)
 				.then((res) => {
@@ -444,8 +434,6 @@ const Room = () => {
 		client.subscribe(`/sub/chat/room/${roomId}`, message_callback, {
 			id: 'user',
 		});
-		// console.log('subscribe 함수 작동!');
-		// console.log('연결상태', client.connected);
 	};
 	const leave = () => {
 		client.publish({

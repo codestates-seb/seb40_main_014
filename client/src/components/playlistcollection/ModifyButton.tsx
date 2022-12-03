@@ -26,8 +26,6 @@ const ModifyButton = ({
 	const pathname = useLocation().pathname.split('/')[1];
 	const { userId } = useParams();
 
-	// console.log(playlistName);
-
 	const onClickDelete = () => {
 		Swal.fire({
 			icon: 'warning',
@@ -39,7 +37,6 @@ const ModifyButton = ({
 		}).then((res) => {
 			if (res.isConfirmed) {
 				deletePlayList(playlistId).then((res) => {
-					// console.log();
 					if (res === 'success playlist deleted') {
 						if (pathname === 'playlistdetail') {
 							navigate(-1);
