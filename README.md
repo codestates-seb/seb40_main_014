@@ -10,11 +10,11 @@
 
 ## 🚀 기술스택
 ### Cloud
-![AWS S3](https://img.shields.io/badge/AWS--S3-black?style=for-the-badge&logo=aws&logoColor=white)
-![AWS RDS](https://img.shields.io/badge/AWS--RDS-black?style=for-the-badge&logo=aws&logoColor=white)
-![AWS EC2](https://img.shields.io/badge/AWS--EC2-black?style=for-the-badge&logo=aws&logoColor=white)
+<img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"/>
+<img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=for-the-badge&logo=Amazon RDS&logoColor=white"/>
+<img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"/>
 ### Web
-![Stomp](https://img.shields.io/badge/stomp-black?style=for-the-badge&logoColor=white)
+<img src="https://img.shields.io/badge/Stomp-black?style=flat-square&logoColor=white"/>
 ### Front-end
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
@@ -44,5 +44,3 @@
 | 🔨 | chore | 짜잘한 수정 |
 | 🔥 | remove | 코드/파일 삭제 |
 | ✅ | test | 테스트 추가/수정 |
-
-<img src="https://img.shields.io/badge/Amazon S3-569A31?style=flat-square&logo=Amazon S3&logoColor=white"/>
