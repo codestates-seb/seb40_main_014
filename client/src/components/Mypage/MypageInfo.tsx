@@ -167,6 +167,7 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 	);
 };
 
+//
 export default MypageInfo;
 
 const Wrapper = styled.div`
