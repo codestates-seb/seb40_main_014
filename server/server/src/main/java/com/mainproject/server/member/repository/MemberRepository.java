@@ -14,5 +14,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsByName(String name);
     boolean existsByEmail(String email);
     List<Member> findAllByOrderByScoreDesc();
+    List<Member> findAllByOrderByRankingAsc();
 
 }

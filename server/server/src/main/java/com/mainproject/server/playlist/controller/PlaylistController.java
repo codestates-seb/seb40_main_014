@@ -186,10 +186,8 @@ public class PlaylistController {
         Page<Member> playlistRank = memberService.findPlTopDjList(page - 1, size);
         List<Member> rankContent = playlistRank.getContent();
 
-        Page<Playlist> playlistPage = playlistService.findPlList(page - 1, size);
-
         return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.playlistRankDtoToMember(rankContent), playlistPage), HttpStatus.OK);
+                new MultiResponseDto<>(mapper.playlistRankDtoToMember(rankContent), playlistRank), HttpStatus.OK);
 
     }
 

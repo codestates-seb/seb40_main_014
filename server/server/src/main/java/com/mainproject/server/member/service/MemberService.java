@@ -17,8 +17,10 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -127,17 +129,41 @@ public class MemberService {
     }
 
     public Page<Member> findRoomsRank(int page, int size) {
-        Page<Member> findAllRooms = memberRepository.findAll(
-                PageRequest.of(page, size, Sort.by("ranking")));
+        List<Member> findAllMember = memberRepository.findAllByOrderByRankingAsc();
+        List<Member> members = new ArrayList<>();
+        for (Member member : findAllMember) {
+            if (member.getRanking() != 0) {
+                if (member.getChatRooms().size() != 0){
+                    members.add(member);
+                }
+            }
+        }
 
-        return findAllRooms;
+        Pageable pageRequest = PageRequest.of(page, size);
+        int start = (int)pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), members.size());
+
+        Page<Member> memberPage = new PageImpl<>(members.subList(start, end), pageRequest, members.size());
+        return memberPage;
     }
 
     public Page<Member> findPlTopDjList(int page, int size) {
-        Page<Member> findAllPlaylist = memberRepository.findAll(
-                PageRequest.of(page, size, Sort.by("ranking")));
+        List<Member> findAllMember = memberRepository.findAllByOrderByRankingAsc();
+        List<Member> members = new ArrayList<>();
+        for (Member member : findAllMember) {
+            if (member.getRanking() != 0) {
+                if (member.getPlaylists().size() != 0){
+                    members.add(member);
+                }
+            }
+        }
 
-        return findAllPlaylist;
+        Pageable pageRequest = PageRequest.of(page, size);
+        int start = (int)pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), members.size());
+
+        Page<Member> memberPage = new PageImpl<>(members.subList(start, end), pageRequest, members.size());
+        return memberPage;
     }
 
     private void verifyNotExistsMember(String email, String name) {
