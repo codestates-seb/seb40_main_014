@@ -11,7 +11,7 @@
 ## 🚀 기술스택
 ### Front-end
 
-<img src="https://img.shields.io/badge/typesciprt-3178C6?style=for-the-badge&logo=typesciprt&logoColor=white"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white"> <img src="https://img.shields.io/badge/reduxtoolkit-764ABC?style=for-the-badge&logo=reduxtoolkit&logoColor=white"> <img src="https://img.shields.io/badge/Styledcomponents-DB7093?style=for-the-badge&logo=Styledcomponents&logoColor=white">
+<img src="https://img.shields.io/badge/typesciprt-3178C6?style=for-the-badge&logo=typesciprt&logoColor=white"> <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white"> <img src="https://img.shields.io/badge/redux toolkit-764ABC?style=for-the-badge&logo=redux&logoColor=white"> <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white">
 
 ### back-end
 
