@@ -63,6 +63,7 @@ const PlaylistList = () => {
 
 		getPlaylistsByDj(1, 7)
 			.then((res) => {
+				// console.log('Room DJ res', res);
 				setPlaylistsByDj(res.data);
 			})
 			.catch((err) => {

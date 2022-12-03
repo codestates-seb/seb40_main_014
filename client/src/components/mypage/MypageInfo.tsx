@@ -94,26 +94,26 @@ const MypageInfo = ({ userInfo, myId }: MypageInfoType) => {
 									cursor="pointer"
 									fontSize="14px"
 								/>
-								<MyInfoText ref={infoTextRef}>
+								<InfoText ref={infoTextRef}>
 									<BadgeInfo>
 										<div>
 											<Badge grade="SILVER" />
-											<span>팔로워 + 플리 좋아요 0 이상</span>
+											<span>이상</span>
 										</div>
 										<div>
 											<Badge grade="GOLD" />
-											<span>팔로워 + 플리 좋아요 5 이상</span>
+											<span>이상</span>
 										</div>
 										<div>
 											<Badge grade="VIP" />
-											<span>팔로워 + 플리 좋아요 10 이상</span>
+											<span>이상</span>
 										</div>
 										<div>
 											<Badge grade="LUVIP" />
-											<span>팔로워 + 플리 좋아요 20 이상</span>
+											<span>이상</span>
 										</div>
 									</BadgeInfo>
-								</MyInfoText>
+								</InfoText>
 							</Info>
 						</Title>
 						<div>
@@ -208,10 +208,6 @@ const MyInfo = styled.div`
 		display: flex;
 		margin-bottom: 15px;
 	}
-`;
-
-const MyInfoText = styled(InfoText)`
-	width: 265px;
 `;
 
 const BadgeInfo = styled.div`

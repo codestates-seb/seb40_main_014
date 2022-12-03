@@ -328,6 +328,7 @@ const Room = () => {
 								destination: `/pub/chat/enterUser`,
 								body: JSON.stringify(enterMessage),
 							});
+
 							return res;
 						})
 						.then((res) => {
@@ -379,6 +380,9 @@ const Room = () => {
 			login: 'user',
 			passcode: 'password',
 		},
+		// debug: function (str) {
+		// 	console.log('디버그', str);
+		// },
 		reconnectDelay: 200,
 		heartbeatIncoming: 4000,
 		heartbeatOutgoing: 4000,
