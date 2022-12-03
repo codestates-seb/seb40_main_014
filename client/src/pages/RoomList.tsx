@@ -278,6 +278,7 @@ export const Info = styled.div`
 `;
 
 export const InfoText = styled.div`
+	display: none;
 	position: absolute;
 	top: -5px;
 	left: 22px;
