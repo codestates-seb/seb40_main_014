@@ -269,7 +269,7 @@ export const Info = styled.div`
 	position: relative;
 	margin-top: 0px;
 	margin-left: 10px;
-	padding-right: 7px;
+	padding-right: 8px;
 
 	// Mobile
 	@media screen and (max-width: 640px) {

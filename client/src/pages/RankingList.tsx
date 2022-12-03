@@ -67,6 +67,12 @@ const RankingList = () => {
 				</Info>
 			</Title>
 			<Rankings>
+				{rankings.length && (
+					<ModifiedAt>
+						{rankings[0].modifiedAt.slice(0, 10)}{' '}
+						{rankings[0].modifiedAt.slice(11, 16)} 기준
+					</ModifiedAt>
+				)}
 				<SubTitle>
 					<div>순위</div>
 					<div>닉네임</div>
@@ -106,13 +112,31 @@ export const H2 = styled.h2`
 	}
 `;
 
+const ModifiedAt = styled.div`
+	position: absolute;
+	top: -25px;
+	right: 10px;
+	color: ${(props) => props.theme.colors.gray500};
+
+	// Mobile
+	@media screen and (max-width: 640px) {
+		top: 5px;
+		font-size: ${(props) => props.theme.fontSize.xSmall};
+	}
+`;
+
 const Rankings = styled.div`
+	position: relative;
 	width: 100%;
 	max-width: 800px;
 	padding: 34px 50px;
 	background-color: #ffffff74;
 	border-radius: ${(props) => props.theme.radius.largeRadius};
 	box-shadow: 0 0 50px 1px ${(props) => props.theme.colors.gray300};
+	// Mobile
+	@media screen and (max-width: 640px) {
+		padding: 30px;
+	}
 `;
 
 const SubTitle = styled.h3`
@@ -139,7 +163,7 @@ const SubTitle = styled.h3`
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: ${(props) => props.theme.fontSize.medium};
+		font-size: ${(props) => props.theme.fontSize.xSmall};
 		font-weight: 500;
 	}
 `;
