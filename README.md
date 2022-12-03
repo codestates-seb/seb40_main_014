@@ -9,6 +9,7 @@
 ## Project 러플리(Luv Playlist)
 
 ## 🚀 기술스택
+### CI
 ### Web
 ![Stomp](https://img.shields.io/badge/stomp-black?style=for-the-badge&logoColor=white)
 ### Front-end
@@ -18,6 +19,7 @@
 ![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
 ### Back-end
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![Spring Securuty](https://img.shields.io/badge/SpringSecuruty-%236DB33F.svg?style=for-the-badge&logo=SpringSecuruty&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ### Code Management
