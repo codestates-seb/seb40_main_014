@@ -18,14 +18,11 @@
 ### Front-end
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![React Router](https://img.shields.io/badge/React--Router-CA4245.svg?style=for-the-badge&logo=ReactRouter&logoColor=white)
+![React Router](https://img.shields.io/badge/React--Router-%CA4245.svg?style=for-the-badge&logo=ReactRouter&logoColor=white)
 ![Redux Toolkit](https://img.shields.io/badge/redux--toolkit-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
-![axios](https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
 ![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
 ### Back-end
-![Spring Boot](https://img.shields.io/badge/springboot-%236DB33F.svg?style=for-the-badge&logo=springboot&logoColor=white)
-![Spring Security](https://img.shields.io/badge/SpringSecurity-%236DB33F.svg?style=for-the-badge&logo=SpringSecurity&logoColor=white)
-![Spring Data JPA](https://img.shields.io/badge/SpringDataJPA-%236DB33F.svg?style=for-the-badge&logoColor=white)
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ### Code Management
@@ -48,3 +45,4 @@
 | 🔥 | remove | 코드/파일 삭제 |
 | ✅ | test | 테스트 추가/수정 |
 
+<img src="https://img.shields.io/badge/Amazon S3-569A31?style=flat-square&logo=Amazon S3&logoColor=white"/>
