@@ -18,7 +18,7 @@
 ### Front-end
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![React Router](https://img.shields.io/badge/React--Router-%CA4245.svg?style=for-the-badge&logo=ReactRouter&logoColor=white)
+![React Router](https://img.shields.io/badge/React--Router-CA4245.svg?style=for-the-badge&logo=ReactRouter&logoColor=white)
 ![Redux Toolkit](https://img.shields.io/badge/redux--toolkit-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
 ![axios](https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
 ![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)
