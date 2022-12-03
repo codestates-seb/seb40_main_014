@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import axios from 'axios';
 import { updateRoom } from '../../api/roomApi';
 import { useParams } from 'react-router-dom';
 
@@ -60,7 +59,6 @@ const TitleInput = styled(DefaultInput)``;
 const PasswordInput = styled(DefaultInput)``;
 const PasswordCheckInput = styled.input``;
 const PlaylistInput = styled(DefaultInput)``;
-const PeopleInput = styled(DefaultInput)``;
 
 const CreateRoomBtn = styled.button`
 	background-color: ${(props) => props.theme.colors.purple};
@@ -91,7 +89,6 @@ const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen, title }) => {
 	const [checked, setChecked] = useState(false);
 	const params = useParams();
 	const roomId = params.id;
-	console.log(roomId);
 	const onValid = (e) => {
 		const UpdateRoomInfo = {
 			title: e.title,
@@ -102,13 +99,6 @@ const RoomUpdateForm = ({ setTitle, setModalOpen, modalOpen, title }) => {
 			})
 			.then(() => setModalOpen(!modalOpen))
 			.catch((err) => console.log(err));
-		// axios
-		// 	.post(
-		// 		`${process.env.REACT_APP_STACK_SERVER_TEST}/rooms/update`,
-		// 		UpdateRoomInfo,
-		// 	)
-		// 	.then((res) => console.log(res))
-		// 	.catch((err) => console.log(err));
 	};
 
 	const onCheck = () => {

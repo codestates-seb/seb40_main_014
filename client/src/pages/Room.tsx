@@ -1,16 +1,14 @@
 import styled from 'styled-components';
-import { ImExit } from 'react-icons/im';
 import PlaylistPart from '../components/room/Playlist';
 import PeoplePart from '../components/room/PeopleList';
 import Chatting from '../components/room/Chatting';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
 import UpdateRoomModal from '../components/room/updateModal';
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { useForm } from 'react-hook-form';
-import instance from '../api/root';
 import { checkRoomByName, deleteRoom, getRoomById } from '../api/roomApi';
 import * as StompJS from '@stomp/stompjs';
 import { myLogin } from '../slices/mySlice';
@@ -152,12 +150,12 @@ const ChatSection = styled.div`
 			height: 30%;
 			background-color: ${(props) => props.theme.colors.gray300};
 
-			border-radius: 10px;
+			border-radius: ${(props) => props.theme.radius.largeRadius};
 		}
 
 		::-webkit-scrollbar-track {
 			background: rgba(33, 122, 244, 0.1);
-			border-radius: 10px;
+			border-radius: ${(props) => props.theme.radius.largeRadius};
 		}
 	}
 	@media screen and (min-width: 640px) and (max-width: 980px) {
@@ -249,7 +247,6 @@ const Room = () => {
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [playlist, setPlaylist] = useState<PlayListInfoProps[]>([]);
 	const [userLength, setUserLength] = useState<number>(0);
-	// const [isConnect, setIsConnect] = useState(true);
 	const navigate = useNavigate();
 	const modalClose = () => {
 		if (isAdmin) {
@@ -259,7 +256,6 @@ const Room = () => {
 				icon: 'warning',
 				text: '방 수정은 방장만 가능합니다.',
 			});
-			// alert('방 수정은 방장만 가능합니다!');
 		}
 	};
 	const [people, setPeople] = useState<string[]>([]);
@@ -301,7 +297,7 @@ const Room = () => {
 		setMessageObject(MessageObj);
 	}, []);
 
-	const onValid = (e) => {
+	const onValid = () => {
 		reset();
 		send();
 	};
@@ -368,12 +364,11 @@ const Room = () => {
 				}
 			});
 		} else {
+			navigate('/');
 			Swal.fire({
 				icon: 'warning',
 				text: '로그인 후 입장하실 수 있습니다.',
 				confirmButtonText: '뒤로가기',
-			}).then(() => {
-				navigate(-1);
 			});
 		}
 	}, []);
@@ -384,9 +379,6 @@ const Room = () => {
 			login: 'user',
 			passcode: 'password',
 		},
-		// debug: function (str) {
-		// 	console.log(str);
-		// },
 		reconnectDelay: 200,
 		heartbeatIncoming: 4000,
 		heartbeatOutgoing: 4000,
@@ -401,20 +393,14 @@ const Room = () => {
 	}
 
 	const send = () => {
-		// setTimeout(
-		// 	() =>
-		// 		client.publish({
-		// 			destination: `/pub/chat/sendMessage/${roomId}`,
-		// 			body: JSON.stringify(messageObject),
-		// 		}),
-		// 	300,
-		// );
-		client.publish({
-			destination: `/pub/chat/sendMessage/${roomId}`,
-			body: JSON.stringify(messageObject),
-		});
-
-		// console.log('연결 상태', client.connected);
+		setTimeout(
+			() =>
+				client.publish({
+					destination: `/pub/chat/sendMessage/${roomId}`,
+					body: JSON.stringify(messageObject),
+				}),
+			300,
+		);
 	};
 
 	const message_callback = function (message) {
@@ -428,7 +414,6 @@ const Room = () => {
 			]);
 		}
 
-		console.log('subscribe msg', receiveMessage, receiveUser);
 		if (receiveType === `ENTER` || receiveType === `LEAVE`) {
 			getRoomById(roomId)
 				.then((res) => {
@@ -449,8 +434,6 @@ const Room = () => {
 		client.subscribe(`/sub/chat/room/${roomId}`, message_callback, {
 			id: 'user',
 		});
-		// console.log('subscribe 함수 작동!');
-		// console.log('연결상태', client.connected);
 	};
 	const leave = () => {
 		client.publish({
@@ -466,13 +449,12 @@ const Room = () => {
 		});
 	};
 
-	// getRoomById(roomId).then((res) => console.log(res.data.memberResponseDto.email));
 	const AdminEmailList = [
 		process.env.REACT_APP_ADMIN_EMAIL_01,
 		process.env.REACT_APP_ADMIN_EMAIL_02,
 	];
 
-	const onClick = (e) => {
+	const onClick = () => {
 		if (userLength !== 1) {
 			leave();
 			navigate('/');
@@ -550,7 +532,7 @@ const Room = () => {
 						</ChatLeft>
 						<ChatRight>
 							<PlaylistPart playlist={playlist} />
-							<PeoplePart roomId={roomId} people={people} isAdmin={isAdmin} />
+							<PeoplePart roomId={roomId} people={people} />
 						</ChatRight>
 					</ChatRoomContainer>
 					<ChatFooter>

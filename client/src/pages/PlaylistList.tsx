@@ -1,13 +1,16 @@
 import Playlist from '../components/home/Playlist';
-import { useState, useEffect, useRef, useCallback, Ref } from 'react';
-import { DefaultButton } from '../components/common/Button';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	ButtonWrapper,
 	H2,
+	Info,
+	InfoText,
 	ListStyle,
+	MainDefaultButton,
 	MinHeightWrapper,
 	SwiperStyle,
+	Title,
 } from './RoomList';
 import {
 	getPlaylists,
@@ -17,10 +20,10 @@ import {
 import { useSelector } from 'react-redux';
 import { musicInfoType } from './MakePlayList';
 import { myLogin, myValue } from '../slices/mySlice';
-
-// Import Swiper React components
 import { SwiperSlide } from 'swiper/react';
 import SwiperCore, { Pagination, Navigation, Autoplay } from 'swiper';
+import Loading from '../components/common/Loading';
+import { AiFillInfoCircle } from 'react-icons/ai';
 
 export type PlaylistInfoType = {
 	memberId: number;
@@ -36,9 +39,13 @@ export type PlaylistInfoType = {
 };
 
 const PlaylistList = () => {
+	const infoRef = useRef(null);
+	const infoTextRef = useRef(null);
+
 	const isLogin = useSelector(myLogin);
 	const { memberId } = useSelector(myValue);
 
+	const [isLoading, setLoading] = useState(true);
 	const [playlists, setPlayLists] = useState<PlaylistInfoType[]>([]);
 	const [palylistsByLike, setPlaylistsByLike] = useState<PlaylistInfoType[]>(
 		[],
@@ -46,21 +53,21 @@ const PlaylistList = () => {
 	const [playliistsByDj, setPlaylistsByDj] = useState<PlaylistInfoType[]>([]);
 
 	useEffect(() => {
-		getPlaylistsByLike(1, 7).then((res) => {
-			console.log('getPlaylistsByLike res', res);
-
-			if (res.data) {
+		getPlaylistsByLike(1, 7)
+			.then((res) => {
 				setPlaylistsByLike(res.data);
-			}
-		});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 
-		getPlaylistsByDj(1, 7).then((res) => {
-			console.log('getPlaylistsByDj res', res);
-
-			if (res.data) {
+		getPlaylistsByDj(1, 7)
+			.then((res) => {
 				setPlaylistsByDj(res.data);
-			}
-		});
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}, []);
 
 	//* 무한 스크롤
@@ -69,23 +76,27 @@ const PlaylistList = () => {
 	const observerTargetEl = useRef<HTMLDivElement>(null);
 
 	const fetch = useCallback(() => {
-		getPlaylists(currentPage.current, 6).then((res) => {
-			console.log('getPlaylists res', res);
+		setLoading(true);
 
-			if (res.data) {
+		getPlaylists(currentPage.current, 6)
+			.then((res) => {
 				const data = res.data;
 				const { page, totalPages } = res.pageInfo;
 				setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);
 				setHasNextPage(page !== totalPages);
 				if (hasNextPage) currentPage.current += 1;
-			}
-		});
+
+				setLoading(false);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}, []);
 
 	useEffect(() => {
 		if (!observerTargetEl.current || !hasNextPage) return;
 
-		const io = new IntersectionObserver((entries, observer) => {
+		const io = new IntersectionObserver((entries) => {
 			if (entries[0].isIntersecting) fetch();
 		});
 
@@ -95,6 +106,24 @@ const PlaylistList = () => {
 			io.disconnect();
 		};
 	}, [fetch, hasNextPage]);
+
+	//* 인기 DJ 정보창 오픈
+	const handleOpenInfoText = ({ target }) => {
+		if (!infoRef.current) return;
+
+		if (infoRef.current.contains(target)) {
+			infoTextRef.current.style.display = 'block';
+		} else {
+			infoTextRef.current.style.display = 'none';
+		}
+	};
+
+	useEffect(() => {
+		window.addEventListener('mouseover', handleOpenInfoText);
+		return () => {
+			window.removeEventListener('mouseover', handleOpenInfoText);
+		};
+	});
 
 	//* Swiper
 	const settings = {
@@ -138,14 +167,14 @@ const PlaylistList = () => {
 			{isLogin && (
 				<ButtonWrapper>
 					<Link to="/makeplaylist/create">
-						<DefaultButton fontSize="16px" width="105px" height="42px">
+						<MainDefaultButton fontSize="16px" width="105px" height="42px">
 							플리 만들기
-						</DefaultButton>
+						</MainDefaultButton>
 					</Link>
 				</ButtonWrapper>
 			)}
 			<H2>가장 많은 좋아요를 받은 플레이리스트</H2>
-			{palylistsByLike.length ? (
+			{palylistsByLike && (
 				<SwiperStyle {...settings} onInit={onInit1}>
 					{palylistsByLike.map((playlist: PlaylistInfoType) => {
 						// 본인이 쓴 글
@@ -183,9 +212,17 @@ const PlaylistList = () => {
 						}
 					})}
 				</SwiperStyle>
-			) : null}
-			<H2>인기 DJ 플레이리스트</H2>
-			{playliistsByDj.length ? (
+			)}
+			<Title>
+				<H2>인기 DJ 플레이리스트</H2>
+				<Info ref={infoRef}>
+					<AiFillInfoCircle color="#a3a3a3" cursor="pointer" />
+					<InfoText ref={infoTextRef}>
+						인기 DJ는 랭킹을 기준으로 계산됩니다. (유저당 1개)
+					</InfoText>
+				</Info>
+			</Title>
+			{playliistsByDj && (
 				<SwiperStyle {...settings} onInit={onInit2}>
 					{playliistsByDj.map((playlist: PlaylistInfoType) => {
 						// 본인이 쓴 글
@@ -223,30 +260,28 @@ const PlaylistList = () => {
 						}
 					})}
 				</SwiperStyle>
-			) : null}
+			)}
 			<H2>전체</H2>
 			<ListStyle>
-				{playlists.length
-					? playlists.map((playlist: PlaylistInfoType) => {
-							// 본인이 쓴 글
-							if (playlist.memberId === memberId) {
+				{playlists &&
+					playlists.map((playlist: PlaylistInfoType) => {
+						// 본인이 쓴 글
+						if (playlist.memberId === memberId) {
+							return <Playlist playList={playlist} key={playlist.playlistId} />;
+						}
+						//  남이 쓴 글
+						else {
+							// 비공개는 보여주지 않는다.
+							if (playlist.status) {
 								return (
 									<Playlist playList={playlist} key={playlist.playlistId} />
 								);
 							}
-							//  남이 쓴 글
-							else {
-								// 비공개는 보여주지 않는다.
-								if (playlist.status) {
-									return (
-										<Playlist playList={playlist} key={playlist.playlistId} />
-									);
-								}
-							}
-					  })
-					: null}
+						}
+					})}
 				<div ref={observerTargetEl} />
 			</ListStyle>
+			{isLoading && <Loading />}
 		</MinHeightWrapper>
 	);
 };

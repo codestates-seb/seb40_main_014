@@ -18,6 +18,7 @@ const UserPlayList = () => {
 	const [title, setTitle] = useState('');
 
 	const myId = useSelector(myValue).memberId;
+	const { name } = useSelector(myValue);
 	const isLogin = useSelector(myLogin);
 
 	useEffect(() => {
@@ -31,24 +32,32 @@ const UserPlayList = () => {
 			});
 		} else {
 			if (Number(id) === 1) {
-				getUserInfo(Number(userId)).then((res) => {
-					if (res.data) {
+				getUserInfo(Number(userId))
+					.then((res) => {
 						setTitle(`${res.data.name}님의 플레이리스트`);
 						setPlayLists(res.data.playlist.data);
-					}
-				});
+					})
+					.catch((err) => {
+						console.log(err);
+					});
 			}
 			if (Number(id) === 2) {
 				setTitle('보관한 플레이리스트');
-				getBookmarkList(Number(userId)).then((res) => {
-					if (res.data) {
+				getBookmarkList(Number(userId))
+					.then((res) => {
 						setPlayLists(res.data);
-					}
-				});
+					})
+					.catch((err) => {
+						console.log(err);
+					});
 			}
 			if (Number(id) === 3) {
 				setTitle('팔로우 한 DJ');
-				getFollowList(Number(userId)).then((res) => setFollowList(res.data));
+				getFollowList(Number(userId))
+					.then((res) => setFollowList(res.data))
+					.catch((err) => {
+						console.log(err);
+					});
 			}
 		}
 	}, []);
@@ -58,6 +67,7 @@ const UserPlayList = () => {
 		id: Number(id),
 		userId: Number(userId),
 		memberId: myId,
+		name,
 	};
 
 	return (
@@ -94,8 +104,18 @@ const PlayListsWrapper = styled.div`
 	width: 100%;
 	max-width: 700px;
 	box-shadow: 0 0 10px #00000013;
-	border-radius: 10px;
+	border-radius: ${(props) => props.theme.radius.largeRadius};
 	overflow-y: scroll;
+
+	max-height: calc(100vh - 74px - 120px - 234px - 88px);
+	// Tablet
+	@media screen and (max-width: 980px) {
+		max-height: calc(100vh - 72.406px - 120px - 234px - 88px);
+	}
+	// Mobile
+	@media screen and (max-width: 640px) {
+		max-height: calc(100vh - 72.406px - 80px - 212px - 84px);
+	}
 
 	// 스크롤바
 	::-webkit-scrollbar {
@@ -108,11 +128,11 @@ const PlayListsWrapper = styled.div`
 	::-webkit-scrollbar-thumb {
 		height: 30%;
 		background-color: ${(props) => props.theme.colors.gray400};
-		border-radius: 10px;
+		border-radius: ${(props) => props.theme.radius.largeRadius};
 	}
 	::-webkit-scrollbar-track {
 		background-color: ${(props) => props.theme.colors.gray300};
-		border-radius: 10px;
+		border-radius: ${(props) => props.theme.radius.largeRadius};
 	}
 
 	> div:first-of-type {

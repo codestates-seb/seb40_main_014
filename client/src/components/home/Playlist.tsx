@@ -81,11 +81,13 @@ const Playlist = ({ playList, swiper }: PlaylistType) => {
 				<Categorys>
 					{categoryList &&
 						categoryList.map((el, idx) => (
-							<Category category={el} margin="0 4px 0 0" key={idx}>
-								<Link to={`/search?type1=playlist&type2=category&q=${el}`}>
+							<Link
+								key={idx}
+								to={`/search?type1=playlist&type2=category&q=${el}`}>
+								<Category category={el} margin="0 4px 0 0">
 									{el}
-								</Link>
-							</Category>
+								</Category>
+							</Link>
 						))}
 				</Categorys>
 				<Like swiper={swiper}>
@@ -124,10 +126,11 @@ const Like = styled.span<SwiperTrueType>`
 			font-size: ${(props) => props.swiper && '15px'};
 		}
 		font-size: ${(props) => props.swiper && '14px'};
+		display: ${(props) => (props.swiper ? 'none' : 'block')};
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
 		display: ${(props) => (props.swiper ? 'none' : 'block')};
-		font-size: 14px;
+		font-size: ${(props) => props.theme.fontSize.small};
 	}
 `;

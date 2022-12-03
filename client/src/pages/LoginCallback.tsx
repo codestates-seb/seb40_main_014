@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getMyInfo } from '../api/userApi';
+import instance from '../api/root';
+import { getUserInfo } from '../api/userApi';
 import Loading from '../components/common/Loading';
 import { myInfo } from '../slices/mySlice';
 
@@ -18,13 +19,11 @@ const LoginCallback = () => {
 			localStorage.setItem('accessToken', accessToken);
 			localStorage.setItem('refreshToken', refreshToken);
 
-			getMyInfo(Number(memberId), accessToken).then((res) => {
-				console.log('getMyInfo res', res);
+			instance.defaults.headers.Authorization = accessToken;
 
+			getUserInfo(Number(memberId)).then((res) => {
 				dispatch(myInfo(res.data));
-
-				// navigate('/');
-				window.location.href = '/';
+				navigate('/');
 			});
 		}
 	}, []);

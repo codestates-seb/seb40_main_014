@@ -6,13 +6,15 @@ import { myLogout } from '../slices/mySlice';
 const Logout = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
 	useEffect(() => {
 		localStorage.removeItem('accessToken');
 		localStorage.removeItem('refreshToken');
 		dispatch(myLogout());
 		navigate('/');
 	}, []);
-	return <div></div>;
+
+	return <></>;
 };
 
 export default Logout;

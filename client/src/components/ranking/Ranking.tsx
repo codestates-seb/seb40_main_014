@@ -32,7 +32,6 @@ const RankingStyle = styled.div`
 	align-items: center;
 	padding: 16px 0;
 	text-align: center;
-	font-size: 18px;
 
 	// 순위
 	> div:nth-of-type(1) {
@@ -59,11 +58,6 @@ const RankingStyle = styled.div`
 	// 좋아요수
 	> div:nth-of-type(4) {
 		width: 25%;
-	}
-
-	// Mobile
-	@media screen and (max-width: 640px) {
-		font-size: ${(props) => props.theme.fontSize.medium};
 	}
 `;
 

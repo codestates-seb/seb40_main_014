@@ -6,11 +6,10 @@ import { TbPlayerPause } from 'react-icons/tb';
 import { GoMute } from 'react-icons/go';
 import YouTube, { YouTubeProps } from 'react-youtube';
 import Loading from '../common/Loading';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import playSvg from '../../assets/images/play.json';
 import Lottie from 'lottie-react';
-
-// import ReactPlayer from 'react-player/youtube';
+import { YouTubePlayerProps } from 'react-player/youtube';
 
 const PlaylistSection = styled.div`
 	width: 230px;
@@ -73,12 +72,12 @@ const MusicContainer = styled.div`
 			height: 30%;
 			background-color: ${(props) => props.theme.colors.gray300};
 
-			border-radius: 10px;
+			border-radius: ${(props) => props.theme.radius.largeRadius};
 		}
 
 		::-webkit-scrollbar-track {
 			background: rgba(33, 122, 244, 0.1);
-			border-radius: 10px;
+			border-radius: ${(props) => props.theme.radius.largeRadius};
 		}
 	}
 	.music_logo {
@@ -136,32 +135,15 @@ const LottieContainer = styled.span`
 `;
 
 const PlaylistPart = ({ playlist }) => {
-	// const [playlist, setPlaylist] = useState<PlayListInfoProps[]>([]);
-	// const [videoId, setVideoId] = useState<string>('');
-	// const [play, setPlay] = useState(false);
-	// const params = useParams();
-	// const roomId = params.id;
-
-	// useEffect(() => {
-	// 	getRoomById(roomId)
-	// 		.then((res) =>
-	// 			setPlaylist(res.data.playlistResponseDto.playlistItems),
-	// 		)
-	// 		.then(() => {
-	// 			setThumbnail(playlist[0].thumbnail);
-	// 			setVideoId(playlist[0].videoId);
-	// 		})
-	// 		.catch((err) => console.log(err));
-	// }, []);
-	const [player, setPlayer] = useState<any>(null);
+	const [player, setPlayer] = useState<YouTubePlayerProps>(null);
 	const [play, setPlay] = useState<boolean>(false);
 	const [playlistIdList, setPlaylistIdList] = useState<string[]>([]);
 	const [isMute, setIsMute] = useState<boolean>(false);
 	const [nowVideo, setNowVideo] = useState('');
 
 	const opts: YouTubeProps['opts'] = {
-		height: '0',
-		width: '0',
+		height: '1',
+		width: '1',
 		// playerVars: {
 		// 	autoplay: 1,
 		// },
@@ -169,18 +151,11 @@ const PlaylistPart = ({ playlist }) => {
 	const onReady = (event) => {
 		// access to player in all event handlers via event.target
 		setPlayer(event.target);
+
 		// event.target.loadPlaylist({ playlist: playlistIdList, startSeconds: 1 });
 		event.target.cuePlaylist({ playlist: playlistIdList, startSeconds: 1 });
 		// event.target.playVideo();
 	};
-
-	// useEffect(() => {
-	// 	if (player) {
-	// 		console.log('reload');
-	// 		player.pauseVideo();
-	// 		setPlay(false);
-	// 	}
-	// }, [player]);
 
 	const pause = () => {
 		if (player) {
@@ -199,6 +174,7 @@ const PlaylistPart = ({ playlist }) => {
 	const next = () => {
 		if (player) {
 			player.nextVideo();
+			player.seekTo(1);
 			setPlay(true);
 		}
 	};
@@ -206,6 +182,7 @@ const PlaylistPart = ({ playlist }) => {
 	const previous = () => {
 		if (player) {
 			player.previousVideo();
+			player.seekTo(1);
 			setPlay(true);
 		}
 	};
@@ -231,20 +208,6 @@ const PlaylistPart = ({ playlist }) => {
 	useEffect(() => {
 		playlist.map((e) => setPlaylistIdList((prev) => [...prev, e.videoId]));
 	}, [playlist]);
-
-	// if (player) {
-	// 	player.loadPlaylist(playlistIdList);
-	// 	console.log('렌더링 되고있음');
-	// }
-
-	// useEffect(() => {
-	// 	if (playlistIdList.length !== 0) {
-	// 		player.loadPlaylist(playlistIdList);
-	// 		console.log('h');
-	// 	} else {
-	// 		return;
-	// 	}
-	// }, playlistIdList);
 
 	return (
 		<PlaylistSection>
@@ -308,12 +271,14 @@ const PlaylistPart = ({ playlist }) => {
 					<Loading />
 				) : (
 					<>
-						<YouTube
-							// videoId={playlist[0].videoId}
-							opts={opts}
-							onReady={onReady}
-							onPlay={onPlay}
-						/>
+						<Test>
+							<YouTube
+								videoId={playlist[0].videoId}
+								opts={opts}
+								onReady={onReady}
+								onPlay={onPlay}
+							/>
+						</Test>
 					</>
 				)}
 			</OptionContainer>
@@ -322,3 +287,7 @@ const PlaylistPart = ({ playlist }) => {
 };
 
 export default PlaylistPart;
+
+const Test = styled.div`
+	visibility: hidden;
+`;

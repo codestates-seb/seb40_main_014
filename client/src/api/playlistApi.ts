@@ -12,29 +12,29 @@ export const getPlaylists = async (page?: number, size?: number) => {
 
 		return result.data;
 	} catch (err) {
-		console.log(err);
+		return err;
 	}
 };
 
 export const getPlaylistsByLike = async (page: number, size: number) => {
 	try {
 		const result = await instance.get(
-			`/api/playlists/likeSort?type=${page}&name=${size}`,
+			`/api/playlists/likeSort?page=${page}&size=${size}`,
 		);
 		return result.data;
 	} catch (err) {
-		console.log(err);
+		return err;
 	}
 };
 
 export const getPlaylistsByDj = async (page: number, size: number) => {
 	try {
 		const result = await instance.get(
-			`/api/playlists/topDj?type=${page}&name=${size}`,
+			`/api/playlists/topDj?page=${page}&size=${size}`,
 		);
 		return result.data;
 	} catch (err) {
-		console.log(err);
+		return err;
 	}
 };
 
@@ -56,7 +56,6 @@ export const createPlayList = async (playlistInfo: plinfo) => {
 	try {
 		let result;
 		if (isTest) {
-			console.log(isTest);
 			result = await instance.post('/playlist', playlistInfo);
 		} else {
 			result = await instance.post(`/api/playlists`, playlistInfo);

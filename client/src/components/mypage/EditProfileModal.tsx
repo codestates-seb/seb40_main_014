@@ -26,10 +26,6 @@ const EditProfileModal = ({
 	const [nicknameError, setNicknameError] = useState('');
 	const [introError, setIntroError] = useState('');
 
-	useEffect(() => {
-		console.log(changeName);
-	}, [changeName]);
-
 	const onSubmit = () => {
 		setNicknameError('');
 		setIntroError('');
@@ -52,8 +48,6 @@ const EditProfileModal = ({
 		}
 
 		editUserInfo(memberId, changeName, changeIntro).then((res) => {
-			console.log('editUserInfo res', res);
-
 			if (res.response && res.response.status === 402) {
 				setNicknameError('중복된 닉네임입니다');
 				return;
@@ -149,14 +143,14 @@ const EPWhiteBox = styled(WhiteBox)`
 `;
 
 const H3 = styled.h3`
-	font-size: 16px;
+	font-size: ${(props) => props.theme.fontSize.medium};
 	font-weight: 600;
 	margin-bottom: 15px;
 
 	span {
 		margin-left: 3px;
 		color: ${(props) => props.theme.colors.gray500};
-		font-size: 14px;
+		font-size: ${(props) => props.theme.fontSize.small};
 	}
 `;
 
@@ -169,9 +163,6 @@ const Input = styled.input`
 		background-color: #ff38381c;
 	}
 	:focus {
-		/* border: 1.5px solid ${(props) => props.theme.colors.gray600}; */
-		/* border: 1.8px solid ${(props) => props.theme.colors.purple}; */
-		/* box-shadow: ${(props) => props.theme.colors.gray400} 0px 0px 5px 1px; */
 		background-color: ${(props) => props.theme.colors.gray50};
 	}
 `;

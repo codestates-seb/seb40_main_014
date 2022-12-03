@@ -4,7 +4,6 @@ import { IoMdHeart } from 'react-icons/io';
 type BadgeProps = {
 	margin?: string;
 	height?: string;
-	children?: any;
 	grade?: string;
 };
 
@@ -29,15 +28,15 @@ const BadgeStyle = styled.div<BadgeProps>`
 	margin: ${(props) => props.margin && props.margin};
 	font-size: ${(props) => props.theme.fontSize.small};
 	color: ${(props) =>
-		props.grade === 'silver'
+		props.grade === 'SILVER'
 			? props.theme.colors.gray600
 			: props.grade === 'GOLD'
-			? '#fab005'
+			? '#f59f00'
 			: props.grade === 'VIP'
 			? props.theme.colors.purple
 			: props.grade === 'LUVIP'
 			? props.theme.colors.pink
-			: props.theme.colors.black};
+			: null};
 
 	.icon,
 	.circle {
@@ -53,7 +52,7 @@ const BadgeStyle = styled.div<BadgeProps>`
 		height: 12px;
 		border-radius: 50%;
 		background-color: ${(props) =>
-			props.grade === 'silver'
+			props.grade === 'SILVER'
 				? props.theme.colors.gray600
 				: props.grade === 'GOLD'
 				? '#fab005'
@@ -61,7 +60,7 @@ const BadgeStyle = styled.div<BadgeProps>`
 				? props.theme.colors.purple
 				: props.grade === 'LUVIP'
 				? props.theme.colors.pink
-				: props.theme.colors.black};
+				: null};
 	}
 
 	// Mobile

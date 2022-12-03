@@ -39,17 +39,20 @@ const BookMark = ({
 
 export default BookMark;
 
-const BookmarkStyle = styled.div`
+const BookmarkStyle = styled.button`
 	display: flex;
 	align-items: center;
-	cursor: pointer;
 
 	span {
 		margin-left: 5px;
 	}
 
+	:hover {
+		opacity: 0.75;
+	}
+
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 14px !important;
+		font-size: ${(props) => props.theme.fontSize.small} !important;
 	}
 `;

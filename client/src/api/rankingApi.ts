@@ -5,6 +5,6 @@ export const getRanking = async () => {
 		const result = await instance.get(`/api/members/ranking`);
 		return result.data;
 	} catch (err) {
-		console.log(err);
+		return err;
 	}
 };

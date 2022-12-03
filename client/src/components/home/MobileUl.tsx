@@ -1,13 +1,14 @@
+import { Dispatch } from 'react';
 import { Link } from 'react-router-dom';
 import { LoginButton } from './Header';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { myValue } from '../../slices/mySlice';
 import { FaSearch } from 'react-icons/fa';
+import { myLogin } from '../../slices/mySlice';
 
 export type MobileUlType = {
 	currentMenu: string;
-	setOpenModal: any;
+	setOpenModal: Dispatch<boolean>;
 	handleOpenSide: () => void;
 };
 
@@ -16,11 +17,11 @@ const MobileUl = ({
 	setOpenModal,
 	handleOpenSide,
 }: MobileUlType) => {
-	const { name } = useSelector(myValue);
+	const isLogin = useSelector(myLogin);
 
 	return (
 		<Ul>
-			{name ? null : (
+			{!isLogin && (
 				<>
 					<li>
 						<LoginButton
@@ -66,16 +67,17 @@ const MobileUl = ({
 					랭킹
 				</Link>
 			</li>
-			<li className={currentMenu === 'search' ? 'active' : ''}>
-				<Link to="/searchbar" id="search">
+			<li className={currentMenu === 'searchbar' ? 'active' : ''}>
+				<Link
+					to="/searchbar"
+					onClick={() => {
+						setOpenModal(false);
+						handleOpenSide();
+					}}>
 					<FaSearch className="search-icon" />
 					<span>검색</span>
 				</Link>
 			</li>
-			{/* <Hr />
-			<li>
-				<SearchInput type="text" placeholder="검색어를 입력하세요" />
-			</li> */}
 		</Ul>
 	);
 };
@@ -137,17 +139,4 @@ export const Hr = styled.hr`
 	border: none;
 	height: 0.1px;
 	background-color: ${(props) => props.theme.colors.gray500};
-`;
-
-const SearchInput = styled.input`
-	padding: 10px;
-	background-color: ${(props) => props.theme.colors.gray10};
-	border: 1px solid ${(props) => props.theme.colors.gray400};
-	border-radius: ${(props) => props.theme.radius.smallRadius};
-	font-size: ${(props) => props.theme.fontSize.small};
-	color: ${(props) => props.theme.colors.gray900};
-
-	&:focus {
-		background-color: ${(props) => props.theme.colors.gray100};
-	}
 `;

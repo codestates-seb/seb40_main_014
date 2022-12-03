@@ -21,10 +21,6 @@ const Header = () => {
 	const { memberId, name, picture } = useSelector(myValue);
 	const isLogin = useSelector(myLogin);
 
-	useEffect(() => {
-		console.log('isLogin', isLogin);
-	}, [isLogin]);
-
 	const profileRef = useRef<HTMLDivElement>(null);
 	const profileUlRef = useRef<HTMLUListElement>(null);
 
@@ -35,8 +31,7 @@ const Header = () => {
 
 	// 로그아웃
 	const handleLogout = () => {
-		logout().then((res) => {
-			console.log('logout res', res);
+		logout().then(() => {
 			localStorage.removeItem('accessToken');
 			localStorage.removeItem('refreshToken');
 			dispatch(myLogout());
@@ -48,7 +43,6 @@ const Header = () => {
 	const handleMypage = () => {
 		navigate(`/mypage/${memberId}`);
 		profileUlRef.current.style.display = 'none';
-		// window.location.reload();
 	};
 
 	const handleOpenModal = useCallback(() => {
@@ -113,7 +107,7 @@ const Header = () => {
 					<>
 						<Profile ref={profileRef}>
 							<Img src={picture} alt="profile" />
-							<div className="on-pc">{name}</div>
+							<Name>{name}</Name>
 							<ProfileUl ref={profileUlRef}>
 								<Triangle>
 									<BsFillTriangleFill />
@@ -185,12 +179,12 @@ const HeaderStyle = styled.div<{ position: string }>`
 	@media screen and (max-width: 980px) {
 		height: 72.406px;
 		padding: 20px 80px;
+		font-size: ${(props) => props.theme.fontSize.medium};
 	}
 	// Mobile
 	@media screen and (max-width: 640px) {
 		height: 72.406px;
 		padding: 20px 40px;
-		font-size: ${(props) => props.theme.fontSize.medium};
 		z-index: 6666;
 
 		.on-pc {
@@ -251,6 +245,13 @@ const Profile = styled.div`
 	}
 `;
 
+const Name = styled.div`
+	// Tablet, Mobile
+	@media screen and (max-width: 980px) {
+		display: none;
+	}
+`;
+
 const Img = styled.img`
 	width: 28px;
 	height: 28px;
@@ -269,7 +270,7 @@ const ProfileUl = styled.ul`
 	display: none;
 	position: absolute;
 	top: 45px;
-	left: -11px;
+	right: 0;
 	padding: 20px;
 	width: 150px;
 	background-color: ${(props) => props.theme.colors.background};
@@ -290,6 +291,10 @@ const ProfileUl = styled.ul`
 		}
 	}
 
+	// Tablet
+	@media screen and (max-width: 980px) {
+		left: -59px;
+	}
 	// Mobile
 	@media screen and (max-width: 640px) {
 		top: 46px;

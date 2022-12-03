@@ -25,7 +25,7 @@
 	},
 	"plugins": ["@typescript-eslint", "prettier"],
 	"rules": {
-		"no-unused-vars": "warn",
+		"no-unused-vars": "error",
 		"react/react-in-jsx-scope": 0,
 		"react/jsx-uses-react": 0,
 		"prettier/prettier": "error",

@@ -70,7 +70,6 @@ const PlayListSetting = ({
 						musicInfo.url = url;
 						musicInfo.channelTitle = res.items[0].snippet.channelTitle;
 						musicInfo.title = res.items[0].snippet.title;
-						console.log(res.items[0].snippet.thumbnails);
 						if (res.items[0].snippet.thumbnails.maxres) {
 							musicInfo.thumbnail = res.items[0].snippet.thumbnails.maxres.url;
 						} else {
@@ -309,12 +308,12 @@ const Title = styled.h3`
 		span {
 			margin-left: 5px;
 			color: red;
-			font-size: 16px;
+			font-size: ${(props) => props.theme.fontSize.medium};
 		}
 	}
 
 	// Mobile
 	@media screen and (max-width: 640px) {
-		font-size: 16px;
+		font-size: ${(props) => props.theme.fontSize.medium};
 	}
 `;

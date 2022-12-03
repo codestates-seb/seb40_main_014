@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getRoomById } from '../../api/roomApi';
-import { GiChessKing, GiConsoleController } from 'react-icons/gi';
-import UserModal from './userModal';
+import { GiChessKing } from 'react-icons/gi';
 import { AiTwotoneHome } from 'react-icons/ai';
 import { followUser, getAllUserInfo, getFollowList } from '../../api/userApi';
 import { useSelector } from 'react-redux';
@@ -45,12 +43,12 @@ const PeopleContainer = styled.div`
 			height: 30%;
 			background-color: ${(props) => props.theme.colors.gray300};
 
-			border-radius: 10px;
+			border-radius: ${(props) => props.theme.radius.largeRadius};
 		}
 
 		::-webkit-scrollbar-track {
 			background: rgba(33, 122, 244, 0.1);
-			border-radius: 10px;
+			border-radius: ${(props) => props.theme.radius.largeRadius};
 		}
 	}
 	@media screen and (max-width: 640px) {
@@ -106,7 +104,7 @@ const EmptyDiv = styled.div`
 	padding: 2px;
 `;
 
-const PeoplePart = ({ people, isAdmin, roomId }) => {
+const PeoplePart = ({ people, roomId }) => {
 	// const [people, setPeople] = useState([]);
 	// const params = useParams();
 	// const roomId = params.id;
@@ -126,11 +124,8 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 			.then((data) => {
 				getFollowList(userInfo.memberId)
 					.then((response) => {
-						console.log('데이터', data);
-
 						const followlist = response.data.map((e) => e.name);
-						console.log('팔로리스트', followlist);
-						// console.log('data', data);
+
 						if (followlist.includes(data[0].name)) {
 							Swal.fire({
 								// icon: 'warning',
@@ -138,7 +133,7 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 								showCancelButton: true,
 							}).then((res) => {
 								if (res.isConfirmed) {
-									followUser(data[0].memberId).then((res) => {
+									followUser(data[0].memberId).then(() => {
 										Swal.fire({
 											// icon: 'warning',
 											text: '해당 유저를 언팔로우하였습니다.',
@@ -152,7 +147,7 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 								}
 							});
 						} else {
-							followUser(data[0].memberId).then((res) => {
+							followUser(data[0].memberId).then(() => {
 								Swal.fire({
 									// icon: 'warning',
 									text: '해당 유저를 팔로우하였습니다.',
@@ -166,7 +161,6 @@ const PeoplePart = ({ people, isAdmin, roomId }) => {
 	};
 
 	const linkMyPage = (e) => {
-		console.log();
 		getAllUserInfo(localStorage.getItem('accessToken'))
 			.then((res) => {
 				return res.data.filter(

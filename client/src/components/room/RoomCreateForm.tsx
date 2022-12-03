@@ -4,14 +4,11 @@ import styled from 'styled-components';
 import AddModal from './addModal';
 import { DefaultButton } from '../common/Button';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { myLogin } from '../../slices/mySlice';
-import { currentRoomInfo } from '../../slices/roomSlice';
-import instance, { root } from '../../api/root';
 import { createRoom } from '../../api/roomApi';
-import { getMyInfo, getBookmarkList, getUserInfo } from '../../api/userApi';
+import { getBookmarkList, getUserInfo } from '../../api/userApi';
 import Swal from 'sweetalert2';
 
 export type roomInfo = {
@@ -65,7 +62,6 @@ const TitleInput = styled(DefaultInput)``;
 const PasswordInput = styled(DefaultInput)``;
 const PasswordCheckInput = styled.input``;
 const PlaylistInput = styled(DefaultInput)``;
-const PeopleInput = styled(DefaultInput)``;
 
 const CreateRoomBtn = styled.button`
 	background-color: ${(props) => props.theme.colors.purple};
@@ -106,7 +102,6 @@ const RoomCreateForm = () => {
 	const [addModalOpen, setAddModalOpen] = useState<boolean>(false);
 	const [playlist, setPlaylist] = useState([]);
 	const [bookMarkPlaylist, setBookMarkPlaylist] = useState([]);
-	const accessToken = localStorage.getItem('accessToken');
 	const [selectedPlaylist, setSelectedPlaylist] = useState({
 		title: '',
 		playlistId: 0,
@@ -140,20 +135,12 @@ const RoomCreateForm = () => {
 			playlistId: selectedPlaylist.playlistId,
 			maxCount: 100,
 		};
-		console.log('생성될 방의 정보', CreateRoomInfo);
-
 		if (!isLogin) {
 			Swal.fire({
 				icon: 'warning',
 				text: '로그인 후 생성하실 수 있습니다.',
 			});
-			// alert('로그인 후 생성하실 수 있습니다.');
 		} else {
-			// createRoom(CreateRoomInfo).then((res) => {
-			// 	if (res.data) {
-			// 		navigate(`rooms/${res.data.roomId}`);
-			// 	}
-			// });
 			createRoom(CreateRoomInfo)
 				.then((res) => {
 					navigate(`rooms/${res.data.roomId}`);
@@ -166,14 +153,6 @@ const RoomCreateForm = () => {
 						});
 					}
 				});
-			// .catch(
-			// 	(err) => console.log(err),
-			// 	// (err) =>
-			// 	// 	String(err) ===
-			// 	// 	"TypeError: Cannot read properties of undefined (reading 'roomId')"
-			// 	// 		? alert('로그인이 만료되었습니다. 로그인을 다시 해주세요!')
-			// 	// 		: console.log(err),
-			// );
 		}
 	};
 
@@ -215,10 +194,6 @@ const RoomCreateForm = () => {
 							value: 4,
 							message: '비밀번호는 4자 이하여야 합니다.',
 						},
-						// pattern: {
-						// 	value: /[0,9]/,
-						// 	message: '비밀번호는 4자 이하의 숫자여야 합니다.',
-						// },
 					})}
 					placeholder="비밀번호 설정 시 4자 이하여야 합니다."
 					autoComplete="off"
