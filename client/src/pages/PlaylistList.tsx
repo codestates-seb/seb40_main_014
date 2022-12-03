@@ -55,8 +55,6 @@ const PlaylistList = () => {
 	useEffect(() => {
 		getPlaylistsByLike(1, 7)
 			.then((res) => {
-				// console.log('getPlaylistsByLike res', res);
-
 				setPlaylistsByLike(res.data);
 			})
 			.catch((err) => {
@@ -65,8 +63,6 @@ const PlaylistList = () => {
 
 		getPlaylistsByDj(1, 7)
 			.then((res) => {
-				// console.log('getPlaylistsByDj res', res);
-
 				setPlaylistsByDj(res.data);
 			})
 			.catch((err) => {
@@ -84,8 +80,6 @@ const PlaylistList = () => {
 
 		getPlaylists(currentPage.current, 6)
 			.then((res) => {
-				// console.log('getPlaylists res', res);
-
 				const data = res.data;
 				const { page, totalPages } = res.pageInfo;
 				setPlayLists((prevPlaylists) => [...prevPlaylists, ...data]);

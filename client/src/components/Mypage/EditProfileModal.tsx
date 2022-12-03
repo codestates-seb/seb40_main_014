@@ -48,8 +48,6 @@ const EditProfileModal = ({
 		}
 
 		editUserInfo(memberId, changeName, changeIntro).then((res) => {
-			// console.log('editUserInfo res', res);
-
 			if (res.response && res.response.status === 402) {
 				setNicknameError('중복된 닉네임입니다');
 				return;

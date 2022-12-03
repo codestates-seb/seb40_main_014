@@ -70,7 +70,6 @@ const PlayListSetting = ({
 						musicInfo.url = url;
 						musicInfo.channelTitle = res.items[0].snippet.channelTitle;
 						musicInfo.title = res.items[0].snippet.title;
-						// console.log(res.items[0].snippet.thumbnails);
 						if (res.items[0].snippet.thumbnails.maxres) {
 							musicInfo.thumbnail = res.items[0].snippet.thumbnails.maxres.url;
 						} else {

@@ -16,13 +16,12 @@ const LoginCallback = () => {
 
 	useEffect(() => {
 		if (accessToken && refreshToken) {
+			localStorage.setItem('accessToken', accessToken);
 			localStorage.setItem('refreshToken', refreshToken);
 
 			instance.defaults.headers.Authorization = accessToken;
 
 			getUserInfo(Number(memberId)).then((res) => {
-				// console.log('getMyInfo res', res);
-
 				dispatch(myInfo(res.data));
 				navigate('/');
 			});
