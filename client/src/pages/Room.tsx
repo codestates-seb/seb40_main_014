@@ -320,7 +320,7 @@ const Room = () => {
 								client.activate();
 							}
 							wsSubscribe();
-
+							console.log('구독 단계');
 							return res;
 						})
 						.then((res) => {
@@ -328,6 +328,7 @@ const Room = () => {
 								destination: `/pub/chat/enterUser`,
 								body: JSON.stringify(enterMessage),
 							});
+							console.log('퍼블리시 단계');
 							return res;
 						})
 						.then((res) => {
@@ -341,6 +342,7 @@ const Room = () => {
 								.catch((err) => {
 									console.log(err);
 								});
+							console.log('3 단계');
 						})
 						.then(() =>
 							Swal.fire({
@@ -378,6 +380,9 @@ const Room = () => {
 		connectHeaders: {
 			login: 'user',
 			passcode: 'password',
+		},
+		debug: function (str) {
+			console.log('디버그', str);
 		},
 		reconnectDelay: 200,
 		heartbeatIncoming: 4000,
@@ -434,6 +439,7 @@ const Room = () => {
 		client.subscribe(`/sub/chat/room/${roomId}`, message_callback, {
 			id: 'user',
 		});
+		console.log('구독 완료');
 	};
 	const leave = () => {
 		client.publish({
