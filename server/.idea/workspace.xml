@@ -80,7 +80,7 @@
       <recent name="C:\Users\00003807\Downloads\seb40_main_014\seb40_main_014\server\server\src\main\resources" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.ServerApplication">
+  <component name="RunManager" selected="Spring Boot.ServerApplication (1)">
     <configuration name="ServerApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="server.server.main~1" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.mainproject.server.ServerApplication" />
@@ -106,7 +106,7 @@
       <updated>1669097671276</updated>
       <workItem from="1669097674832" duration="116854000" />
       <workItem from="1669456578192" duration="81490000" />
-      <workItem from="1669792428700" duration="25612000" />
+      <workItem from="1669792428700" duration="38898000" />
     </task>
     <task id="LOCAL-00001" summary="[Chore]">
       <created>1669704924991</created>

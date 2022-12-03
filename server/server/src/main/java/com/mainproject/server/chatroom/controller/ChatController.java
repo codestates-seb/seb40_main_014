@@ -19,6 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+
 import static com.mainproject.server.chatroom.entity.ChatMessage.MessageType.*;
 
 @RestController
@@ -38,7 +43,7 @@ public class ChatController {
     // 처리가 완료되면 /sub/chat/room/roomId 로 메시지가 전송된다.
     @MessageMapping("/chat/enterUser")
     public void enterUser(@Payload ChatMessage chat,
-                          SimpMessageHeaderAccessor headerAccessor) {
+                          SimpMessageHeaderAccessor headerAccessor) throws IOException {
 
         chat.setMessage(chat.getMessage());
 
@@ -56,12 +61,16 @@ public class ChatController {
             }
             chatRoomRepository.save(room);
         }
-//        else {
-//            chat.setMessage((ExceptionCode.MEMBER_NAME_ALREADY_EXISTS.getStatus()) + ExceptionCode.MEMBER_NAME_ALREADY_EXISTS.getMessage());
-//            template.convertAndSend("/sub/chat/room/" + chat.getRoomId(), chat);
-//        }
 
         chatRoomRepository.save(room);
+
+        // 세션 disconnect 되는 이슈 해결 위한 timeout 설정
+//        String IP = "oauth-1.ckoylwknnufz.ap-northeast-2.rds.amazonaws.com";
+//        int PORT = 13306;
+//        int Timeout = 4000;
+//        Socket clientSocket= new Socket();
+//        SocketAddress socketAddress = new InetSocketAddress(IP, PORT);
+//        clientSocket.connect(socketAddress, Timeout);
 
         // 반환 결과를 socket session 에 memName 으로 저장
         headerAccessor.getSessionAttributes().put("MemberName", chat.getMemberName());
@@ -73,7 +82,7 @@ public class ChatController {
     // 해당 유저 채팅 보내기
     @MessageMapping("/chat/sendMessage/{roomId}")
     public void sendMessage(@Payload ChatMessage chat,
-                            @PathVariable String roomId) {
+                            @PathVariable String roomId) throws IOException {
 
         log.info("CHAT2 {}", chat.getMessage()); // Hello World
         log.info("CHAT3 {}", roomId);  // chat
@@ -144,5 +153,6 @@ public class ChatController {
             return true;
         } else return false;
     }
+
 }
 //재시도하는 로직 브라우저 닫히면 다시 붙을 수 있는 retry 로직 필요
