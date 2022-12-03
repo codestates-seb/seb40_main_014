@@ -63,7 +63,7 @@ const RoomList = () => {
 
 		getRoomsByDj(1, 7)
 			.then((res) => {
-				console.log('Room DJ res', res);
+				// console.log('Room DJ res', res);
 				setRoomsByDj(res.data);
 			})
 			.catch((err) => {
