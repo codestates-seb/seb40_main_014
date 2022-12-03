@@ -10,9 +10,9 @@
 
 ## 🚀 기술스택
 ### Cloud
-![AWS S3](https://img.shields.io/badge/AWS S3-black?style=for-the-badge&logoColor=white)
-![AWS RDS](https://img.shields.io/badge/AWS RDS-black?style=for-the-badge&logoColor=white)
-![AWS EC2](https://img.shields.io/badge/AWS EC2-black?style=for-the-badge&logoColor=white)
+![AWS S3](https://img.shields.io/badge/AWS-S3-black?style=for-the-badge&logoColor=white)
+![AWS RDS](https://img.shields.io/badge/AWS-RDS-black?style=for-the-badge&logoColor=white)
+![AWS EC2](https://img.shields.io/badge/AWS-EC2-black?style=for-the-badge&logoColor=white)
 ### Web
 ![Stomp](https://img.shields.io/badge/stomp-black?style=for-the-badge&logoColor=white)
 ### Front-end
