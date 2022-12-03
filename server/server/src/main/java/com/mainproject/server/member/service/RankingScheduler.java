@@ -42,11 +42,11 @@ public class RankingScheduler {
         List<Integer> likeList = new ArrayList<>();
         int index = 1;
         for (Member member : memberList) {
-            System.out.println("Score = " + member.getName() + member.getScore());
+            System.out.println("Score = " + member.getEmail() + member.getScore());
             followService.getGrade(member);
             member.setRanking(index);
             memberRepository.save(member);
-            list.add(member.getName());
+            list.add(member.getEmail());
             followList.add(member.getFollows().size());
             Integer memberLike = 0;
             if (member.getPlaylists().size() != 0) {
