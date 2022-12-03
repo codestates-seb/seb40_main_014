@@ -1,6 +1,5 @@
 package com.mainproject.server.playlist.dto;
 
-import com.mainproject.server.playlist.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

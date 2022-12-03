@@ -1,24 +1,18 @@
 package com.mainproject.server.playlist.controller;
 
-import com.mainproject.server.member.dto.MemberResponseDto;
-import com.mainproject.server.member.dto.RankResponseDto;
 import com.mainproject.server.member.entity.Member;
-import com.mainproject.server.member.mapper.MemberMapper;
 import com.mainproject.server.member.service.FollowService;
 import com.mainproject.server.member.service.MemberService;
 import com.mainproject.server.playlist.dto.PlaylistPatchDto;
 import com.mainproject.server.playlist.dto.PlaylistPostDto;
 import com.mainproject.server.playlist.entity.Playlist;
 import com.mainproject.server.playlist.mapper.PlaylistMapper;
-import com.mainproject.server.playlist.repository.PlaylistItemRepository;
 import com.mainproject.server.playlist.service.PlaylistService;
 import com.mainproject.server.response.MultiResponseDto;
 import com.mainproject.server.response.SingleResponseDto;
 import com.mainproject.server.tx.NeedMemberId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -38,7 +31,6 @@ public class PlaylistController {
     private final MemberService memberService;
     private final PlaylistMapper mapper;
     private final FollowService followService;
-    private final MemberMapper memberMapper;
 
     @NeedMemberId
     @PostMapping
