@@ -16,6 +16,7 @@ const LoginCallback = () => {
 
 	useEffect(() => {
 		if (accessToken && refreshToken) {
+			localStorage.setItem('accessToken', accessToken);
 			localStorage.setItem('refreshToken', refreshToken);
 
 			instance.defaults.headers.Authorization = accessToken;
