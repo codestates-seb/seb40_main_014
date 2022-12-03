@@ -88,8 +88,8 @@ public class FollowService {
 
         List<String> memberNames = rankingListRepository.findById(1L).get().getRankingNames();
 
-        for (String name : memberNames){
-            Member member = memberRepository.findByName(name).get();
+        for (String email : memberNames){
+            Member member = memberRepository.findByEmail(email).get();
             memberList.add(member);
         }
 
