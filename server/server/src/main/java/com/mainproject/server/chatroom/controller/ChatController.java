@@ -83,7 +83,7 @@ public class ChatController {
     // 해당 유저 채팅 보내기
     @MessageMapping("/chat/sendMessage/{roomId}")
     public void sendMessage(@Payload ChatMessage chat,
-                            @PathVariable String roomId) throws IOException {
+                            @PathVariable String roomId) {
 
         log.info("CHAT2 {}", chat.getMessage()); // Hello World
         log.info("CHAT3 {}", roomId);  // chat
