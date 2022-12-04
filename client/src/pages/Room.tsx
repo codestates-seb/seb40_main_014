@@ -310,7 +310,7 @@ const Room = () => {
 		// debug: function (str) {
 		// 	console.log('디버그', str);
 		// },
-		reconnectDelay: 1000,
+		reconnectDelay: 200,
 		heartbeatIncoming: 4000,
 		heartbeatOutgoing: 4000,
 	});
