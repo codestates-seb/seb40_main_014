@@ -329,7 +329,7 @@ const Room = () => {
 									destination: `/pub/chat/enterUser`,
 									body: JSON.stringify(enterMessage),
 								});
-							}, 1000);
+							}, 2000);
 
 							return res;
 						})
@@ -356,6 +356,7 @@ const Room = () => {
 							}),
 						)
 						.catch((err) => {
+							client.deactivate();
 							navigate('/');
 							Swal.fire({
 								icon: 'warning',
@@ -385,7 +386,7 @@ const Room = () => {
 		// debug: function (str) {
 		// 	console.log('디버그', str);
 		// },
-		reconnectDelay: 200,
+		reconnectDelay: 1000,
 		heartbeatIncoming: 4000,
 		heartbeatOutgoing: 4000,
 	});
