@@ -320,13 +320,17 @@ const Room = () => {
 								console.log('useEffect connect');
 								client.activate();
 							}
+							console.log('1111', client.connected);
 							wsSubscribe();
-
+							console.log('2222', client.connected);
 							return res;
 						})
 						.then((res) => {
+							console.log('3333', client.connected);
 							setTimeout(() => {
+								console.log('4444', client.connected);
 								console.log('useEffect publish');
+
 								client.publish({
 									destination: `/pub/chat/enterUser`,
 									body: JSON.stringify(enterMessage),
