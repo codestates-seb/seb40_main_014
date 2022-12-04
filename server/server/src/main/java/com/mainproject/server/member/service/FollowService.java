@@ -88,8 +88,8 @@ public class FollowService {
 
         List<String> memberNames = rankingListRepository.findById(1L).get().getRankingNames();
 
-        for (String name : memberNames){
-            Member member = memberRepository.findByName(name).get();
+        for (String email : memberNames){
+            Member member = memberRepository.findByEmail(email).get();
             memberList.add(member);
         }
 
@@ -176,9 +176,9 @@ public class FollowService {
     public void getGrade(Member member){
 
         int score = member.getScore();
-        if (score >= 3){ member.setGrade("LUVIP");}
-        else if (score >= 2) { member.setGrade("VIP"); }
-        else if (score >= 1){ member.setGrade("GOLD");}
+        if (score >= 20){ member.setGrade("LUVIP");}
+        else if (score >= 10) { member.setGrade("VIP"); }
+        else if (score >= 5){ member.setGrade("GOLD");}
         else {member.setGrade("SILVER");}
 
     }

@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,8 +30,8 @@ public class RankingScheduler {
 
     @Transactional
 //    @Scheduled(cron = "0 * * * * *") // 매분
-    @Scheduled(cron = "0 0/3 * * * *") // 3분
-//    @Scheduled(cron = "0 0 * * * *") // 정시
+//    @Scheduled(cron = "0 0/3 * * * *") // 3분
+    @Scheduled(cron = "0 0 * * * *") // 정시
     public void scheduler(){
         List<Member> memberList = memberRepository.findAllByOrderByScoreDesc().stream()
                 .limit(7)
@@ -41,11 +42,11 @@ public class RankingScheduler {
         List<Integer> likeList = new ArrayList<>();
         int index = 1;
         for (Member member : memberList) {
-            System.out.println("Score = " + member.getName() + member.getScore());
+            System.out.println("Score = " + member.getEmail() + member.getScore());
             followService.getGrade(member);
             member.setRanking(index);
             memberRepository.save(member);
-            list.add(member.getName());
+            list.add(member.getEmail());
             followList.add(member.getFollows().size());
             Integer memberLike = 0;
             if (member.getPlaylists().size() != 0) {
@@ -58,15 +59,18 @@ public class RankingScheduler {
             index++;
         }
 
+        LocalDateTime modifiedAt = LocalDateTime.now();
+
         if (rankingListRepository.existsById(1L)){
             RankingList rankingList = rankingListRepository.findById(1L).get();
             rankingList.setRankingNames(list);
             rankingList.setRankingFollows(followList);
             rankingList.setRankingLikes(likeList);
+            rankingList.setModifiedAt(modifiedAt);
             rankingListRepository.save(rankingList);
         }
         else {
-            RankingList rankingList = new RankingList(1L, list, followList, likeList);
+            RankingList rankingList = new RankingList(1L, list, followList, likeList, modifiedAt);
             rankingListRepository.save(rankingList);
         }
         System.out.println("Ranking update");
@@ -76,6 +80,7 @@ public class RankingScheduler {
         if ( memberList == null ) {
             return null;
         }
+        RankingList rankingList = rankingListRepository.findById(1L).get();
 
         List<RankResponseDto> list = new ArrayList<RankResponseDto>( memberList.size() );
         for (int i=0; i<memberList.size(); i++){
@@ -84,11 +89,12 @@ public class RankingScheduler {
             rankResponseDto.setName(memberList.get(i).getName());
             rankResponseDto.setPicture(memberList.get(i).getPicture());
             rankResponseDto.setRank(i+1);
-            rankResponseDto.setFollow(rankingListRepository.findById(1L).get().getRankingFollows().get(i));
-            rankResponseDto.setLike(rankingListRepository.findById(1L).get().getRankingLikes().get(i));
+            rankResponseDto.setFollow(rankingList.getRankingFollows().get(i));
+            rankResponseDto.setLike(rankingList.getRankingLikes().get(i));
             rankResponseDto.setContent(memberList.get(i).getContent());
-            rankResponseDto.setScore(rankingListRepository.findById(1L).get().getRankingFollows().get(i)+
-                    rankingListRepository.findById(1L).get().getRankingLikes().get(i));
+            rankResponseDto.setScore(rankingList.getRankingFollows().get(i)+
+                    rankingList.getRankingLikes().get(i));
+            rankResponseDto.setModifiedAt(rankingList.getModifiedAt());
 
             list.add(rankResponseDto);
         }
