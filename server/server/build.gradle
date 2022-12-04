@@ -39,10 +39,10 @@ dependencies {
     implementation 'javax.servlet:jstl'
 
     //H2 로컬용
-    runtimeOnly 'com.h2database:h2'
+//    runtimeOnly 'com.h2database:h2'
 
     //Mysql 배포용
-//    implementation 'mysql:mysql-connector-java'
+    implementation 'mysql:mysql-connector-java'
 
     //유효성 관련
     implementation 'org.springframework.boot:spring-boot-starter-validation'
