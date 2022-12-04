@@ -324,10 +324,12 @@ const Room = () => {
 							return res;
 						})
 						.then((res) => {
-							client.publish({
-								destination: `/pub/chat/enterUser`,
-								body: JSON.stringify(enterMessage),
-							});
+							setTimeout(() => {
+								client.publish({
+									destination: `/pub/chat/enterUser`,
+									body: JSON.stringify(enterMessage),
+								});
+							}, 1000);
 
 							return res;
 						})
