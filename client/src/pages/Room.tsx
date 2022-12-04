@@ -301,6 +301,35 @@ const Room = () => {
 		reset();
 		send();
 	};
+	const client = new StompJS.Client({
+		brokerURL: `${process.env.REACT_APP_STACK_WS_SERVER}/ws/websocket`,
+		connectHeaders: {
+			login: 'user',
+			passcode: 'password',
+		},
+		// debug: function (str) {
+		// 	console.log('디버그', str);
+		// },
+		reconnectDelay: 1000,
+		heartbeatIncoming: 4000,
+		heartbeatOutgoing: 4000,
+	});
+
+	client.onStompError = function (frame) {
+		console.log('Broker reported error: ' + frame.headers['message']);
+		console.log('Additional details: ' + frame.body);
+	};
+	if (!client.connected) {
+		console.log('home connect');
+		client.activate();
+		console.log('home client', client);
+	}
+
+	const wsSubscribe = () => {
+		client.subscribe(`/sub/chat/room/${roomId}`, message_callback, {
+			id: 'user',
+		});
+	};
 
 	useEffect(() => {
 		if (isLogin) {
@@ -316,9 +345,11 @@ const Room = () => {
 						.then((res) => {
 							setTitle(res.data.title);
 							setPlaylist(res.data.playlistResponseDto.playlistItems);
+							console.log('useEffect client', client);
 							if (!client.connected) {
 								console.log('useEffect connect');
 								client.activate();
+								console.log('useEffect client', client);
 							}
 							console.log('1111', client.connected);
 							wsSubscribe();
@@ -383,29 +414,6 @@ const Room = () => {
 		}
 	}, []);
 
-	const client = new StompJS.Client({
-		brokerURL: `${process.env.REACT_APP_STACK_WS_SERVER}/ws/websocket`,
-		connectHeaders: {
-			login: 'user',
-			passcode: 'password',
-		},
-		// debug: function (str) {
-		// 	console.log('디버그', str);
-		// },
-		reconnectDelay: 1000,
-		heartbeatIncoming: 4000,
-		heartbeatOutgoing: 4000,
-	});
-
-	client.onStompError = function (frame) {
-		console.log('Broker reported error: ' + frame.headers['message']);
-		console.log('Additional details: ' + frame.body);
-	};
-	if (!client.connected) {
-		console.log('home connect');
-		client.activate();
-	}
-
 	const send = () => {
 		setTimeout(
 			() =>
@@ -444,11 +452,6 @@ const Room = () => {
 		}
 	};
 
-	const wsSubscribe = () => {
-		client.subscribe(`/sub/chat/room/${roomId}`, message_callback, {
-			id: 'user',
-		});
-	};
 	const leave = () => {
 		client.publish({
 			destination: `/pub/chat/leave`,
