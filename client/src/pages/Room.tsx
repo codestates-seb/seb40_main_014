@@ -443,6 +443,7 @@ const Room = () => {
 	};
 
 	const leave = () => {
+		client.activate();
 		client.publish({
 			destination: `/pub/chat/leave`,
 			body: JSON.stringify({
