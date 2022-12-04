@@ -298,6 +298,7 @@ const Room = () => {
 	}, []);
 
 	const onValid = () => {
+		client.activate();
 		reset();
 		send();
 	};
@@ -319,9 +320,9 @@ const Room = () => {
 		console.log('Broker reported error: ' + frame.headers['message']);
 		console.log('Additional details: ' + frame.body);
 	};
-	if (!client.connected) {
-		client.activate();
-	}
+	// if (!client.connected) {
+	// 	client.activate();
+	// }
 
 	const wsSubscribe = () => {
 		client.subscribe(`/sub/chat/room/${roomId}`, message_callback, {
