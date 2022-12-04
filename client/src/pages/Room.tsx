@@ -443,7 +443,6 @@ const Room = () => {
 	};
 
 	const leave = () => {
-		client.activate();
 		client.publish({
 			destination: `/pub/chat/leave`,
 			body: JSON.stringify({
@@ -463,6 +462,7 @@ const Room = () => {
 	];
 
 	const onClick = () => {
+		client.activate();
 		if (userLength !== 1) {
 			leave();
 			navigate('/');
