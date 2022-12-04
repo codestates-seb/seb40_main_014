@@ -464,8 +464,18 @@ const Room = () => {
 	const onClick = () => {
 		client.activate();
 		if (userLength !== 1) {
-			leave();
-			navigate('/');
+			Swal.fire({
+				icon: 'warning',
+				text: `정말 나가시겠습니까?`,
+				showCancelButton: true,
+				confirmButtonText: '나가기',
+				cancelButtonText: '취소',
+			}).then((res) => {
+				if (res.isConfirmed) {
+					leave();
+					navigate('/');
+				}
+			});
 		} else {
 			Swal.fire({
 				icon: 'warning',
