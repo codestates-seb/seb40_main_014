@@ -33,9 +33,6 @@ public class ChatRoom extends Auditable {
     // 1    1       2
     //  1   1       3
 
-//    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
-//    private List<ChatMessage> chatMessage = new ArrayList<>();
-
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
@@ -76,25 +73,21 @@ public class ChatRoom extends Auditable {
         this.title = title;
         this.maxCount = maxCount;
         this.pwd = pwd;
-//        this.userSize = userlist.size();
         Onair on = Onair.ON;
     }
 
     public void handlerActions(WebSocketSession session, ChatMessage chatMessage, ChatService chatService) {
         Set<WebSocketSession> sessions = new HashSet<>();
-//        if (chatMessage.getType().equals(ChatMessage.MessageType.ENTER)) {
-//            sessions.add(session);
-//            chatMessage.setMessage("님이 입장했습니다.");
-//        }
-//        sendMessage(chatMessage, chatService);
+
         if (chatMessage.getType().equals(ChatMessage.MessageType.ENTER)) {
             sessions.add(session);
-            chatMessage.setMessage(chatMessage.getMemberName() + "입장");
+            chatMessage.setMessage(chatMessage.getMemberName() + "입장하셨습니다");
             sendMessage(chatMessage, chatService);
         } else if (chatMessage.getType().equals(ChatMessage.MessageType.TALK)) {
             chatMessage.setMessage(chatMessage.getMessage());
             sendMessage(chatMessage, chatService);
         }
+
     }
 
     public <T> void sendMessage(T message, ChatService chatService) {

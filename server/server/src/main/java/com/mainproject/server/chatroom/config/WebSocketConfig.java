@@ -22,5 +22,4 @@ public class WebSocketConfig implements WebSocketConfigurer {
         registry.addHandler(webSocketHandler, "/chat").setAllowedOriginPatterns("*");
         // url : ws://localhost:8080/chat
     }
-
 }
