@@ -59,16 +59,6 @@ public class ChatService {
         return chatRoomRepository.save(verifiedRoom);
     }
 
-    public List<ChatRoom> findAllRoom() {
-        //채팅방 최근 생성 순으로 반환
-//        List<ChatRoom> result = new ArrayList<>(chatRooms.values());
-//        Collections.reverse(result);
-
-        return chatRoomRepository.findAll();
-    }
-
-    //MessageType : ENTER
-
     public Page<ChatRoom> findChatRooms(int page, int size) {
         Page<ChatRoom> findAllRooms = chatRoomRepository.findAll(
                 PageRequest.of(page, size, Sort.by("roomId").descending()));
@@ -89,10 +79,6 @@ public class ChatService {
     public ChatRoom findVerifiedRoomId(String roomId){
         ChatRoom chatRoom = chatRoomRepository.findByRoomId(roomId)
                 .orElseThrow(() -> new BusinessException(ExceptionCode.ROOM_NOT_EXISTS));
-//        ChatRoom chatRoom = new ChatRoom();
-//        if (optionalChatRoom.isEmpty()) return chatRoom;
-//        ChatRoom findChatRoom =
-//                optionalChatRoom.orElseThrow(() -> new NoSuchMessageException("채팅방을 찾을 수 없습니다."));
         return chatRoom;
     }
 

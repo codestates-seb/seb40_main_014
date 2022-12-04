@@ -7,10 +7,6 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
-
 /**
  * 정보를 처리할 Handler와 webSocket 주소를 WebSocketHandlerRegistry에 추가해주면 -> 해당 주소로 접근하면 웹소켓 연결을 할 수가 있다.
  */
