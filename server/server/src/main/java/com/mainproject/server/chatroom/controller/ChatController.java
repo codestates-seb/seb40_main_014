@@ -43,7 +43,8 @@ public class ChatController {
     // 처리가 완료되면 /sub/chat/room/roomId 로 메시지가 전송된다.
     @MessageMapping("/chat/enterUser")
     public void enterUser(@Payload ChatMessage chat,
-                          SimpMessageHeaderAccessor headerAccessor) throws IOException {
+                          SimpMessageHeaderAccessor headerAccessor) {
+//                            SimpMessageHeaderAccessor headerAccessor) throws IOException {
 
         chat.setMessage(chat.getMessage());
 
