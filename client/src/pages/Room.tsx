@@ -352,7 +352,7 @@ const Room = () => {
 								console.log('useEffect client', client);
 							}
 							console.log('1111', client.connected);
-							wsSubscribe();
+
 							console.log('2222', client.connected);
 							return res;
 						})
@@ -360,13 +360,13 @@ const Room = () => {
 							console.log('3333', client.connected);
 							setTimeout(() => {
 								console.log('4444', client.connected);
+								wsSubscribe();
 								console.log('useEffect publish');
-
 								client.publish({
 									destination: `/pub/chat/enterUser`,
 									body: JSON.stringify(enterMessage),
 								});
-							}, 2000);
+							}, 1000);
 
 							return res;
 						})
