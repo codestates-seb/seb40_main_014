@@ -317,6 +317,7 @@ const Room = () => {
 							setTitle(res.data.title);
 							setPlaylist(res.data.playlistResponseDto.playlistItems);
 							if (!client.connected) {
+								console.log('useEffect connect');
 								client.activate();
 							}
 							wsSubscribe();
@@ -325,6 +326,7 @@ const Room = () => {
 						})
 						.then((res) => {
 							setTimeout(() => {
+								console.log('useEffect publish');
 								client.publish({
 									destination: `/pub/chat/enterUser`,
 									body: JSON.stringify(enterMessage),
@@ -396,6 +398,7 @@ const Room = () => {
 		console.log('Additional details: ' + frame.body);
 	};
 	if (!client.connected) {
+		console.log('home connect');
 		client.activate();
 	}
 
