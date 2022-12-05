@@ -152,6 +152,10 @@
 <summary><b>유저(마이) 페이지</b></summary>
 <div markdown="1">
 
+![my1](https://user-images.githubusercontent.com/45509511/205621702-51271264-4ead-4bef-8e79-83680a0af941.gif)
+
+![my2](https://user-images.githubusercontent.com/45509511/205621717-02734795-9f49-471c-84e5-84a4f2decf5c.gif)
+
 - 유저의 페이지에는 닉네임, 자기소개, 유저의 등급을 확인할 수 있습니다. 등급은 랭킹에서 책정되는 스코어에 따라 나뉩니다.
 
 - 본인의 페이지일 경우 닉네임과 자기소개 변경이 가능합니다. 여기서 닉네임은 중복된 이름을 허용하지 않습니다.
@@ -164,6 +168,8 @@
 <summary><b>playlist 생성</b></summary>
 <div markdown="1">
 
+![create](https://user-images.githubusercontent.com/45509511/205621776-91feb88c-8000-4476-8b07-dbeb6aa08aa5.gif)
+
 - 플레이리스트는 자신만 볼 수 있게 비공개 설정이 가능합니다.
 
 - 플레이리스트 제목을 설정하고 카테고리를 설정한 후 유튜브 URL을 입력해 추가 버튼을 누르면 플레이리스트 노래 목록에 추가됩니다. 플레이리스트 제목의 경우 20자 이내의 제목 설정이 가능합니다.
@@ -174,6 +180,8 @@
 <summary><b>playlist 수정</b></summary>
 <div markdown="1">
 
+![modify](https://user-images.githubusercontent.com/45509511/205621809-750f5727-4568-4bf5-8093-80e10a956f50.gif)
+
 - 플레이리스트 수정 페이지에서는 플레이리스트 제목, 카테고리, 플레이리스트 노래 목록을 수정할 수 있습니다. 플레이리스트 노래 목록이 2개 이상일 경우 순서를 바꾸고 싶은 노래를 드래그하면 노래의 순서를 원하는 곳으로 이동시킬 수 있습니다.
 </div>
 </details>
@@ -182,11 +190,15 @@
 <summary><b>playlist 삭제</b></summary>
 <div markdown="1">
 
+![delete](https://user-images.githubusercontent.com/45509511/205621826-0e9e5257-8d31-49ca-a790-109927bffea3.gif)
+
 - 플레이리스트 상세 페이지에서 삭제 버튼을 누르면 플레이리스트가 삭제됩니다.
 </div>
 </details><details>
 <summary><b>playlist 상세</b></summary>
 <div markdown="1">
+
+![detail](https://user-images.githubusercontent.com/45509511/205621905-463530da-fd0a-45b2-81ee-a504eaaf8feb.gif)
 
 - 플레이리스트 상세 페이지에서는 해당 플레이리스트를 좋아요하거나 북마크할 수 있습니다. 본인의 플레이리스트일 경우 수정 및 삭제가 가능하고 플레이리스트 노래 목록에 있는 노래를 클릭하면 해당 유튜브 URL로 이동합니다.
 </div>
