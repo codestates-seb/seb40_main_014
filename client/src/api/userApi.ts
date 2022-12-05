@@ -9,9 +9,14 @@ export const getUserInfo = async (memberId: number) => {
 	}
 };
 
-export const getAllUserInfo = async () => {
+export const getAllUserInfo = async (accessToken) => {
 	try {
-		const result = await instance.get(`/api/members/`);
+		const result = await instance.get(`/api/members/`, {
+			headers: {
+				'Content-Type': 'application/json; charset=UTF-8',
+				Authorization: accessToken,
+			},
+		});
 
 		return result.data;
 	} catch (err) {
