@@ -9,14 +9,9 @@ export const getUserInfo = async (memberId: number) => {
 	}
 };
 
-export const getAllUserInfo = async (accessToken) => {
+export const getAllUserInfo = async () => {
 	try {
-		const result = await instance.get(`/api/members/`, {
-			headers: {
-				'Content-Type': 'application/json; charset=UTF-8',
-				Authorization: accessToken,
-			},
-		});
+		const result = await instance.get(`/api/members/`);
 
 		return result.data;
 	} catch (err) {
