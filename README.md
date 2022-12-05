@@ -15,10 +15,12 @@
 <br/>
 
 ## ✨ 팀원 소개
-| <img src="https://user-images.githubusercontent.com/108003862/201461646-b2b97bb7-7d04-4853-881c-68922cf0b409.png" width=100 height=100> | <img src="https://user-images.githubusercontent.com/108003862/201461672-72043f08-e8a4-4531-879a-64cfeebf97b4.png" width=100 height=100> | <img src="https://user-images.githubusercontent.com/108003862/201461696-a761398d-e6a4-4195-9096-540ed0904710.png" width=100 height=100> | <img src="https://user-images.githubusercontent.com/108003862/201461552-002c6e12-ebd0-4c0e-b302-df5524452a88.png" width=100 height=100> | <img src="https://user-images.githubusercontent.com/108003862/201461712-eba7f0cd-f09d-4f23-ad28-11fd0241e854.png" width=100 height=100> | <img src="https://user-images.githubusercontent.com/108003862/201461734-2113be7c-3a98-4f0a-85b5-5fddae249b7d.png" width=100 height=100> | 
+
+| <img src="https://user-images.githubusercontent.com/74370531/205542590-a7976816-5e16-4fcd-a8b4-f9fd6f9c5b7e.jpeg" width=130> | <img src="https://user-images.githubusercontent.com/74370531/205542607-04f9d2d8-a721-4614-a31c-8a62975c2174.jpeg" width=130> | <img src="https://user-images.githubusercontent.com/74370531/205542615-6f4d5247-7d2f-4035-8a93-cb1378bf187d.jpeg" width=130> | <img src="https://user-images.githubusercontent.com/74370531/205542630-46f55c38-4dac-4499-a5ea-386f7e335d56.jpg" width=130> | <img src="https://user-images.githubusercontent.com/74370531/205542638-68c63bd6-7059-4c2d-b621-4e1ba38f6f15.jpg" width=130 > | <img src="https://user-images.githubusercontent.com/74370531/205542643-1bae174d-94ce-42f4-a3cf-0ab4db8302f3.jpg" width=130> | 
 | :------: | :------: | :------: | :------: | :------: | :------: |
 | 문지훈 | 송준모 | 홍유진 | 노영석 | 김아리 | 정경은 |
-| FE(팀장) | FE | FE | BE(팀장) | BE | BE |
+| 👑 FE | FE | FE | 👑 BE | BE | BE |
+|[@moonjh9392](https://github.com/moonjh9392)|[@merrychrisml](https://github.com/merrychrisml)|[@yujinyny](https://github.com/yujinyny)|[@Youngseoki](https://github.com/Youngseoki)|[@lielocks](https://github.com/lielocks)|[@bbororo](https://github.com/bbororo)
 
 <br/>
 
@@ -60,7 +62,7 @@
 
 <br/>
 
-## 🚀 기술스택
+## 🚀 기술 스택
 
 ### Cloud
 <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=for-the-badge&logo=Amazon RDS&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white"/>
