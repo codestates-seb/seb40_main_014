@@ -20,16 +20,23 @@
 		},
 		"ecmaVersion": "latest",
 		"sourceType": "module",
-		"project": "./tsconfig.json"
+		"project": "**/tsconfig.json",
+		"createDefaultProgram": true
 	},
 	"plugins": ["@typescript-eslint", "prettier"],
 	"rules": {
-		"no-unused-vars": "warn",
+		"no-unused-vars": "error",
 		"react/react-in-jsx-scope": 0,
 		"react/jsx-uses-react": 0,
 		"prettier/prettier": "error",
 		"react/prop-types": "off",
-		"@typescript-eslint/explicit-module-boundary-types": "off"
+		"@typescript-eslint/explicit-module-boundary-types": "off",
+		"jsx-a11y/no-autofocus": [
+			2,
+			{
+				"ignoreNonDOM": true
+			}
+		]
 	},
 	"ignorePatterns": ["node_modules/"],
 	"settings": {

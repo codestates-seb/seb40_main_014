@@ -1,3 +1,41 @@
 {
-	"data": {}
+	"playlist": {
+		"memberId": "moon",
+		"title": "일요일",
+		"playlist": [
+			{
+				"vedioId": "7PrTh3hpZlk",
+				"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+				"channelTitle": "장밀크milk",
+				"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+				"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+			}
+		],
+		"categoryList": ["발라드", "OST"],
+		"status": true,
+		"like": 0,
+		"playListId": 1
+	},
+	"rooms": [
+		{
+			"id": 1,
+			"title": "방제목1",
+			"password": "",
+			"playlist": "플리제목1",
+			"people": "총인원수"
+		},
+		{
+			"title": "왜안지워져",
+			"playlist": "??",
+			"people": "1",
+			"thumbnail": "/static/media/thumbnail.15e29d7cf0897e24c057.png",
+			"id": 2
+		}
+	],
+	"likelist": {
+		"likelist": [1]
+	},
+	"bookmarklist": {
+		"bookmarklist": []
+	}
 }

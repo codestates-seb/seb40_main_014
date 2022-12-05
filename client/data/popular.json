@@ -1,0 +1,374 @@
+{
+	"playLists": [
+		{
+			"memberId": 1,
+			"name": "사람1",
+			"title": "일요일",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			],
+			"categoryList": ["발라드", "OST"],
+			"status": true,
+			"like": 0,
+			"playListId": 1
+		},
+		{
+			"memberId": 1,
+			"name": "사람2",
+			"title": "일요일",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			],
+			"categoryList": ["발라드", "OST"],
+			"status": true,
+			"like": 0,
+			"playListId": 2
+		},
+		{
+			"memberId": 1,
+			"name": "사람3",
+			"title": "일요일",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			],
+			"categoryList": ["발라드", "OST"],
+			"status": true,
+			"like": 0,
+			"playListId": 3
+		},
+		{
+			"memberId": 1,
+			"name": "사람4",
+			"title": "일요일",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			],
+			"categoryList": ["발라드", "OST"],
+			"status": true,
+			"like": 0,
+			"playListId": 4
+		},
+		{
+			"memberId": 1,
+			"name": "사람5",
+			"title": "일요일",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			],
+			"categoryList": ["발라드", "OST"],
+			"status": true,
+			"like": 0,
+			"playListId": 5
+		},
+		{
+			"memberId": 1,
+			"name": "사람6",
+			"title": "일요일",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			],
+			"categoryList": ["발라드", "OST"],
+			"status": true,
+			"like": 0,
+			"playListId": 6
+		},
+		{
+			"memberId": 1,
+			"name": "사람7",
+			"title": "일요일",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			],
+			"categoryList": ["발라드", "OST"],
+			"status": true,
+			"like": 0,
+			"playListId": 7
+		},
+		{
+			"memberId": 1,
+			"name": "사람8",
+			"title": "일요일",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			],
+			"categoryList": ["발라드", "OST"],
+			"status": true,
+			"like": 0,
+			"playListId": 8
+		}
+	],
+	"rooms": [
+		{
+			"roomId": 1,
+			"member": {
+				"memberId": 1,
+				"playlistId": 3,
+				"name": "luvpli dj",
+				"roles": "ADMIN",
+				"grade": "SILVER"
+			},
+			"title": "carol room1",
+			"maxCount": 10,
+			"onair": "ON",
+			"pwd": "ag",
+			"userCount": 6,
+			"secret": true,
+			"category": ["POP", "OST"],
+			"createdAt": "2022-11-11T23:36:01.761998",
+			"modifiedAt": "2022-11-11T23:36:01.762014",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			]
+		},
+		{
+			"roomId": 2,
+			"member": {
+				"memberId": 1,
+				"playlistId": 3,
+				"name": "luvpli dj2",
+				"roles": "ADMIN",
+				"grade": "SILVER"
+			},
+			"title": "carol room",
+			"maxCount": 10,
+			"onair": "ON",
+			"pwd": "ag",
+			"userCount": 6,
+			"secret": true,
+			"category": ["POP", "OST"],
+			"createdAt": "2022-11-11T23:36:01.761998",
+			"modifiedAt": "2022-11-11T23:36:01.762014",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			]
+		},
+		{
+			"roomId": 3,
+			"member": {
+				"memberId": 1,
+				"playlistId": 3,
+				"name": "luvpli dj3",
+				"roles": "ADMIN",
+				"grade": "SILVER"
+			},
+			"title": "carol room",
+			"maxCount": 10,
+			"onair": "ON",
+			"pwd": "ag",
+			"userCount": 6,
+			"secret": true,
+			"category": ["POP", "OST"],
+			"createdAt": "2022-11-11T23:36:01.761998",
+			"modifiedAt": "2022-11-11T23:36:01.762014",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			]
+		},
+		{
+			"roomId": 4,
+			"member": {
+				"memberId": 1,
+				"playlistId": 3,
+				"name": "luvpli dj4",
+				"roles": "ADMIN",
+				"grade": "SILVER"
+			},
+			"title": "carol room",
+			"maxCount": 10,
+			"onair": "ON",
+			"pwd": "ag",
+			"userCount": 6,
+			"secret": true,
+			"category": ["POP", "OST"],
+			"createdAt": "2022-11-11T23:36:01.761998",
+			"modifiedAt": "2022-11-11T23:36:01.762014",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			]
+		},
+		{
+			"roomId": 5,
+			"member": {
+				"memberId": 1,
+				"playlistId": 3,
+				"name": "luvpli dj5",
+				"roles": "ADMIN",
+				"grade": "SILVER"
+			},
+			"title": "carol room",
+			"maxCount": 10,
+			"onair": "ON",
+			"pwd": "ag",
+			"userCount": 6,
+			"secret": true,
+			"category": ["POP", "OST"],
+			"createdAt": "2022-11-11T23:36:01.761998",
+			"modifiedAt": "2022-11-11T23:36:01.762014",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			]
+		},
+		{
+			"roomId": 6,
+			"member": {
+				"memberId": 1,
+				"playlistId": 3,
+				"name": "luvpli dj6",
+				"roles": "ADMIN",
+				"grade": "SILVER"
+			},
+			"title": "carol room",
+			"maxCount": 10,
+			"onair": "ON",
+			"pwd": "ag",
+			"userCount": 6,
+			"secret": true,
+			"category": ["POP", "OST"],
+			"createdAt": "2022-11-11T23:36:01.761998",
+			"modifiedAt": "2022-11-11T23:36:01.762014",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			]
+		},
+		{
+			"roomId": 7,
+			"member": {
+				"memberId": 1,
+				"playlistId": 3,
+				"name": "luvpli dj7",
+				"roles": "ADMIN",
+				"grade": "SILVER"
+			},
+			"title": "carol room",
+			"maxCount": 10,
+			"onair": "ON",
+			"pwd": "ag",
+			"userCount": 6,
+			"secret": true,
+			"category": ["POP", "OST"],
+			"createdAt": "2022-11-11T23:36:01.761998",
+			"modifiedAt": "2022-11-11T23:36:01.762014",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			]
+		},
+		{
+			"roomId": 8,
+			"member": {
+				"memberId": 1,
+				"playlistId": 3,
+				"name": "luvpli dj8",
+				"roles": "ADMIN",
+				"grade": "SILVER"
+			},
+			"title": "carol room",
+			"maxCount": 10,
+			"onair": "ON",
+			"pwd": "ag",
+			"userCount": 6,
+			"secret": true,
+			"category": ["POP", "OST"],
+			"createdAt": "2022-11-11T23:36:01.761998",
+			"modifiedAt": "2022-11-11T23:36:01.762014",
+			"playlist": [
+				{
+					"vedioId": "7PrTh3hpZlk",
+					"url": "https://www.youtube.com/watch?v=7PrTh3hpZlk",
+					"channelTitle": "장밀크milk",
+					"title": "[playlist] 백예린과 권진아, 같은 나이 다른 감성",
+					"thumbnail": "https://i.ytimg.com/vi/7PrTh3hpZlk/hqdefault.jpg"
+				}
+			]
+		}
+	]
+}

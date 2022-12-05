@@ -1,0 +1,83 @@
+{
+	"ranking": {
+		"data": [
+			{
+				"name": "Member Name",
+				"picture": "https://picture",
+				"grade": "silver",
+				"follow": 100,
+				"rank": 1,
+				"createdAt": "2022-11-21T15:04:47.506038",
+				"modifiedAt": "2022-11-21T15:05:27.423965",
+				"like": 50,
+				"memberId": 1
+			},
+			{
+				"name": "Member Name1",
+				"picture": "https://picture",
+				"grade": "silver",
+				"follow": 100,
+				"rank": 2,
+				"createdAt": "2022-11-21T15:04:47.506038",
+				"modifiedAt": "2022-11-21T15:05:27.423965",
+				"like": 50,
+				"memberId": 1
+			},
+			{
+				"name": "Member Name2",
+				"picture": "https://picture",
+				"grade": "silver",
+				"follow": 100,
+				"rank": 3,
+				"createdAt": "2022-11-21T15:04:47.506038",
+				"modifiedAt": "2022-11-21T15:05:27.423965",
+				"like": 50,
+				"memberId": 1
+			},
+			{
+				"name": "Member Name3",
+				"picture": "https://picture",
+				"grade": "silver",
+				"follow": 100,
+				"rank": 4,
+				"createdAt": "2022-11-21T15:04:47.506038",
+				"modifiedAt": "2022-11-21T15:05:27.423965",
+				"like": 50,
+				"memberId": 1
+			},
+			{
+				"name": "Member Name4",
+				"picture": "https://picture",
+				"grade": "silver",
+				"follow": 100,
+				"rank": 5,
+				"createdAt": "2022-11-21T15:04:47.506038",
+				"modifiedAt": "2022-11-21T15:05:27.423965",
+				"like": 50,
+				"memberId": 1
+			},
+			{
+				"name": "Member Name5",
+				"picture": "https://picture",
+				"grade": "silver",
+				"follow": 100,
+				"rank": 6,
+				"createdAt": "2022-11-21T15:04:47.506038",
+				"modifiedAt": "2022-11-21T15:05:27.423965",
+				"like": 50,
+				"memberId": 1
+			},
+			{
+				"name": "Member Name6",
+				"picture": "https://picture",
+				"grade": "silver",
+				"follow": 100,
+				"rank": 7,
+				"createdAt": "2022-11-21T15:04:47.506038",
+				"modifiedAt": "2022-11-21T15:05:27.423965",
+				"like": 50,
+				"memberId": 1
+			}
+		]
+	}
+}
