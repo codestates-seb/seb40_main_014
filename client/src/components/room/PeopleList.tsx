@@ -113,8 +113,7 @@ const PeoplePart = ({ people, roomId }) => {
 	const userInfo = useSelector((state: RootState) => state.my.value);
 
 	const follow = (e) => {
-		getAllUserInfo()
-			// localStorage.getItem('accessToken')
+		getAllUserInfo(localStorage.getItem('accessToken'))
 			.then((res) => {
 				const filtered = res.data.filter(
 					(el) =>
@@ -162,8 +161,7 @@ const PeoplePart = ({ people, roomId }) => {
 	};
 
 	const linkMyPage = (e) => {
-		getAllUserInfo()
-			// localStorage.getItem('accessToken')
+		getAllUserInfo(localStorage.getItem('accessToken'))
 			.then((res) => {
 				return res.data.filter(
 					(el) =>
