@@ -26,16 +26,6 @@
 
 ## ✅ 맡은 역할
 
-<details>
-<summary>BE</summary>
-<div markdown="1">
-
-- 노영석 : 회원 CRUD, 랭킹, 팔로우, 검색
-
-- 김아리 : 방 CRUD, 웹소켓 Stomp 통신 실시간 채팅 구현
-
-- 정경은 : playlist CRUD
-</div>
 </details>
 
 <details>
@@ -49,6 +39,17 @@
 - 홍유진 : 소셜(Google) 로그인 및 회원정보 수정, 메인(홈, 랭킹, 검색) 기능 담당
 </div>
 </details>
+
+<details>
+<summary>BE</summary>
+<div markdown="1">
+
+- 노영석 : 회원 CRUD, 랭킹, 팔로우, 검색
+
+- 김아리 : 방 CRUD, 웹소켓 Stomp 통신 실시간 채팅 구현
+
+- 정경은 : playlist CRUD
+</div>
 
 <br/>
 
