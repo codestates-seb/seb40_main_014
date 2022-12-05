@@ -411,7 +411,7 @@ const Room = () => {
 					destination: `/pub/chat/sendMessage/${roomId}`,
 					body: JSON.stringify(messageObject),
 				}),
-			300,
+			500,
 		);
 	};
 

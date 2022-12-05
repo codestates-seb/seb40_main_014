@@ -11,7 +11,7 @@ export const getUserInfo = async (memberId: number) => {
 
 export const getAllUserInfo = async () => {
 	try {
-		const result = await instance.get(`/api/members/`, {});
+		const result = await instance.get(`/api/members/`);
 
 		return result.data;
 	} catch (err) {
