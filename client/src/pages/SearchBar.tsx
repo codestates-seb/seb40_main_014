@@ -136,6 +136,9 @@ const SearchBar = () => {
 						onChange={onChangeText}
 						ref={inputRef}
 						disabled
+						onKeyPress={(e) => {
+							if (e.key === 'Enter') onSearch();
+						}}
 					/>
 					{/* 장르 */}
 					<select onChange={onChangeText} ref={categoryRef}>

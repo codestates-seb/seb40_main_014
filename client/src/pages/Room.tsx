@@ -459,6 +459,7 @@ const Room = () => {
 	const AdminEmailList = [
 		process.env.REACT_APP_ADMIN_EMAIL_01,
 		process.env.REACT_APP_ADMIN_EMAIL_02,
+		process.env.REACT_APP_ADMIN_EMAIL_03,
 	];
 
 	const onClick = () => {
