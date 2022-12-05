@@ -26,8 +26,6 @@
 
 ## ✅ 맡은 역할
 
-</details>
-
 <details>
 <summary>FE</summary>
 <div markdown="1">
@@ -50,6 +48,7 @@
 
 - 정경은 : playlist CRUD
 </div>
+</details>
 
 <br/>
 
