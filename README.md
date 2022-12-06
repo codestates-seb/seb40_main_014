@@ -96,7 +96,7 @@
 <summary><b>메인(로그인)</b></summary>
 <div markdown="1">
 
-![로그인](https://user-images.githubusercontent.com/74370531/205540157-6ef47d7b-a6b0-49c9-92a3-c48dcd0325d2.gif)
+![로그인](https://user-images.githubusercontent.com/74370531/205856932-0ba8e78b-ea5a-4bdf-8326-d9af2aaabd6a.gif)
 
 - 러플리 사이트에 접속하면 헤더 오른쪽 상단에 로그인 버튼을 눌러 소셜 로그인을 할 수 있습니다.
 
@@ -107,6 +107,8 @@
 <details>
 <summary><b>메인(room/playlist 리스트)</b></summary>
 <div markdown="1">
+
+![메인](https://user-images.githubusercontent.com/74370531/205857913-0ed5147e-cd55-41fb-8fbe-a598a6702ad0.gif)
 
 - 메인페이지는 방 메인페이지와 플레이리스트 메인페이지로 나뉘어져 있습니다.
 
@@ -126,7 +128,7 @@
 <summary><b>랭킹</b></summary>
 <div markdown="1">
 
-![랭킹](https://user-images.githubusercontent.com/74370531/205540334-3e5528fd-bfb1-4311-972f-7d542f7d2e62.gif)
+![랭킹](https://user-images.githubusercontent.com/74370531/205857115-d5f1856a-edbd-421e-a964-f5fe4c82f585.gif)
 
 - 러플리에서는 플레이리스트 좋아요와 DJ를 팔로우한 팔로워 수를 합산하여 스코어를 책정하고 높은 순서대로 랭킹에 등재됩니다. 랭킹의 경우 일정시간마다 갱신됩니다.
 
@@ -139,6 +141,8 @@
 <details>
 <summary><b>검색</b></summary>
 <div markdown="1">
+
+![검색](https://user-images.githubusercontent.com/74370531/205857144-2f5a4436-696e-4527-929b-28e68569b8ce.gif)
 
 - 검색 페이지에서는 유저, 플레이리스트, 방을 대분류로 선택하여 검색할 수 있습니다.
 
@@ -211,6 +215,7 @@
 <p align="center">
 <img src="https://user-images.githubusercontent.com/80391881/205555014-c9317b69-cde0-47d4-a7a1-128947e279ef.gif" style="width: 1000px"/>
 </p>
+
 - 방 메인페이지에서 로그인한 상태로 방 만들기 버튼을 클릭할 경우 방 만들기 모달이 나타납니다. 방 제목의 경우 20자 이내로 작성해야 하고 비밀번호를 설정할 수 있습니다. 플레이리스트 추가 버튼을 눌러 해당 방의 플레이리스트를 설정합니다. 설정할 수 있는 플레이리스트는 본인의 플레이리스트 혹은 북마크한 플레이리스트를 선택할 수 있습니다.
 
 - 방에 들어간 이후 방을 만든 사람은 방장 권한을 받습니다. 방장은 오른쪽 하단 채팅방에 참여한 인원 리스트에 방장 아이콘을 부여받습니다. 방장은 방 수정을 할 수 있습니다. 방 수정은 방 제목만 가능합니다.
